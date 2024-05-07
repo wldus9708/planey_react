@@ -240,7 +240,7 @@ const SignUpForm = () => {
                             <Link to="/">
                                 <img className={styles.naver} src={naver} alt="naver" />
                             </Link>
-                            <Link to="/">
+                            <Link to="/login/Socialkakao">
                                 <img className={styles.kakao} src={kakao} alt="kakao" />
                             </Link>
                             <Link to="/">
