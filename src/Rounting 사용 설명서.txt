@@ -1,0 +1,22 @@
+1. 자신의 컴포넌트를 만든다.
+
+2. Routing.jsx 상단에 자신의 컴포넌트를 import 한다.
+    예시) import Ex from '~~'
+
+3. return 안쪽에 <Route>를 복사한다.
+    예시) <Route path='주소이름' element={<Ex />} />
+    해설) 브라우저 주소창에 '주소이름'(path='')을 치면
+          Ex 컴포넌트(element={<>})를 불러옵니다.
+
+4. 자신의 컴포넌트를 연결할 버튼을 <Link to='주소이름'></Link>로 감싼다.
+
+    예시) 메인페이지(App.js 파일)의 로그인 버튼을 연결합니다.
+
+                App.js
+        ~~~~~~~~
+        ~~~~~~~~
+        return(
+            <Link to='/login'>
+                <button>로그인</button>
+            </Link>
+        )
