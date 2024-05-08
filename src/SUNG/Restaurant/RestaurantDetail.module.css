@@ -3,16 +3,31 @@
     margin: 0;
     box-sizing: border-box;
   }
+
+:root {
+  --PrimaryColor: hsl(26, 93%, 50%);
+  --HoverColor: hsl(26, 90%, 42%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: rgb(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  --mainColor:  #C1908B;
+}
   
   .restaurant_body {
     font-family: sans-serif;
-    background: #C1908B;
+    background: var(--mainColor);
     width: 100%;
     height: 100vh;
+    display: flex;
   }
   
-  .container {
-    max-width: 75%;
+  .restaurant_container {
+    position: relative;
+    max-width: 65%;
     margin: auto;
     height: 80vh;
     margin-top: 5%;
@@ -20,151 +35,168 @@
     box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
     }
   
-  .left, .right {
+  .restaurant_left, .restaurant_right {
     width: 50%;
     padding: 30px;
   }
   
-  .flex {
+  .restaurant_flex {
     display: flex;
     justify-content: space-between;
   }
   
-  .flex1 {
+  .restaurant_flex1 {
     display: flex;
   }
   
-  .main_image {
+  .restaurant_main_image {
     width: auto;
     height: auto;
     text-align: center;
+    margin-top:45px;
   }
   
-  .option > img {
-    margin-top: 30px;
-    width: 75px;
-    height: 75px;
+  .restaurant_option img {
+    margin-top: 40px;
+    width: 150px;
+    height: 150px;
     padding: 10px;
   }
   
-  .right {
+  .restaurant_right {
     padding: 50px 100px 50px 50px;
   }
   
-  h3 {
+  .restaurant_body h3 {
     color: #af827d;
     margin: 20px 0 20px 0;
     font-size: 25px;
   }
+
+  .restaurant_grade{
+    color:black;
+  }
   
-  h5,
-  p,
-  small {
+  .restaurant_body h5,
+  .restaurant_body p,
+  .restaurant_body small {
     color: #837D7C;
   }
   
-  h4 {
+  .restaurant_body h4 {
+    margin-top: 20px;
     color: red;
   }
   
-  p {
-    margin: 20px 0 50px 0;
-    line-height: 25px;
+  .restaurant_body p {
+    margin: 35px 0 50px 0;
+    line-height: 45px;
   }
   
-  h5 {
+  .restaurant_body h5 {
     font-size: 15px;
+    margin-bottom: 40px;
   }
   
-  label,
-  .add span,
-  .color span {
+  .restaurant_body label,
+  .restaurant_add span,
+  .restaurant_color span {
     width: 25px;
     height: 25px;
-    background: #000;
+
     border-radius: 50%;
-    margin: 20px 10px 20px 0;
+    margin: 0px 10px 0px 0;
+  }
+  .restaurant_address{
+    font-weight:bold;
+    margin-bottom: 30px;
   }
   
-  .color span:nth-child(2) {
-    background: #EDEDED;
-  }
-  
-  .color span:nth-child(3) {
-    background: #D5D6D8;
-  }
-  
-  .color span:nth-child(4) {
-    background: #EFE0DE;
-  }
-  
-  .color span:nth-child(5) {
-    background: #AB8ED1;
-  }
-  
-  .color span:nth-child(6) {
-    background: #F04D44;
-  }
-  
-  .add label,
-  .add span {
+  .restaurant_add label,
+  .restaurant_add span
+   {
     background: none;
     border: 1px solid #C1908B;
     color: #C1908B;
     text-align: center;
     line-height: 25px;
   }
+  .restaurant_right label{
+    font-size: 17px;
+    border: 1px solid #C1908B;
+    color: #C1908B;
+    text-align: center;
+    
+  }
   
-  .add label {
+  .restaurant_add label,.restaurant_right label {
     padding: 10px 30px 0 20px;
     border-radius: 50px;
     line-height: 0;
+    margin-left: 10px;
+  }
+
+  .restaurant_right label:nth-child(1) {
+    padding: 5px 10px 5px 10px;
+    border-radius: 50px;
+    line-height: 0;
+    margin-left: 10px;
+  }
+
+
+  .restaurant_add button{
+    width:10%;
+    margin:0;
+    border-radius: 50px;
+    line-height: 0;
+    
   }
   
-  button {
+  .restaurant_body button {
     width: 100%;
     padding: 10px;
     border: none;
     outline: none;
-    background: #C1908B;
+    background: var(--mainColor);
     color: white;
-    margin-top: 20%;
+    margin-top: 15%;
     border-radius: 30px;
   }
   
-  @media only screen and (max-width:768px) {
-    .container {
+  @media only screen and (max-width:1024px) {
+    .restaurant_container {
       max-width: 90%;
       margin: auto;
       height: auto;
+      font-size:auto;
     }
   
-    .left, .right {
+    .restaurant_left, .restaurant_right {
       width: 100%;
     }
   
-    .container {
+    .restaurant_container {
       flex-direction: column;
     }
   }
   
   @media only screen and (max-width:511px) {
-    .container {
+    .restaurant_container {
       max-width: 100%;
       height: auto;
       padding: 10px;
     }
   
-    .left, .right {
+    .restaurant_left, .restaurant_right {
       padding: 0;
     }
   
-    img {
+    .restaurant_body img {
       width: 100%;
       height: 100%;
     }
   
-    .option {
+    .restaurant_option {
       display: flex;
       flex-wrap: wrap;
     }
