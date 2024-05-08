@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import './Productpage.css'
 const ProductPage = () => {
     const [images, setImages] = useState({
         img1: "/images/bike.jpg",
@@ -23,8 +23,9 @@ const ProductPage = () => {
     }, []);
 
     return (
+        <div className='rentcar_body'>
         <div className='product-page-container'>
-            <div className='product-images-container'>
+        <div className='product-images-container'>
                 <img src={activeImg} alt="" className='product-main-image'/>
                 <div className="image-thumbnails">
                     {Object.keys(images).map((key) => (
@@ -46,17 +47,40 @@ const ProductPage = () => {
                 <p className='product-description'>
                    dddd
                 </p>
-                {imageNames.map((imageName) => (
-                        <img key={imageName} src={`/images/${imageName}`} alt={imageName} />
-                    ))}
+                <div className='image-wrapper' style={{ display: 'flex', flexDirection: 'row' }}>
+  {imageNames.map((imageName) => (
+    <img key={imageName} src={`/images/${imageName}`} alt={imageName} />
+  ))}
+</div>
                 <h6 className='product-price'>$10,000</h6>
                 <div className='quantity-control'>
+                    <span>인원수</span>
                     <button className='quantity-btn' onClick={() => setAmount((prev) => prev - 1)}>-</button>
                     <span className='quantity'>{amount}</span>
                     <button className='quantity-btn' onClick={() => setAmount((prev) => prev + 1)}>+</button>
                 </div>
+                <div className='quantity-control'>
+                    <span>인원수</span>
+                    <button className='quantity-btn' onClick={() => setAmount((prev) => prev - 1)}>-</button>
+                    <span className='quantity'>{amount}</span>
+                    <button className='quantity-btn' onClick={() => setAmount((prev) => prev + 1)}>+</button>
+                </div>
+                <div className='quantity-control'>
+                    <span>인원수</span>
+                    <button className='quantity-btn' onClick={() => setAmount((prev) => prev - 1)}>-</button>
+                    <span className='quantity'>{amount}</span>
+                    <button className='quantity-btn' onClick={() => setAmount((prev) => prev + 1)}>+</button>
+                </div>
+                <div className='quantity-control'>
+                    <span>인원수</span>
+                    <button className='quantity-btn' onClick={() => setAmount((prev) => prev - 1)}>-</button>
+                    <span className='quantity'>{amount}</span>
+                    <button className='quantity-btn' onClick={() => setAmount((prev) => prev + 1)}>+</button>
+                </div>
+                
                 <button className='add-to-cart-btn'>장바구니에 추가</button>
             </div>
+        </div>
         </div>
     );
 }

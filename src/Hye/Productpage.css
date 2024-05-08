@@ -1,23 +1,33 @@
+.rentcar_body {
+    background: #b39ed4;
+    width: 100%;
+    height: 100vh;
+  }
+
 .product-page-container {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 16px;
-    align-items: center;
+    max-width: 75%;
+    margin: auto;
+    height: 80vh;
+    background: white;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+    position: relative; /* 추가 */
+    top: 5%; 
 }
 
 .product-images-container {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    width: 50%;
+    width: 30%;
+    margin-left: 10%;
+    padding-top: 5%;
 }
 
 .product-main-image {
-    width: 100%;
-    height: auto;
+    width: 500px;
+    height: 500px;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
     border-radius: 16px;
 }
 
@@ -37,6 +47,8 @@
 .product-details-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 4px;
 }
 
@@ -93,3 +105,4 @@
     font-size: 24px;
     cursor: pointer;
 }
+
