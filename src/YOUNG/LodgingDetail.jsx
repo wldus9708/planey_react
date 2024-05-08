@@ -1,64 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './LodgingDetail.module.css';
+import axios from "axios";
 
 const LodgingDetail = () => {
-  // 이미지 목록 및 활성화된 이미지 인덱스를 추적하는 상태
+   // 이미지 목록을 위한 상태 추가
+  const [imageList, setImageList] = useState([]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const hoverImages = [
-    '/images/lodging01.png',
-    '/images/lodging02.png',
-    '/images/lodging03.png',
-    '/images/lodging04.png',
-    '/images/lodging05.png',
-  ];
-
-  const handleMouseOver = (index) => {
-    // 마우스 오버 이벤트 처리
-    setActiveImageIndex(index); // 활성화된 이미지 인덱스 설정
-  };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 초기 활성화된 이미지 설정
-    setActiveImageIndex(0);
+      axios.get("http://localhost:8988/api/images/lodImage")
+        .then((response) => {
+          setImageList(response.data) // 이미지 목록 상태 업데이트
+          setActiveImageIndex(0) // 초기 인덱스 설정 
+        })
+        .catch(error =>{
+          console.error('Error fetching image names:', error)
+        });
+ 
   }, []); // 빈 종속성 배열로, 한 번만 실행
+
+    // 이미지 목록이 업데이트되었는지 확인 후 렌더링
+    if (imageList.length === 0) {
+      return <div>Loading...</div>;
+    }
 
   return (
     <div className={styles.LodgingBody}>
-      <div>
-        <header>
-          <meta charSet="UTF-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <title>Lodging Detail</title>
-
-        </header>
         <div className={styles.wrapper}>
           <div className={styles.container}>
             <div className={styles.lodgingDiv}>
               <div className={styles.lodgingDivLeft}>
                 <div className={styles.imgContainer}>
                   <img
-                    src={hoverImages[activeImageIndex]}
-                    alt={`Lodging0${activeImageIndex + 1}`}
+                    src={`/images/${imageList[activeImageIndex]}`}
+                    alt={`aaa0${activeImageIndex + 1}`}
                   />
                 </div>
                 <div className={styles.hoverContainer}>
                   {/* 각 이미지에 마우스 오버 이벤트 추가 */}
-                  {hoverImages.map((image, index) => (
+                  {imageList.map((image, index) => (
+                    
                     <div
                       key={index}
                       className={
                         index === activeImageIndex ? styles.active : ''
                       } // 'active' 클래스 적용
-                      onMouseOver={() => handleMouseOver(index)} // 이벤트 처리
+                      onMouseOver={() => setActiveImageIndex(index)} // 이벤트 처리
                     >
                       <img
-                        src={image}
-                        alt={`Lodging0${index + 1}`}
+                        src={`/images/${image}`}
                       />
                     </div>
                   ))}
@@ -99,7 +90,7 @@ const LodgingDetail = () => {
           </div>
         </div>
       </div>
-    </div>
+
 
   );
 };
