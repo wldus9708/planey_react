@@ -6,6 +6,7 @@ import LodgingDetail from './YOUNG/LodgingDetail';
 import PreLodging from './YOUNG/preLodgingDetail';
 import PlanMain from './YEON/planMain';
 import GhTest from './GUN/AirLine_Detail';
+import RestaurantDetail from './SUNG/Restaurant/RestaurantDetail';
 
 function Routing() {
     return(
@@ -18,6 +19,7 @@ function Routing() {
                 <Route path="/prelodging" element={<PreLodging />} />
                 <Route path="/planMain" element={<PlanMain />} />
                 <Route path="/GhTest" element={<GhTest />} />
+                <Route path="/restaurantDetail" element={<RestaurantDetail />} />
             </Routes>
         </BrowserRouter>
     )
