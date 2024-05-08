@@ -22,7 +22,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    /* 주축을 수직 방향으로 설정 */
+    flex-wrap: wrap;
 }
+
+
 
 .box {
     background-color: white;
@@ -34,9 +39,9 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto 1fr;
-    grid-template-areas: 
-    "images info"
-    "images description";
+    grid-template-areas:
+        "images info"
+        "images description";
     grid-gap: 35px;
 }
 
@@ -45,9 +50,9 @@
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: auto 1fr;
-    grid-template-areas: 
-    "active active active"
-    "idle idle idle";
+    grid-template-areas:
+        "active active active"
+        "idle idle idle";
     grid-gap: 5px;
 }
 
@@ -144,13 +149,51 @@
     color: var(--secondary-color);
 }
 
+.priceTable {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 15px;
+}
+
+.priceTable th,
+.priceTable td {
+    border: 1px solid #000;
+    padding: 8px;
+    font-weight: 600;
+    color: #111;
+}
+
+.priceTable th {
+    background: #E3FDFD;
+}
+
+
+.tripDetil {
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.mainSchedule {
+    display: flex;
+    justify-content: space-between;
+    /* 요소를 좌우로 최대한 펼쳐서 정렬 */
+    align-items: center;
+    /* 요소들을 세로 중앙 정렬 */
+
+}
+
+
+
+
 @media (max-width: 991px) {
     .box {
         width: 750px;
-        grid-template-areas: 
-        "info info"
-        "images description";
+        grid-template-areas:
+            "info info"
+            "images description";
     }
+
     .box .basic-info .options a {
         padding: 8.5px 12px;
     }
@@ -161,6 +204,7 @@
         position: absolute;
         align-self: flex-end;
     }
+
     .box .basic-info .options {
         position: absolute;
         align-self: flex-end;
@@ -171,13 +215,15 @@
 @media (max-width: 768px) {
     .box {
         width: 600px;
-        grid-template-areas: 
-        "images info"
-        "description description";
+        grid-template-areas:
+            "images info"
+            "description description";
     }
+
     .box .images {
         gap: 3px;
     }
+
     .box .images .img-holder img {
         border-radius: 5px;
     }
@@ -192,9 +238,9 @@
         margin: 0;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, auto);
-        grid-template-areas: 
-        "images"
-        "info"
-        "description";
+        grid-template-areas:
+            "images"
+            "info"
+            "description";
     }
 }
