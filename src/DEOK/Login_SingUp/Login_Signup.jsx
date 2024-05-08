@@ -10,131 +10,159 @@ import { naverLoginUrl } from "../../SUNG/SocialNaver";
 const SignUpForm = () => {
     const member_url = "http://localhost:8988/member/";
 
-    const [email, setEmail] = useState("");
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        name: "",
+        nickname: "",
+        phone: "",
+        birth: "",
+        role: "USER",
+        agreedPersonal: 1
+    });
+
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [name, setName] = useState("");
-    const [nickname, setNickname] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [birthDate, setBirthDate] = useState("");
-    const [role, setRole] = useState("USER");
+    const [validErrorMsg, setValidErrorMsg] = useState({
+        email: "",
+        password: "",
+        exactPassword: "",
+        name: "",
+        nickname: "",
+        phone: "",
+        birth: ""
+    });
+    const [showErrMsg, setShowErrMsg] = useState(false);
 
-    function validateInputs() {
-        const errors = {};
+    function validateBirth(birth) {
+        // birthDate 형식: YYYY/MM/DD
+        const parts = birth.split('/');
+        if (parts.length !== 3) {
+            return false; // 올바른 형식이 아님
+        }
 
-        // // 이메일 유효성 검사
-        // if (!email.trim()) {
-        //     errors.email = "이메일을 입력해주세요.";
-        //     alert(errors.email);
-        // } else if (
-        //     !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(email)
-        // ) {
-        //     errors.email =
-        //         "유효한 이메일을 입력해주세요.\n" +
-        //         "1. @를 포함해야합니다.\n" +
-        //         "2. .com과 같은 올바른 이메일 형식이어야 합니다.";
-        //     alert(errors.email);
-        // } else {
-        //     // 비밀번호 유효성 검사
-        //     if (!password) {
-        //         errors.password = "비밀번호를 입력해주세요!!!!";
-        //         alert(errors.password);
-        //     } else if (password.length < 6) {
-        //         errors.password = "비밀번호는 최소 6자 이상이어야 합니다.";
-        //         alert(errors.password);
-        //     } else {
-        //         // 비밀번호 확인 유효성 검사
-        //         if (password !== confirmPassword) {
-        //             errors.confirmPassword = "비밀번호가 일치하지 않습니다.";
-        //             alert(errors.confirmPassword);
-        //         } else {
-        //             // 닉네임 유효성 검사
-        //             if (!nickname.trim()) {
-        //                 errors.nickname = "닉네임을 입력해주세요.";
-        //                 alert(errors.nickname);
-        //             } else if (nickname.trim().length < 7) {
-        //                 errors.nickname = "닉네임은 7개 이상의 문자를 포함해야 합니다.";
-        //                 alert(errors.nickname);
-        //             } else {
-        //                 // 전화번호 유효성 검사
-        //                 if (!phoneNumber.trim()) {
-        //                     errors.phoneNumber = "전화번호를 입력해주세요.";
-        //                     alert(errors.phoneNumber);
-        //                 } else if (!/^[0-9]{11}$/.test(phoneNumber)) {
-        //                     errors.phoneNumber = "유효한 전화번호 11자리를 입력해주세요. ";
-        //                     alert(errors.phoneNumber);
-        //                 } else {
-        //                     // 생년월일 유효성 검사
-        //                     if (!birthDate.trim()) {
-        //                         errors.birthDate = "생년월일을 입력해주세요.";
-        //                         alert(errors.birthDate);
-        //                     } else {
-        //                         // 생년월일 형식(YYYY-MM-DD) 검사
-        //                         const birthDateRegex = /^\d{4}\d{2}\d{2}$/;
-        //                         if (!birthDateRegex.test(birthDate)) {
-        //                             errors.birthDate =
-        //                                 "유효한 생년월일을 입력해주세요. (YYYY-MM-DD)";
-        //                             alert(errors.birthDate);
-        //                         } else {
-        //                             // 생년월일 범위(1900년 이후) 검사
-        //                             const year = parseInt(birthDate.substring(0, 4), 10);
-        //                             if (year < 1900 || year > new Date().getFullYear()) {
-        //                                 errors.birthDate = "유효한 생년월일을 입력해주세요.";
-        //                                 alert(errors.birthDate);
-        //                             }
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        const year = parseInt(parts[0]);
+        const month = parseInt(parts[1]);
+        const day = parseInt(parts[2]);
 
-        return errors;
+        // 올바른 날짜 범위 확인
+        if (year < 1940) {
+            return false; // 최소 1940년 이상이어야 함
+        }
+        if (month < 1 || month > 12) {
+            return false; // 올바른 월 범위 확인 (1~12)
+        }
+        if (day < 1 || day > 31) {
+            return false; // 올바른 일 범위 확인 (1~31)
+        }
+
+        // 월에 따른 올바른 일 수 확인
+        const daysInMonth = new Date(year, month, 0).getDate();
+        if (day > daysInMonth) {
+            return false; // 올바른 일 수 초과
+        }
+
+        return true; // 모든 조건을 만족하면 유효
     }
 
-    // 백배승 회원가입 핸들러
-    const handleSignUpClick = (event) => {
-        event.preventDefault(); // 기본 제출 동작을 막습니다.
+    function validCheck(event) {
+        const { name, value } = event.target;
+        // eslint-disable-next-line default-case
+        switch (name) {
+            case "email":
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(value)) {
+                    setShowErrMsg(true);
+                    setValidErrorMsg({ email: "올바른 이메일 형식으로 입력해 주세요." });
+                } else {
+                    setShowErrMsg(false);
+                }
+                break;
 
-        const errors = validateInputs(); // 입력값 유효성을 검사합니다.
-        if (Object.keys(errors).length === 0) {
-            // 에러가 없는 경우에만 회원가입 처리를 합니다.
-            console.log(
-                "백배승 Login_Signup.jsx + handleSignUpClick호출 : 회원가입 버튼 클릭"
-            );
-            axios
-                .post(member_url + "insert", {
-                    // Spring 서버의 API 엔드포인트로 변경
-                    email: email, // 이메일 필드에는 useState로 관리한 상태를 사용
-                    password: password, // 비밀번호 필드에는 useState로 관리한 상태를 사용
-                    name: name,
-                    nickname: nickname, // 닉네임 필드에는 useState로 관리한 상태를 사용
-                    phone: phoneNumber, // 전화번호 필드에는 useState로 관리한 상태를 사용
-                    birth: birthDate, // 생년월일 필드에는 useState로 관리한 상태를 사용
-                    role: role, // 밑에서 체크하면 ADMIN 안하면 USER
-                    agreedPersonal: 1
-                })
-                .then((response) => {
-                    // Handle success.
-                    console.log("성공적으로 데이터가 전달됨...");
-                    console.log("User profile", response.data.user);
-                    console.log("User token", response.data.token);
-                    window.location.reload()
-                })
-                .catch((error) => {
-                    // Handle error.
-                    console.log("회원가입 error occurred:", error.response);
-                });
-        } else {
-            // 에러가 있는면 폼 제출 막음
-            event.preventDefault();
+            case "password":
+                const passwordRegex = /[a-zA-Z0-9!@#$%^&*()\-_=+`~]{8,20}/;
+                if (!passwordRegex.test(value)) {
+                    setValidErrorMsg({ password: "특수문자, 영문, 숫자를 조합하여 8~20자를 입력해 주세요." });
+                    setShowErrMsg(true);
+                } else {
+                    setShowErrMsg(false);
+                    setPassword(value);
+                }
+                break;
 
-            alert("입력 정보를 다시 확인해주세요....");
+            case "exactPassword":
+                if (password !== value) {
+                    setValidErrorMsg({ exactPassword: "비밀번호가 다릅니다." });
+                    setShowErrMsg(true);
+                } else {
+                    setShowErrMsg(false);
+                }
+                break;
+
+            case "name":
+                if (value === "" || value === null) {
+                    setValidErrorMsg({ name: "필수 입력 사항입니다." });
+                    setShowErrMsg(true);
+                } else {
+                    setShowErrMsg(false);
+                }
+                break;
+
+            case "nickname":
+                if (value.length < 2) {
+                    setValidErrorMsg({ nickname: "필수 입력 사항입니다." });
+                    setShowErrMsg(true);
+                } else {
+                    setShowErrMsg(false);
+                }
+                break;
+
+            case "phone":
+                const phoneRegex = /^[0-9]{11}$/;
+                if (!phoneRegex.test(value)) {
+                    setValidErrorMsg({ phone: "올바른 핸드폰 번호를 입력해 주세요." });
+                    setShowErrMsg(true);
+                } else {
+                    setShowErrMsg(false);
+                }
+                break;
+
+            case "birth":
+                if (!validateBirth(value)) {
+                    setValidErrorMsg({ birth: "올바른 생일 양식으로 입력해 주세요." })
+                    setShowErrMsg(true);
+                } else {
+                    setShowErrMsg(false);
+                }
+                break;
         }
-    };
+    }
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: value
+        }));
+      }
+
+    const handleSignUpClick = (event) => {
+        event.preventDefault();
+
+        axios
+            .post(member_url + "insert", formData)
+            .then((response) => {
+                navigator('/');
+            })
+            .catch((error) => {
+                console.log("에러 발생", error)
+            });
+    }
 
     //                        로그인 화면 관련 로직                         //
+    const [userLoginInfo, setUserLoginInfo] = useState({
+        email: "",
+        password: ""
+    });
 
     //          state : 로그인 에러 메시지              //
     const [loginFailed, setLoginFailed] = useState(false);
@@ -167,10 +195,14 @@ const SignUpForm = () => {
     //                      로그인 버튼 클릭                    //
     const handleLogInClick = (event) => {
         event.preventDefault();
+        setUserLoginInfo({
+            email: event.target.email.value,
+            password: event.target.password.value
+        })
 
         axios.post(member_url + "login", {
-            email: email,
-            password: password
+            email: userLoginInfo.email,
+            password: userLoginInfo.password
         })
             .then((response) => {
                 setCookie("accessToken", response.data.token);
@@ -198,16 +230,14 @@ const SignUpForm = () => {
                             <input
                                 type="text"
                                 placeholder="Email"
-                                value={email}
-                                onChange={(event) => setEmail(event.target.value)} />
+                                name="email" />
                             <FaEnvelope className={styles.icon} />
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type={pwVisible ? "text" : "password"}
                                 placeholder="Password"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)} />
+                                name="password" />
                             {pwIcon === "FaEyeSlash" ?
                                 <FaEyeSlash
                                     className={`${styles.icon} ${styles.pw}`}
@@ -220,7 +250,7 @@ const SignUpForm = () => {
                                 />
                             }
                         </div>
-                        <div className={`${styles.errBox} ${loginFailed ? '' : styles.hidden}`}  >
+                        <div className={`${styles.errBox} ${loginFailed ? '' : styles.hidden}`} >
                             <p>로그인 정보가 일치하지 않습니다.</p>
                         </div>
 
@@ -249,6 +279,8 @@ const SignUpForm = () => {
                     </form>
                 </div>
 
+                {/*                         회원가입                           */}
+
                 <div className={`${styles["form-box"]} ${styles.register}`}>
                     <form onSubmit={handleSignUpClick}>
                         <h1>
@@ -261,60 +293,87 @@ const SignUpForm = () => {
                             <input
                                 type="email"
                                 placeholder="이메일"
-                                value={email}
-                                onChange={(event) => setEmail(event.target.value)}
+                                name="email"
+                                onBlur={validCheck}
+                                onChange={handleChange}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.email}</p>
+                            </div>
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type="password"
                                 placeholder="비밀번호"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
+                                name="password"
+                                onBlur={validCheck}
+                                onChange={handleChange}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.password}</p>
+                            </div>
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type="password"
                                 placeholder="비밀번호 확인"
-                                value={confirmPassword}
-                                onChange={(event) => setConfirmPassword(event.target.value)}
+                                name="exactPassword"
+                                onBlur={validCheck}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.exactPassword}</p>
+                            </div>
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type="text"
                                 placeholder="성함"
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
+                                name="name"
+                                onBlur={validCheck}
+                                onChange={handleChange}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.name}</p>
+                            </div>
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type="text"
                                 placeholder="닉네임"
-                                value={nickname}
-                                onChange={(event) => setNickname(event.target.value)}
+                                name="nickname"
+                                onBlur={validCheck}
+                                onChange={handleChange}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.nickname}</p>
+                            </div>
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type="text"
                                 placeholder="연락처 ( - 없이 번호만 입력해 주세요.)"
-                                value={phoneNumber}
-                                onChange={(event) => setPhoneNumber(event.target.value)}
+                                name="phone"
+                                onBlur={validCheck}
+                                onChange={handleChange}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.phone}</p>
+                            </div>
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type="text"
                                 placeholder="생년월일 (예시 : 1995/05/16)"
-                                value={birthDate}
-                                onChange={(event) => setBirthDate(event.target.value)}
+                                name="birth"
+                                onBlur={validCheck}
+                                onChange={handleChange}
                             />
+                            <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
+                                <p>{validErrorMsg.birth}</p>
+                            </div>
                         </div>
 
-                        <div className={styles["remember-forgot"]}>
+                        {/* <div className={styles["remember-forgot"]}>
                             <label>
                                 <input
                                     type="checkbox"
@@ -329,7 +388,7 @@ const SignUpForm = () => {
                                 />
                                 점주님 체크~~
                             </label>
-                        </div>
+                        </div> */}
                         <button type="submit">가입</button>
 
                         <div className={styles["register-link"]}>
