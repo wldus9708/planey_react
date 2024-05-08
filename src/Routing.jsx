@@ -5,7 +5,6 @@ import KakaoLogin from './GUN/SocialKakao';
 import LodgingDetail from './YOUNG/LodgingDetail';
 import PreLodging from './YOUNG/preLodgingDetail';
 import PlanMain from './YEON/planMain';
-import GhTest from './GUN/AirLine_Detail';
 // import RestaurantDetail from './SUNG/Restaurant/RestaurantDetail';
 
 function Routing() {
@@ -18,7 +17,6 @@ function Routing() {
                 <Route path="/lodgingDetail" element={<LodgingDetail />} />
                 <Route path="/prelodging" element={<PreLodging />} />
                 <Route path="/planMain" element={<PlanMain />} />
-                <Route path="/GhTest" element={<GhTest />} />
                 {/* <Route path="/restaurantDetail" element={<RestaurantDetail />} /> */}
             </Routes>
         </BrowserRouter>
