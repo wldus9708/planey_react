@@ -10,6 +10,7 @@ import google from "../../images/btn_google.svg";
 import naver from "../../images/btn_naver.svg";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { naverLoginUrl } from "../../SUNG/SocialNaver";
 
 const SignUpForm = () => {
     const member_url = "http://localhost:8888/member/";
@@ -237,7 +238,7 @@ const SignUpForm = () => {
                             </div>
                         </div>
                         <div className={styles.btn_sns_login}>
-                            <Link to="/">
+                            <Link to={naverLoginUrl}>
                                 <img className={styles.naver} src={naver} alt="naver" />
                             </Link>
                             <Link to="/login/Socialkakao">
