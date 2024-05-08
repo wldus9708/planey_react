@@ -24,7 +24,7 @@ function RestaurantDetail() {
       <div className={`${styles.restaurant_container} ${styles.restaurant_flex}`}>
         <div className={styles.restaurant_left}>
           <div className={styles.restaurant_main_image}>
-            <img width='400PX' height='400PX' src={image} className={styles.restaurant_slide} alt="product" />
+            <img src={image} className={styles.restaurant_slide} alt="product" />
           </div>
           <div className={`${styles.restaurant_option} ${styles.restaurant_flex}`}>
             <img src="/images/lamb.jpg" onClick={() => handleImageClick('/images/lamb.jpg')} alt="product" />
@@ -49,7 +49,7 @@ function RestaurantDetail() {
             <button onClick={incrementNumberOfPeople}>+</button>
           </div>
 
-          <button>예약하러 가기</button>
+          <button className={styles.restaurant_btn}>예약하러 가기</button>
         </div>
       </div>
     </div>

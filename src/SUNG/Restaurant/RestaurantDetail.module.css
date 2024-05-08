@@ -50,10 +50,16 @@
   }
   
   .restaurant_main_image {
-    width: auto;
+    width: 400px;
     height: auto;
+    margin: 0 auto;
     text-align: center;
     margin-top:45px;
+  }
+  .restaurant_slide{
+    border-radius: 5px;
+    width: 400px;
+    height: 400px;
   }
   
   .restaurant_option img {
@@ -61,6 +67,7 @@
     width: 150px;
     height: 150px;
     padding: 10px;
+    border-radius:15px;
   }
   
   .restaurant_right {
@@ -149,10 +156,14 @@
     margin:0;
     border-radius: 50px;
     line-height: 0;
+    background: var(--mainColor);
+    color: white;
+    border: none;
+    outline: none;
     
   }
   
-  .restaurant_body button {
+  .restaurant_btn {
     width: 100%;
     padding: 10px;
     border: none;
