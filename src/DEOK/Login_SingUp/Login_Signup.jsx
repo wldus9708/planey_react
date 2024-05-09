@@ -7,6 +7,8 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { naverLoginUrl } from "../../SUNG/SocialNaver";
 import Agreement from "../../YOUNG/Agreement";
+import FindId from "../../YOUNG/findId"
+import { Button, Modal } from 'react-bootstrap';
 
 const SignUpForm = () => {
 
@@ -181,26 +183,33 @@ const SignUpForm = () => {
     //          state,function : 로그인 폼 <---> 회원가입 폼         //
     const [action, setAction] = useState("");
 
-   
+
 
 
     const registerLink = () => {
-       
+
         setModalShow(true); // 김윤영 회원가입 버튼 클릭 시 모달 표시
         console.log("setModalShow called"); //김윤영 함수 호출 확인
         setAction(" active");
 
     };
 
-        // 김윤영
-        const [modalShow, setModalShow] = useState(false); // 모달 표시 여부
-        const handleModalAgree = () => {
-            setModalShow(false); // 모달 닫기
-          };
-        const handleModalClose = () => {
-          setModalShow(false); // 모달 닫기
-        }
-            // 끝
+    // 김윤영
+    const [modalShow, setModalShow] = useState(false); // 모달 표시 여부
+   
+    const handleModalAgree = () => {
+        setModalShow(false); // 모달 닫기
+    };
+
+    const handleModalOpen = () => {
+        setModalShow(true); // 모달 닫기
+    }
+
+    const handleModalClose = () => {
+        setModalShow(false); // 모달 닫기
+    }
+    // 끝
+
 
 
     const loginLink = () => {
@@ -238,6 +247,17 @@ const SignUpForm = () => {
             });
     }
 
+    const [showModal, setShowModal] = useState(false); // 모달 상태 관리
+
+    const handleOpenModal = () => {
+      setShowModal(true); // 모달 열기
+    };
+  
+    const handleCloseModal = () => {
+      setShowModal(false); // 모달 닫기
+    };
+  
+
     return (
         <div className={styles.body}>
             <div className={`${styles.wrapper} ${action && styles.active}`}>
@@ -254,7 +274,7 @@ const SignUpForm = () => {
                                 type="text"
                                 placeholder="Email"
                                 name="email"
-                                onChange={(event) => setUserLoginInfo(prevInfo => ({...prevInfo, email: event.target.value}) )} />
+                                onChange={(event) => setUserLoginInfo(prevInfo => ({ ...prevInfo, email: event.target.value }))} />
                             <FaEnvelope className={styles.icon} />
                         </div>
                         <div className={styles["input-box"]}>
@@ -262,7 +282,7 @@ const SignUpForm = () => {
                                 type={pwVisible ? "text" : "password"}
                                 placeholder="Password"
                                 name="password"
-                                onChange={(event) => setUserLoginInfo(prevInfo => ({...prevInfo, password: event.target.value}) )} />
+                                onChange={(event) => setUserLoginInfo(prevInfo => ({ ...prevInfo, password: event.target.value }))} />
                             {pwIcon === "FaEyeSlash" ?
                                 <FaEyeSlash
                                     className={`${styles.icon} ${styles.pw}`}
@@ -282,13 +302,41 @@ const SignUpForm = () => {
                         <button type="submit">Login</button>
                         <div className={styles.findOrSign}>
                             <div className={styles["remember-forgot"]}>
-                            <Link to='/findID'  className={styles["remember-forgot-id"]}>
-                                <span>아이디 찾기&nbsp;|&nbsp;</span>
-                            </Link>    
+                                {/* <Link to='/findID'  className={styles["remember-forgot-id"]}> */}
+                                <span
+                                  style={{ cursor: 'pointer' }}
+                                   variant="primary"
+                                   onClick={handleOpenModal}
+                                >아이디 찾기&nbsp;|&nbsp;</span>
+
+                                <Modal
+                                    show={showModal}
+                                    onHide={handleCloseModal}
+                                    animation={false}
+                                    backdrop="static" // 모달 외부 클릭 시 닫히지 않도록 설정
+                                    keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
+                                >
+
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>회원정보 찾기</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <FindId />
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleCloseModal}> {/* 모달 닫기 */}
+                                            취소
+                                        </Button>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <Button variant="primary">확인</Button> {/* 확인 버튼 */}
+                                    </Modal.Footer>
+                                </Modal>
+                                {/* </Link>     */}
                                 {/* <span className={styles.bar}>|</span> */}
-                            <Link to='/findPW01'  className={styles["remember-forgot-pw"]}>
-                                <span>비밀번호 찾기</span>
-                            </Link>    
+
+                                <Link to='/findPW01' className={styles["remember-forgot-pw"]}>
+                                    <span>비밀번호 찾기</span>
+                                </Link>
                             </div>
 
 
