@@ -6,6 +6,7 @@ import LodgingDetail from './YOUNG/LodgingDetail';
 import PreLodging from './YOUNG/preLodgingDetail';
 import PlanMain from './YEON/planMain';
 import RestaurantDetail from './SUNG/Restaurant/RestaurantDetail';
+import Agreement from './YOUNG/Agreement';
 
 function Routing() {
     return(
@@ -18,6 +19,8 @@ function Routing() {
                 <Route path="/prelodging" element={<PreLodging />} />
                 <Route path="/planMain" element={<PlanMain />} />
                 <Route path="/restaurantDetail/:id" element={<RestaurantDetail />} />
+                <Route path="/agreement" element={<Agreement />} />
+
             </Routes>
         </BrowserRouter>
     )

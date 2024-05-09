@@ -6,8 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { naverLoginUrl } from "../../SUNG/SocialNaver";
+import Agreement from "../../YOUNG/Agreement";
 
 const SignUpForm = () => {
+
     const member_url = "http://localhost:8988/member/";
 
     const [formData, setFormData] = useState({
@@ -140,10 +142,10 @@ const SignUpForm = () => {
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevState => ({
-          ...prevState,
-          [name]: value
+            ...prevState,
+            [name]: value
         }));
-      }
+    }
 
     const handleSignUpClick = (event) => {
         event.preventDefault();
@@ -179,9 +181,27 @@ const SignUpForm = () => {
     //          state,function : 로그인 폼 <---> 회원가입 폼         //
     const [action, setAction] = useState("");
 
+   
+
+
     const registerLink = () => {
+       
+        setModalShow(true); // 김윤영 회원가입 버튼 클릭 시 모달 표시
+        console.log("setModalShow called"); //김윤영 함수 호출 확인
         setAction(" active");
+
     };
+
+        // 김윤영
+        const [modalShow, setModalShow] = useState(false); // 모달 표시 여부
+        const handleModalAgree = () => {
+            setModalShow(false); // 모달 닫기
+          };
+        const handleModalClose = () => {
+          setModalShow(false); // 모달 닫기
+        }
+            // 끝
+
 
     const loginLink = () => {
         setAction("");
@@ -191,6 +211,8 @@ const SignUpForm = () => {
 
     //          네비게이터          //
     const navigator = useNavigate();
+
+
 
     //                      로그인 버튼 클릭                    //
     const handleLogInClick = (event) => {
@@ -259,10 +281,15 @@ const SignUpForm = () => {
                             <div className={styles["remember-forgot"]}>
                                 <p>비밀번호를 잊어버리셨나요?</p>
                                 {/* <span className={styles.bar}>|</span> */}
+
                             </div>
 
                             <div className={styles["register-link"]}>
                                 <p onClick={registerLink}>계정이 없으신가요?</p>
+                                <Agreement show={modalShow} onHide={handleModalClose} onAgree={handleModalAgree} /> {/* 모달 컴포넌트 */}
+                                {/* {showAgreement && <Agreement />} 
+                                김윤영 상태에 따라 Agreement 컴포넌트 표시 */}
+
                             </div>
                         </div>
                         <div className={styles.btn_sns_login}>
