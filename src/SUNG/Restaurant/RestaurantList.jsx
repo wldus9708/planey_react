@@ -30,7 +30,7 @@ const RestaurantList = () => {
         }
     };
     return (
-        <div className={styles.restaurantBody}>
+        <div className={styles.restaurantListBody}>
             <div className={styles['restList-container']}>
                 <div className={styles['restList-left-col']}>
                     <p>200 + options</p>
