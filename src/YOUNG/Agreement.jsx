@@ -20,8 +20,6 @@ const TermsAgreementForm = ({ show, onHide }) => {
 
   const allAgreed = Object.values(agreements).every(Boolean);
 
-
-
   const handleAgreeAndClose = () => {
     if (allAgreed) {
       onHide();
@@ -29,6 +27,9 @@ const TermsAgreementForm = ({ show, onHide }) => {
     }
   };
 
+  const clickCancelButton = () => {
+    window.location.href = "/login";
+  }
 
   return (
     <Modal
@@ -93,9 +94,8 @@ const TermsAgreementForm = ({ show, onHide }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-          <Link to='/'>
-            <Button variant="secondary">취소</Button>
-          </Link>
+
+        <Button variant="secondary" onClick={clickCancelButton}>취소</Button>
         <Button
           variant="primary"
           disabled={!allAgreed}

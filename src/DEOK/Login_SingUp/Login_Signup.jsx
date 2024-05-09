@@ -153,7 +153,7 @@ const SignUpForm = () => {
         axios
             .post(member_url + "insert", formData)
             .then((response) => {
-                navigator('/');
+                window.location.href = '/login';
             })
             .catch((error) => {
                 console.log("에러 발생", error)
@@ -207,7 +207,7 @@ const SignUpForm = () => {
         setAction("");
     };
     //                          쿠키 상태                          //
-    const [cookies, setCookie] = useCookies(['accessToken']);
+    const [cookies, setCookie] = useCookies([]);
 
     //          네비게이터          //
     const navigator = useNavigate();
@@ -227,7 +227,8 @@ const SignUpForm = () => {
             password: userLoginInfo.password
         })
             .then((response) => {
-                setCookie("accessToken", response.data.token);
+                setCookie("accessToken", response.data.accessToken);
+                setCookie("refreshToken", response.data.refreshToken);
                 navigator('/');
             })
             .catch((error) => {
@@ -252,14 +253,16 @@ const SignUpForm = () => {
                             <input
                                 type="text"
                                 placeholder="Email"
-                                name="email" />
+                                name="email"
+                                onChange={(event) => setUserLoginInfo(prevInfo => ({...prevInfo, email: event.target.value}) )} />
                             <FaEnvelope className={styles.icon} />
                         </div>
                         <div className={styles["input-box"]}>
                             <input
                                 type={pwVisible ? "text" : "password"}
                                 placeholder="Password"
-                                name="password" />
+                                name="password"
+                                onChange={(event) => setUserLoginInfo(prevInfo => ({...prevInfo, password: event.target.value}) )} />
                             {pwIcon === "FaEyeSlash" ?
                                 <FaEyeSlash
                                     className={`${styles.icon} ${styles.pw}`}
