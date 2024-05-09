@@ -1,7 +1,7 @@
 function App(){
     return(
         <div>
-            임시test01
+            임시test02
         </div>
     );    
 }
