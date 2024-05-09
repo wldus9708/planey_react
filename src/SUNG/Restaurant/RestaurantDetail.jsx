@@ -29,30 +29,33 @@ function RestaurantDetail() {
     }
   };
 
-// useEffect를 사용하여 API 요청 보내기
-useEffect(() => {
-  axios.get(`http://localhost:8988/restaurant/detail/${id}`) // 식당 아이디로 상세정보 가져오기
-    .then(response => {
-      if (response.data) {
-        setRestaurant(response.data); // 레스토랑 정보 설정
-        console.log(response.data)
-        console.log(id);
-        setImage(`/images/${response.data.restImage01}`);// 이미지 URL 설정
-        setNumberOfPeople(response.data.restCapacity); // 인원수 설정
-      } else {
-        setNotFound(true); // 상품이 없는 경우
-      }
-    })
-    .catch(error => {
-      console.error('error:', error);
-      setError('error'); // 에러
-    });
-}, [id]); // id가 변경될 때마다 useEffect 실행
+  // useEffect를 사용하여 API 요청 보내기
+  useEffect(() => {
+    axios.get(`http://localhost:8988/restaurant/detail/${id}`) // 식당 아이디로 상세정보 가져오기
+      .then(response => {
+        if (response.data) {
+          setRestaurant(response.data); // 레스토랑 정보 설정
+          console.log(response.data)
+          console.log(id);
+          setImage(`/images/${response.data.restImage01}`);// 이미지 URL 설정
+          setNumberOfPeople(response.data.restCapacity); // 인원수 설정
+        } else {
 
-// 레스토랑이 없는 경우 상품이 없음 메시지 표시(확인차 추후 삭제)
-if (!restaurant) {
-  return <div>데이터 베이스에 없는 식당 아이디 요청했음</div>;
-}
+        }
+
+      })
+      .catch(error => {
+        console.error('error:', error);
+        setError('error'); // 에러
+        setNotFound(true); // 상품이 없는 경우
+        console.log(notFound);
+      });
+  }, [id]); // id가 변경될 때마다 useEffect 실행
+
+  // 레스토랑이 없는 경우 상품이 없음 메시지 표시(확인차 추후 삭제)
+  if (notFound) {
+    return <div>데이터 베이스에 없는 식당 아이디 요청했음</div>;
+  }
   return (
     <div className={styles.restaurant_body}>
       <div className={`${styles.restaurant_container} ${styles.restaurant_flex}`}>
