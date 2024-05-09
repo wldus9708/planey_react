@@ -10,6 +10,8 @@ import RestaurantList from './SUNG/Restaurant/RestaurantList';
 import FindId from './YOUNG/findId';
 import FindPW01 from './YOUNG/findPW01';
 import FindPW02 from './YOUNG/findPW02';
+import GhTest from './GUN/Package_Detail';
+import PaymentTest from './GUN/components/payment';
 
 
 
@@ -28,6 +30,8 @@ function Routing() {
                 <Route path="/findPW01" element={<FindPW01 />} />
                 <Route path="/findPW02" element={<FindPW02 />} />
                 <Route path="/restaurantList" element={<RestaurantList />} />
+                <Route path="/GhTest" element={<GhTest />} />
+                <Route path="/PaymentTest" element={<PaymentTest />} />
 
                
 
