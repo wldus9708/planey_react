@@ -23,6 +23,7 @@ const RestaurantList = () => {
         3: false,
         4: false
     });
+
     const toggleAllCheckbox = () => {
         const newState = !allChecked;
         setAllChecked(newState);
@@ -39,6 +40,7 @@ const RestaurantList = () => {
         const allChecked = Object.values(newCheckboxStates).every(value => value);
         setAllChecked(allChecked);
     };
+
     const prcieRangeMinValueHandler = e => {
         setRangeMinValue(parseInt(e.target.value));
     };
@@ -56,68 +58,6 @@ const RestaurantList = () => {
             setRangeMaxPercent(() => 100 - (rangeMaxValue / fixedMaxPrice) * 100);
         }
     };
-    const [page, setPage] = useState(1); // 현재 페이지
-    const [data, setData] = useState([]); // 렌더링할 데이터
-
-    useEffect(() => {
-        // 스크롤 이벤트 핸들러 등록
-        window.addEventListener('scroll', handleScroll);
-        // 컴포넌트 언마운트 시 스크롤 이벤트 핸들러 제거
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    useEffect(() => {
-        // 페이지가 변경될 때마다 데이터 불러오기
-        fetchData();
-    }, [page]);
-
-    const fetchData = () => {
-        const newData = generateExampleData(page);
-        setData(prevData => [...prevData, ...newData]);
-    };
-
-    const handleScroll = () => {
-        // 스크롤이 페이지 아래 도달했을 때 새 데이터 불러오기
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            setPage(prevPage => prevPage + 1);
-        }
-    };
-
-    // 예시 데이터
-    const generateExampleData = (page) => {
-        const newData = [];
-        const startIndex = (page - 1) * 10;
-        const endIndex = page * 10;
-        for (let i = startIndex; i < endIndex; i++) {
-            newData.push(
-                <div key={i} className={styles['restList-house']}>
-                    <div className={styles['restList-house-img']}>
-                        <img src="/images/lamb.jpg" alt="" width="200px" height="200px" />
-                    </div>
-                    <div className={styles['restList-house-info']}>
-                        <p>양식</p>
-                        <h3>신촌 프렌치렉 양갈비집</h3>
-                        <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                        <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                        <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                        <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                        <FontAwesomeIcon icon={faStarHalfAlt} className={styles['restList-star-icon']} />
-                        <p>입속에 넣기도 전에 녹아버리는 양갈비 부드러움의 끝 맛집...</p>
-                        <div className={styles['restList-house-price']}>
-                            <h4>₩ 5000</h4>
-                        </div>
-                        <div className={styles['restList-house-info2']}>
-                            <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        return newData;
-    };
-
     return (
         <div className={styles.restaurantListBody}>
             <div className={styles['restList-container']}>
@@ -125,14 +65,83 @@ const RestaurantList = () => {
                     <p>200 + options</p>
                     <h1>맛집 리스트</h1>
                     <div className={styles['restList-check']}>
+
                     </div>
-                    {data}
+                    <div className={styles['restList-house']}>
+                        <div className={styles['restList-house-img']}>
+                            <img src="/images/lamb.jpg" alt="" width="200px" height="200px" />
+                        </div>
+                        <div className={styles['restList-house-info']}>
+                            <p>양식</p>
+                            <h3>신촌 프렌치렉 양갈비집</h3>
+                            <p>서웉특별시 신촌 거구장 옆</p>
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStarHalfAlt} className={styles['restList-star-icon']} />
+                            <p>입속에 넣기도 전에 녹아버리는 양갈비 부드러움의 끝 맛집으로...</p>
+                            <div className={styles['restList-house-price']}>
+
+                                <h4>₩ 5000</h4>
+                            </div>
+                            <div className={styles['restList-house-info2']}>
+                                <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles['restList-house']}>
+                        <div className={styles['restList-house-img']}>
+                            <img src="/images/lamb.jpg" alt="" width="200px" height="200px" />
+                        </div>
+                        <div className={styles['restList-house-info']}>
+                            <p>양식</p>
+                            <h3>신촌 프렌치렉 양갈비집</h3>
+
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStarHalfAlt} className={styles['restList-star-icon']} />
+                            <p>입속에 넣기도 전에 녹아버리는 양갈비 부드러움의 끝 맛집...</p>
+                            <div className={styles['restList-house-price']}>
+
+                                <h4>₩ 5000</h4>
+                            </div>
+                            <div className={styles['restList-house-info2']}>
+                                <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                            </div>
+                        </div>
+                    </div><div className={styles['restList-house']}>
+                        <div className={styles['restList-house-img']}>
+                            <img src="/images/lamb.jpg" alt="" width="200px" height="200px" />
+                        </div>
+                        <div className={styles['restList-house-info']}>
+                            <p>양식</p>
+                            <h3>신촌 프렌치렉 양갈비집</h3>
+                            <p>입속에 넣기도 전에 녹아버리는 양갈비 부드러움의 끝 맛집...</p>
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                            <FontAwesomeIcon icon={faStarHalfAlt} className={styles['restList-star-icon']} />
+                            <div className={styles['restList-house-price']}>
+
+                                <h4>₩ 5000</h4>
+                            </div>
+                            <div className={styles['restList-house-info2']}>
+                                <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div className={styles['restList-right-col']}>
                     <div className={styles['restList-sidebar']}>
                         <h2>select Filters</h2>
                         <div className={styles['restList-PriceSlide']} >
                             <div className={styles['restList-PriceSlideInner']} >
+
                             </div>
                         </div>
                         <div className={styles['restList-PriceRangeWrap']} >
@@ -167,7 +176,9 @@ const RestaurantList = () => {
                                 <div className={styles['restList-PriceValueMax']} >
                                     {rangeMaxValue.toLocaleString()}원
                                 </div>
+
                             </div>
+
                         </div>
                         <h3>property type</h3>
                         <div className={styles['restList-filter']}>
@@ -190,6 +201,7 @@ const RestaurantList = () => {
                             <input type="checkbox" checked={checkboxStates['일식']}
                                 onChange={() => toggleCheckbox('일식')} /><p>일식</p><span>(0)</span>
                         </div>
+
                         <h3>property type</h3>
                         <div className={styles['restList-filter']}>
                             <input type="checkbox" /><p>1</p><span>(0)</span>
