@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import styles from './Agreement.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS 임포트
-import { Link } from "react-router-dom";
+
 
 const TermsAgreementForm = ({ show, onHide }) => {
   const [agreements, setAgreements] = useState({
@@ -38,7 +38,7 @@ const TermsAgreementForm = ({ show, onHide }) => {
       backdrop="static" // 모달 외부 클릭 시 닫히지 않도록 설정
       keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton onClick={clickCancelButton}>
         <Modal.Title>이용약관 동의</Modal.Title>
       </Modal.Header>
       <Modal.Body>
