@@ -36,6 +36,7 @@ useEffect(() => {
       if (response.data) {
         setRestaurant(response.data); // 레스토랑 정보 설정
         console.log(response.data)
+        console.log(id);
         setImage(`/images/${response.data.restImage01}`);// 이미지 URL 설정
         setNumberOfPeople(response.data.restCapacity); // 인원수 설정
       } else {
@@ -49,8 +50,8 @@ useEffect(() => {
 }, [id]); // id가 변경될 때마다 useEffect 실행
 
 // 레스토랑이 없는 경우 상품이 없음 메시지 표시(확인차 추후 삭제)
-if (notFound) {
-  return <div>데이터 베이스에 없는 식당 아이디 요청했음.</div>;
+if (!restaurant) {
+  return <div>데이터 베이스에 없는 식당 아이디 요청했음</div>;
 }
   return (
     <div className={styles.restaurant_body}>
@@ -68,7 +69,7 @@ if (notFound) {
           </div>
         </div>
         <div className={styles.restaurant_right}>
-          <label>{restaurant && restaurant.restCategory.getValue()}</label><h3>{restaurant && restaurant.restName}&nbsp;&nbsp;<span className={styles.restaurant_grade}>★ {restaurant && restaurant.restGrade}</span></h3>
+          <label>{restaurant && restaurant.restCategory}</label><h3>{restaurant && restaurant.restName}&nbsp;&nbsp;<span className={styles.restaurant_grade}>★ {restaurant && restaurant.restGrade}</span></h3>
           <span className={styles.restaurant_address}>{restaurant && restaurant.restAddress}</span>
           <h4><small>₩</small>{restaurant && restaurant.restPrice.toLocaleString()}</h4>
           <p>{restaurant && restaurant.restDescription}</p>
