@@ -279,10 +279,15 @@ const SignUpForm = () => {
                         <button type="submit">Login</button>
                         <div className={styles.findOrSign}>
                             <div className={styles["remember-forgot"]}>
-                                <p>비밀번호를 잊어버리셨나요?</p>
+                            <Link to='/findID'  className={styles["remember-forgot-id"]}>
+                                <span>아이디 찾기&nbsp;|&nbsp;</span>
+                            </Link>    
                                 {/* <span className={styles.bar}>|</span> */}
-
+                            <Link to='/findPW01'  className={styles["remember-forgot-pw"]}>
+                                <span>비밀번호 찾기</span>
+                            </Link>    
                             </div>
+
 
                             <div className={styles["register-link"]}>
                                 <p onClick={registerLink}>계정이 없으신가요?</p>

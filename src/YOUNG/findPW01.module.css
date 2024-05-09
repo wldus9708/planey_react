@@ -1,0 +1,53 @@
+
+.findPWPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: -144px;
+  }
+  
+  .findPWContainer {
+    text-align: center;
+    width: 900px;
+    height: 400px;
+  }
+  
+  .authInput {
+    padding: 40px;
+    width: 900px;
+    border: solid;
+    border-color: #FF8A08;
+    margin-top: 30px;
+    font-size: 30px;
+  }
+  
+  .authButton {
+    background-color: #FF8A08;
+    padding: 22px;
+    margin-top: 45px;
+    border: none;
+    border-radius: 6px;
+    width: 574px;
+    font-size: 32px;
+  }
+
+  .authButton:hover{
+    background-color: #FBF3D5;
+    padding: 22px;
+    margin-top: 45px;
+    border: none;
+    border-radius: 6px;
+    width: 574px;
+    font-size: 32px;
+  }
+  
+  .spanLink {
+    text-decoration: none;
+    color: gray;
+    border-bottom: 2px solid;
+    cursor: pointer;
+  }
+
+
+ 
