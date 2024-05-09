@@ -23,7 +23,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* 주축을 수직 방향으로 설정 */
     flex-wrap: wrap;
 }
 
@@ -43,6 +42,40 @@
         "images info"
         "images description";
     grid-gap: 35px;
+}
+
+.box1 {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 1px rgb(0, 0, 0, 12%);
+    padding: 45px;
+    margin: 15px 0;
+    width: 950px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "images description"
+        "images description";
+    grid-gap: 35px;
+}
+
+.box2 {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 1px rgb(0, 0, 0, 12%);
+    padding: 45px;
+    margin: 15px 0;
+    width: 950px;
+}
+
+.box3 {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 1px rgb(0, 0, 0, 12%);
+    padding: 45px;
+    margin: auto;
+    width: 305px;
 }
 
 .box .images {
@@ -98,6 +131,28 @@
     border-radius: 5px;
 }
 
+.mainSchedule a{
+    color: white;
+    background-color: var(--secondary-color);
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.box1 .images .mainSchedule a {
+    color: white;
+    background-color: var(--secondary-color);
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
 .box .basic-info .options a:hover {
     background-color: var(--tertiary-color);
 }
@@ -110,6 +165,12 @@
 }
 
 .box .description p {
+    color: var(--gray-color);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.box1 .description p {
     color: var(--gray-color);
     font-size: 14px;
     line-height: 1.5;
@@ -150,7 +211,7 @@
 }
 
 .priceTable {
-    border: 1px solid #000;
+    border: none;
     border-collapse: collapse;
     width: 100%;
     font-size: 15px;
@@ -162,11 +223,27 @@
     padding: 8px;
     font-weight: 600;
     color: #111;
+    text-align: center;
 }
 
 .priceTable th {
     background: #E3FDFD;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* 수평, 수직, 블러, 색상 순서로 그림자 속성 설정 */
 }
+
+.priceTable th:first-child,
+.priceTable td:first-child {
+    border-left: none;
+    /* 테이블 왼쪽 열의 보더 제거 */
+}
+
+.priceTable th:last-child,
+.priceTable td:last-child {
+    border-right: none;
+    /* 테이블 오른쪽 열의 보더 제거 */
+}
+
 
 
 .tripDetil {
@@ -182,6 +259,115 @@
     /* 요소들을 세로 중앙 정렬 */
 
 }
+
+.mainSchedule>a:nth-child(2) {
+    margin-left: auto;
+    /* 두 번째 버튼을 왼쪽 여백으로 오른쪽으로 밀어냄 */
+}
+
+.tripSchedule {
+    text-align: center;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* 수평, 수직, 블러, 색상 순서로 그림자 속성 설정 */
+
+}
+
+.tripSchedule img {
+    width: 100px;
+    height: auto;
+    /* 가로 너비에 맞추어 세로 비율을 유지합니다. */
+}
+
+.tripSchedule td {
+    width: 100px;
+    height: 100px;
+}
+
+.countButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.countButton .leftAlign {
+    text-align: left;
+    font-weight: bold;
+}
+
+
+
+
+.countButton .rightAlign {
+    display: flex;
+    align-items: center;
+}
+
+.countButton button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.countButton button:hover {
+    background-color: #ddd;
+}
+
+.buttonDiv .bookMarkButton .likeButton {
+    vertical-align: middle;
+    height: 50px;
+}
+
+.bookMarkButton {
+    width: 80px;
+    height: 30px;
+    color: white;
+    background-color: var(--secondary-color);
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 5px;
+    border: none;
+}
+
+.likeButton {
+    width: 80px;
+    height: 30px;
+    background-color: var(--secondary-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 5px;
+    border: none;
+}
+
+.likeButton img {
+    width: 25px;
+    height: 20px;
+    right: auto;
+}
+
+.buttonDiv {
+    display: flex;
+    align-items: center; 
+}
+
+
+
+
+
 
 
 
