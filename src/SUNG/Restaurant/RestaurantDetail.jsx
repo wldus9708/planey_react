@@ -68,7 +68,7 @@ if (notFound) {
           </div>
         </div>
         <div className={styles.restaurant_right}>
-          <label>{restaurant && restaurant.restCategory}</label><h3>{restaurant && restaurant.restName}&nbsp;&nbsp;<span className={styles.restaurant_grade}>★ {restaurant && restaurant.restGrade}</span></h3>
+          <label>{restaurant && restaurant.restCategory.getValue()}</label><h3>{restaurant && restaurant.restName}&nbsp;&nbsp;<span className={styles.restaurant_grade}>★ {restaurant && restaurant.restGrade}</span></h3>
           <span className={styles.restaurant_address}>{restaurant && restaurant.restAddress}</span>
           <h4><small>₩</small>{restaurant && restaurant.restPrice.toLocaleString()}</h4>
           <p>{restaurant && restaurant.restDescription}</p>
