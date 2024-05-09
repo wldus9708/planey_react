@@ -144,11 +144,23 @@
 .form-box .findOrSign{
     display: flex;
     justify-content: space-between;
+   
 }
+
 
 .wrapper .remember-forgot {
     font-size: 14.5px;
     margin: 20px 0 15px;
+   
+}
+.remember-forgot-id {
+    text-decoration: none;
+    color: inherit;
+}
+
+.remember-forgot-pw {
+  text-decoration: none;
+    color: inherit;
 }
 
 .bar {
