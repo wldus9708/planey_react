@@ -1,0 +1,183 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.LodgingBody{
+    font-family: 'Roboto', sans-serif;    
+}
+img{
+    width: 100%;
+    display: block;
+}
+.wrapper{
+    min-height: 100vh;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+.container{
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.lodgingDiv{
+    margin: 1rem 0;
+    padding: 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #fff;
+    border-radius: 3px;
+    column-gap: 10px;
+}
+.lodgingDivLeft{
+    padding: 20px;
+}
+.lodgingDivRight{
+    padding: 20px;
+}
+.lodgingHeader {
+    display: inline-flex; /* 같은 줄에 배치 */
+    align-items: center;  /* 수직 정렬 */
+  }
+  
+.starImage {
+    margin-left: 8px; 
+    width: 20px;  
+    margin-bottom: 20px; 
+  }
+
+ .lodgingRating {
+    margin-bottom: 23px;
+
+ } 
+  
+.imgContainer img{
+    width: 600px;
+    margin: 0 auto;
+}
+.hoverContainer{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 32px;
+}
+.hoverContainer div{
+    border: 2px solid rgba(252, 160, 175, 0.7);
+    padding: 1rem;
+    border-radius: 3px;
+    margin: 0 4px 8px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.active {
+    border-color: rgb(255, 145, 163)!important;
+}
+.hoverContainer div:hover{
+    border-color: rgb(255, 145, 163);
+}
+.hoverContainer div img {
+    width: 80px;
+    cursor: pointer;
+}
+.lodgingDivRight span{
+    display: block;
+}
+.lodgingName{
+    font-size: 26px;
+    margin-bottom: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+.lodgingPrice{
+    font-weight: 700;
+    font-size: 24px;
+    opacity: 0.9;
+    font-weight: 500;
+}
+.lodgingRating{
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+}
+.lodgingAddress{
+    font-size: 11px;
+}
+
+.lodgingDescription {
+    font-weight: 18px;
+    line-height: 1.6;
+    font-weight: 300;
+    opacity: 0.9;
+    margin-top: 22px;
+}
+.btnGroups{
+    margin-top: 247px;
+}
+.btnGroups button{
+    display: inline-block;
+    font-size: 16px;
+    font-family: inherit;
+    text-transform: uppercase;
+    padding: 15px 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btnGroups button .fas{
+    margin-right: 8px;
+}
+.addCartBtn{
+    
+    background-color: #FF9F00;
+    border: 2px solid #FF9F00;
+    margin-right: 8px;
+}
+.addCartBtn:hover{
+    background-color: #fff;
+    color: #FF9F00;
+}
+.buyNowBtn{
+    background-color: #000;
+    border: 2px solid #000;
+}
+.buyNowBtn:hover{
+    background-color: #fff;
+    color: #000;
+}
+
+.packageList {
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+}
+
+
+@media screen and (max-width: 992px){
+    .product-div{
+        grid-template-columns: 100%;
+    }
+    .product-div-right{
+        text-align: center;
+    }
+    .product-rating{
+        justify-content: center;
+    }
+    .product-description{
+        max-width: 400px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+@media screen and (max-width: 400px){
+    .btn-groups button{
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
