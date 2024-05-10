@@ -16,7 +16,7 @@
     margin: 0;
 }
 
-.container {
+.PackageContainer {
     background-color: var(--primary-color);
     min-height: 100vh;
     display: flex;

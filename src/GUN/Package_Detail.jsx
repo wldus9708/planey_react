@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Style from './style.css'
+import Style from './Package_Detail_Style.css'
 import Payment from './components/payment';
 
 
@@ -14,7 +14,7 @@ const ProductDetails = () => {
         setMainImage(newSrc); // 클릭된 이미지의 소스(src)를 첫 번째 이미지의 소스로 설정
     };
     return (
-        <div className="container">
+        <div className="PackageContainer">
             <div className="box">
                 <div className="images">
                     <div className="img-holder active" onClick={() => handleImageClick("images/Jeju.png")}>
