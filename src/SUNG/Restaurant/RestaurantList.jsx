@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './RestaurantList.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faStarHalfAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faStarHalfAlt, faHeart, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const RestaurantList = () => {
     const fixedMinPrice = 1000;
@@ -58,8 +58,11 @@ const RestaurantList = () => {
     };
     const [page, setPage] = useState(1); // 현재 페이지
     const [data, setData] = useState([]); // 렌더링할 데이터
+    const [sortOption, setSortOption] = useState(null); // 정렬 옵션
+    const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
 
     useEffect(() => {
+        setSortOption("latest");
         // 스크롤 이벤트 핸들러 등록
         window.addEventListener('scroll', handleScroll);
         // 컴포넌트 언마운트 시 스크롤 이벤트 핸들러 제거
@@ -69,14 +72,18 @@ const RestaurantList = () => {
     }, []);
 
     useEffect(() => {
-        // 페이지가 변경될 때마다 데이터 불러오기
         fetchData();
-    }, [page]);
-
+    }, [page, sortOption, searchQuery]); // 정렬 옵션과 검색어에 의존
+    
     const fetchData = () => {
         const newData = generateExampleData(page);
-        setData(prevData => [...prevData, ...newData]);
+        // 정렬 옵션에 따라 데이터 정렬
+        const sortedData = sortData(newData, sortOption);
+        // 검색어에 따라 데이터 필터링
+        const filteredData = filterData(sortedData, searchQuery);
+        setData(filteredData); // 필터링된 데이터로 업데이트
     };
+    
 
     const handleScroll = () => {
         // 스크롤이 페이지 아래 도달했을 때 새 데이터 불러오기
@@ -118,6 +125,44 @@ const RestaurantList = () => {
         return newData;
     };
 
+    // 데이터를 정렬하는 함수
+    const sortData = (data, sortOption) => {
+        if (sortOption === "latest") {
+            // 최신순으로 정렬
+            return data.reverse();
+        } else if (sortOption === "lowPrice") {
+            // 낮은 가격순으로 정렬
+            return data.sort((a, b) => getPrice(a) - getPrice(b));
+        } else if (sortOption === "highPrice") {
+            // 높은 가격순으로 정렬
+            return data.sort((a, b) => getPrice(b) - getPrice(a));
+        } else {
+            return data;
+        }
+    };
+
+    const filterData = (data, searchQuery) => {
+        if (!searchQuery.trim()) return []; // 검색어가 없으면 빈 배열 반환
+        return data.filter(item => {
+            // 식당 이름만 검색
+            const restaurantName = item?.props?.children?.[1]?.props?.children?.[1]?.props?.children;
+            // 검색어가 포함된 식당 이름이면 반환
+            return restaurantName && restaurantName.toLowerCase().includes(searchQuery.toLowerCase());
+        });
+    };
+
+
+
+
+
+
+    // 예시 데이터에서 가격을 가져오는 함수 (임시 함수)
+    const getPrice = (item) => {
+        // 여기에 가격을 가져오는 로직을 구현해야 합니다.
+        // 임시로 5000원으로 설정합니다.
+        return 5000;
+    };
+
     return (
         <div className={styles.restaurantListBody}>
             <div className={styles['restList-container']}>
@@ -125,8 +170,19 @@ const RestaurantList = () => {
                     <p>200 + options</p>
                     <h1>맛집 리스트</h1>
                     <div className={styles['restList-check']}>
+                        <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "latest" ? styles.active : ""}`} />
+                        <button className={sortOption === "latest" ? styles.active : ""} onClick={() => setSortOption("latest")}>최신순</button>
+                        <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
+                        <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                        <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
+                        <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
                     </div>
-                    {data}
+
+                    {data.length > 0 ? ( // 데이터가 있는 경우에만 표시
+                        data
+                    ) : (
+                        <p>검색어가 없습니다.</p> // 데이터가 없는 경우 메시지 표시
+                    )}
                 </div>
                 <div className={styles['restList-right-col']}>
                     <div className={styles['restList-sidebar']}>
@@ -168,6 +224,19 @@ const RestaurantList = () => {
                                     {rangeMaxValue.toLocaleString()}원
                                 </div>
                             </div>
+                        </div>
+                        <h3>식당명</h3>
+                        <div className={styles['restList-search']}>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                placeholder=""
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    filterData(data, e.target.value); // 검색어가 변경될 때마다 데이터를 필터링하여 바로 반영
+                                }}
+                            />
+
                         </div>
                         <h3>property type</h3>
                         <div className={styles['restList-filter']}>

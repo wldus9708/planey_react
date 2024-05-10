@@ -82,6 +82,11 @@
     color: #ff5361;
     font-size:18px;
 }
+.restList-check-icon{
+    color: #333;
+    font-size:18px;
+    margin:10px 1px;
+}
 .restList-house-price{
     text-align:right; 
 }
@@ -179,6 +184,38 @@ position: absolute;
     margin-right: 15px;
     cursor: pointer;
 }
+
+.restList-check {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.restList-check button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    color: #333;
+    cursor: pointer;
+}
+
+.restList-check button:focus {
+    outline: none;
+}
+
+.restList-check .active {
+    color: #ff5361;
+}
+
+.restList-check button.active .restList-check-icon {
+    color: #ff5361;
+}
+.restList-search input{
+    height: 40px;
+    margin-bottom: 15%;
+}
+
+
 
 @media only screen and (max-width:700px){
     .restList-list-container{
