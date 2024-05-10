@@ -5,7 +5,7 @@
     margin: 0;
     box-sizing: border-box;
 }
-.LodgingBody{
+.rentcargBody{
     font-family: 'Roboto', sans-serif;    
 }
 img{
@@ -24,7 +24,7 @@ img{
     max-width: 1400px;
     margin: 0 auto;
 }
-.lodgingDiv{
+.rentcargDiv{
     margin: 1rem 0;
     padding: 2rem 0;
     display: grid;
@@ -33,13 +33,13 @@ img{
     border-radius: 3px;
     column-gap: 10px;
 }
-.lodgingDivLeft{
+.rentcargDivLeft{
     padding: 20px;
 }
-.lodgingDivRight{
+.rentcargDivRight{
     padding: 20px;
 }
-.lodgingHeader {
+.rentcargHeader {
     display: inline-flex; /* 같은 줄에 배치 */
     align-items: center;  /* 수직 정렬 */
   }
@@ -50,7 +50,7 @@ img{
     margin-bottom: 20px; 
   }
 
- .lodgingRating {
+ .rentcargRating {
     margin-bottom: 23px;
 
  } 
@@ -85,32 +85,32 @@ img{
     width: 80px;
     cursor: pointer;
 }
-.lodgingDivRight span{
+.rentcargDivRight span{
     display: block;
 }
-.lodgingName{
+.rentcargName{
     font-size: 26px;
     margin-bottom: 22px;
     font-weight: 700;
     letter-spacing: 1px;
     opacity: 0.9;
 }
-.lodgingPrice{
+.rentcargPrice{
     font-weight: 700;
     font-size: 24px;
     opacity: 0.9;
     font-weight: 500;
 }
-.lodgingRating{
+.rentcargRating{
     display: flex;
     align-items: center;
     margin-top: 12px;
 }
-.lodgingAddress{
+.rentcargAddress{
     font-size: 11px;
 }
 
-.lodgingDescription {
+.rentcargDescription {
     font-weight: 18px;
     line-height: 1.6;
     font-weight: 300;
