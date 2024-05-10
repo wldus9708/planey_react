@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../style.css';
+import '../Package_Detail_Style.css';
 
 function Payment() {
     const [adultCount, setAdultCount] = useState(0);
