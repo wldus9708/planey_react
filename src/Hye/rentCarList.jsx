@@ -6,7 +6,5 @@ const rentCarList=()=>{
 const fixedMinPrice = 10000;
 const fixedMaxPrice = 1000000;
 const priceGap = 10000;
-const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
-const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
 };
 export default rentCarList;
