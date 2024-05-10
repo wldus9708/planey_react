@@ -9,8 +9,6 @@ const RestaurantList = () => {
     const priceGap = 1000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
-    const [rangeMinPercent, setRangeMinPercent] = useState(0);
-    const [rangeMaxPercent, setRangeMaxPercent] = useState(0);
     const [allChecked, setAllChecked] = useState(false); // 전체 체크 상태
     const [checkboxStates, setCheckboxStates] = useState({
         all: false, // 전체 체크박스 상태
@@ -23,39 +21,6 @@ const RestaurantList = () => {
         3: false,
         4: false
     });
-    const toggleAllCheckbox = () => {
-        const newState = !allChecked;
-        setAllChecked(newState);
-        const newCheckboxStates = { ...checkboxStates };
-        for (let key in newCheckboxStates) {
-            newCheckboxStates[key] = newState;
-        }
-        setCheckboxStates(newCheckboxStates);
-    };
-
-    const toggleCheckbox = (name) => {
-        const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
-        setCheckboxStates(newCheckboxStates);
-        const allChecked = Object.values(newCheckboxStates).every(value => value);
-        setAllChecked(allChecked);
-    };
-    const prcieRangeMinValueHandler = e => {
-        setRangeMinValue(parseInt(e.target.value));
-    };
-
-    const prcieRangeMaxValueHandler = e => {
-        setRangeMaxValue(parseInt(e.target.value));
-    };
-
-    const twoRangeHandler = () => {
-        if (rangeMaxValue - rangeMinValue < priceGap) {
-            setRangeMaxValue(rangeMinValue => rangeMinValue + priceGap);
-            setRangeMinValue(rangeMaxValue => rangeMaxValue - priceGap);
-        } else {
-            setRangeMinPercent(() => (rangeMinValue / fixedMaxPrice) * 100);
-            setRangeMaxPercent(() => 100 - (rangeMaxValue / fixedMaxPrice) * 100);
-        }
-    };
     const [page, setPage] = useState(1); // 현재 페이지
     const [data, setData] = useState([]); // 렌더링할 데이터
     const [sortOption, setSortOption] = useState(null); // 정렬 옵션
@@ -63,9 +28,7 @@ const RestaurantList = () => {
 
     useEffect(() => {
         setSortOption("latest");
-        // 스크롤 이벤트 핸들러 등록
         window.addEventListener('scroll', handleScroll);
-        // 컴포넌트 언마운트 시 스크롤 이벤트 핸들러 제거
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -73,30 +36,43 @@ const RestaurantList = () => {
 
     useEffect(() => {
         fetchData();
-    }, [page, sortOption, searchQuery]); // 정렬 옵션과 검색어에 의존
-    
+    }, [page, sortOption, searchQuery, rangeMinValue, rangeMaxValue, checkboxStates]); 
+
     const fetchData = () => {
         const newData = generateExampleData(page);
-        // 정렬 옵션에 따라 데이터 정렬
         const sortedData = sortData(newData, sortOption);
-        // 검색어에 따라 데이터 필터링
         const filteredData = filterData(sortedData, searchQuery);
-        setData(filteredData); // 필터링된 데이터로 업데이트
+        const priceFilteredData = filterByPrice(filteredData, rangeMinValue, rangeMaxValue); // 최소 금액과 최대 금액에 해당하는 데이터 필터링
+        setData(priceFilteredData);
+        // setData(prevData => [...prevData, ...filteredData]);
+        // 기존 데이터와 새로운 데이터를 합친 후 중복 제거
+        const uniqueData = removeDuplicates([...data, ...priceFilteredData]);
+        // 중복 제거된 데이터를 상태에 설정
+        setData(uniqueData);
+    };
+     // 중복된 데이터 제거 함수
+     const removeDuplicates = (array) => {
+        return array.filter((item, index) => array.findIndex(elem => elem.key === item.key) === index);
     };
     
+    
+    const filterByPrice = (data, minPrice, maxPrice) => {
+        return data.filter(item => {
+            const restaurantPrice = getPrice(item);
+            return restaurantPrice >= minPrice && restaurantPrice <= maxPrice;
+        });
+    };
 
     const handleScroll = () => {
-        // 스크롤이 페이지 아래 도달했을 때 새 데이터 불러오기
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
             setPage(prevPage => prevPage + 1);
         }
     };
 
-    // 예시 데이터
     const generateExampleData = (page) => {
         const newData = [];
-        const startIndex = (page - 1) * 10;
-        const endIndex = page * 10;
+        const startIndex = (page - 1) * 20;
+        const endIndex = page * 20;
         for (let i = startIndex; i < endIndex; i++) {
             newData.push(
                 <div key={i} className={styles['restList-house']}>
@@ -125,7 +101,6 @@ const RestaurantList = () => {
         return newData;
     };
 
-    // 데이터를 정렬하는 함수
     const sortData = (data, sortOption) => {
         if (sortOption === "latest") {
             // 최신순으로 정렬
@@ -151,15 +126,41 @@ const RestaurantList = () => {
         });
     };
 
+    const toggleAllCheckbox = () => {
+        const newState = !allChecked;
+        setAllChecked(newState);
+        const newCheckboxStates = { ...checkboxStates };
+        for (let key in newCheckboxStates) {
+            newCheckboxStates[key] = newState;
+        }
+        setCheckboxStates(newCheckboxStates);
+    };
 
+    const toggleCheckbox = (name) => {
+        const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
+        setCheckboxStates(newCheckboxStates);
+        const allChecked = Object.values(newCheckboxStates).every(value => value);
+        setAllChecked(allChecked);
+    };
 
+    const prcieRangeMinValueHandler = e => {
+        setRangeMinValue(parseInt(e.target.value));
+    };
 
+    const prcieRangeMaxValueHandler = e => {
+        setRangeMaxValue(parseInt(e.target.value));
+    };
 
+    const twoRangeHandler = () => {
+        if (rangeMaxValue - rangeMinValue < priceGap) {
+            setRangeMaxValue(rangeMinValue => rangeMinValue + priceGap);
+            setRangeMinValue(rangeMaxValue => rangeMaxValue - priceGap);
+        } else {
 
-    // 예시 데이터에서 가격을 가져오는 함수 (임시 함수)
+        }
+    };
+
     const getPrice = (item) => {
-        // 여기에 가격을 가져오는 로직을 구현해야 합니다.
-        // 임시로 5000원으로 설정합니다.
         return 5000;
     };
 
@@ -167,7 +168,7 @@ const RestaurantList = () => {
         <div className={styles.restaurantListBody}>
             <div className={styles['restList-container']}>
                 <div className={styles['restList-left-col']}>
-                    <p>200 + options</p>
+                    <p>{data.length} + options</p>
                     <h1>맛집 리스트</h1>
                     <div className={styles['restList-check']}>
                         <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "latest" ? styles.active : ""}`} />
@@ -189,6 +190,7 @@ const RestaurantList = () => {
                         <h2>select Filters</h2>
                         <div className={styles['restList-PriceSlide']} >
                             <div className={styles['restList-PriceSlideInner']} >
+                                {/* 가격 슬라이드 바 */}
                             </div>
                         </div>
                         <div className={styles['restList-PriceRangeWrap']} >
@@ -236,7 +238,6 @@ const RestaurantList = () => {
                                     filterData(data, e.target.value); // 검색어가 변경될 때마다 데이터를 필터링하여 바로 반영
                                 }}
                             />
-
                         </div>
                         <h3>property type</h3>
                         <div className={styles['restList-filter']}>
