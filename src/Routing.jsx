@@ -13,7 +13,7 @@ import FindPW02 from './YOUNG/findPW02';
 import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
-
+import RentcarDetail from "./Hye/rentcarDitail";
 
 
 function Routing() {
@@ -34,6 +34,7 @@ function Routing() {
                 <Route path="/GhTest" element={<GhTest />} />
                 <Route path="/PackageFoot" element={<PackageFoot />} />
                 <Route path="/PaymentTest" element={<PaymentTest />} />
+                <Route path="/rentcardetail" element={<RentcarDetail />} />
 
 
             </Routes>
