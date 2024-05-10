@@ -9,6 +9,8 @@ import { naverLoginUrl } from "../../SUNG/SocialNaver";
 import Agreement from "../../YOUNG/Agreement";
 import FindId from "../../YOUNG/findId"
 import { Button, Modal } from 'react-bootstrap';
+import GoogleLoginAPI from "./GoogleLoginAPI";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 const SignUpForm = () => {
 
@@ -196,7 +198,7 @@ const SignUpForm = () => {
 
     // 김윤영
     const [modalShow, setModalShow] = useState(false); // 모달 표시 여부
-   
+
     const handleModalAgree = () => {
         setModalShow(false); // 모달 닫기
     };
@@ -250,13 +252,30 @@ const SignUpForm = () => {
     const [showModal, setShowModal] = useState(false); // 모달 상태 관리
 
     const handleOpenModal = () => {
-      setShowModal(true); // 모달 열기
+        setShowModal(true); // 모달 열기
     };
-  
+
     const handleCloseModal = () => {
-      setShowModal(false); // 모달 닫기
+        setShowModal(false); // 모달 닫기
     };
-  
+
+    //                           구글 로그인 API                          //
+    //https://soda-dev.tistory.com/60
+    //https://velog.io/@gazero_/%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EC%97%86%EC%9D%B4-%EB%A6%AC%EC%95%A1%ED%8A%B8%EC%97%90%EC%84%9C-%EA%B5%AC%EA%B8%80-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
+    //https://velog.io/@runprogrmm/React-%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EA%B5%AC%EA%B8%80-%EB%84%A4%EC%9D%B4%EB%B2%84
+    const googleLoginAPI_url =
+        `https://accounts.google.com/o/oauth2/auth` +
+        `?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}` +
+        `&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}` +
+        `&access_type=offline` +
+        `&response_type=code` +
+        `&scope=email profile openid`;
+    const parsedHash = new URLSearchParams(window.location.search);
+    const code = parsedHash.get("code");
+    
+    // const { data } = await Api.post("oauth/google", { accessToken });
+
+
 
     return (
         <div className={styles.body}>
@@ -304,9 +323,9 @@ const SignUpForm = () => {
                             <div className={styles["remember-forgot"]}>
                                 {/* <Link to='/findID'  className={styles["remember-forgot-id"]}> */}
                                 <span
-                                  style={{ cursor: 'pointer' }}
-                                   variant="primary"
-                                   onClick={handleOpenModal}
+                                    style={{ cursor: 'pointer' }}
+                                    variant="primary"
+                                    onClick={handleOpenModal}
                                 >아이디 찾기&nbsp;|&nbsp;</span>
 
                                 <Modal
@@ -355,7 +374,7 @@ const SignUpForm = () => {
                             <Link to="/login/Socialkakao">
                                 <img className={styles.kakao} src='/images/btn_kakao.svg' alt="kakao" />
                             </Link>
-                            <Link to="/">
+                            <Link to={`${googleLoginAPI_url}`}>
                                 <img className={styles.google} src='/images/btn_google.svg' alt="google" />
                             </Link>
                         </div>

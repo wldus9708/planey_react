@@ -198,4 +198,5 @@
 
 .naver, .kakao, .google {
     width: 50px;
+    cursor: pointer;
 }
