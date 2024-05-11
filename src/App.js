@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Main from "./CKH/main";
 
 function App() {
   return (
     <>
-    로그인 성공
-    <br/>
-    <Link to='/login'>로그인</Link>
+    <Main/>
     
     </>
   );
