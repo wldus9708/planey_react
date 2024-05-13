@@ -17,66 +17,17 @@ import img6 from "../../Assets/pexels-meum-mare-204165854-17498733.jpg";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-//  이제 고차 배열 메소드를 사용하여 Map을 이용해
-//  모든 목적지를 표시할 것입니다. 이를 위해
-//   'Data'라는 배열에 모든 목적지를 나열해야 하며,
-//  나중에는 각 목적지를 인덱스 또는 ID로 호출할 것입니다.
-
-// const Data = [
-//   {
-//     id: 1,
-//     imgSrc: img2,
-//     destTitle: "촛불1978",
-//     location: "서울 중구 소파로 95 촛불 레스토랑",
-//     grade:
-//       "촛불1978은 46년의 역사를 가진 남산의 레스토랑으로" +
-//       "100만 쌍 이상이 프로포즈한 추억과 사랑의 공간입니다.",
-//   },
-//   {
-//     id: 2,
-//     imgSrc: img3,
-//     destTitle: "촛불1978",
-//     location: "서울 중구 소파로 95 촛불 레스토랑",
-//     grade:
-//       "촛불1978은 46년의 역사를 가진 남산의 레스토랑으로" +
-//       "100만 쌍 이상이 프로포즈한 추억과 사랑의 공간입니다.",
-//   },
-//   {
-//     id: 3,
-//     imgSrc: img4,
-//     destTitle: "촛불1978",
-//     location: "서울 중구 소파로 95 촛불 레스토랑",
-//     grade:
-//       "촛불1978은 46년의 역사를 가진 남산의 레스토랑으로" +
-//       "100만 쌍 이상이 프로포즈한 추억과 사랑의 공간입니다.",
-//   },
-//   {
-//     id: 4,
-//     imgSrc: img5,
-//     destTitle: "촛불1978",
-//     location: "서울 중구 소파로 95 촛불 레스토랑",
-//     grade:
-//       "촛불1978은 46년의 역사를 가진 남산의 레스토랑으로" +
-//       "100만 쌍 이상이 프로포즈한 추억과 사랑의 공간입니다.",
-//   },
-//   // {
-//   //   id: 5,
-//   //   imgSrc: img6,
-//   //   destTitle: "토론토",
-//   //   location: "캐나다",
-//   //   grade: "도시 문화",
-//   // },
-// ];
 
 const Popular = () => {
   // 상태(state) 정의
-  const [shops, setShops] = useState([]); // Shop 엔티티 정보를 저장할 변수
+  const [shops, setShops] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
   let count = 1;
 
   const handleArrowRightClick = () => {
     axios
-      .get("http://localhost:8888/shops/readEightShops")
+      .get("http://localhost:8988/PackageTour/readEightPackageTour")
       .then((response) => {
+        console.log("데이터 가져와짐.");
         const newShops = response.data.map((newShop) => ({
           id: newShop.id,
           imgSrc: newShop.shopImage01,
@@ -85,8 +36,10 @@ const Popular = () => {
           grade: newShop.shopCategory,
           comment: newShop.comment,
           facilities: newShop.facilities,
+          
         }));
         setShops(newShops); // 기존 shops 배열에 새 shops 추가
+        console.log("데이터 가져와짐.");
       })
       .catch((error) => {
         console.error(
@@ -100,7 +53,7 @@ const Popular = () => {
   useEffect(() => {
     // 데이터 가져오기
     axios
-      .get("http://localhost:8888/shops/readEightShops")
+      .get("http://localhost:8988/PackageTour/readEightPackageTour")
       .then((response) => {
         // Shop 엔티티 형식으로 변환
         const shopData = response.data.map((shop) => ({
