@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { naverLoginUrl } from "../../SUNG/SocialNaver";
-import Agreement from "../../YOUNG/Agreement";
-import FindId from "../../YOUNG/findId"
+import Agreement from "../../YOUNG/member/Agreement";
+import FindId from "../../YOUNG/member/findId"
 import { Button, Modal } from 'react-bootstrap';
 import GoogleLoginAPI from "./GoogleLoginAPI";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
