@@ -2,28 +2,28 @@ import React from "react";
 import "./main.css";
 import Navbar from "./Components/Navbar/Navbar";
 import Carousel from "./Components/Carousel/Carouselpage"
+import FlashDeals from "./Components/flashDeals/FlashDeals"
 import Footer from "./Components/Footer/Footer";
 import Popular from "./Components/Popular/Popular";
 import Offers from "./Components/Offers/Offers";
 import About from "./Components/About/About";
 import Blog from "./Components/Blog/Blog";
-import Tests from "./Components/Carousel/test";
-import Maps from "./Components/Map/Map";
+import Banner from "./Components/banner/About"
 
-const App = () => {
+
+
+const App = ({ productItems, addToCart}) => {
   return (
     <>
       <Navbar />  
       <Carousel/>
-      <Tests />
-      {/* <Maps/> */}
-      {/* <Cards /> */}
+      <Banner />
+      <FlashDeals productItems={productItems} addToCart={addToCart} />/
       <Popular />
       <Offers />
       <About />
       <Blog />
       <Footer />
-
     </>
   );
 };

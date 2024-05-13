@@ -53,34 +53,42 @@ const Navbar = () => {
         <div className={active}>
           <ul className="navLists flex">
             <li className="navItem">
-              <a href="#" className="navLink">
-                Home
+              <a href="/home" className="navLink">
+                홈
               </a>
             </li>
 
             <li className="navItem">
-              <a href="#" className="navLink">
-                Products
+              <a href="/pakage" className="navLink">
+                패키지
               </a>
             </li>
 
             <li className="navItem">
-              <a href="#" className="navLink">
-                Resources
+              <a href="/air" className="navLink">
+                항공
               </a>
             </li>
 
             <li className="navItem">
-              <a href="#" className="navLink">
-                Contacts
+              <a href="/hotel" className="navLink">
+                호텔
               </a>
             </li>
 
             <li className="navItem">
-              <a href="#" className="navLink">
-                Blog
+              <a href="/rent" className="navLink">
+                렌트카
               </a>
             </li>
+
+            <div className="headerBtns flex">
+              <button className="btn loginBtn">            
+                  <Link to="">
+                    <a>카트</a>
+                  </Link>  
+              </button>
+            </div>
 
             <div className="headerBtns flex">
               <button className="btn loginBtn">

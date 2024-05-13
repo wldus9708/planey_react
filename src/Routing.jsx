@@ -14,6 +14,7 @@ import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
 import RentcarDetail from "./Hye/rentcarDitail";
+import Cart from "./CKH/Components/Cart/Cart";
 
 
 function Routing() {
@@ -35,6 +36,7 @@ function Routing() {
                 <Route path="/PackageFoot" element={<PackageFoot />} />
                 <Route path="/PaymentTest" element={<PaymentTest />} />
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
+                <Route path="/Cart" element={<Cart />} />
 
 
             </Routes>
