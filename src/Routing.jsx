@@ -17,6 +17,7 @@ import RentcarDetail from "./Hye/rentcarDitail";
 import Cart from "./CKH/Components/Cart/Cart";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/test";
+import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
 
 
 function Routing() {
@@ -41,7 +42,7 @@ function Routing() {
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/searchField" element={<SearchField />} />
                 <Route path="/test" element={<Test/>} />
-
+                <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
 
             </Routes>
         </BrowserRouter>

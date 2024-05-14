@@ -9,8 +9,6 @@ import { naverLoginUrl } from "../../SUNG/SocialNaver";
 import Agreement from "../../YOUNG/member/Agreement";
 import FindId from "../../YOUNG/member/findId"
 import { Button, Modal } from 'react-bootstrap';
-import GoogleLoginAPI from "./GoogleLoginAPI";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 const SignUpForm = () => {
 
@@ -260,21 +258,15 @@ const SignUpForm = () => {
     };
 
     //                           구글 로그인 API                          //
-    //https://soda-dev.tistory.com/60
-    //https://velog.io/@gazero_/%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EC%97%86%EC%9D%B4-%EB%A6%AC%EC%95%A1%ED%8A%B8%EC%97%90%EC%84%9C-%EA%B5%AC%EA%B8%80-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
-    //https://velog.io/@runprogrmm/React-%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EA%B5%AC%EA%B8%80-%EB%84%A4%EC%9D%B4%EB%B2%84
+    const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+    const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const googleLoginAPI_url =
-        `https://accounts.google.com/o/oauth2/auth` +
-        `?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}` +
-        `&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}` +
-        `&access_type=offline` +
-        `&response_type=code` +
-        `&scope=email profile openid`;
-    const parsedHash = new URLSearchParams(window.location.search);
-    const code = parsedHash.get("code");
-    
-    // const { data } = await Api.post("oauth/google", { accessToken });
-
+        `https://accounts.google.com/o/oauth2/auth`
+        + `?client_id=${CLIENT_ID}`
+        + `&redirect_uri=http://localhost:3000`
+        // + `&access_type=offline`
+        + `&response_type=code`
+        + `&scope=email profile`;
 
 
     return (
