@@ -16,7 +16,7 @@ import PackageFoot from './GUN/components/PackageFoot';
 import RentcarDetail from "./Hye/rentcarDitail";
 import Cart from "./CKH/Components/Cart/Cart";
 import SearchField from "./YOUNG/searchField/Search_field";
-
+import Test from "./Hye/test";
 
 
 function Routing() {
@@ -40,7 +40,7 @@ function Routing() {
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/searchField" element={<SearchField />} />
-
+                <Route path="/test" element={<Test/>} />
 
 
             </Routes>

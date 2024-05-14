@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TestComponent = () => {
-    const [testData, setTestData] = useState([]);
+    const [testData, setTestData] = useState({}); // 객체 형식으로 변경
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,11 +20,13 @@ const TestComponent = () => {
 
     return (
         <div>
-            {testData.length > 0 ? (
+            {Object.keys(testData).length > 0 ? ( // 객체의 길이를 확인
                 <ul>
-                    {testData.map((item, index) => (
-                    <li key={index}>{item}</li>
-                ))}
+                    {Object.entries(testData).map(([key, value]) => ( // 객체를 배열로 변환하여 맵핑
+                        <li key={key}>
+                            {key}: {value}
+                        </li>
+                    ))}
                 </ul>
             ) : (
                 <p>No data available</p>
