@@ -2,19 +2,21 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App'
 import Login from './DEOK/Login_SingUp/Login_Signup';
 import KakaoLogin from './GUN/SocialKakao';
-import LodgingDetail from './YOUNG/LodgingDetail';
-import PreLodging from './YOUNG/preLodgingDetail';
+import LodgingDetail from './YOUNG/lodging/LodgingDetail';
+import PreLodging from './YOUNG/lodging/preLodgingDetail';
 import PlanMain from './YEON/planMain';
 import RestaurantDetail from './SUNG/Restaurant/RestaurantDetail';
 import RestaurantList from './SUNG/Restaurant/RestaurantList';
-import FindId from './YOUNG/findId';
-import FindPW01 from './YOUNG/findPW01';
-import FindPW02 from './YOUNG/findPW02';
+import FindId from './YOUNG/member/findId';
+import FindPW01 from './YOUNG/member/findPW01';
+import FindPW02 from './YOUNG/member/findPW02';
 import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
 import RentcarDetail from "./Hye/rentcarDitail";
 import Cart from "./CKH/Components/Cart/Cart";
+import SearchField from "./YOUNG/searchField/Search_field";
+
 
 
 function Routing() {
@@ -37,6 +39,8 @@ function Routing() {
                 <Route path="/PaymentTest" element={<PaymentTest />} />
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
                 <Route path="/Cart" element={<Cart />} />
+                <Route path="/searchField" element={<SearchField />} />
+
 
 
             </Routes>
