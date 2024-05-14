@@ -10,7 +10,8 @@
   --inputColor: hsl(330, 12%, 97%);
 }
 
-.home .secContainer .homeCard {
+.home .secContainer .homecard{
+ 
   align-items: center;
   width: 70%;
   border-radius: 1rem;
@@ -21,32 +22,43 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 반응형 그리드 레이아웃 */
   gap: 1rem; /* 그리드 아이템 간격 */
   margin-top: 10%;
- 
- 
-}
-
-
-.calendar {
-  color: var(--textColor);
-  font-size: 18px;
-  border-radius: 5px;
-  background-color: rgba(193, 192, 192, 0.266);
-  border: none;
-  padding: 0.9rem;
   
+ 
+ 
 }
 
 
-.home input {
-  font-size: 20px;
+.regionPicker input {
+  font-size: 15px;
   color: var(--textColor); /* 텍스트 색상 설정 */
-  border-radius: 5px;
+  border-radius: 3rem;
+  width: 490px;
+  margin: 20px 0 20px 30px;
   padding: 0.8rem;
-  background-color: rgba(193, 192, 192, 0.266);
   border: none;
+  background-color: #fdba3f50;
+  text-decoration-thickness: 0.1em; /* 밑줄의 두께 조절 */
+  text-underline-offset: 0.2em; /* 밑줄과 텍스트 사이의 간격 조절 */
   
- 
 
+}
+
+
+
+
+.home input:focus {
+  outline: none; /* 클릭되었을 때 외곽선 제거 */
+  border: none; /* 클릭되었을 때 경계선 제거 */
+}
+
+.searchList li{
+  padding: 8px 12px; /* 목록 항목의 내부 여백 설정 */
+  cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+  width: 400px;
+}
+.searchList li:hover {
+  background-color: #f0f0f056; /* 마우스를 올렸을 때 배경색 변경 */
+  width: 400px;
 }
 
 
@@ -65,22 +77,72 @@
   }
 }
 
-/* .option button{
-  width: 2rem;
-  height: 2rem;
-
+.calendarPicker {
+  color: var(--textColor);
+  font-size: 18px;
+  border-radius: 5px;
+  background-color: none;
+  border: none;
+  padding: 0.9rem;
+  
 }
 
-.option span{
-  font-size: 1rem;
 
+.calendarPicker .calendarOpen{ 
+  
+  background-color: none;
+  border: none;
+ 
+  
 }
 
-.customPopover {
-  padding-right: 7rem;
-  padding-left: 2rem;
 
-} */
+.calendarPicker input{
+  background: none;
+  border: none;
+  margin-bottom: 10px;
+  
+}
+
+.calendarPicker span{
+  margin-bottom: 10px;
+  
+}
+
+.calendarPicker button{
+  background: none;
+  border: none;
+  margin: 5px;
+  font-weight: bold;
+  padding: 0.5rem;
+  
+}
+
+.calendarPicker button:focus{
+  background-color: #f39b3c;
+  cursor: pointer;
+  padding: 0.5rem;
+  
+}
+.calendarPicker button:hover{
+  background-color: #fcc78f83;
+  cursor: pointer;
+  padding: 0.5rem;
+  
+}
+
+.checkBtn {
+  background-color: #ebc194;
+  border: none;
+  
+}
+
+
+
+
+
+
+
 
 
 
