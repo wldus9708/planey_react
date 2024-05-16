@@ -41,7 +41,7 @@
 }
 .about .secContainer .videoCard {
   margin-top: 2rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.73), rgba(0, 0, 0, 0.609)), url(../../images/Jeju01.png);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.73), rgba(0, 0, 0, 0.609)), url(../../../BBS/image/이탈리아04.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

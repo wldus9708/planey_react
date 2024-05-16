@@ -7,7 +7,7 @@ import img02 from "../../Assets/Dining02/비비킹02.jpg";
 import img03 from "../../Assets/Dining02/사철국화02.jpg";
 
 // import 비디오 =>>>>>>>>>>>>>>>>>>>>>>>>>>>
-import video from "../../Assets/여행영상.mp4";
+// import video from "../../Assets/여행영상.mp4";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -77,7 +77,7 @@ const About = () => {
             </div>
 
             <div data-aos="zoom-in" className="cardVideo">
-              <video src={video} autoPlay loop muted typeof="video/mp4"></video>
+              {/* <video src={video} autoPlay loop muted typeof="video/mp4"></video> */}
             </div>
           </div>
         </div>
