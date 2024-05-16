@@ -1,19 +1,20 @@
 import React, { useState, useRef } from "react";
-import { Tabs, Tab } from 'react-bootstrap'; // React Bootstrap의 탭 컴포넌트 사용
+import { Tabs, Tab, Alert  } from 'react-bootstrap'; // React Bootstrap의 탭 컴포넌트 사용
 import styles from "./Search_field.module.css";
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-calendar/dist/Calendar.css';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 import ko from 'date-fns/locale/ko'; // 'ko'를 가져옴
 
 
-function SearchField() {
 
+function SearchField() {
+   const today = new Date();
    const [date, setDate] = useState([
       {
-         startDate: new Date(),
-         endDate: new Date(),
+         startDate: today,
+         endDate: today,
          key: 'selection'
       }
    ]);
@@ -32,6 +33,22 @@ function SearchField() {
       setOpenDate(false);
       console.log("Selected date range:", date);
    };
+
+    // 경고 메시지 상태 추가
+    const [showAlert, setShowAlert] = useState(false);
+
+    const handleDateChange = (item) => {
+      if (isBefore(item.selection.startDate, today)) { // 현재 날짜보다 이전인 경우
+         setShowAlert(true); // 경고 표시
+         return;
+      } else {
+         setShowAlert(false); // 경고 숨기기
+      }
+      setDate([item.selection]);
+   };
+    
+ 
+    const handleAlertClose = () => setShowAlert(false); // 경고 닫기
 
 
 
@@ -71,15 +88,15 @@ function SearchField() {
 
    const increment = () => {
       if (count < 20) {
-        setCount(count + 1);
+         setCount(count + 1);
       }
-    };
-  
-    const decrement = () => {
+   };
+
+   const decrement = () => {
       if (count > 1) {
-        setCount(count - 1);
+         setCount(count - 1);
       }
-    };
+   };
 
 
 
@@ -139,13 +156,15 @@ function SearchField() {
                      </span>
 
                      {openDate && <DateRange
-
+                        
                         editableDateInputs={false}
-                        onChange={(item) => setDate([item.selection])}
+                        onChange={handleDateChange} // 변경된 핸들러로 교체
                         moveRangeOnFirstSelection={false}
                         ranges={date}
                         className={`${styles.date} date-range-wrapper`} // 클래스 추가
                         locale={ko}
+                        
+                       
                      />}
                      {openDate && (
                         <div>
@@ -154,40 +173,45 @@ function SearchField() {
                               onClick={handleConfirm}>확인</button>
                         </div>
                      )}
-
-
-
+                     {/* 경고 표시 */}
+                     <Alert 
+                     show={showAlert} 
+                     variant="danger" 
+                     onClose={handleAlertClose} 
+                     dismissible
+                     className={styles.showAlert}>
+                       당일 및 이전 날짜는 선택할 수 없습니다.
+                     </Alert>
                   </div>
                </Tab>
-               <Tab 
-              
-               eventKey="count" title="인원 선택">
+               <Tab
+
+                  eventKey="count" title="인원 선택">
                   <div
-                   className={styles.countTab}>
-                  <label>소아 적용기준은 숙소 별로 상이할 수 있습니다. </label>
-                  <br />
-                  <label>성인 최대 20명 까지 가능합니다. </label>
+                  >
+                     <label
+                        className={styles.countTab}>소아 적용기준은 숙소 별로 상이할 수 있습니다. </label>
+                     <br />
+                     <label
+                        className={styles.countTab}>성인 최대 20명 까지 가능합니다. </label>
 
-                  <div>
-                     <button 
-                     onClick={decrement}
-                     className={styles.tabBtn}
-                     >-</button>
-                     &nbsp;&nbsp;&nbsp;&nbsp;
-                     <span className={styles.tabSpan}>성인</span>
-                     <input
-                      type="text" 
-                      value={count} 
-                      readOnly
-                      className={styles.tabInput}/>
-                     <button
-                      onClick={increment}
-                      className={styles.tabBtn}
-                      >+</button>
-                  </div>
+                     <div>
+                        <button
+                           onClick={decrement}
+                           className={styles.tabBtn}
+                        >-</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span className={styles.tabSpan}>성인</span>
+                        <span
+                           className={styles.tabSpan}>{count}</span>
+                        <button
+                           onClick={increment}
+                           className={styles.tabBtn}
+                        >+</button>
+                     </div>
                   </div>
                </Tab>
-      
+
             </Tabs>
          </div>
 
