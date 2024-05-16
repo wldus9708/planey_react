@@ -52,7 +52,7 @@ function Payment() {
 
     return (
         <div className={`${styles.box3} ${styles.box}`}> 
-            <h3>인원선택</h3>
+            <h3>인원선택</h3><br />
             <div className='countButton'>
                 <p className="leftAlign">성인</p>
                 <span>원</span>

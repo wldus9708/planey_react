@@ -429,3 +429,11 @@
             "description";
     }
 }
+
+.bookMarkButton:hover,
+.likeButton:hover {
+    color: orange;
+    background-color: white;
+    border: 1.5px solid orange;
+    transition: color 0.3s ease, background-color 0.3s ease; /* 서서히 변화하도록 트랜지션 설정 */
+}
