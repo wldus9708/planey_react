@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import styles from '../../YOUNG/LodgingDetail.module.css';
+import styles from './PackageMain.module.css';
 import axios from "axios";
-import Payment from './payment';
 
 const PackageMain = () => {
     // 이미지 목록을 위한 상태 추가
@@ -94,7 +93,6 @@ const PackageMain = () => {
                     </div>
                 </div>
             </div>
-            <Payment></Payment>
         </div>
 
 

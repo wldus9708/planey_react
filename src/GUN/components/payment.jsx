@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../Package_Detail_Style.css';
+import styles from './PackageFoot.module.css'; // PackageFoot 모듈의 스타일 가져오기
 
 function Payment() {
     const [adultCount, setAdultCount] = useState(0);
@@ -50,7 +51,7 @@ function Payment() {
     };
 
     return (
-        <div className='box3'>
+        <div className={`${styles.box3} ${styles.box}`}> 
             <h3>인원선택</h3>
             <div className='countButton'>
                 <p className="leftAlign">성인</p>

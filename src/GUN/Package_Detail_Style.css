@@ -74,7 +74,6 @@
     border-radius: 10px;
     box-shadow: 5px 5px 10px 1px rgb(0, 0, 0, 12%);
     padding: 45px;
-    margin: auto;
     width: 305px;
 }
 
@@ -329,7 +328,7 @@
     width: 80px;
     height: 30px;
     color: white;
-    background-color: var(--secondary-color);
+    background-color: orange;
     display: inline-block;
     padding: 10px 15px;
     text-decoration: none;
@@ -342,7 +341,7 @@
 .likeButton {
     width: 80px;
     height: 30px;
-    background-color: var(--secondary-color);
+    background-color: orange;
     display: inline-flex;
     align-items: center;
     justify-content: center;

@@ -13,11 +13,13 @@ import FindPW02 from './YOUNG/member/findPW02';
 import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
+import PagckageDetail from  "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import Cart from "./CKH/Components/Cart/Cart";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/test";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
+
 
 
 function Routing() {
@@ -43,6 +45,7 @@ function Routing() {
                 <Route path="/searchField" element={<SearchField />} />
                 <Route path="/test" element={<Test/>} />
                 <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
+                <Route path="/packageDetail" element={<PagckageDetail />} />
 
             </Routes>
         </BrowserRouter>
