@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import axios from 'axios';
-
+import './TestComponent.scss'; // 스타일링 파일
+import img1 from './component/바다01.jpg'
 const TestComponent = () => {
-    const [testData, setTestData] = useState({}); // 객체 형식으로 변경
+    const [dataset, setDataSet] = useState(null);
+    const [randomAd, setRandomAd] = useState(null); // 랜덤으로 선택된 광고를 저장할 상태
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8988/admin/adv');
+                const response = await axios.get('http://localhost:8988/admin/advertises/all');
                 console.log(response.data); // 성공 시 응답 데이터 출력
-                setTestData(response.data); // response.data로 설정
+                setDataSet(response.data); // 응답 데이터만 저장
+                const activeAds = response.data.filter(ad => ad.statusDate === 'ACTIVE'); // 'ACTIVE' 상태 필터링
+
+                if (activeAds.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * activeAds.length);
+                    setRandomAd(activeAds[randomIndex]); // 랜덤으로 하나 선택
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setDataSet({ error: 'Error fetching data' }); // 오류 메시지를 저장
             }
         };
 
@@ -20,16 +29,22 @@ const TestComponent = () => {
 
     return (
         <div>
-            {Object.keys(testData).length > 0 ? ( // 객체의 길이를 확인
-                <ul>
-                    {Object.entries(testData).map(([key, value]) => ( // 객체를 배열로 변환하여 맵핑
-                        <li key={key}>
-                            {key}: {value}
-                        </li>
-                    ))}
-                </ul>
+            {randomAd ? (
+                <div className="advertisement-item">
+                    <div className="advertisement-image">
+                <img src={require(`./component/${randomAd.image}`)} alt={randomAd.title} />
+                </div>
+                <div className="advertisement-content">
+                    <p>{randomAd.title}</p>
+                    <p>{randomAd.content}</p>
+                    <p>{randomAd.image}</p>
+                </div>
+                
+            </div>
+            ) : dataset ? (
+                <p>No ACTIVE advertisements found</p>
             ) : (
-                <p>No data available</p>
+                <p>Loading...</p>
             )}
         </div>
     );
