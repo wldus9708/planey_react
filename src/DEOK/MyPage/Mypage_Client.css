@@ -168,6 +168,7 @@
     position: relative;
     margin-left: 2rem;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .DEOK_MP_CL_sidebar p span{

@@ -41,9 +41,9 @@ const MpClient = () => {
                             <h3>회원 정보 수정</h3>
                         </p>
                         <p className={viewWhat === 'insertShop' ? 'active' : ''} onClick={() => clickMenu("insertShop")}>
-                            <h3>업체 등록</h3>
+                            <h3>예약 내역</h3>
                         </p>
-                        <p className='' onClick={showUlBox} style={{ cursor: 'pointer' }}>
+                        <p className='' onClick={showUlBox}>
                             <h3>나의 업체 관리</h3>
                         </p>
                         <ul style={{ display: isUlHidden ? 'none' : 'block' }}>
@@ -62,7 +62,7 @@ const MpClient = () => {
                             style={{
                                 position: 'absolute',
                                 bottom: '50px',
-                                color: 'var(--color-danger)'
+                                color: 'var(--color-danger)',
                             }}>
                             <h3>회원 탈퇴</h3>
                         </p>
