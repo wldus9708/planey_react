@@ -2,13 +2,12 @@ import React from 'react';
 import { useState } from "react";
 import './Mypage_Client.css';
 import 'material-icons';
-import Analytics from './MainComponents/Analytics'
 import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
 import InsertShop from './MainComponents/InsertShop'
 
 const MpClient = () => {
-    const [viewWhat, setViewWhat] = useState('analytics');
+    const [viewWhat, setViewWhat] = useState('updateInfo');
     const [isUlHidden, setIsUlHidden] = useState(false);
 
     const toggleDarkMode = () => {
@@ -38,18 +37,13 @@ const MpClient = () => {
                         <p className='DEOK_MP_CL_Nickname'>
                             Nickname
                         </p>
-                        <p className={viewWhat === 'analytics' ? 'active' : ''} onClick={() => clickMenu("analytics")}>
-                            <h3>매장 분석</h3>
-                        </p>
                         <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
                             <h3>회원 정보 수정</h3>
                         </p>
                         <p className={viewWhat === 'insertShop' ? 'active' : ''} onClick={() => clickMenu("insertShop")}>
                             <h3>업체 등록</h3>
                         </p>
-                        <p className='
-                        
-                        ' onClick={showUlBox} style={{cursor: 'pointer'}}>
+                        <p className='' onClick={showUlBox} style={{ cursor: 'pointer' }}>
                             <h3>나의 업체 관리</h3>
                         </p>
                         <ul style={{ display: isUlHidden ? 'none' : 'block' }}>
@@ -79,7 +73,6 @@ const MpClient = () => {
                 {/* <!-- Main Content --> */}
                 <main>
                     <div className='DEOK_MP_CL_main'>
-                        {viewWhat === "analytics" && <Analytics />}
                         {viewWhat === "updateInfo" && <UpdateInfo />}
                         {viewWhat === "insertShop" && <InsertShop />}
                         {viewWhat === "updateShop" && null}
