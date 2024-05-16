@@ -64,6 +64,22 @@ function SearchField() {
       setInput(suggestion);
       setMatchingSuggestions([]);
    };
+   //  ===========================================
+   // 인원수 조절 버튼 
+
+   const [count, setCount] = useState(1);
+
+   const increment = () => {
+      if (count < 20) {
+        setCount(count + 1);
+      }
+    };
+  
+    const decrement = () => {
+      if (count > 1) {
+        setCount(count - 1);
+      }
+    };
 
 
 
@@ -123,11 +139,12 @@ function SearchField() {
                      </span>
 
                      {openDate && <DateRange
+
                         editableDateInputs={false}
                         onChange={(item) => setDate([item.selection])}
                         moveRangeOnFirstSelection={false}
                         ranges={date}
-                        className={styles.date}
+                        className={`${styles.date} date-range-wrapper`} // 클래스 추가
                         locale={ko}
                      />}
                      {openDate && (
@@ -141,29 +158,36 @@ function SearchField() {
 
 
                   </div>
+               </Tab>
+               <Tab 
+              
+               eventKey="count" title="인원 선택">
+                  <div
+                   className={styles.countTab}>
+                  <label>소아 적용기준은 숙소 별로 상이할 수 있습니다. </label>
+                  <br />
+                  <label>성인 최대 20명 까지 가능합니다. </label>
 
-                  {/* <div
-                     className={styles.CalendarContainer}>
+                  <div>
+                     <button 
+                     onClick={decrement}
+                     className={styles.tabBtn}
+                     >-</button>
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                     <span className={styles.tabSpan}>성인</span>
+                     <input
+                      type="text" 
+                      value={count} 
+                      readOnly
+                      className={styles.tabInput}/>
                      <button
-                        onClick={handleToggleCalendar}
-                        className={styles.DropdownButton}
-                     >{nowDate}</button>
-                     <div
-                        className= {styles.CalendarWrapper}
-                        style={{ display: isOpen ? 'block' : 'none' }}>
-                        <Calendar onChange={handleDateChange}
-                           value={value}
-                           formatDay={(locale, date) => moment(date).format("DD")}></Calendar>
-                     </div>
-                  </div> */}
+                      onClick={increment}
+                      className={styles.tabBtn}
+                      >+</button>
+                  </div>
+                  </div>
                </Tab>
-               <Tab
-                  eventKey="count"
-                  title="인원 선택">
-               </Tab>
-               <button data-aos="zoom-in-up" className={styles.btn}>
-                  Search
-               </button>
+      
             </Tabs>
          </div>
 
