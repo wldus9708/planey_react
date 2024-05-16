@@ -175,6 +175,7 @@ const RestaurantList = () => {
                                 <div className={styles['restList-house-info']}>
                                     <p>{item.restCategory}</p>
                                     <h3>{item.restName}</h3>
+                                    <p>{item.restAddress}</p>
                                     <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
                                     {item.restGrade}
 
