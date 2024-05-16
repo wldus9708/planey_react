@@ -22,7 +22,7 @@
     margin: 30px 0;
 }
 
-.DEOK_MP_CL_updateInfo_input-box span{
+.DEOK_MP_CL_updateInfo_input-box span {
     font-weight: bolder;
 }
 
@@ -37,7 +37,7 @@
     text-decoration: none;
 }
 
-.DEOK_MP_CL_updateInfo_input-box .diabledEmail {
+.DEOK_MP_CL_updateInfo_input-box .disabled {
     color: darkgray;
 }
 

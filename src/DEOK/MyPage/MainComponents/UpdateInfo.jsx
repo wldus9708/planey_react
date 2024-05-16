@@ -8,9 +8,9 @@ const UpdateInfo = () => {
     const [Image, setImage] = useState("/images/프사 예시.png")
     const fileInput = useRef(null)
     const [value, setValue] = useState({
-            nickName: 'nickname',
-            password: ''
-        });
+        nickName: 'nickname',
+        password: ''
+    });
 
     const onChange = (e) => {
         if (e.target.files[0]) {
@@ -35,6 +35,7 @@ const UpdateInfo = () => {
         axios.post('http://localhost:8888/member/...')
         //          스프링 먼저 뚫어놔야함           //
     }
+
     return (
         <>
             <h1>회원 정보 수정</h1>
@@ -60,17 +61,20 @@ const UpdateInfo = () => {
                         <div>
                             <span>이메일</span>
                             <input
-                                className="diabledEmail"
+                                className="disabled"
                                 type='text'
                                 value='asdf@asdf.com'
                                 disabled
                             />
+                        </div>
+                        <div>
+                            <span>이름</span>
                             <input
+                                className="disabled"
                                 type='text'
-                                value='asdf@asdf.com'
-                                hidden
+                                value="홍길동"
+                                disabled
                             />
-
                         </div>
                         <div>
                             <span>닉네임</span>
@@ -88,9 +92,22 @@ const UpdateInfo = () => {
                             <input
                                 type='password'
                                 value={value.password}
+                                name="password"
                                 onChange={(event) => setValue(prevState => ({
                                     ...prevState,
-                                    password: event.target.password
+                                    password: event.target.value
+                                }))}
+                            />
+                        </div>
+                        <div>
+                            <span>전화번호</span>
+                            <input
+                                type='text'
+                                value=""
+                                name="phone"
+                                onChange={(event) => setValue(prevState => ({
+                                    ...prevState,
+                                    phone: event.target.value
                                 }))}
                             />
                         </div>
