@@ -17,7 +17,6 @@ import img4 from "../../Assets/Dining/pexels-chanwalrus-941861.jpg";
 import img5 from "../../Assets/Dining/pexels-cottonbro-3171201.jpg";
 import img6 from "../../Assets/Dining/pexels-igor-starkov-233202-1055054.jpg";
 import img7 from "../../Assets/Dining/pexels-lina-1813504.jpg";
-
 // import images ==========================>
 
 import Aos from "aos";
@@ -68,30 +67,40 @@ const Offers = [
     price: "512,000",
   },
 ];
+
+
+
 let price = 300000;
+
 const Offer = () => {
-  const [shops, setShops] = useState([]);
+  const [tour, setTour] = useState([]);
 
   useEffect(() => {
+    const pic = "../../../BBS/image/";
     axios
-      .get("http://localhost:8888/shops/readSixShops")
+      .get("http://localhost:8988/PackageTour/readSixPackageTour")
       .then((response) => {
-        // Shop 엔티티 형식으로 변환
-        const shopData = response.data.map((shop) => ({
-          id: shop.id,
-          category: shop.shopCategory,
-          shopName: shop.shopName,
-          location: shop.address + " " + shop.addressDetail,
-          // offer: parseFloat(shop.offer) / 100,
-          offerInfo: shop.offer.replace("-", ""),
-          offer: (price * parseFloat(shop.offer.replace("-", ""))) / 100,
-          parking: shop.parking,
-          facilities: shop.facilities,
-          imgSrc: shop.shopImage01,
+        // tour 엔티티 형식으로 변환
+        const tourData = response.data.map((tour) => ({
+          id: tour.id,
+          imgSrc: require("../../../BBS/image/"+tour.image01+".jpg"), // 대표이미지 
+          destTitle: tour.tour_pack_name, // 투어 이름
+          location: tour.tourPackCity, // 투어 지역
+          category: tour.category.split("_")[0], // 상품 종류
+          comment: tour.tour_pack_description, // 상품 설명
+          tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
+          hotel: tour.tourPackLodging, // 상품 호텔
+          tourPackLandmark:tour.tourPackLandmark, // 상품 랜드마크
+          price: tour.price, // 패키지 가격
+          discountPrice : tour.price * (tour.discount / 100), // 패키지 세일 정보
+          discount: tour.discount,
         }));
         console.log("가져와짐.");
 
-        setShops(shopData); // Shop 엔티티 정보 저장
+
+
+
+        setTour(tourData); // tour 엔티티 정보 저장
       })
       .catch((error) => {
         console.error("Offers 컴포넌트 Error fetching data:", error);
@@ -107,7 +116,7 @@ const Offer = () => {
         {/* secIntro는 App.css 에서 스타일링 함... */}
         <div className="secIntro">
           <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
-            현재 세일중인 Planets
+            할인중인 Tour!
           </h2>
           <p data-aos="fade-up" data-aos-duration="2000">
             세일 정보를 확인해보세요!
@@ -115,7 +124,7 @@ const Offer = () => {
         </div>
 
         <div className="mainContent grid">
-          {shops.map((shop) => {
+          {tour.map((tour) => {
             return (
               <div
                 data-aos="fade-up"
@@ -123,15 +132,15 @@ const Offer = () => {
                 className="singleOffer"
               >
                 <div className="destImage">
-                  <img src={img2} alt="Image Name" />
+                  <img src={tour.imgSrc} alt="Image Name" />
 
-                  <span className="discount">{shop.offerInfo}% off</span>
+                  <span className="discount">{tour.discount}% off</span>
                 </div>
 
                 <div className="offerBody">
                   <div className="price flex">
-                    <h4>{shop.offer} ￦</h4>
-                    <span className="status">{shop.category}</span>
+                    <h4>{tour.discountPrice} ￦</h4>
+                    <span className="status">{tour.category}</span>
                   </div>
                   <div className="amenities flex">
                     <div className="singleAmenity flex">
@@ -157,10 +166,10 @@ const Offer = () => {
 
                   <div className="location flex">
                     <MdLocationOn className="icon" />
-                    <small>{shop.location}.</small>
+                    <small>{tour.location}.</small>
                   </div>
 
-                  <Link to="shopDetail">
+                  <Link to="tourDetail">
                     <button className="btn flex">
                       View Details
                       <BsArrowRightShort className="icon" />
