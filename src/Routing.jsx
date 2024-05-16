@@ -16,7 +16,7 @@ import PackageFoot from './GUN/components/PackageFoot';
 import PagckageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
-import Test from "./Hye/test";
+import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
 import MyPage from "./DEOK/MyPage/Mypage_Client"
 
