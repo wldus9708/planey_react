@@ -76,6 +76,10 @@
    
   }
 }
+.dateCheck {
+  
+  font-size: 1.5rem;
+}
 
 .calendarPicker {
   color: var(--textColor);
@@ -122,13 +126,13 @@
   background-color: #f39b3c;
   cursor: pointer;
   padding: 0.5rem;
-  
+
 }
 .calendarPicker button:hover{
   background-color: #fcc78f83;
   cursor: pointer;
   padding: 0.5rem;
-  
+
 }
 
 .checkBtn {
@@ -145,32 +149,40 @@
 
 
 .tabBtn {
-  background-color: #fdb46793;
+  background-color: #fa7f2c93;
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 3rem;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
+  margin-left: 20px;
   
   
 }
-.tabInput {
+.tabSpan {
   /* font-weight: bold; */
   font-size: 1rem;
-  margin-right: -160px;
-}
-
-.label {
-  display: inline-block;
-  margin-top: 16px;
-  font-weight: bold;
-  font-size: 24px;
+ 
 }
 
 .countTab {
+  display: inline-block;
+  margin: 16px 0 16px 20px;
+  font-weight: bold;
+}
+
+.regionPicker .countTab {
   margin-left: 98px;
 }
+
+.showAlert {
+  width: 25rem ;
+}
+
+
+
+
 
 
 
