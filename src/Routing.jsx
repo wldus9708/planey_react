@@ -35,7 +35,7 @@ function Routing() {
                 <Route path="/findID" element={<FindId />} />
                 <Route path="/findPW01" element={<FindPW01 />} />
                 <Route path="/findPW02" element={<FindPW02 />} />
-                <Route path="/restaurantList" element={<RestaurantList />} />
+                <Route path="/restaurant/list" element={<RestaurantList />} />
                 <Route path="/GhTest" element={<GhTest />} />
                 <Route path="/PackageFoot" element={<PackageFoot />} />
                 <Route path="/PaymentTest" element={<PaymentTest />} />
