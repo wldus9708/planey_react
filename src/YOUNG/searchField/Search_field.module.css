@@ -32,9 +32,9 @@
   font-size: 15px;
   color: var(--textColor); /* 텍스트 색상 설정 */
   border-radius: 3rem;
-  width: 490px;
-  margin: 20px 0 20px 30px;
-  padding: 0.8rem;
+  width: 64%;
+  margin:  20px 54px; 
+  padding: 1.0rem;
   border: none;
   background-color: #fdba3f50;
   text-decoration-thickness: 0.1em; /* 밑줄의 두께 조절 */
@@ -132,9 +132,44 @@
 }
 
 .checkBtn {
-  background-color: #ebc194;
+  background-color: #fdb467;
   border: none;
   
+}
+
+.calendarPicker .date-range {
+  background-color: #ff84002a; /* 선택된 날짜 범위의 배경색을 변경하세요 */
+  border: none; /* 선택된 날짜 범위의 테두리를 변경하세요 */
+  color: black; /* 선택된 날짜 범위의 텍스트 색상을 변경하세요 */
+}
+
+
+.tabBtn {
+  background-color: #fdb46793;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 3rem;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  
+  
+}
+.tabInput {
+  /* font-weight: bold; */
+  font-size: 1rem;
+  margin-right: -160px;
+}
+
+.label {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.countTab {
+  margin-left: 98px;
 }
 
 
