@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./popular.css";
-// import { BsArrowLeftShort } from "react-icons/bs";
+import { BsArrowRightShort } from "react-icons/bs";
 import { IoReloadSharp } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
 import Aos from "aos";
@@ -107,7 +107,7 @@ const Popular = () => {
                 <div className="overlayInfo">
                   <h3>{tour.destTitle}</h3>
                   <p>{tour.comment}</p>
-                  <IoReloadSharp className="icon" />
+                  <BsArrowRightShort className="icon" />
                 </div>
               </div>
 

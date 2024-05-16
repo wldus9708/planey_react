@@ -1,71 +1,78 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./about.css";
+import axios from "axios";
+import { BsArrowRightShort } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-// Images ============>
-import img01 from "../../Assets/Dining02/그믐족발01.jpg";
-import img02 from "../../Assets/Dining02/비비킹02.jpg";
-import img03 from "../../Assets/Dining02/사철국화02.jpg";
-
-// import 비디오 =>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // import video from "../../Assets/여행영상.mp4";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
 
 const About = () => {
+
+  const pic = "../../../BBS/image/";
+  // 상태(state) 정의
+  const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
+  let count = 1;
+
   useEffect(() => {
+    const pic = "../../../BBS/image/";
+    // 데이터 가져오기
+    axios
+      .get("http://localhost:8988/PackageTour/readThreePackageTourFalse")
+      .then((response) => {
+        // PackageTour 엔티티 형식으로 변환
+        const packageTour = response.data.map((tour) => ({
+          id: tour.id,
+          imgSrc: require("../../../BBS/image/" + tour.image01 + ".jpg"), // 대표이미지 
+          destTitle: tour.tour_pack_name, // 투어 이름
+          location: tour.tourPackCity, // 투어 지역
+          category: tour.category.split("_")[0], // 상품 종류
+          comment: tour.tour_pack_description, // 상품 설명
+          tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
+          hotel: tour.tourPackLodging, // 상품 호텔
+          tourPackLandmark: tour.tourPackLandmark, // 상품 랜드마크
+          nation:tour.nation,
+
+        }));
+        console.log("가져와짐.");
+        setTours(packageTour); // packgeTour 엔티티 정보 저장
+      })
+      .catch((error) => {
+        console.error("Popular 컴포넌트 Error fetching data:", error);
+      });
+
+    // Aos 초기화
     Aos.init({ duration: 2000 });
-  }, []);
+  }, []); // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
+
   return (
     <section className="about section">
       <div className="secContainer">
-        <h2 className="title">내일 바로 예약 가능한 레스토랑</h2>
+        <h2 className="title">🧡PRANEY🧡 해외🌎  패키지❗❗</h2>
 
         <div className="mainContent container grid">
-          <div
-            data-aos="fade-up"
-            data-aos-duration="2100"
-            className="singleItem"
-          >
-            <img src={img01} alt="Image Name" />
-
-            <h3>동적으로 식당 이름01</h3>
-
-            <p>
-              동적으로 식당 설명동적으로 식당 설명동적으로 식당 설명동적으로
-              식당 설명동적으로 식당 설명동적으로 식당 설명
-            </p>
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="2700"
-            className="singleItem"
-          >
-            <img src={img02} alt="Image Name" />
-
-            <h3>동적으로 식당 이름02</h3>
-
-            <p>
-              동적으로 식당 설명동적으로 식당 설명동적으로 식당 설명동적으로
-              식당 설명동적으로 식당 설명동적으로 식당 설명
-            </p>
-          </div>
-
-          <div
-            data-aos="fade-up"
-            data-aos-duration="3300"
-            className="singleItem"
-          >
-            <img src={img03} alt="Image Name" />
-
-            <h3>동적으로 식당 이름02</h3>
-
-            <p>
-              동적으로 식당 설명동적으로 식당 설명동적으로 식당 설명동적으로
-              식당 설명동적으로 식당 설명동적으로 식당 설명
-            </p>
-          </div>
+          {tours.map((tour) => (
+            <div
+              key={tour.id}
+              data-aos="fade-up"
+              data-aos-duration="2100"
+              className="singleItem"
+            >
+              <img src={tour.imgSrc} alt={tour.destTitle} />
+              <h3>{tour.destTitle}</h3>
+              <p>{tour.comment}</p>
+              <Link to="/">
+                    <button className="btn flex">
+                      View Details
+                      <BsArrowRightShort className="icon" />
+                    </button>
+                  </Link>
+            </div>
+          ))}
         </div>
+
 
         <div className="videoCard container">
           <div className="cardContent grid">
@@ -77,7 +84,6 @@ const About = () => {
             </div>
 
             <div data-aos="zoom-in" className="cardVideo">
-              {/* <video src={video} autoPlay loop muted typeof="video/mp4"></video> */}
             </div>
           </div>
         </div>

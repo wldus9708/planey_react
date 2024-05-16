@@ -22,6 +22,7 @@
 }
 .about .secContainer .mainContent .singleItem {
   text-align: center;
+
 }
 .about .secContainer .mainContent .singleItem img {
   width: 100%;
@@ -38,6 +39,15 @@
   font-weight: 500;
   padding-bottom: 0.5rem;
   color: var(--textColor);
+}
+.about .secContainer .mainContent .singleItem .btn {
+  background-color: var(--PrimaryColor);
+  color: var(--whiteColor);
+  width: 90%;
+}
+.about .secContainer .mainContent .singleItem .icon {
+
+  color: var(--whiteColor);
 }
 .about .secContainer .videoCard {
   margin-top: 2rem;
@@ -96,4 +106,8 @@
   .about .secContainer .mainContent {
     padding: 2.5rem 0;
   }
+}/*# sourceMappingURL=about.css.map */
+
+.about .secContainer .mainContent .singleItem:hover {
+  transform: translateY(-20px);
 }/*# sourceMappingURL=about.css.map */
