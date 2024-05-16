@@ -66,6 +66,10 @@
     font-size: 22px;
     margin: 4px 0;
 }
+.restList-house-info p{
+    margin-top:10px;
+    margin-bottom:10px;
+}
 
 .restList-house-info2 {
     margin-top: 70px;
@@ -76,7 +80,7 @@
 .restList-star-icon {
     color: #ff5361;
     font-size:18px;
-    margin:10px 1px;
+
 }
 .restList-heart-icon {
     color: #ff5361;
@@ -213,6 +217,17 @@ position: absolute;
 .restList-search input{
     height: 40px;
     margin-bottom: 15%;
+}
+.icon-Circle {
+    position: fixed;
+    bottom: 40px; 
+    right: 40px; 
+    cursor: pointer;
+    width:50px;
+    height:50px;
+  }
+  .restList-filter input[type="checkbox"]:checked {
+    background-color: #007bff;
 }
 
 
