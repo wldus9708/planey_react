@@ -1,24 +1,23 @@
 import React from "react";
 import "./main.css";
 import Navbar from "./Components/Navbar/Navbar";
-import Carousel from "./Components/Carousel/Carouselpage"
-import FlashDeals from "./Components/flashDeals/FlashDeals"
 import Footer from "./Components/Footer/Footer";
 import Popular from "./Components/Popular/Popular";
 import Offers from "./Components/Offers/Offers";
 import About from "./Components/About/About";
 import Blog from "./Components/Blog/Blog";
 import Banner from "./Components/banner/About"
+import Card from "./Components/Card/Card"
+import Sliders from "./Components/slider/Slider"
 
 
-
-const App = ({ productItems, addToCart}) => {
+const App = () => {
   return (
     <>
       <Navbar />  
-      <Carousel/>
+      <Sliders/>
+      <Card/>
       <Banner />
-      <FlashDeals productItems={productItems} addToCart={addToCart} />/
       <Popular />
       <Offers />
       <About />

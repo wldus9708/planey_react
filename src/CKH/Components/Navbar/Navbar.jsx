@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "./navbar.css";
-import { PiBowlFoodBold } from "react-icons/pi";
+import { TbBeach } from "react-icons/tb";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { TbGridDots } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import jsCookies from 'js-cookie';
+import jsCookies from "js-cookie";
+import { FaHome } from "react-icons/fa";
+import { BsCart4 } from "react-icons/bs";
+import { BsFillAirplaneFill } from "react-icons/bs";
+import { FaBoxOpen } from "react-icons/fa";
+import { FaHotel } from "react-icons/fa6";
+import { FaCarSide } from "react-icons/fa";
+import { GrLogin } from "react-icons/gr";
 
 const Navbar = () => {
   // Code to toggle/show navBar
@@ -31,12 +38,11 @@ const Navbar = () => {
   window.addEventListener("scroll", addBg);
 
   //        쿠키 상태 관리        //
-  const [cookies] = useCookies(['accessToken']);
+  const [cookies] = useCookies(["accessToken"]);
 
   const handleLogoutClick = () => {
-    jsCookies.remove('accessToken')
-    
-  }
+    jsCookies.remove("accessToken");
+  };
 
   return (
     <section className="navBarSection">
@@ -44,7 +50,7 @@ const Navbar = () => {
         <div className="logoDiv">
           <a href="#" className="logo">
             <h1 className="flex">
-              <PiBowlFoodBold className="icon" />
+            <TbBeach />
               PRANEY
             </h1>
           </a>
@@ -54,51 +60,55 @@ const Navbar = () => {
           <ul className="navLists flex">
             <li className="navItem">
               <a href="/home" className="navLink">
-                홈
+                <FaHome />Home
               </a>
             </li>
 
             <li className="navItem">
               <a href="/pakage" className="navLink">
-                패키지
+                <FaBoxOpen />
+                Packge
               </a>
             </li>
 
             <li className="navItem">
               <a href="/air" className="navLink">
-                항공
+                <BsFillAirplaneFill />
+                Airline
               </a>
             </li>
 
             <li className="navItem">
               <a href="/hotel" className="navLink">
-                호텔
+                <FaHotel /> Hotel
               </a>
             </li>
 
             <li className="navItem">
               <a href="/rent" className="navLink">
-                렌트카
+                <FaCarSide />
+                Rental Car
               </a>
             </li>
 
             <div className="headerBtns flex">
-              <button className="btn loginBtn">            
-                  <Link to="">
-                    <a>카트</a>
-                  </Link>  
+              <button className="btn loginBtn">
+                <Link to="">
+                  <BsCart4 />
+                </Link>
               </button>
             </div>
 
             <div className="headerBtns flex">
               <button className="btn loginBtn">
-                {cookies.accessToken === undefined ?
+                {cookies.accessToken === undefined ? (
                   <Link to="login">
+                    <GrLogin />
                     <a>JoinUs</a>
                   </Link>
-                  :
+                ) : (
                   <a onClick={handleLogoutClick}>Logout</a>
-                }
+                )}
               </button>
             </div>
           </ul>

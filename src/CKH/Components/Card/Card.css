@@ -1,0 +1,61 @@
+
+.Cardh1 {
+  margin-top: 150px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: hsl(26, 93%, 50%);
+  opacity: 0; /* 처음에는 보이지 않음 */
+  animation: fade-in-text 1s ease forwards; /* fade-in-text 애니메이션 적용 */
+}
+
+.CardApp {
+  margin: 20px 80px;
+}
+.product--image {
+  width: 100%;
+  height: 16em;
+  object-fit: cover;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 320px;
+  margin: auto 1rem;
+  text-align: center;
+  font-family: arial;
+  overflow: hidden;
+}
+
+.card:hover img {
+  transform: scale(1.1); 
+  transition: transform 0.5s ease; 
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+@keyframes fade-in-text {
+  0% {
+    opacity: 0; /* 시작 시점의 투명도 */
+  }
+  100% {
+    opacity: 1; /* 최종 투명도 */
+  }
+}
