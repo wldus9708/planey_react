@@ -19,10 +19,6 @@ function PackageFoot() {
 
     const [activeSection, setActiveSection] = useState(null);
 
-    
-
-    
-
     const wrapperRef = useRef(null);
     const contentRef = useRef(null);
     const sidebarRef = useRef(null);
@@ -39,29 +35,23 @@ function PackageFoot() {
     useEffect(() => {
         const handleScroll = () => {
             const contentElements = contentRef.current.querySelectorAll("li");
-            const windowHeight = window.innerHeight;
-            
-            let highlightedFound = false;
-
+    
             contentElements.forEach(element => {
                 const rect = element.getBoundingClientRect();
-                const elementTop = rect.top;
-                const elementBottom = rect.bottom;
-
-                // 요소가 화면 안에 보이는지 확인
-                const isVisible = (elementTop >= 0 && elementBottom <= windowHeight);
-
-                if (isVisible) {
+                const topOffset = rect.top;
+                const bottomOffset = rect.bottom;
+    
+                if (topOffset < window.innerHeight / 2 && bottomOffset > window.innerHeight / 2) {
                     setHighlightedItem(element.id);
                 }
             });
         };
-
+    
         const wrapper = wrapperRef.current;
         wrapper.addEventListener("scroll", handleScroll);
         return () => wrapper.removeEventListener("scroll", handleScroll);
     }, []);
-
+    
 
     const handleIcon = (what) => {
         setSelectedItem(what);
