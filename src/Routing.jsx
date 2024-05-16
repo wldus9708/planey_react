@@ -13,17 +13,17 @@ import FindPW02 from './YOUNG/member/findPW02';
 import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
-import PagckageDetail from  "./GUN/PackageIndex";
+import PagckageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import Cart from "./CKH/Components/Cart/Cart";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/test";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
-
+import MyPage from "./DEOK/MyPage/Mypage_Client"
 
 
 function Routing() {
-    return(
+    return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />} />
@@ -43,10 +43,10 @@ function Routing() {
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/searchField" element={<SearchField />} />
-                <Route path="/test" element={<Test/>} />
+                <Route path="/test" element={<Test />} />
                 <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
                 <Route path="/packageDetail" element={<PagckageDetail />} />
-
+                <Route path="/mypage" element={<MyPage />} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,0 +1,78 @@
+.DEOK_MP_CL_deleteMember {
+    border: 1px solid #ddd;
+    border-radius: var(--card-border-radius);
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    padding: 50px;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+}
+
+.DEOK_MP_CL_deleteMember:hover {
+    box-shadow: none;
+}
+
+.DEOK_MP_CL_deleteMember .cause {
+    text-align: right;
+}
+
+.DEOK_MP_CL_deleteMember .warning_info {
+    border: 1px solid black;
+    padding: 20px;
+    padding-left: 35px;
+    margin: 10px 0;
+}
+
+.DEOK_MP_CL_deleteMember .warning_info li {
+    list-style-type: disc;
+    padding-left: 5px;
+}
+
+.DEOK_MP_CL_deleteMember_form-box {
+    display: flex;
+    justify-content: center;
+}
+
+.DEOK_MP_CL_deleteMember_input-box {
+    position: relative;
+    width: 50%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.DEOK_MP_CL_deleteMember_input-box span{
+    font-weight: bolder;
+}
+
+.DEOK_MP_CL_deleteMember_input-box input {
+    outline: none;
+    padding: 10px 0px;
+    width: 100%;
+    background: none;
+    border-bottom: 1px solid rgb(128, 128, 128);
+    margin-bottom: 8%;
+    color: var(--color-dark);
+    text-decoration: none;
+}
+
+.DEOK_MP_CL_deleteMember_button-box {
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.DEOK_MP_CL_deleteMember_button-box button {
+    padding: 10px 20px;
+    border-radius: var(--border-radius-1);
+    color: rgb(231, 201, 29);
+    background-color: var(--color-background);
+    border: 1px solid rgb(231, 201, 29);
+    cursor: pointer;
+    box-shadow: var(--box-shadow);
+}
+
+.DEOK_MP_CL_deleteMember_button-box button:hover {
+    box-shadow: none;
+}
