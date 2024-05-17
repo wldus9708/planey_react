@@ -10,19 +10,10 @@ import PaymentStyles from './payment.module.css';
 
 function PackageFoot() {
     const [selectedItem, setSelectedItem] = useState(null);
-    const [megaphone, setMegaphone] = useState(false);
-    const [beach, setBeach] = useState(false);
-    const [hotel, setHotel] = useState(false);
-    const [restaurant, setRestaurant] = useState(false);
-    const [vehicle, setVehicle] = useState(false);
     const [highlightedItem, setHighlightedItem] = useState(null);
-
-    const [activeSection, setActiveSection] = useState(null);
 
     const wrapperRef = useRef(null);
     const contentRef = useRef(null);
-    const sidebarRef = useRef(null);
-    const footerRef = useRef(null);
 
     const [icons, setIcons] = useState({
         megaphone: false,
@@ -35,160 +26,82 @@ function PackageFoot() {
     useEffect(() => {
         const handleScroll = () => {
             const contentElements = contentRef.current.querySelectorAll("li");
-    
             contentElements.forEach(element => {
                 const rect = element.getBoundingClientRect();
                 const topOffset = rect.top;
                 const bottomOffset = rect.bottom;
-    
+
                 if (topOffset < window.innerHeight / 2 && bottomOffset > window.innerHeight / 2) {
-                    setHighlightedItem(element.id);
+                    const id = element.id;
+                    setHighlightedItem(id);
+                    setIcons({
+                        megaphone: id === 'megaphone',
+                        beach: id === 'beach',
+                        hotel: id === 'hotel',
+                        restaurant: id === 'restaurant',
+                        vehicle: id === 'vehicle'
+                    });
                 }
             });
         };
-    
+
         const wrapper = wrapperRef.current;
         wrapper.addEventListener("scroll", handleScroll);
         return () => wrapper.removeEventListener("scroll", handleScroll);
     }, []);
-    
 
     const handleIcon = (what) => {
         setSelectedItem(what);
         if (contentRef.current) {
             const targetElement = contentRef.current.querySelector(`#${what}`);
             if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
+                const wrapperRect = wrapperRef.current.getBoundingClientRect();
+                const targetRect = targetElement.getBoundingClientRect();
+                const offset = targetRect.top - wrapperRect.top + wrapperRef.current.scrollTop;
+                wrapperRef.current.scrollTo({
+                    top: offset,
+                    behavior: 'smooth'
+                });
             }
         }
+
         setIcons({
-            megaphone: false,
-            beach: false,
-            hotel: false,
-            restaurant: false,
-            vehicle: false
-        }
-        );
-        handleIconScroll(what);
-
-
-
-
-        switch (what) {
-            case 'megaphone':
-                setSelectedItem('megaphone');
-                setIcons(prevState => ({
-                    ...prevState,
-                    megaphone: true
-                }));
-                break;
-            case 'beach':
-                setSelectedItem('beach');
-                setIcons(prevState => ({
-                    ...prevState,
-                    beach: true
-                }));
-                break;
-            case 'hotel':
-                setSelectedItem('hotel');
-                setIcons(prevState => ({
-                    ...prevState,
-                    hotel: true
-                }));
-                break;
-            case 'restaurant':
-                setSelectedItem('restaurant');
-                setIcons(prevState => ({
-                    ...prevState,
-                    restaurant: true
-                }));
-                break;
-            case 'vehicle':
-                setSelectedItem('vehicle');
-                setIcons(prevState => ({
-                    ...prevState,
-                    vehicle: true
-                }));
-                break;
-            default:
-                break;
-        }
+            megaphone: what === 'megaphone',
+            beach: what === 'beach',
+            hotel: what === 'hotel',
+            restaurant: what === 'restaurant',
+            vehicle: what === 'vehicle'
+        });
     };
-
-    const handleIconScroll = (sectionId) => {
-        switch (sectionId) {
-            case 'megaphone':
-                setIcons(prevState => ({ ...prevState, megaphone: true }));
-                break;
-            case 'beach':
-                setIcons(prevState => ({ ...prevState, beach: true }));
-                break;
-            case 'hotel':
-                setIcons(prevState => ({ ...prevState, hotel: true }));
-                break;
-            case 'restaurant':
-                setIcons(prevState => ({ ...prevState, restaurant: true }));
-                break;
-            case 'vehicle':
-                setIcons(prevState => ({ ...prevState, vehicle: true }));
-                break;
-            default:
-                break;
-        }
-    };
-
-
-
 
     return (
         <div ref={wrapperRef} className={styles.wrapper}>
             <div className={styles.sidebar}>
                 <div className={styles.sideMenu}>
-
                     <ul className={styles.packageList}>
                         <li onClick={() => handleIcon('megaphone')}
                             style={{ cursor: "pointer", backgroundColor: icons.megaphone ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            {megaphone ?
-                                (<BsMegaphone style={{ padding: "1px", borderRadius: "5px", fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />)
-                                :
-                                (<BsMegaphone style={{ fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />)
-                            }
+                            <BsMegaphone style={{ fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />
                             <label style={{ color: icons.megaphone ? "white" : "black" }}>핵심 포인트</label>
                         </li>
                         <li onClick={() => handleIcon('beach')}
                             style={{ cursor: "pointer", backgroundColor: icons.beach ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            {beach ?
-                                (<TbBeach style={{ padding: "1px", borderRadius: "5px", fontSize: "30px", color: icons.beach ? "white" : "black" }} />)
-                                :
-                                (<TbBeach style={{ fontSize: "30px", color: icons.beach ? "white" : "black" }} />)
-                            }
+                            <TbBeach style={{ fontSize: "30px", color: icons.beach ? "white" : "black" }} />
                             <label style={{ color: icons.beach ? "white" : "black" }}>관광지</label>
                         </li>
                         <li onClick={() => handleIcon('hotel')}
                             style={{ cursor: "pointer", backgroundColor: icons.hotel ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            {hotel ?
-                                (<LuHotel style={{ padding: "1px", borderRadius: "5px", fontSize: "30px", color: icons.hotel ? "white" : "black" }} />)
-                                :
-                                (<LuHotel style={{ fontSize: "30px", color: icons.hotel ? "white" : "black" }} />)
-                            }
+                            <LuHotel style={{ fontSize: "30px", color: icons.hotel ? "white" : "black" }} />
                             <label style={{ color: icons.hotel ? "white" : "black" }}>숙소</label>
                         </li>
                         <li onClick={() => handleIcon('restaurant')}
                             style={{ cursor: "pointer", backgroundColor: icons.restaurant ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            {restaurant ?
-                                (<IoRestaurantOutline style={{ padding: "1px", borderRadius: "5px", fontSize: "30px", color: icons.restaurant ? "white" : "black" }} />)
-                                :
-                                (<IoRestaurantOutline style={{ fontSize: "30px", color: icons.restaurant ? "white" : "black" }} />)
-                            }
+                            <IoRestaurantOutline style={{ fontSize: "30px", color: icons.restaurant ? "white" : "black" }} />
                             <label style={{ color: icons.restaurant ? "white" : "black" }}>식사</label>
                         </li>
                         <li onClick={() => handleIcon('vehicle')}
                             style={{ cursor: "pointer", backgroundColor: icons.vehicle ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            {vehicle ?
-                                (<IoBusOutline style={{ padding: "1px", borderRadius: "5px", fontSize: "30px", color: icons.vehicle ? "white" : "black" }} />)
-                                :
-                                (<IoBusOutline style={{ fontSize: "30px", color: icons.vehicle ? "white" : "black" }} />)
-                            }
+                            <IoBusOutline style={{ fontSize: "30px", color: icons.vehicle ? "white" : "black" }} />
                             <label style={{ color: icons.vehicle ? "white" : "black" }}>이동수단</label>
                         </li>
                     </ul>
@@ -196,7 +109,7 @@ function PackageFoot() {
             </div>
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
-                    <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""} onClick={() => handleIcon('megaphone')}>
+                    <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
                         <p>핵심 내용</p>
                         <p>
                             하나팩 세이브
@@ -217,40 +130,27 @@ function PackageFoot() {
                             예약 전, 필수 체크리스트<br />
                             - 입국 제한 해제 및 최소인원 충족시 출발 가능<br />
                             - 입국현황 확인: 요즘시대 해외여행 (바로가기)<br />
-                            - 출발 가능 여부는 출발일 기준 1개월 전 안내<br />
-                            - 출입국 절차에 따라 일정 변동성有<br />
-                            하나투어와 함께, 즐거운 안심여행 "SAFETY&JOY"<br />
-                            ① 호텔/관광지: 국가별 안전지침 준수<br />
-                            ② 차량 : 차량 소독 및 손소독제 비치<br />
-                            ③ 가이드 : 백신 접종 완료, 마스크착용, 체온 측정<br />
-                            해외 긴급 의료지원 서비스
-                            ※ 본 서비스는 한국어시스트카드에서 제공됩니다.<br />
-                            ① 365일 24시간 한국 알람 센터 운영<br />
-                            ② 여행 중 긴급 도움 필요시 의료 지원 / 긴급상황 지원<br />
-                            ③ 서비스 상세안내 (바로가기)<br />
-                            ④ 해외▶한국 무료국제전화 국가별 안내 리스트 (바로가기)<br />
-                            스페셜포함
+                            - 출발 가능 여부는 출발일 기준 1개월 전까지 사전 안내드립니다.<br />
+                            1<br />
+                            1<br />
+                            1<br />
+                            1<br />
+                            1<br />
+                            1<br />
+                            1<br />
                         </p>
-                        1<br />
-                        1<br />
-                        1<br />
-                        1<br />
-                        1<br />
-                        1<br />
-                        1<br />
-                        1<br />
                     </li>
                     <hr />
-                    <li id="beach" className={highlightedItem === "beach" ? styles.active : ""} onClick={() => handleIcon('beach')}>
+                    <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
                         <p>관광지 내용</p>
                         <p>
-                            스페셜포함
-                            [세이브전용]랑비엔 지프차 투어, [세이브전용]달랏 야시장 낭만포차투어(꼬치+맥주 제공)<br />
-                            ◆ 더 보여 달랏!<br />
-                            영원한 봄의 도시 달랏 핵심관광지 방문<br />
-                            #쓰엉흐엉호수 #크레이지하우스 #바오다이황제여름별장 #달랏야시장<br />
-                            #랑비엔(SUV 탑승 포함) #죽림사원 #다딴라폭포<br />
-                            #자수박물관 #달랏기차역 #린푸억사원<br />
+                            ◆ 노쇼핑, NO옵션, 효도관광의 정석✈️<br />
+                            *이 일정은 단체 쇼핑 센터 방문이 없습니다.<br />
+                            *가이드&기사경비 3박 6,000엔 별도입니다.<br />
+                            *일본은 매너팁을 포함하고 있습니다. (인당 3일 3,000엔)<br />
+                            *현지 사정에 따라 일정 순서가 다를 수 있습니다.<br />
+                            ◆ 안락한 온천과 함께하는 힐링여행♨️<br />
+                            #절경의하코네 #유황온천 #일본3대명탕 #아타미온천<br />
                             1<br />
                             1<br />
                             1<br />
@@ -261,7 +161,7 @@ function PackageFoot() {
                         </p>
                     </li>
                     <hr />
-                    <li id="hotel" className={highlightedItem === "hotel" ? styles.active : ""} onClick={() => handleIcon('hotel')}>
+                    <li id="hotel" className={highlightedItem === "hotel" ? styles.active : ""}>
                         <p>숙소 내용</p>
                         <p>
                             ◆ 달랏 시내 호텔 투숙으로 야시장 도보 이동 가능🏤<br />
@@ -278,7 +178,7 @@ function PackageFoot() {
                         </p>
                     </li>
                     <hr />
-                    <li id="restaurant" className={highlightedItem === "restaurant" ? styles.active : ""} onClick={() => handleIcon('restaurant')}>
+                    <li id="restaurant" className={highlightedItem === "restaurant" ? styles.active : ""}>
                         <p>식사 내용</p>
                         <p>
                             ◆ 위장을 채워 달랏<br />
@@ -301,7 +201,7 @@ function PackageFoot() {
                         </p>
                     </li>
                     <hr />
-                    <li id="vehicle" className={highlightedItem === "vehicle" ? styles.active : ""} onClick={() => handleIcon('vehicle')}>
+                    <li id="vehicle" className={highlightedItem === "vehicle" ? styles.active : ""}>
                         <p>이동수단 내용</p>
                         <p>
                             ◆ 출입국 정보<br />
@@ -326,8 +226,6 @@ function PackageFoot() {
                     </li>
                     <hr />
                 </ul>
-
-
             </div>
             <div className={PaymentStyles.wrapper}>
                 <Payment></Payment>
