@@ -59,7 +59,7 @@ const Offer = () => {
         {/* secIntro는 App.css 에서 스타일링 함... */}
         <div className="secIntro">
           <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
-            지금❗ 🧡PRANEY🧡에서 할인받고 여행🛫 가자 ❗❗
+            지금❗ 🧡PLANEY🧡에서 할인받고 여행🛫 가자 ❗❗
           </h2>
           <p data-aos="fade-up" data-aos-duration="2000">
             세일 정보를 확인해보세요❕

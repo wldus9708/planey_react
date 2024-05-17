@@ -50,7 +50,7 @@ const About = () => {
   return (
     <section className="about section">
       <div className="secContainer">
-        <h2 className="title">🧡PRANEY🧡 해외🌎  패키지❗❗</h2>
+        <h2 className="title">🧡PLANEY🧡 해외🌎  패키지❗❗</h2>
 
         <div className="mainContent container grid">
           {tours.map((tour) => (
