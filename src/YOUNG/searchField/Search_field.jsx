@@ -192,7 +192,7 @@ function SearchField() {
                   <div
                   >
                      <label
-                        className={styles.countTab}>소아 적용기준은 숙소 별로 상이할 수 있습니다. </label>
+                        className={styles.countTab}>소아 적용기준은 선택하신 상품 별로 상이할 수 있습니다. </label>
                      <br />
                      <label
                         className={styles.countTab}>성인 최대 20명 까지 가능합니다. </label>
