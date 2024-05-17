@@ -1,16 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import './UpdateInfo.css';
 import { Avatar } from "antd";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const UpdateInfo = (props) => {
-    const [updateUserInfo, setUpdateUserInfo] = useState(props.userInfo);
+    const [cookies] = useCookies(['accessToken']);
+    const { userInfo } = props;
+    const [updateUserInfo, setUpdateUserInfo] = useState({
+        nickname: userInfo.nickname,
+        password: '',
+        phone: userInfo.phone
+    });
     const [Image, setImage] = useState("/images/프사 예시.png");
     const fileInput = useRef(null);
 
-    useEffect(() => {
-
-    }, [updateUserInfo])
+    // props.userInfo가 null이거나 undefined일 경우 로딩 중 메시지 표시
+    if (!props.userInfo) {
+        return <div>로딩 중...</div>;
+    }
 
     const onChange = (e) => {
         if (e.target.files[0]) {
@@ -32,9 +40,23 @@ const UpdateInfo = (props) => {
     const handleUpdateClick = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:8888/member/...')
-        //          스프링 먼저 뚫어놔야함           //
+        axios.post('http://localhost:8988/member/mypage/updateinfo', updateUserInfo, {
+            headers: {
+                Authorization: `${cookies.accessToken}`
+            }
+        })
+        .then(response => {
+            console.log(response)
+            alert("회원 정보 수정이 완료되었습니다.");
+            window.location.reload();
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
     }
+    console.log(props.userInfo);
+    console.log(updateUserInfo);
 
     return (
         <>
@@ -63,7 +85,7 @@ const UpdateInfo = (props) => {
                             <input
                                 className="disabled"
                                 type='text'
-                                value={updateUserInfo ? updateUserInfo.email : ''}
+                                value={props.userInfo ? props.userInfo.email : ''}
                                 disabled
                             />
                         </div>
@@ -72,7 +94,7 @@ const UpdateInfo = (props) => {
                             <input
                                 className="disabled"
                                 type='text'
-                                value={updateUserInfo ? updateUserInfo.name : ''}
+                                value={props.userInfo ? props.userInfo.name : ''}
                                 disabled
                             />
                         </div>
@@ -91,7 +113,6 @@ const UpdateInfo = (props) => {
                             <span>비밀번호</span>
                             <input
                                 type='password'
-                                value=''
                                 name="password"
                                 onChange={(event) => setUpdateUserInfo(prevState => ({
                                     ...prevState,
