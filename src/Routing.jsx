@@ -14,6 +14,7 @@ import FindPW02 from './YOUNG/member/findPW02';
 import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
+import PackageList from './GUN/PackageList';
 import PagckageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
@@ -47,6 +48,7 @@ function Routing() {
                 <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
                 <Route path="/packageDetail" element={<PagckageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
+                <Route path="/PackageTour/list" element={<PackageList />} />
             </Routes>
         </BrowserRouter>
     )
