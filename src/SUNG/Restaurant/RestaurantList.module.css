@@ -231,6 +231,25 @@ position: absolute;
   .restList-filter input[type="checkbox"]:checked {
     background-color: #007bff;
 }
+.restList-filter input[type="checkbox"] + p::before {
+    content: '\25a1'; /* 네모 아이콘 */
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 20px;
+    color: var(--textColor); /* 기본 색상을 변수로 변경 */
+}
+
+/* 체크박스가 선택되었을 때 */
+.restList-filter input[type="checkbox"]:checked + p::before {
+    content: '\2714'; /* 체크마크 아이콘 */
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 20px;
+    color: var(--PrimaryColor); /* 체크된 상태의 색상을 변수로 변경 */
+}
+
 
 
 
