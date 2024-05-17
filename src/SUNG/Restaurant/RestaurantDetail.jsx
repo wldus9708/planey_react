@@ -8,6 +8,7 @@ const RestaurantDetail = () => {
   let { id } = useParams(); // URL에서 레스토랑 ID 가져오기
   const [restaurant, setRestaurant] = useState(null); // 레스토랑 정보
   const [activeImageIndex, setActiveImageIndex] = useState(0); // 활성 이미지 인덱스
+  const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
 
   useEffect(() => {
     axios.get(`http://localhost:8988/restaurant/detail/${id}`)
@@ -22,6 +23,18 @@ const RestaurantDetail = () => {
         console.error('이미지 이름을 가져오는 중 오류 발생:', error);
       });
   }, [id]);
+
+  // 인원 수 증가 함수
+  const increaseNumberOfPeople = () => {
+    setNumberOfPeople(prevCount => prevCount + 1);
+  };
+
+  // 인원 수 감소 함수
+  const decreaseNumberOfPeople = () => {
+    if (numberOfPeople > 1) {
+      setNumberOfPeople(prevCount => prevCount - 1);
+    }
+  };
 
   return (
     <div className={styles.restDetailBody}>
@@ -61,10 +74,19 @@ const RestaurantDetail = () => {
               <span className={styles.restDetailAddress}>{restaurant && restaurant.restAddress}</span>
               <br />
               <span className={styles.restDetailPrice}>{restaurant && restaurant.restPrice.toLocaleString()}</span>
+              
               <p className={styles.restDetailDescription}>
                 {restaurant && restaurant.restDescription}
               </p>
+              
               <div className={styles.restDetailbtnGroups}>
+                {/* 인원 수 조절 버튼 */}
+                <p>예약 인원 </p>
+              <div className={styles.numberOfPeopleContainer}>
+                <button className={styles.numberOfPeopleBtn} onClick={decreaseNumberOfPeople}>-</button>
+                <span className={styles.numberOfPeople}>{numberOfPeople}</span>
+                <button className={styles.numberOfPeopleBtn} onClick={increaseNumberOfPeople}>+</button>
+              </div>
                 <button type="button" className={styles.restDetailaddCartBtn}>
                   <i className='fas fa-shopping-cart'></i>
                   장바구니 추가

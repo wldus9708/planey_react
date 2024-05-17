@@ -126,7 +126,7 @@
 .restList-PriceSlide{
     position: relative;
   height: 5px;
-  width: 150px;
+  width: 160px;
   border-radius: 10px;
   background-color: #dddddd;
 } 
@@ -146,17 +146,17 @@ position: absolute;
 .restList-PriceRangeMin,.restList-PriceRangeMax {
     position: absolute;
   top: -9px;
-  height: 7px;
+  height: 10px;
   width: 100%;
 	-webkit-appearance: none;
   background: none;
 
 	&::-webkit-slider-thumb {
-    height: 30px;
-    width: 30px;
+    height: 27px;
+    width: 27px;
     border-radius: 50%;
     border: 2px solid #b0b0b0;
-    background-color: white;
+    background-color: #F67009;
     -webkit-appearance: none;
     }
     pointer-events: none;
@@ -231,6 +231,7 @@ position: absolute;
   .restList-filter input[type="checkbox"]:checked {
     background-color: #007bff;
 }
+
 
 
 
