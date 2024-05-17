@@ -7,6 +7,7 @@ import PreLodging from './YOUNG/lodging/preLodgingDetail';
 import PlanMain from './YEON/planMain';
 import RestaurantDetail from './SUNG/Restaurant/RestaurantDetail';
 import RestaurantList from './SUNG/Restaurant/RestaurantList';
+import LodgingList from './YOUNG/lodging/LodgingList';
 import FindId from './YOUNG/member/findId';
 import FindPW01 from './YOUNG/member/findPW01';
 import FindPW02 from './YOUNG/member/findPW02';
@@ -36,6 +37,7 @@ function Routing() {
                 <Route path="/findPW01" element={<FindPW01 />} />
                 <Route path="/findPW02" element={<FindPW02 />} />
                 <Route path="/restaurant/list" element={<RestaurantList />} />
+                <Route path="/LodgingList" element={<LodgingList />} />
                 <Route path="/GhTest" element={<GhTest />} />
                 <Route path="/PackageFoot" element={<PackageFoot />} />
                 <Route path="/PaymentTest" element={<PaymentTest />} />
