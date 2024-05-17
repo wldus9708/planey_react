@@ -9,7 +9,7 @@ import Blog from "./Components/Blog/Blog";
 import Banner from "./Components/banner/About"
 import Card from "./Components/Card/Card"
 import Sliders from "./Components/slider/Slider"
-
+import Advertise from "../Hye/advertisement";
 
 const App = () => {
   return (
@@ -19,8 +19,10 @@ const App = () => {
       <Card/>
       <Banner />
       <Popular />
+      <Advertise/>
       <Offers />
       <About />
+      <Advertise/>
       <Blog />
       <Footer />
     </>
