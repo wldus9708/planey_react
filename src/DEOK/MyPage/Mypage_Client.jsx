@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import './Mypage_Client.css';
 import 'material-icons';
 import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
 import InsertShop from './MainComponents/InsertShop'
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const MpClient = () => {
+    const [cookies] = useCookies(['accessToken']);
+    const navigator = useNavigate();
     const [viewWhat, setViewWhat] = useState('updateInfo');
     const [isUlHidden, setIsUlHidden] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        if (!cookies.accessToken) {
+            navigator('/login');
+            alert("마이페이지를 이용하려면 먼저 로그인을 해주세요.")
+        } else {
+            axios.get("http://localhost:8988/member/mypage", {
+                headers: {
+                    Authorization: `${cookies.accessToken}`
+                }
+            })
+                .then(response => {
+                    setUserInfo(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+    }, [cookies.accessToken, navigator]);
 
     const toggleDarkMode = () => {
         document.body.classList.toggle('dark-mode-variables');
@@ -35,7 +60,7 @@ const MpClient = () => {
                             <img className="DEOK_MP_CL_profile" src={"/images/프사 예시.png"} alt='프로필 사진' />
                         </div>
                         <p className='DEOK_MP_CL_Nickname'>
-                            Nickname
+                            {userInfo ? userInfo.nickname : ''}
                         </p>
                         <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
                             <h3>회원 정보 수정</h3>
@@ -73,7 +98,7 @@ const MpClient = () => {
                 {/* <!-- Main Content --> */}
                 <main>
                     <div className='DEOK_MP_CL_main'>
-                        {viewWhat === "updateInfo" && <UpdateInfo />}
+                        {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
                         {viewWhat === "insertShop" && <InsertShop />}
                         {viewWhat === "updateShop" && null}
                         {viewWhat === "deleteMember" && <DeleteMember />}
