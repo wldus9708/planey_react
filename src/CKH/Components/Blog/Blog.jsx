@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./blog.css";
+import axios from "axios";
 import { BsArrowRightShort } from "react-icons/bs";
+
+import { Link } from "react-router-dom";
 
 // import images ====================>
 import img01 from "../../Assets/Dining02/광화문식당02.jpg";
@@ -40,25 +43,57 @@ const Posts = [
 ];
 
 const Blog = () => {
+  const pic = "../../../BBS/image/";
+  // 상태(state) 정의
+  const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
+  let count = 1;
+
   useEffect(() => {
+    const pic = "../../../BBS/image/";
+    // 데이터 가져오기
+    axios
+      .get("http://localhost:8988/PackageTour/readFourPackageTourTrue")
+      .then((response) => {
+        // PackageTour 엔티티 형식으로 변환
+        const packageTour = response.data.map((tour) => ({
+          id: tour.id,
+          imgSrc: require("../../../BBS/image/" + tour.image01 + ".jpg"), // 대표이미지 
+          destTitle: tour.tour_pack_name, // 투어 이름
+          location: tour.tourPackCity, // 투어 지역
+          category: tour.category.split("_")[0], // 상품 종류
+          comment: tour.tour_pack_description, // 상품 설명
+          tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
+          hotel: tour.tourPackLodging, // 상품 호텔
+          tourPackLandmark: tour.tourPackLandmark, // 상품 랜드마크
+          nation:tour.nation,
+
+        }));
+        console.log("가져와짐.");
+        setTours(packageTour); // packgeTour 엔티티 정보 저장
+      })
+      .catch((error) => {
+        console.error("Popular 컴포넌트 Error fetching data:", error);
+      });
+
+    // Aos 초기화
     Aos.init({ duration: 2000 });
-  }, []);
+  }, []); // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행되도록 설정
 
   return (
     <section className="blog container section">
       <div className="secContainer">
         <div className="secIntro">
           <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
-            웨이팅 핫플레이스 BEST
+          🧡PLANEY🧡 국내 패키지❗❗
           </h2>
 
           <p data-aos="fade-up" data-aos-duration="2500">
-            핫 한 웨이팅 라인업, 이제 Food Planet에서!
+            핫 한 국내 패키지 라인업, 이제 🧡PLANEY🧡에서❕
           </p>
         </div>
 
         <div className="mainContainer grid">
-          {Posts.map((Posts) => {
+          {tours.map((tours) => {
             return (
               <div className="singlePost grid">
                 <div
@@ -66,15 +101,15 @@ const Blog = () => {
                   data-aos-duration="2500"
                   className="imgDiv"
                 >
-                  <img src={Posts.postImage} alt={Posts.title} />
+                  <img src={tours.imgSrc} alt={tours.location} />
                 </div>
 
                 <div className="postDetails">
                   <h3 data-aos="fade-right" data-aos-duration="2000">
-                    {Posts.title}
+                    {tours.destTitle}
                   </h3>
                   <p data-aos="fade-right" data-aos-duration="2500">
-                    {Posts.desc}
+                    {tours.comment}
                   </p>
                 </div>
                 <a
