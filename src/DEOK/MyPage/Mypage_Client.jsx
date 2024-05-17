@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import './Mypage_Client.css';
 import 'material-icons';
 import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
-import InsertShop from './MainComponents/InsertShop'
+import InsertShop from './MainComponents/InsertShop';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,11 +14,12 @@ const MpClient = () => {
     const [viewWhat, setViewWhat] = useState('updateInfo');
     const [isUlHidden, setIsUlHidden] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (!cookies.accessToken) {
             navigator('/login');
-            alert("마이페이지를 이용하려면 먼저 로그인을 해주세요.")
+            alert("마이페이지를 이용하려면 먼저 로그인을 해주세요.");
         } else {
             axios.get("http://localhost:8988/member/mypage", {
                 headers: {
@@ -27,11 +27,15 @@ const MpClient = () => {
                 }
             })
             .then(response => {
-                setUserInfo(response.data);
+                // setTimeout(() => {
+                    setUserInfo(response.data);
+                    setIsLoading(false);
+                // }, 2000);
             })
             .catch(error => {
                 console.log(error);
-            })
+                setIsLoading(false);
+            });
         }
     }, [cookies.accessToken, navigator]);
 
@@ -44,11 +48,20 @@ const MpClient = () => {
 
     const clickMenu = (what) => {
         if (viewWhat === what) return;
-        setViewWhat(what); return;
-    }
+        setViewWhat(what);
+    };
 
     const showUlBox = () => {
         setIsUlHidden(!isUlHidden);
+    };
+
+    if (isLoading) {
+        return (
+            <div className="loading-container">
+                <img src="/loading.gif" alt="로딩 중" className="loading-image" />
+                <p>로딩 중...</p>
+            </div>
+        );
     }
 
     return (
@@ -119,7 +132,6 @@ const MpClient = () => {
                         </div>
                     </div>
 
-
                     <div className="reminders">
                         <div className="notificationHeader">
                             <h2>알림</h2>
@@ -178,7 +190,6 @@ const MpClient = () => {
                     </div>
 
                 </div>
-
 
             </div>
         </div>
