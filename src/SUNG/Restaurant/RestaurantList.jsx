@@ -14,12 +14,12 @@ const RestaurantList = () => {
     const [allChecked, setAllChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState({
         all: false,
-        한식: false,
-        양식: false,
-        중식: false,
-        일식: false,
-        불란서식: false,
-        기타: false
+        KOREAN: false,
+        ITALIAN: false,
+        CHINESE: false,
+        JAPANESE: false,
+        FRENCH: false,
+        ETC: false
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
