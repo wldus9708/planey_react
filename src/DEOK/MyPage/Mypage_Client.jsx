@@ -26,12 +26,12 @@ const MpClient = () => {
                     Authorization: `${cookies.accessToken}`
                 }
             })
-                .then(response => {
-                    setUserInfo(response.data);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+            .then(response => {
+                setUserInfo(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
         }
     }, [cookies.accessToken, navigator]);
 
