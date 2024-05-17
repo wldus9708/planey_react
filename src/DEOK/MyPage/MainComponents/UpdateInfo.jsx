@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './UpdateInfo.css';
 import { Avatar } from "antd";
 import axios from "axios";
 
 const UpdateInfo = (props) => {
     const [updateUserInfo, setUpdateUserInfo] = useState(props.userInfo);
-    const [Image, setImage] = useState("/images/프사 예시.png")
-    const fileInput = useRef(null)
-    // const [value, setValue] = useState({
-    //     nickName: 'nickname',
-    //     password: ''
-    // });
+    const [Image, setImage] = useState("/images/프사 예시.png");
+    const fileInput = useRef(null);
+
+    useEffect(() => {
+
+    }, [updateUserInfo])
 
     const onChange = (e) => {
         if (e.target.files[0]) {
