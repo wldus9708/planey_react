@@ -148,11 +148,13 @@ function SearchField() {
                   eventKey="date"
                   title="날짜 선택"
                   className={styles.calendarPicker}>
-                  <div className={`${styles.calendar} ${openDate ? styles.calendarOpen : ''}`} ref={calendarRef}>
+                  <div  locale={ko} className={`${styles.calendar} ${openDate ? styles.calendarOpen : ''}`} ref={calendarRef}>
                      <span
+                       
                         className={styles.dateCheck}
                         onClick={() => setOpenDate(!openDate)}>
-                        {`${format(date[0].startDate, "yyyy.MM.dd(eee)")} - ${format(date[0].endDate, "yyyy.MM.dd(eee)")}`}
+                        {`${format(date[0].startDate, "yyyy.MM.dd(EEE)", { locale: ko })} - ${format(date[0].endDate, "yyyy.MM.dd(EEE)", { locale: ko })}`}
+
                      </span>
 
                      {openDate && <DateRange
