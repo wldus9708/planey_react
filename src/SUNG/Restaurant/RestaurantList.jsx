@@ -43,6 +43,11 @@ const RestaurantList = () => {
                 console.log('시작페이지:' +startIndex);
                 console.log('끝페이지:' +endIndex);
                 setData(prevData => [...prevData, ...newData]); 
+                if (currentPage === 1) {
+                    setData(newData);
+                } else {
+                    setData(prevData => [...prevData, ...newData]);
+                }
                 setIsLoadingData(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -178,7 +183,6 @@ const RestaurantList = () => {
                                     <p>{item.restAddress}</p>
                                     <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
                                     {item.restGrade}
-
                                     <p>{item.restDescription}</p>
                                     <div className={styles['restList-house-price']}>
                                         <h4>₩ {item.restPrice.toLocaleString()}</h4>
