@@ -10,15 +10,11 @@ const UpdateInfo = (props) => {
     const [updateUserInfo, setUpdateUserInfo] = useState({
         nickname: userInfo.nickname,
         password: '',
-        phone: userInfo.phone
+        phone: userInfo.phone,
+        memberImage: userInfo.memberImage
     });
     const [Image, setImage] = useState("/images/프사 예시.png");
     const fileInput = useRef(null);
-
-    // props.userInfo가 null이거나 undefined일 경우 로딩 중 메시지 표시
-    if (!props.userInfo) {
-        return <div>로딩 중...</div>;
-    }
 
     const onChange = (e) => {
         if (e.target.files[0]) {
@@ -55,8 +51,6 @@ const UpdateInfo = (props) => {
         })
 
     }
-    console.log(props.userInfo);
-    console.log(updateUserInfo);
 
     return (
         <>

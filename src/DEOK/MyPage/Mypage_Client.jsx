@@ -26,16 +26,15 @@ const MpClient = () => {
                     Authorization: `${cookies.accessToken}`
                 }
             })
-            .then(response => {
-                // setTimeout(() => {
+                .then(response => {
                     setUserInfo(response.data);
                     setIsLoading(false);
-                // }, 2000);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
+
+                })
+                .catch(error => {
+                    console.log(error);
+                    setIsLoading(false);
+                });
         }
     }, [cookies.accessToken, navigator]);
 
@@ -73,7 +72,7 @@ const MpClient = () => {
                             <img className="DEOK_MP_CL_profile" src={"/images/프사 예시.png"} alt='프로필 사진' />
                         </div>
                         <p className='DEOK_MP_CL_Nickname'>
-                            {userInfo ? userInfo.nickname : ''}
+                            {userInfo.nickname}
                         </p>
                         <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
                             <h3>회원 정보 수정</h3>
