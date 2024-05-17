@@ -7,7 +7,7 @@ import SearchField from '../searchField/Search_field';
 
 const LodgingList = () => {
     const fixedMinPrice = 100000;
-    const fixedMaxPrice = 1000000;
+    const fixedMaxPrice = 10000000;
     const priceGap = 10000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
@@ -32,26 +32,39 @@ const LodgingList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8988/restaurant/list`);
+                const response = await axios.get(`http://localhost:8988/lodging/list`);
                 const allData = response.data;
-                console.log(response.data)
+                console.log(response.data);
                 setTotalDataCount(allData.length);
-    
+
                 const startIndex = (currentPage - 1) * 10 + 1;
                 const endIndex = currentPage * 10;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
-                console.log('시작페이지:' +startIndex);
-                console.log('끝페이지:' +endIndex);
-                setData(prevData => [...prevData, ...newData]); 
+                console.log('시작페이지:' + startIndex);
+                console.log('끝페이지:' + endIndex);
+
+
+
+
+                // 페이지가 1이면 데이터를 초기화하고, 그렇지 않으면 데이터를 추가
+                if (currentPage === 1) {
+                    setData(newData);
+                } else {
+                    setData(prevData => [...prevData, ...newData]);
+                }
                 setIsLoadingData(false);
+   
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setIsLoadingData(false);
             }
         }
+        console.log("가져와짐.");
         fetchData();
+
     }, [currentPage]);
-    
+
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -87,20 +100,25 @@ const LodgingList = () => {
 
     const toggleAllCheckbox = () => {
         const newState = !allChecked;
-        setAllChecked(newState);
         const newCheckboxStates = { ...checkboxStates };
         for (let key in newCheckboxStates) {
             newCheckboxStates[key] = newState;
         }
-        setCheckboxStates(newCheckboxStates);
+        setCheckboxStates(newCheckboxStates); // 개별 체크박스 상태 업데이트
+        setAllChecked(newState); // 전체 체크 상태 업데이트
     };
-
+    
     const toggleCheckbox = (name) => {
         const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
         setCheckboxStates(newCheckboxStates);
         const allChecked = Object.values(newCheckboxStates).every(value => value);
         setAllChecked(allChecked);
     };
+    
+    // 체크박스 상태 렌더링 확인
+    useEffect(() => {
+        console.log('checkboxStates:', checkboxStates);
+    }, [checkboxStates]);
 
     const prcieRangeMinValueHandler = e => {
         setRangeMinValue(parseInt(e.target.value));
@@ -119,25 +137,15 @@ const LodgingList = () => {
         }
     };
 
-    const sortData = (data, sortOption) => {
-        if (sortOption === "lowPrice") {
-            return data.slice().sort((a, b) => a.restPrice - b.restPrice);
-        } else if (sortOption === "highPrice") {
-            return data.slice().sort((a, b) => b.restPrice - a.restPrice);
-        } else {
-            return data;
-        }
-    };
-
     const filterData = (data, searchQuery, minPrice, maxPrice) => {
         let filteredData = data;
 
-        filteredData = filteredData.filter(item => item.restPrice >= minPrice && item.restPrice <= maxPrice);
+        filteredData = filteredData.filter(item => item.lodPrice >= minPrice && item.lodPrice <= maxPrice);
 
         if (searchQuery.trim()) {
             filteredData = filteredData.filter(item => {
-                const restaurantName = item.restName;
-                return restaurantName && restaurantName.toLowerCase().includes(searchQuery.toLowerCase());
+                const lodgingName = item.lodName;
+                return lodgingName && lodgingName.toLowerCase().includes(searchQuery.toLowerCase());
             });
         }
 
@@ -149,9 +157,20 @@ const LodgingList = () => {
             return data;
         }
         return data.filter(item => {
-            return checkboxStates[item.restCategory];
+            return checkboxStates[item.lodCategory];
         });
     };
+
+    const sortData = (data, sortOption) => {
+        if (sortOption === "lowPrice") {
+            return data.slice().sort((a, b) => a.lodPrice - b.lodPrice);
+        } else if (sortOption === "highPrice") {
+            return data.slice().sort((a, b) => b.lodPrice - a.lodPrice);
+        } else {
+            return data;
+        }
+    };
+
 
     return (
         <div className={styles.restaurantListBody}>
@@ -166,37 +185,45 @@ const LodgingList = () => {
                         <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
                         <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
                     </div>
-                    {data.length > 0 ? (
-                        sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => (
-                            <div className={styles['restList-house']} key={index}>
-                                <div className={styles['restList-house-img']}>
-                                    <img src={`/images/${item.restImage01}`} alt="" width="200px" height="200px" />
-                                </div>
-                                <div className={styles['restList-house-info']}>
-                                    <p>{item.restCategory}</p>
-                                    <h3>{item.restName}</h3>
-                                    <p>{item.restAddress}</p>
-                                    <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                                    {item.restGrade}
 
-                                    <p>{item.restDescription}</p>
-                                    <div className={styles['restList-house-price']}>
-                                        <h4>₩ {item.restPrice.toLocaleString()}</h4>
+                    {data.length > 0 ? (
+                        sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
+
+                            return (
+                                <div className={styles['restList-house']} key={index}>
+                                    <div className={styles['restList-house-img']}>
+                              
+                                        <img src={`/images/${item.lodImage01}`} alt="" width="200px" height="200px" />
                                     </div>
-                                    <div className={styles['restList-house-info2']}>
-                                        <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                    <div className={styles['restList-house-info']}>
+                                        <p>{item.lodCategory}</p>
+                                        <h3>{item.lodName}</h3>
+                                        <p>{item.lodAddress}</p>
+                                        <p>{item.lodAddressDetail}</p>
+                                        {/* <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                                        {item.restGrade}  */}
+
+                                        <p>{item.lodDescription}</p>
+                                        <div className={styles['restList-house-price']}>
+                                            <h4>₩ {item.lodPrice.toLocaleString()}</h4>
+                                        </div>
+                                        <div className={styles['restList-house-info2']}>
+                                            <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;&nbsp;&nbsp;2508</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
+                            );
+                        })
                     ) : (
                         <p>검색 결과가 없습니다.</p>
                     )}
 
+
                 </div>
                 <div className={styles['restList-right-col']}>
                     <div className={styles['restList-sidebar']}>
-                        <h2>필터 선택</h2>
+                        <h6>금액 설정</h6>
+                        < br />
                         <div className={styles['restList-PriceSlide']} >
                             <div className={styles['restList-PriceSlideInner']} >
                                 {/* 가격 슬라이드 바 */}
@@ -236,7 +263,10 @@ const LodgingList = () => {
                                 </div>
                             </div>
                         </div>
-                        <h3>숙소명</h3>
+                        < br />
+                        < br />
+                        <h6>숙소 이름으로 검색</h6>
+
                         <div className={styles['restList-search']}>
                             <input
                                 type="text"
@@ -245,32 +275,33 @@ const LodgingList = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <h3>식당 유형</h3>
+                        <h6>식당 유형</h6>
+                        < br />
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
+                            <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.lodCategory).length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['호텔']} onChange={() => toggleCheckbox('HOTEL')} /><p>호텔</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
+                            <input type="checkbox" checked={checkboxStates['HOTEL']} onChange={() => toggleCheckbox('HOTEL')} /><p>호텔</p><span>({data.filter(item => item.lodCategory === '호텔').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['모텔']} onChange={() => toggleCheckbox('MOTEL')} /><p>모텔</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
+                            <input type="checkbox" checked={checkboxStates['MOTEL']} onChange={() => toggleCheckbox('MOTEL')} /><p>모텔</p><span>({data.filter(item => item.lodCategory === '모텔').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['콘도']} onChange={() => toggleCheckbox('CONDO')} /><p>콘도</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
+                            <input type="checkbox" checked={checkboxStates['CONDO']} onChange={() => toggleCheckbox('CONDO')} /><p>콘도</p><span>({data.filter(item => item.lodCategory === '콘도').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['펜션']} onChange={() => toggleCheckbox('PENSION')} /><p>펜션</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
+                            <input type="checkbox" checked={checkboxStates['PENSION']} onChange={() => toggleCheckbox('PENSION')} /><p>펜션</p><span>({data.filter(item => item.lodCategory === '펜션').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['리조트']} onChange={() => toggleCheckbox('RESORT')} /><p>리조트</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
+                            <input type="checkbox" checked={checkboxStates['RESORT']} onChange={() => toggleCheckbox('RESORT')} /><p>리조트</p><span>({data.filter(item => item.lodCategory === '리조트').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['기타']} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
+                            <input type="checkbox" checked={checkboxStates['ETC']} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.lodCategory === '기타').length})</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop}/>
+            <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
         </div>
     );
 };
