@@ -3,14 +3,14 @@ import './UpdateInfo.css';
 import { Avatar } from "antd";
 import axios from "axios";
 
-const UpdateInfo = () => {
-
+const UpdateInfo = (props) => {
+    const [updateUserInfo, setUpdateUserInfo] = useState(props.userInfo);
     const [Image, setImage] = useState("/images/프사 예시.png")
     const fileInput = useRef(null)
-    const [value, setValue] = useState({
-        nickName: 'nickname',
-        password: ''
-    });
+    // const [value, setValue] = useState({
+    //     nickName: 'nickname',
+    //     password: ''
+    // });
 
     const onChange = (e) => {
         if (e.target.files[0]) {
@@ -63,7 +63,7 @@ const UpdateInfo = () => {
                             <input
                                 className="disabled"
                                 type='text'
-                                value='asdf@asdf.com'
+                                value={updateUserInfo ? updateUserInfo.email : ''}
                                 disabled
                             />
                         </div>
@@ -72,7 +72,7 @@ const UpdateInfo = () => {
                             <input
                                 className="disabled"
                                 type='text'
-                                value="홍길동"
+                                value={updateUserInfo ? updateUserInfo.name : ''}
                                 disabled
                             />
                         </div>
@@ -80,10 +80,10 @@ const UpdateInfo = () => {
                             <span>닉네임</span>
                             <input
                                 type='text'
-                                value={value.nickName}
-                                onChange={(event) => setValue(prevState => ({
+                                value={updateUserInfo ? updateUserInfo.nickname : ''}
+                                onChange={(event) => setUpdateUserInfo(prevState => ({
                                     ...prevState,
-                                    nickName: event.target.value
+                                    nickname: event.target.value
                                 }))}
                             />
                         </div>
@@ -91,9 +91,9 @@ const UpdateInfo = () => {
                             <span>비밀번호</span>
                             <input
                                 type='password'
-                                value={value.password}
+                                value=''
                                 name="password"
-                                onChange={(event) => setValue(prevState => ({
+                                onChange={(event) => setUpdateUserInfo(prevState => ({
                                     ...prevState,
                                     password: event.target.value
                                 }))}
@@ -103,9 +103,9 @@ const UpdateInfo = () => {
                             <span>전화번호</span>
                             <input
                                 type='text'
-                                value=""
+                                value={updateUserInfo ? updateUserInfo.phone : ''}
                                 name="phone"
-                                onChange={(event) => setValue(prevState => ({
+                                onChange={(event) => setUpdateUserInfo(prevState => ({
                                     ...prevState,
                                     phone: event.target.value
                                 }))}
