@@ -156,7 +156,7 @@ const RestaurantList = () => {
 
     return (
         <div className={styles.restaurantListBody}>
-            <SearchField />
+            <SearchField/>
             <div className={styles['restList-container']}>
                 <div className={styles['restList-left-col']}>
                     <p>{data.length} + options</p>
