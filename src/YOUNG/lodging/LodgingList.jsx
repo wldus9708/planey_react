@@ -14,16 +14,16 @@ const LodgingList = () => {
     const [allChecked, setAllChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState({
         all: false,
-        호텔: false,
-        모텔: false,
-        콘도: false,
-        펜션: false,
-        리조트: false,
-        기타: false
+        HOTEL: false,
+        MOTEL: false,
+        CONDO: false,
+        PENSION: false,
+        RESORT: false,
+        ETC: false
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
-    const [isLoadingData, setIsLoadingData] = useState(true); // 로딩 상태 추가
+    const [isLoadingData, setIsLoadingData] = useState(true); 
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
@@ -104,7 +104,7 @@ const LodgingList = () => {
         for (let key in newCheckboxStates) {
             newCheckboxStates[key] = newState;
         }
-        setCheckboxStates(newCheckboxStates); // 개별 체크박스 상태 업데이트
+        setCheckboxStates(newCheckboxStates); // 모든 체크박스 상태 업데이트
         setAllChecked(newState); // 전체 체크 상태 업데이트
     };
     
@@ -112,10 +112,10 @@ const LodgingList = () => {
         const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
         setCheckboxStates(newCheckboxStates);
         const allChecked = Object.values(newCheckboxStates).every(value => value);
-        setAllChecked(allChecked);
+        setAllChecked(allChecked); // 전체 체크 상태 업데이트
     };
     
-    // 체크박스 상태 렌더링 확인
+    
     useEffect(() => {
         console.log('checkboxStates:', checkboxStates);
     }, [checkboxStates]);
@@ -275,28 +275,28 @@ const LodgingList = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <h6>식당 유형</h6>
+                        <h6>숙소 유형</h6>
                         < br />
                         <div className={styles['restList-filter']}>
                             <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.lodCategory).length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['HOTEL']} onChange={() => toggleCheckbox('HOTEL')} /><p>호텔</p><span>({data.filter(item => item.lodCategory === '호텔').length})</span>
+                            <input type="checkbox" checked={checkboxStates['호텔']} onChange={() => toggleCheckbox('HOTEL')} /><p>호텔</p><span>({data.filter(item => item.lodCategory === 'HOTEL').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['MOTEL']} onChange={() => toggleCheckbox('MOTEL')} /><p>모텔</p><span>({data.filter(item => item.lodCategory === '모텔').length})</span>
+                            <input type="checkbox" checked={checkboxStates['모텔']} onChange={() => toggleCheckbox('MOTEL')} /><p>모텔</p><span>({data.filter(item => item.lodCategory === 'MOTEL').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['CONDO']} onChange={() => toggleCheckbox('CONDO')} /><p>콘도</p><span>({data.filter(item => item.lodCategory === '콘도').length})</span>
+                            <input type="checkbox" checked={checkboxStates['콘도']} onChange={() => toggleCheckbox('CONDO')} /><p>콘도</p><span>({data.filter(item => item.lodCategory === 'CONDO').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['PENSION']} onChange={() => toggleCheckbox('PENSION')} /><p>펜션</p><span>({data.filter(item => item.lodCategory === '펜션').length})</span>
+                            <input type="checkbox" checked={checkboxStates['펜션']} onChange={() => toggleCheckbox('PENSION')} /><p>펜션</p><span>({data.filter(item => item.lodCategory === 'PENSION').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['RESORT']} onChange={() => toggleCheckbox('RESORT')} /><p>리조트</p><span>({data.filter(item => item.lodCategory === '리조트').length})</span>
+                            <input type="checkbox" checked={checkboxStates['리조트']} onChange={() => toggleCheckbox('RESORT')} /><p>리조트</p><span>({data.filter(item => item.lodCategory === 'RESORT').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['ETC']} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.lodCategory === '기타').length})</span>
+                            <input type="checkbox" checked={checkboxStates['기타']} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.lodCategory === 'ETC').length})</span>
                         </div>
                     </div>
                 </div>

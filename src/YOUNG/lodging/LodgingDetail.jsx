@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './LodgingDetail.module.css';
 import axios from "axios";
+import LodgingPayment from "./LodingPayment";
 
 
 const LodgingDetail = () => {
@@ -59,11 +60,15 @@ const LodgingDetail = () => {
               </div>
             </div>
             <div className={styles.lodgingDivRight}>
-
+            <div  className={styles.starImage}>
+                <img src="/images/star.png" alt="star"/> &nbsp;&nbsp;&nbsp;5.0
+                </div>
               <div className={styles.lodgingHeader}>
                 <span className={styles.lodgingName}>숲속 공주 하우스</span>
-                <img src="/images/star.png" alt="star" className={styles.starImage} />
-                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
+                
+                <span className={styles.lodgingType}>펜션</span>
+                <br />
+            
               </div>
 
               <hr />
@@ -76,17 +81,10 @@ const LodgingDetail = () => {
                 잠자는 숲 속의 공주가 자고 있어요 어서 와서 깨워 주세요. 쿨쿨쿨쿨 .... 음냐아아
                 놀러가고싶다아아아아아 예쁜 숙소 군요 바베큐 파뤼 하고 싶어요 ~~
               </p>
-              <div className={styles.btnGroups}>
-                <button type="button" className={styles.addCartBtn}>
-                  <i className='fas fa-shopping-cart'></i>
-                  장바구니 추가
-                </button>
-                <button type="button" className={styles.buyNowBtn}>
-                  <i className='fas fa-wallet'></i>
-                  예약 하러 가기
-                </button>
-
+                <div>
+              <LodgingPayment/>
               </div>
+            
             </div>
 
           </div>
