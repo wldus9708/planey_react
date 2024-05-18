@@ -11,7 +11,6 @@ const RestaurantList = () => {
     const priceGap = 1000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
-    const [allChecked, setAllChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState({
         all: false,
         KOREAN: false,
@@ -23,11 +22,10 @@ const RestaurantList = () => {
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
-    const [isLoadingData, setIsLoadingData] = useState(true); // 로딩 상태 추가
+    const [isLoadingData, setIsLoadingData] = useState(true);
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -72,6 +70,7 @@ const RestaurantList = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [data, totalDataCount]);
+
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -91,20 +90,19 @@ const RestaurantList = () => {
     }, []);
 
     const toggleAllCheckbox = () => {
-        const newState = !allChecked;
-        setAllChecked(newState);
-        const newCheckboxStates = { ...checkboxStates };
-        for (let key in newCheckboxStates) {
-            newCheckboxStates[key] = newState;
-        }
+        const newState = !checkboxStates.all;
+        const newCheckboxStates = Object.keys(checkboxStates).reduce((acc, key) => {
+            acc[key] = newState;
+            return acc;
+        }, {});
         setCheckboxStates(newCheckboxStates);
     };
 
     const toggleCheckbox = (name) => {
         const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
+        const allChecked = Object.values(newCheckboxStates).slice(1).every(value => value);
+        newCheckboxStates.all = allChecked;
         setCheckboxStates(newCheckboxStates);
-        const allChecked = Object.values(newCheckboxStates).every(value => value);
-        setAllChecked(allChecked);
     };
 
     const prcieRangeMinValueHandler = e => {
@@ -117,11 +115,9 @@ const RestaurantList = () => {
 
     const twoRangeHandler = () => {
         if (rangeMaxValue - rangeMinValue < priceGap) {
-            setRangeMaxValue(rangeMinValue => rangeMinValue + priceGap);
-            setRangeMinValue(rangeMaxValue => rangeMaxValue - priceGap);
-        } else {
-
-        }
+            setRangeMaxValue(rangeMinValue + priceGap);
+            setRangeMinValue(rangeMaxValue - priceGap);
+        } 
     };
 
     const sortData = (data, sortOption) => {
@@ -200,7 +196,7 @@ const RestaurantList = () => {
                 </div>
                 <div className={styles['restList-right-col']}>
                     <div className={styles['restList-sidebar']}>
-                        <h2>필터 선택</h2>
+                        <h4>금액 설정</h4>
                         <div className={styles['restList-PriceSlide']} >
                             <div className={styles['restList-PriceSlideInner']} >
                                 {/* 가격 슬라이드 바 */}
@@ -240,7 +236,7 @@ const RestaurantList = () => {
                                 </div>
                             </div>
                         </div>
-                        <h3>식당명</h3>
+                        <h4>식당 이름으로 검색</h4>
                         <div className={styles['restList-search']}>
                             <input
                                 type="text"
@@ -249,27 +245,27 @@ const RestaurantList = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <h3>식당 유형</h3>
+                        <h4>식당 유형</h4>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
+                            <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['한식']} onChange={() => toggleCheckbox('KOREAN')} /><p>한식</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
+                            <input type="checkbox" checked={checkboxStates.KOREAN} onChange={() => toggleCheckbox('KOREAN')} /><p>한식</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['양식']} onChange={() => toggleCheckbox('ITALIAN')} /><p>양식</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
+                            <input type="checkbox" checked={checkboxStates.ITALIAN} onChange={() => toggleCheckbox('ITALIAN')} /><p>양식</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['중식']} onChange={() => toggleCheckbox('CHINESE')} /><p>중식</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
+                            <input type="checkbox" checked={checkboxStates.CHINESE} onChange={() => toggleCheckbox('CHINESE')} /><p>중식</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['일식']} onChange={() => toggleCheckbox('JAPANESE')} /><p>일식</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
+                            <input type="checkbox" checked={checkboxStates.JAPANESE} onChange={() => toggleCheckbox('JAPANESE')} /><p>일식</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['불란서식']} onChange={() => toggleCheckbox('FRENCH')} /><p>불란서식</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
+                            <input type="checkbox" checked={checkboxStates.FRENCH} onChange={() => toggleCheckbox('FRENCH')} /><p>불란서식</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
                         </div>
                         <div className={styles['restList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['기타']} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
+                            <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
                         </div>
                     </div>
                 </div>

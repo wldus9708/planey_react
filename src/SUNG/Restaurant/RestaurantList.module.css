@@ -54,6 +54,7 @@
 .restList-house-info{
     flex-basis: 68%;
     color:#555;
+    margin-bottom: -85px;
 }
 .restList-house-img img{
     width: 300px;
@@ -69,10 +70,11 @@
 .restList-house-info p{
     margin-top:10px;
     margin-bottom:10px;
+    line-height: 150%;
 }
 
 .restList-house-info2 {
-    margin-top: 70px;
+
     display: inline-block;
     
 }
@@ -102,17 +104,21 @@
     font-weight: 500;
 }
 .restList-sidebar{
-    border: 1px solid #b0b0b0;
+    background-color: #ff9f001a;
     padding : 20px 30px;
     margin-top: 30px;
+    border-radius: 5px;
 }
 .restList-sidebar h2{
     font-weight: 500;
     margin-bottom: 20%;
 }
-.restList-sidebar h3{
-    font-weight: 500;
-    margin: 20px 0 10px;
+
+.restList-sidebar h4{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size:22px;
+
 }
 .restList-filter{
     display: flex;
@@ -123,7 +129,10 @@
 .restList-filter p{
     flex:1;
     margin-top: 18px;
-
+}
+.restList-filter h6{
+    margin-top: 18px;
+    flex:1;
 }
 .restList-PriceSlide{
     position: relative;
@@ -134,8 +143,8 @@
 } 
 .restList-PriceSlideInner{
 position: absolute;
-  /* left: 30%;
-  right: 30%; */
+  left: 30%;
+  right: 30%;
   height: 2px;
   border-radius: 10px;
   background-color: #b0b0b0;
@@ -219,8 +228,9 @@ position: absolute;
 .restList-search input{
     height: 40px;
     margin-bottom: 15%;
-    border: 1px solid ff9d0000;
-    border-bottom: 1px solid lightgray;
+    background-color: #ff9d0000;
+    border: 1px solid lightgray;
+    border-radius: 3px;
 }
 .icon-Circle {
     position: fixed;
@@ -233,26 +243,6 @@ position: absolute;
   .restList-filter input[type="checkbox"]:checked {
     background-color: #007bff;
 }
-.restList-filter input[type="checkbox"] + p::before {
-    content: '\25a1'; /* 네모 아이콘 */
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 20px;
-    color: var(--textColor); /* 기본 색상을 변수로 변경 */
-}
-
-/* 체크박스가 선택되었을 때 */
-.restList-filter input[type="checkbox"]:checked + p::before {
-    content: '\2714'; /* 체크마크 아이콘 */
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 20px;
-    color: var(--PrimaryColor); /* 체크된 상태의 색상을 변수로 변경 */
-}
-
-
 
 
 
