@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import styles from './PackageMain.module.css';
+import styles from './PackageHead.module.css';
 import axios from "axios";
 
-const PackageMain = () => {
+const PackageHead = () => {
     // 이미지 목록을 위한 상태 추가
     const [imageList, setImageList] = useState([
         'images/pack01.png'
@@ -60,24 +60,23 @@ const PackageMain = () => {
                         <div className={styles.lodgingDivRight}>
 
                             <div className={styles.lodgingHeader}>
-                                <span className={styles.lodgingName}>[제주 패키지] 2박3일 식도락여행</span>
+                                <span className={styles.lodgingName}>
+                                    제목영역
+                                </span>
                                 <img src="/images/star.png" alt="star" className={styles.starImage} />
                                 <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
                             </div>
 
                             <hr />
                             <br />
-                            <span className={styles.lodgingAddress}>주소: 서울시 은평구 역촌촌촌</span>
+                            <span className={styles.lodgingAddress}>목적지 : </span>
                             <br />
-                            <span className={styles.lodgingPrice}>799,000 원</span>
+                            <span className={styles.lodgingSchdule}>여행일정 : </span>
+                            <br />
+                            <span className={styles.lodgingPrice}> 원</span>
 
                             <p className={styles.lodgingDescription}>
-                                하나팩 스탠다드 2.0
-                                패키지여행의 핵심인 편리함과 효율성을 강조한
-                                온전히 여행에 집중하는 하나투어의 대표여행상품입니다.
-                                합리적으로 인하된 가격으로 선택관광이 진행되며,
-                                가이드&기사 경비는 상품가에 포함되어 있고,
-                                단체 여행객만을 위한 쇼핑센터는 방문하지 않습니다..
+                                Description 영역
                             </p>
                             <div className={styles.btnGroups}>
                                 <button type="button" className={styles.addCartBtn}>
@@ -99,4 +98,4 @@ const PackageMain = () => {
     );
 };
 
-export default PackageMain;
+export default PackageHead;
