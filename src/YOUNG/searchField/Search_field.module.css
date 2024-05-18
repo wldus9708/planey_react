@@ -9,7 +9,9 @@
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
 }
-
+.home{
+  margin-top: 10rem;
+}
 .home .secContainer .homecard{
  
   align-items: center;
