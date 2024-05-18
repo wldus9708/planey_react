@@ -3,14 +3,44 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './RestaurantDetail.module.css';
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { useCookies } from "react-cookie";
+import { useNavigate } from 'react-router-dom';
+
 
 const RestaurantDetail = () => {
+  const navigator = useNavigate();
+  const [cookies] = useCookies('accessToken');
+  const [user, setUser] = useState(null);
   let { id } = useParams(); // URL에서 레스토랑 ID 가져오기
   const [restaurant, setRestaurant] = useState(null); // 레스토랑 정보
   const [activeImageIndex, setActiveImageIndex] = useState(0); // 활성 이미지 인덱스
   const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
 
   useEffect(() => {
+    console.log("accessToken :" + cookies.accessToken);
+    if (cookies.accessToken) {
+      // Fetch user information using the access token
+      axios.get('http://localhost:8988/member/detailPage', {
+        headers: {
+          Authorization: `${cookies.accessToken}`,
+        },
+      })
+        .then((response) => {
+          if (response.data) {
+            setUser(response.data);
+          }
+           console.log(response.data);
+        })
+  
+        .catch(error => {
+          console.error('사용자 정보 가져오는 중 오류 발생:', error);
+        });
+    } else if (!cookies.accessToken) {
+      navigator('/login');
+      alert("결제전에 로그인을 해주세요.");
+    }
+
     axios.get(`http://localhost:8988/restaurant/detail/${id}`)
       .then((response) => {
         if (response.data) {
@@ -24,6 +54,7 @@ const RestaurantDetail = () => {
       });
   }, [id]);
 
+
   // 인원 수 증가 함수
   const increaseNumberOfPeople = () => {
     setNumberOfPeople(prevCount => prevCount + 1);
@@ -36,6 +67,32 @@ const RestaurantDetail = () => {
     }
   };
 
+
+  // 결제 요청 함수
+  const handlePayment = () => {
+
+    const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
+    loadTossPayments(clientKey)
+      .then(tossPayments => {
+        tossPayments.requestPayment('카드', {
+          amount: 1, // 결제할 금액
+          orderId: `order_${id}`, // 주문의 고유한 식별자
+          orderName: `${restaurant.restName} 예약`, // 주문의 이름 또는 설명
+          customerName: user.name, // 고객의 이름
+          successUrl: 'http://localhost:3000/', // 결제 성공 후 이동할 URL 주소
+          failUrl: `http://localhost:8988/restaurant/detail/${id}`, // 결제 실패 시 이동할 URL 주소
+        })
+          .catch((error) => {
+            console.error('결제 중 오류 발생:', error);
+            alert("결제 실패.");
+          });
+      })
+      .catch(error => {
+        console.error('토스페이먼츠 로딩 중 오류 발생:', error);
+        alert("결제 애플리케이션 로딩 실패.");
+      });
+
+  };
   return (
     <div className={styles.restDetailBody}>
       <div className={styles.restDetailwrapper}>
@@ -73,27 +130,28 @@ const RestaurantDetail = () => {
               <br />
               <span className={styles.restDetailAddress}>{restaurant && restaurant.restAddress}</span>
               <br />
-              <span className={styles.restDetailPrice}>{restaurant && (restaurant.restPrice*numberOfPeople).toLocaleString()}</span>
-              
+              <span className={styles.restDetailPrice}>{restaurant && (restaurant.restPrice * numberOfPeople).toLocaleString()}</span>
+
               <p className={styles.restDetailDescription}>
                 {restaurant && restaurant.restDescription}
               </p>
-              
+
               <div className={styles.restDetailbtnGroups}>
                 {/* 인원 수 조절 버튼 */}
                 <p>예약 인원 </p>
-              <div className={styles.numberOfPeopleContainer}>
-                <button className={styles.numberOfPeopleBtn} onClick={decreaseNumberOfPeople}>-</button>
-                <span className={styles.numberOfPeople}>{numberOfPeople}</span>
-                <button className={styles.numberOfPeopleBtn} onClick={increaseNumberOfPeople}>+</button>
-              </div>
+                <div className={styles.numberOfPeopleContainer}>
+                  <button className={styles.numberOfPeopleBtn} onClick={decreaseNumberOfPeople}>-</button>
+                  <span className={styles.numberOfPeople}>{numberOfPeople}</span>
+                  <button className={styles.numberOfPeopleBtn} onClick={increaseNumberOfPeople}>+</button>
+                </div>
                 <button type="button" className={styles.restDetailaddCartBtn}>
                   <i className='fas fa-shopping-cart'></i>
                   장바구니 추가
                 </button>
-                <button type="button" className={styles.restDetailbuyNowBtn}>
+
+                <button type="button" className={styles.restDetailbuyNowBtn} onClick={handlePayment}>
                   <i className='fas fa-wallet'></i>
-                  예약 하러 가기
+                  결제하기
                 </button>
               </div>
             </div>
