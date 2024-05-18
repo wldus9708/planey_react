@@ -18,6 +18,8 @@ const LodingPayment = () => {
         setChildren(prev => Math.max(0, prev + increment));
     };
 
+  
+
     return (
         <div className={styles.modal}>
             <div className={styles.datePicker}>
@@ -28,6 +30,7 @@ const LodingPayment = () => {
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
+                    minDate={new Date()} // 시작 날짜 이후로만 선택 가능
                 />
             </div>
             <div className={styles.datePicker}>

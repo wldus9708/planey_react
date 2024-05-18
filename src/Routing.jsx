@@ -20,7 +20,7 @@ import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
-import MyPage from "./DEOK/MyPage/Mypage_Client"
+// import MyPage from "./DEOK/MyPage/Mypage_Client"
 import PaymentList from "./SUNG/Payment/PaymentList"
 
 
@@ -31,7 +31,7 @@ function Routing() {
                 <Route path="/" element={<App />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/login/Socialkakao" element={<KakaoLogin />} />
-                <Route path="/lodgingDetail" element={<LodgingDetail />} />
+                <Route path="/lodgingDetail/:id" element={<LodgingDetail />} />
                 <Route path="/prelodging" element={<PreLodging />} />
                 <Route path="/planMain" element={<PlanMain />} />
                 <Route path="/restaurantDetail/:id" element={<RestaurantDetail />} />
@@ -48,12 +48,13 @@ function Routing() {
                 <Route path="/test" element={<Test />} />
                 <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
                 <Route path="/packageDetail" element={<PagckageDetail />} />
-                <Route path="/mypage" element={<MyPage />} />
+                {/* <Route path="/mypage" element={<MyPage />} /> */}
                 <Route path="/PackageTour/list" element={<PackageList />} />
-                <Route path="/paymentList" element={<PaymentList />} />
+ 	<Route path="/paymentList" element={<PaymentList />} />
             </Routes>
         </BrowserRouter>
     )
 }
 
 export default Routing;
+

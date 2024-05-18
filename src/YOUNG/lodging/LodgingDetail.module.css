@@ -71,8 +71,10 @@ img{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 120px;
+    height:90px;
 }
-.active {
+.lodDetailactive {
     border-color: rgb(255, 145, 163)!important;
 }
 .hoverContainer div:hover{
@@ -105,7 +107,7 @@ img{
 }
 .lodgingPrice{
     font-weight: 700;
-    font-size: 24px;
+    font-size: 20px;
     opacity: 0.9;
     font-weight: 500;
 }
@@ -180,4 +182,9 @@ img{
         width: 100%;
         margin-bottom: 10px;
     }
+}
+
+.lodgingAddress {
+    margin-bottom: 5px;
+     font-size: 12px;
 }
