@@ -8,6 +8,7 @@ import PaymentList  from '../../SUNG/Payment/PaymentList';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import WishList from './MainComponents/WishList';
 
 const MpClient = () => {
     const [cookies] = useCookies(['accessToken']);
@@ -81,19 +82,9 @@ const MpClient = () => {
                         <p className={viewWhat === 'paymentList' ? 'active' : ''} onClick={() => clickMenu("paymentList")}>
                             <h3>결제 내역</h3>
                         </p>
-                        <p className='' onClick={showUlBox}>
-                            <h3>나의 업체 관리</h3>
+                        <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => clickMenu('wishList')}>
+                            <h3>찜목록</h3>
                         </p>
-                        <ul style={{ display: isUlHidden ? 'none' : 'block' }}>
-                            <li>
-                                <p
-                                    className={`DEOM_MP_CL_ulTag ${viewWhat === 'updateShop' ? 'active' : ''}`}
-                                    onClick={() => clickMenu("updateShop")}>
-                                    <h3>업체 수정</h3>
-                                </p>
-                            </li>
-                            <li><p><h3>메뉴 관리</h3></p></li>
-                        </ul>
                         <p
                             className={viewWhat === 'deleteMember' ? 'active' : ''}
                             onClick={() => clickMenu("deleteMember")}
@@ -114,7 +105,7 @@ const MpClient = () => {
                         {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
                         {viewWhat === "insertShop" && <InsertShop />}
                         {viewWhat === "paymentList" && <PaymentList />}
-                        {viewWhat === "updateShop" && null}
+                        {viewWhat === "wishList" && <WishList />}
                         {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}
                     </div>
                 </main>
