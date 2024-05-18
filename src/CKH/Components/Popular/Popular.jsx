@@ -28,7 +28,7 @@ const Popular = () => {
           comment: newTour.tour_pack_description, // 상품 설명
           tourPackRestaurant: newTour.tourPackRestaurant, // 상품 식당
           hotel: newTour.tourPackLodging, // 상품 호텔
-          tourPackLandmark:newTour.tourPackLandmark, // 상품 랜드마크
+          nation:newTour.nation, // 상품 랜드마크
           
         }));
         setTours(newTours); // 기존 tours 배열에 새 tours 추가
@@ -59,7 +59,7 @@ const Popular = () => {
           comment: tour.tour_pack_description, // 상품 설명
           tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
           hotel: tour.tourPackLodging, // 상품 호텔
-          tourPackLandmark:tour.tourPackLandmark, // 상품 랜드마크
+          nation:tour.nation, // 상품 랜드마크
 
         }));
         console.log("가져와짐.");
@@ -117,10 +117,10 @@ const Popular = () => {
                 <div className="destText flex">
                   <h6>{tour.location}</h6>
                   <span className="flex">
-                    <sapn className="dot">
+                    <span className="dot">
                       <BsDot className="icon" />
-                    </sapn>
-                    {tour.tourPackLandmark}
+                    </span>
+                    {tour.nation ? "국내 패키지" : "해외 패키지"}
                   </span>
                 </div>
               </div>
