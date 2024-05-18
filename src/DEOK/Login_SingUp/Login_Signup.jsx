@@ -155,10 +155,12 @@ const SignUpForm = () => {
         axios
             .post(member_url + "insert", formData)
             .then((response) => {
+                alert(response.data.message);
                 window.location.href = '/login';
             })
             .catch((error) => {
                 console.log("에러 발생", error)
+                alert(error.response.data.message);
             });
     }
 

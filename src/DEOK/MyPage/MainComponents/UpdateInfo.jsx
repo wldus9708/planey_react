@@ -35,9 +35,51 @@ const UpdateInfo = (props) => {
         reader.readAsDataURL(e.target.files[0])
     }
 
+
+    const [validFail, setValidFail] = useState('');
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        switch (name) {
+            case "nickname":
+                setUpdateUserInfo(prevState => ({ ...prevState, [name]: value }))
+                if (value.length < 2) {
+                    setValidFail('nickname');
+                } else {
+                    setValidFail('');
+                }
+                break;
+
+            case "password":
+                setUpdateUserInfo(prevState => ({ ...prevState, [name]: value }))
+                const passwordRegex = /[a-zA-Z0-9!@#$%^&*()\-_=+`~]{8,20}/;
+                if (!passwordRegex.test(value) && value !== "") {
+                    setValidFail('password');
+                } else {
+                    setValidFail('');
+                }
+                break;
+
+            case "phone":
+                setUpdateUserInfo(prevState => ({ ...prevState, [name]: value }))
+                const phoneRegex = /^[0-9]{11}$/;
+                if (!phoneRegex.test(value)) {
+                    setValidFail('phone');
+                } else {
+                    setValidFail('');
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    console.log(updateUserInfo)
+
     const handleUpdateClick = (event) => {
         event.preventDefault();
-
+        if (validFail !== '') alert("양식에 맞춰서 수정해주세요.")
         axios.put('http://localhost:8988/member/mypage/updateinfo', updateUserInfo, {
             headers: {
                 Authorization: `${cookies.accessToken}`
@@ -97,35 +139,33 @@ const UpdateInfo = (props) => {
                         <div>
                             <span>닉네임</span>
                             <input
+                                className={validFail === 'nickname' ? "validFail" : ''}
                                 type='text'
+                                name="nickname"
                                 value={updateUserInfo.nickname}
-                                onChange={(event) => setUpdateUserInfo(prevState => ({
-                                    ...prevState,
-                                    nickname: event.target.value
-                                }))}
+                                placeholder="최소 2글자 이상 입력해 주세요."
+                                onChange={handleChange}
                             />
                         </div>
                         <div>
-                            <span>비밀번호</span>
+                            <span>비밀번호<small> (변경을 원하지 않을 시 공백) </small></span>
                             <input
+                                className={validFail === 'password' ? "validFail" : ''}
                                 type='password'
                                 name="password"
-                                onChange={(event) => setUpdateUserInfo(prevState => ({
-                                    ...prevState,
-                                    password: event.target.value
-                                }))}
+                                placeholder="특수문자, 영문, 숫자를 조합하여 8~20자를 입력해 주세요."
+                                onChange={handleChange}
                             />
                         </div>
                         <div>
                             <span>전화번호</span>
                             <input
+                                className={validFail === 'phone' ? "validFail" : ''}
                                 type='text'
                                 value={updateUserInfo.phone}
                                 name="phone"
-                                onChange={(event) => setUpdateUserInfo(prevState => ({
-                                    ...prevState,
-                                    phone: event.target.value
-                                }))}
+                                placeholder="-빼고 숫자만 입력해 주세요."
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="btn-update">
