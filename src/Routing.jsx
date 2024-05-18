@@ -11,7 +11,6 @@ import LodgingList from './YOUNG/lodging/LodgingList';
 import FindId from './YOUNG/member/findId';
 import FindPW01 from './YOUNG/member/findPW01';
 import FindPW02 from './YOUNG/member/findPW02';
-import GhTest from './GUN/Package_Detail';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
 import PackageList from './GUN/PackageList';
@@ -21,6 +20,7 @@ import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
 import MyPage from "./DEOK/MyPage/Mypage_Client"
+import RentCarTest from './GUN/RentCarIndex';
 
 
 function Routing() {
@@ -39,7 +39,6 @@ function Routing() {
                 <Route path="/findPW02" element={<FindPW02 />} />
                 <Route path="/restaurant/list" element={<RestaurantList />} />
                 <Route path="/LodgingList" element={<LodgingList />} />
-                <Route path="/GhTest" element={<GhTest />} />
                 <Route path="/PackageFoot" element={<PackageFoot />} />
                 <Route path="/PaymentTest" element={<PaymentTest />} />
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
@@ -49,6 +48,7 @@ function Routing() {
                 <Route path="/packageDetail" element={<PagckageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
+                <Route path="/RentCarTest" element={<RentCarTest />} />
             </Routes>
         </BrowserRouter>
     )

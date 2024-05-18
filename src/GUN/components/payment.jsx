@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Package_Detail_Style.css';
+import '../PackageDetail.module.css';
 import styles from './PackageFoot.module.css'; // PackageFoot 모듈의 스타일 가져오기
 
 function Payment() {
