@@ -11,7 +11,7 @@ const LodgingDetail = () => {
   const [lodging, setLodging] = useState(null);
   // 이미지 목록을 위한 상태 추가
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
+
 
   // 스프링 연결 
   useEffect(() => {
@@ -37,10 +37,10 @@ const LodgingDetail = () => {
           <div className={styles.lodgingDiv}>
             <div className={styles.lodgingDivLeft}>
               <div className={styles.imgContainer}>
-            
+   
               <img
                   src={`/images/${lodging && lodging[`lodImage0${activeImageIndex + 1}`]}`}
-                  alt={`images${activeImageIndex + 1}`}
+                  alt={`이미지 등록중..`}
                 />
               </div>
               <div className={styles.hoverContainer}>
@@ -52,7 +52,7 @@ const LodgingDetail = () => {
                   >
                     <img
                       src={`/images/${lodging && lodging[`lodImage0${index}`]}`}
-                      alt={`images${index}`}
+                      alt={`이미지 등록중..`}
                     />
                   </div>
                 ))}

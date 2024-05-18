@@ -55,7 +55,9 @@ img{
 .imgContainer img{
     width: 600px;
     margin: 0 auto;
+    
 }
+
 .hoverContainer{
     display: flex;
     flex-wrap: wrap;

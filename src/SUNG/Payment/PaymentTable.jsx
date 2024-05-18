@@ -5,6 +5,7 @@ import styles from "./PaymentTable.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { Button, Modal } from 'react-bootstrap';
 
 const TABLE_HEADS = [
     "상품이름",
@@ -91,6 +92,18 @@ const PaymentTable = ({ endpoint }) => {
         };
     }, []);
 
+    // 김윤영
+    const [showModal, setShowModal] = useState(false); 
+
+    const handleOpenModal = () => {
+        setShowModal(true); // 모달 열기
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false); // 모달 닫기
+    };
+    // 끝
+
     return (
         <section className={styles['content-payment-table']}>
             <div className={styles['data-table-diagram']}>
@@ -116,12 +129,45 @@ const PaymentTable = ({ endpoint }) => {
                         ) : data.length > 0 ? (
                             data.map((dataItem, index) => (
                                 <tr key={index}>
-                                     <td className={styles[`column-0`]}>
+                                    <td className={styles[`column-0`]}>
                                         <Link to={`/product/${dataItem.id}`}>{dataItem.name}</Link>
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-3`]}><span><FontAwesomeIcon icon={faCirclePlus} className={styles['icon-Plus']} /></span></td>
+                                    {/* 결제내역 상세보기 -모달 */}
+                                    <td className={styles[`column-3`]}><span>
+                                        <FontAwesomeIcon icon={faCirclePlus}
+                                         className={styles['icon-Plus']}
+                                         onClick={handleOpenModal} />
+                                    </span>
+                                        <Modal
+                                            show={showModal}
+                                            onHide={handleCloseModal}
+                                            animation={false}
+                                            backdrop="static" // 모달 외부 클릭 시 닫히지 않도록 설정
+                                            keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
+                                        >
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>결제내역 상세보기</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                               
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <Button variant="secondary" onClick={handleCloseModal}> 
+                                                   닫기
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal>
+
+                                    </td>
+
+
+
+
+
+
+
                                     <td className={styles[`column-4`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
