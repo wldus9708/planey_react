@@ -41,14 +41,15 @@ const DeleteMember = (props) => {
                     Authorization: cookies.accessToken
                 }
             })
-                .then(() => {
-                    alert("회원 탈퇴가 정상적으로 완료되었습니다.");
+                .then((response) => {
+                    alert(response.data.message);
                     jsCookies.remove('accessToken');
                     jsCookies.remove('refreshToken');
                     navigator('/login');
                 })
                 .catch((error) => {
                     console.log(error);
+                    alert("데이터베이스 오류")
                 })
         }
     }

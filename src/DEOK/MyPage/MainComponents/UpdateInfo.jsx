@@ -11,7 +11,7 @@ const UpdateInfo = (props) => {
         nickname: userInfo.nickname,
         password: '',
         phone: userInfo.phone,
-        memberImage: ''
+        memberImage: userInfo.memberImage
     });
     const [profileImg, setProfileImg] = useState(userInfo.memberImage);
     const fileInput = useRef(null);
@@ -92,6 +92,7 @@ const UpdateInfo = (props) => {
             })
             .catch(error => {
                 console.log(error)
+                alert(error.response.data.message)
             })
 
     }
