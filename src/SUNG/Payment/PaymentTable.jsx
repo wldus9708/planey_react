@@ -149,26 +149,14 @@ const PaymentTable = ({ endpoint }) => {
                                             keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                         >
                                             <Modal.Header closeButton>
-                                                <Modal.Title>결제내역 상세보기</Modal.Title>
+                                                <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
                                                <PaymentDetail/>
                                             </Modal.Body>
-                                            <Modal.Footer>
-                                                <Button variant="secondary" onClick={handleCloseModal}> 
-                                                   닫기
-                                                </Button>
-                                            </Modal.Footer>
                                         </Modal>
 
                                     </td>
-
-
-
-
-
-
-
                                     <td className={styles[`column-4`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
