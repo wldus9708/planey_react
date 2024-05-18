@@ -107,7 +107,10 @@ img{
     margin-top: 12px;
 }
 .lodgingAddress{
-    font-size: 11px;
+    font-size: 13px;
+}
+.lodgingScheule{
+    font-size: 13px;
 }
 
 .lodgingDescription {
