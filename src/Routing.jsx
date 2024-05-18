@@ -21,7 +21,6 @@ import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
 import MyPage from "./DEOK/MyPage/Mypage_Client"
-import PaymentList from "./SUNG/Payment/PaymentList"
 
 
 function Routing() {
@@ -50,7 +49,6 @@ function Routing() {
                 <Route path="/packageDetail" element={<PagckageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
- 	<Route path="/paymentList" element={<PaymentList />} />
             </Routes>
         </BrowserRouter>
     )
