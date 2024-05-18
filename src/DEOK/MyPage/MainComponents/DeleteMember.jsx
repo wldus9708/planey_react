@@ -1,18 +1,58 @@
 import React, { useState } from "react";
 import './DeleteMember.css';
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import bcrypt from 'bcryptjs'
+import jsCookies from "js-cookie";
 
-const DeleteMember = () => {
-
-    const [value, setValue] = useState({email : 'email@email.com', password : ''});
-
-    const handleDeleteClick = (event) => {
-        event.preventDefault();
-
-        axios.get('http://localhost:8888/member/...')
-        //          스프링 먼저 뚫어놔야함           //
+const DeleteMember = (props) => {
+    const [cookies] = useCookies('accessToken');
+    const { userInfo } = props;
+    const [value, setValue] = useState({ email: userInfo.email, password: '' });
+    const fromDbPw = userInfo.password;
+    const navigator = useNavigate();
+    
+    async function comparePasswords(userInputPassword, storedPassword) {
+        try {
+            const isMatch = await bcrypt.compare(userInputPassword, storedPassword);
+            if (!isMatch) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return false;
+            } else {
+                return true;
+            }
+        } catch (err) {
+            console.error('비교 중 오류 발생:', err);
+            alert("다시 시도해주세요. 이 오류가 계속 된다면 관리자에게 문의해주세요.");
+            return false;
+        }
     }
 
+    const handleDeleteClick = async (event) => {
+        event.preventDefault();
+        const isPwCorrect = await comparePasswords(value.password, fromDbPw);
+
+        if (isPwCorrect) {
+            
+            axios.delete('http://localhost:8988/member/delete', {
+                data : value,
+                headers: {
+                    Authorization: cookies.accessToken
+                }
+            })
+                .then(() => {
+                    alert("회원 탈퇴가 정상적으로 완료되었습니다.");
+                    jsCookies.remove('accessToken');
+                    jsCookies.remove('refreshToken');
+                    navigator('/login');
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }
+    
     return (
         <>
             <h1>회원 탈퇴</h1>
@@ -32,23 +72,19 @@ const DeleteMember = () => {
                         <div>
                             <span>이메일</span>
                             <input
-                                className="diabledEmail"
+                                className="disabled"
                                 type='text'
-                                value={value.email}
-                                onChange={(event) => setValue(prevState => ({
-                                    ...prevState,
-                                    email : event.target.value
-                                }))}
+                                value={userInfo.email}
+                                disabled
                             />
                         </div>
                         <div>
                             <span>비밀번호</span>
                             <input
                                 type='password'
-                                value={value.password}
                                 onChange={(event) => setValue(prevState => ({
                                     ...prevState,
-                                    password : event.target.value
+                                    password: event.target.value
                                 }))}
                             />
                         </div>
