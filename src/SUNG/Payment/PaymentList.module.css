@@ -4,7 +4,8 @@
     box-sizing: border-box;
   }
 .paymentListBody{
-    width: 700px;
+    width: 800px;
     margin: 0 auto;
-    margin-top: 10rem;
+    margin-top: 1rem;
 }
+
