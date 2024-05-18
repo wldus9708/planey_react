@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import styles from './PaymentList.module.css';
-import Package from './PackPayList';
-import Rentcar from './RentPayList';
-import Restaurant from './RestPayList';
-import Lodging from './LodPayList';
-import Airplane from './AirPayList';
+import PaymentTable from './PaymentTable';
 
-function JustifiedExample() {
+function PaymentList() {
     const [activeTab, setActiveTab] = useState('package'); // 패키지 탭을 기본으로 설정
 
     const handleTabChange = (eventKey) => {
         setActiveTab(eventKey);
     };
 
+    // 각 탭에 맞는 엔드포인트 설정
+    const endpoints = {
+        package: "http://localhost:8988/paymentList/packages",
+        lodging: "http://localhost:8988/paymentList/lodgings",
+        restaurant: "http://localhost:8988/admin/members",
+        airplane: "http://localhost:8988/paymentList/airplanes",
+        rentcar: "http://localhost:8988/paymentList/rentcars"
+    };
+
     return (
         <div className={styles.paymentListBody}>
+            <h1>결제 내역</h1>
             <Nav justify variant="tabs" activeKey={activeTab} onSelect={handleTabChange}>
                 <Nav.Item>
                     <Nav.Link eventKey="package">패키지</Nav.Link>
@@ -33,13 +39,9 @@ function JustifiedExample() {
                     <Nav.Link eventKey="rentcar">렌트카</Nav.Link>
                 </Nav.Item>
             </Nav>
-            {activeTab === 'package' && <Package />}
-            {activeTab === 'lodging' && <Lodging />}
-            {activeTab === 'restaurant' && <Restaurant />}
-            {activeTab === 'airplane' && <Airplane />}
-            {activeTab === 'rentcar' && <Rentcar />}
+            <PaymentTable endpoint={endpoints[activeTab]} />
         </div>
     );
 }
 
-export default JustifiedExample;
+export default PaymentList;
