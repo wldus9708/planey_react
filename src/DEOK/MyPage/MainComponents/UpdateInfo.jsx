@@ -11,23 +11,25 @@ const UpdateInfo = (props) => {
         nickname: userInfo.nickname,
         password: '',
         phone: userInfo.phone,
-        memberImage: userInfo.memberImage
+        memberImage: ''
     });
-    const [Image, setImage] = useState("/images/프사 예시.png");
+    const [profileImg, setProfileImg] = useState(userInfo.memberImage);
     const fileInput = useRef(null);
 
-    const onChange = (e) => {
+    const updateProfileImg = (e) => {
         if (e.target.files[0]) {
-            setImage(e.target.files[0])
-        } else { //업로드 취소할 시
-            setImage("/images/프사 예시.png")
+            setProfileImg(e.target.files[0].name)
+            setUpdateUserInfo(prevstate => ({
+                ...prevstate, memberImage: e.target.files[0].name
+            }))
+
+        } else {
             return;
         }
-        //화면에 프로필 사진 표시
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setImage(reader.result)
+                setProfileImg(reader.result)
             }
         }
         reader.readAsDataURL(e.target.files[0])
@@ -36,19 +38,19 @@ const UpdateInfo = (props) => {
     const handleUpdateClick = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:8988/member/mypage/updateinfo', updateUserInfo, {
+        axios.put('http://localhost:8988/member/mypage/updateinfo', updateUserInfo, {
             headers: {
                 Authorization: `${cookies.accessToken}`
             }
         })
-        .then(response => {
-            console.log(response)
-            alert("회원 정보 수정이 완료되었습니다.");
-            window.location.reload();
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            .then(response => {
+                console.log(response)
+                alert("회원 정보 수정이 완료되었습니다.");
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
     }
 
@@ -56,10 +58,10 @@ const UpdateInfo = (props) => {
         <>
             <h1>회원 정보 수정</h1>
             <div className="DEOK_MP_CL_updateInfo">
-                <form className="DEOK_MP_CL_updateInfo_form-box" onSubmit={handleUpdateClick}>
+                <div className="DEOK_MP_CL_updateInfo_form-box">
                     <div className="DEOK_MP_CL_updateInfo_editPic">
                         <Avatar
-                            src={Image}
+                            src={profileImg.startsWith('data:image') ? profileImg : `/images/${profileImg}`}
                             style={{ margin: '20px', cursor: "pointer", border: "1.5px solid black" }}
                             size={100}
                             onClick={() => { fileInput.current.click() }} />
@@ -69,7 +71,7 @@ const UpdateInfo = (props) => {
                                 style={{ display: 'none' }}
                                 accept='image/*'
                                 name='profile_img'
-                                onChange={onChange}
+                                onChange={updateProfileImg}
                                 ref={fileInput} />
                         </div>
                     </div>
@@ -79,7 +81,7 @@ const UpdateInfo = (props) => {
                             <input
                                 className="disabled"
                                 type='text'
-                                value={props.userInfo ? props.userInfo.email : ''}
+                                value={userInfo.email}
                                 disabled
                             />
                         </div>
@@ -88,7 +90,7 @@ const UpdateInfo = (props) => {
                             <input
                                 className="disabled"
                                 type='text'
-                                value={props.userInfo ? props.userInfo.name : ''}
+                                value={userInfo.name}
                                 disabled
                             />
                         </div>
@@ -96,7 +98,7 @@ const UpdateInfo = (props) => {
                             <span>닉네임</span>
                             <input
                                 type='text'
-                                value={updateUserInfo ? updateUserInfo.nickname : ''}
+                                value={updateUserInfo.nickname}
                                 onChange={(event) => setUpdateUserInfo(prevState => ({
                                     ...prevState,
                                     nickname: event.target.value
@@ -118,7 +120,7 @@ const UpdateInfo = (props) => {
                             <span>전화번호</span>
                             <input
                                 type='text'
-                                value={updateUserInfo ? updateUserInfo.phone : ''}
+                                value={updateUserInfo.phone}
                                 name="phone"
                                 onChange={(event) => setUpdateUserInfo(prevState => ({
                                     ...prevState,
@@ -128,10 +130,10 @@ const UpdateInfo = (props) => {
                         </div>
                         <div className="btn-update">
                             <button type="button">취소</button>
-                            <button type="submit">변경</button>
+                            <button type="button" onClick={handleUpdateClick}>변경</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </>
     )

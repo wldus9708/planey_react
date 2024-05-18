@@ -69,7 +69,7 @@ const MpClient = () => {
                 <aside className="DEOK_MP_CL_aside">
                     <div className="DEOK_MP_CL_sidebar">
                         <div className="DEOK_MP_CL_profileBox">
-                            <img className="DEOK_MP_CL_profile" src={"/images/프사 예시.png"} alt='프로필 사진' />
+                            <img className="DEOK_MP_CL_profile" src={"/images/" + userInfo.memberImage} alt='프로필 사진' />
                         </div>
                         <p className='DEOK_MP_CL_Nickname'>
                             {userInfo.nickname}
@@ -113,7 +113,7 @@ const MpClient = () => {
                         {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
                         {viewWhat === "insertShop" && <InsertShop />}
                         {viewWhat === "updateShop" && null}
-                        {viewWhat === "deleteMember" && <DeleteMember />}
+                        {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}
                     </div>
                 </main>
                 {/* <!-- End of Main Content --> */}
