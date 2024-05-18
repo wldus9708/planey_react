@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styles from "./PaymentTable.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const TABLE_HEADS = [
     "상품이름",
@@ -115,7 +116,9 @@ const PaymentTable = ({ endpoint }) => {
                         ) : data.length > 0 ? (
                             data.map((dataItem, index) => (
                                 <tr key={index}>
-                                    <td className={styles[`column-0`]}><span>{dataItem.name}</span></td>
+                                     <td className={styles[`column-0`]}>
+                                        <Link to={`/product/${dataItem.id}`}>{dataItem.name}</Link>
+                                    </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
                                     <td className={styles[`column-3`]}><span><FontAwesomeIcon icon={faCirclePlus} className={styles['icon-Plus']} /></span></td>
