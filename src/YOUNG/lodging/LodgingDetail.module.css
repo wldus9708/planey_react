@@ -45,16 +45,13 @@ img{
   }
   
 .starImage {
-    margin-left: 8px; 
     width: 20px;  
     margin-bottom: 20px; 
+    display: flex;
+    align-items: center;
   }
 
- .lodgingRating {
-    margin-bottom: 23px;
 
- } 
-  
 .imgContainer img{
     width: 600px;
     margin: 0 auto;
@@ -95,6 +92,17 @@ img{
     letter-spacing: 1px;
     opacity: 0.9;
 }
+.lodgingType {
+    font-size: 12px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    color: gray;
+
+
+}
 .lodgingPrice{
     font-weight: 700;
     font-size: 24px;
@@ -118,7 +126,7 @@ img{
     margin-top: 22px;
 }
 .btnGroups{
-    margin-top: 247px;
+    margin-top: 10px;
 }
 .btnGroups button{
     display: inline-block;
@@ -134,10 +142,10 @@ img{
     margin-right: 8px;
 }
 .addCartBtn{
-    
+   margin-right: 20px;
     background-color: #FF9F00;
     border: 2px solid #FF9F00;
-    margin-right: 8px;
+ 
 }
 .addCartBtn:hover{
     background-color: #fff;

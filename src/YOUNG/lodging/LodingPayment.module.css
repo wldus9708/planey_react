@@ -1,0 +1,60 @@
+.modal {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    padding: 20px;
+    width: 370px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+.datePicker,
+.counter {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.datePicker label,
+.counter label {
+    margin-right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.dateInput {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.counter button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff9d004d;
+    cursor: pointer;
+}
+
+.counter button:hover {
+    background-color: #0000006b;
+}
+
+.submitButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #45a049;
+}

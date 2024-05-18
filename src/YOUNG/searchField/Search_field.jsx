@@ -5,7 +5,7 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-calendar/dist/Calendar.css';
 import { format, isBefore } from 'date-fns';
-import ko from 'date-fns/locale/ko'; // 'ko'를 가져옴
+import ko from 'date-fns/locale/ko';
 
 
 
