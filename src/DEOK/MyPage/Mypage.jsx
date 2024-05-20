@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Mypage_Client.css';
+import './Mypage.css';
 import 'material-icons';
 import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
@@ -104,7 +104,7 @@ const MpClient = () => {
                     <div className='DEOK_MP_CL_main'>
                         {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
                         {viewWhat === "insertShop" && <InsertShop />}
-                        {viewWhat === "paymentList" && <PaymentList />}
+                        {viewWhat === "paymentList" && <PaymentList userInfo={userInfo} />}
                         {viewWhat === "wishList" && <WishList />}
                         {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}
                     </div>

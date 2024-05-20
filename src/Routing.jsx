@@ -20,7 +20,7 @@ import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
-import MyPage from "./DEOK/MyPage/Mypage_Client"
+import MyPage from "./DEOK/MyPage/Mypage";
 import RentCarTest from './GUN/RentCarIndex';
 import Airport from "./YOUNG/Seat/SeatBooking"
 
