@@ -10,14 +10,22 @@ import PaymentStyles from './payment.module.css';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { useCookies } from "react-cookie";
+import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 
 function RentCarFoot() {
-
+    const [data, setData] = useState([]);
+    const navigator = useNavigate();
+    const [cookies] = useCookies('accessToken');
+    let { id } = useParams(); // URL에서 레스토랑 ID 가져오기
+    const [car, setCar] = useState(null); // 레스토랑 정보
+    const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [highlightedItem, setHighlightedItem] = useState(null);
-
     const wrapperRef = useRef(null);
     const contentRef = useRef(null);
 
@@ -34,20 +42,7 @@ function RentCarFoot() {
         const [loading, setloading] = useState(true);
         const [error, setError] = useState(null);
 
-        useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    const response = await axios.get('http://localhost:8988/restaurant/list')
-                    setData(response.data);
-                    setloading(false);
-                } catch (error) {
-                    setError(error);
-                    setloading(false);
-                }
-            };
-
-            fetchData();
-        }, []);
+       
 
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error: {error.message}</p>;
@@ -55,6 +50,18 @@ function RentCarFoot() {
 
 
     useEffect(() => {
+
+        axios.get(`http://localhost:8988/car/detail/${id}`)
+         .then((response) => {
+            if(response.data){
+                setCar(response.data);
+                console.log(response.data);
+            }
+            setActiveImageIndex(1);    
+         })
+         .catch(error => {
+            console.error('이미지 이름을 가져오는 중 오류 발생:', error);
+         })
 
 
         const handleScroll = () => {
@@ -115,7 +122,7 @@ function RentCarFoot() {
                         <li onClick={() => handleIcon('megaphone')}
                             style={{ cursor: "pointer", backgroundColor: icons.megaphone ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
                             <BsMegaphone style={{ fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />
-                            <label style={{ color: icons.megaphone ? "white" : "black" }}>유의사항</label>
+                            <label style={{ color: icons.megaphone ? "white" : "black" }}>옵션</label>
                         </li>
                         <li onClick={() => handleIcon('beach')}
                             style={{ cursor: "pointer", backgroundColor: icons.beach ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
@@ -134,9 +141,9 @@ function RentCarFoot() {
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
                     <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
-                        <p>유의 사항</p>
+                        <p>옵션</p>
                         <p>
-                            InnerDescription
+                            {car && car.carOption}
                         </p>
                     </li>
                     <hr />
