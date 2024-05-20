@@ -14,6 +14,16 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
+const DataFetchingComponent = () => {
+    const [data, setData] = useState([]);
+    const [loading, setloading] = useState(true);
+    const [error, setError] = useState(null);
+
+   
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
+}
 
 function RentCarFoot() {
     const [data, setData] = useState([]);
@@ -37,16 +47,6 @@ function RentCarFoot() {
         vehicle: false
     });
 
-    const DataFetchingComponent = () => {
-        const [data, setData] = useState([]);
-        const [loading, setloading] = useState(true);
-        const [error, setError] = useState(null);
-
-       
-
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error: {error.message}</p>;
-    }
 
 
     useEffect(() => {
@@ -98,21 +98,32 @@ function RentCarFoot() {
                 const wrapperRect = wrapperRef.current.getBoundingClientRect();
                 const targetRect = targetElement.getBoundingClientRect();
                 const offset = targetRect.top - wrapperRect.top + wrapperRef.current.scrollTop;
+    
+                // 디버깅을 위한 로그 추가
+                console.log('targetElement:', targetElement);
+                console.log('wrapperRect:', wrapperRect);
+                console.log('targetRect:', targetRect);
+                console.log('offset:', offset);
+    
                 wrapperRef.current.scrollTo({
                     top: offset,
                     behavior: 'smooth'
                 });
+            } else {
+                console.log('targetElement not found');
             }
+        } else {
+            console.log('contentRef.current is null');
         }
-
+    
         setIcons({
             megaphone: what === 'megaphone',
             beach: what === 'beach',
             hotel: what === 'hotel',
-            restaurant: what === 'restaurant',
-            vehicle: what === 'vehicle'
         });
     };
+    
+    
 
     return (
         <div ref={wrapperRef} className={styles.wrapper}>
