@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import PaymentDetailRestaurant from '../../YOUNG/PaymentDetail/paymentDetail_Restaurant'
+import PaymentDetail from '../../YOUNG/PaymentDetail/RestaurantpaymentDetail'
 
 const TABLE_HEADS = [
     "상품이름",
@@ -152,7 +152,7 @@ const PaymentTable = ({ endpoint }) => {
                                                 <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <PaymentDetailRestaurant/>
+                                               <PaymentDetail/>
                                             </Modal.Body>
                                         </Modal>
 

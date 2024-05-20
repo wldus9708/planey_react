@@ -21,6 +21,7 @@ import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
 import MyPage from "./DEOK/MyPage/Mypage_Client"
 import RentCarTest from './GUN/RentCarIndex';
+import Airport from "./YOUNG/Seat/SeatBooking"
 
 
 function Routing() {
@@ -49,6 +50,8 @@ function Routing() {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
                 <Route path="/RentCarTest" element={<RentCarTest />} />
+                <Route path="/Airport" element={<Airport />} />
+
             </Routes>
         </BrowserRouter>
     )
