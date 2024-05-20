@@ -38,9 +38,10 @@ const SeatBooking = () => {
 
 
   return (
+<div className={styels.body}>
     <div className={styels.plane}>
       <div className={styels.select}>
-        <h5>좌석을 선택 해주세요.</h5>
+        <h5 className={styels.h5}>좌석을 선택 해주세요.</h5>
       </div>
       <div className={styels.exit}></div>
       <ol>
@@ -65,11 +66,8 @@ const SeatBooking = () => {
         ))}
       </ol>
       <div className={styels.exit}></div>
-      <div className={styels.triangleLeft}></div>
-      <div className={styels.triangleRight}></div>
-      <div className={styels.triangleTail}></div>
 
-
+    </div>
     </div>
     
   );

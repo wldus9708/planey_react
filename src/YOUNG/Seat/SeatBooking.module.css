@@ -2,15 +2,15 @@
     box-sizing: border-box;
   }
   
-  body {
+  .body {
     font-size: 16px;
-    background: black;
+    /* background: black; */
   }
   
   .plane {
     margin: 20px auto;
     max-width: 300px;
-    background: white;
+    background: rgba(207, 206, 206, 0.418);
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
 
@@ -53,7 +53,7 @@
     right: 10px;
   }
   
-  ol {
+ol {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -108,35 +108,3 @@
     cursor: not-allowed; /* 사용자가 클릭할 수 없도록 설정 */
   }
 
-  .triangleLeft {
-
-    border-bottom: 280px solid #ffffff;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    position: fixed;
-    translate: 62px -420px;
-    z-index: -1;
-}
-
-.triangleRight {
-    border-bottom: 280px solid #ffffff;
-    border-left: 180px solid transparent;
-    border-right: 180px solid transparent;
-    position: fixed;
-    translate: -111px -543px;
-    z-index: -1;
-}
-
-.triangleTail {
-    border-left: -65px;
-    left: 527px;
-    border-bottom: 169px solid #ffffff;
-    border-left: 135px solid transparent;
-    border-right: 135px solid transparent;
-    position: fixed;
-    translate: -111px 20x;
-    z-index: -1;
-    bottom: 316px;
-
-  
-}
