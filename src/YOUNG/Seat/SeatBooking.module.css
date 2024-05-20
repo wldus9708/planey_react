@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-size: 16px;
+    background: black;
+  }
+  
+  .plane {
+    margin: 20px auto;
+    max-width: 300px;
+    background: white;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+
+  }
+  
+  .select {
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .select h5 {
+    width: 66%;
+    margin: 100px auto 35px auto;
+    font-weight: bold;
+  }
+  
+  .exit {
+    position: relative;
+    height: 50px;
+  }
+  .exit:before, .exit:after {
+    content: "EXIT";
+    font-size: 14px;
+    line-height: 18px;
+    padding: 0px 2px 2px 2px;
+    display: block;
+    position: absolute;
+    background: red;
+    color: white;
+    top: 50%;
+    transform: translate(0, -50%);
+    border-radius: 5px;
+  }
+  .exit:before {
+    left: 10px;
+  }
+  .exit:after {
+    right: 10px;
+  }
+  
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .seats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  
+  .seat {
+    display: flex;
+    flex: 0 0 14.28%;
+    padding: 5px;
+    position: relative;
+  }
+  
+  .seat label {
+    display: block;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bolder;
+    line-height: 1.5rem;
+    padding: 4px 0;
+    background: #FF9F00;
+    border-radius: 5px; 
+    color: black; 
+  }
+  
+  .seat label:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0px 2px #FF9F00;
+  }
+  
+  .seat:nth-child(3) {
+    margin-right: 14%;
+  }
+  .seat input[type=checkbox] {
+    position: absolute;
+  }
+  /* 좌석 선택하는 경우 */
+  .seat input[type=checkbox]:checked + label {
+    background: #f7f7f7; 
+  }
+/* 이미 예약 된 경우 */
+.seat input[type=checkbox]:disabled + label {
+    background: #a3a1a1; /* 예약된 좌석에 회색 배경 적용 */
+    cursor: not-allowed; /* 사용자가 클릭할 수 없도록 설정 */
+  }
+
+  .triangleLeft {
+
+    border-bottom: 280px solid #ffffff;
+    border-left: 180px solid transparent;
+    border-right: 180px solid transparent;
+    position: fixed;
+    translate: 62px -420px;
+    z-index: -1;
+}
+
+.triangleRight {
+    border-bottom: 280px solid #ffffff;
+    border-left: 180px solid transparent;
+    border-right: 180px solid transparent;
+    position: fixed;
+    translate: -111px -543px;
+    z-index: -1;
+}
+
+.triangleTail {
+    border-left: -65px;
+    left: 527px;
+    border-bottom: 169px solid #ffffff;
+    border-left: 135px solid transparent;
+    border-right: 135px solid transparent;
+    position: fixed;
+    translate: -111px 20x;
+    z-index: -1;
+    bottom: 316px;
+
+  
+}
