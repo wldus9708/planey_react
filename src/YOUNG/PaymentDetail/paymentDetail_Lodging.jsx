@@ -3,7 +3,7 @@ import styles from './paymentDetail.module.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const PaymentDetail = () => {
+const PaymentDetailLodging = () => {
     // let { reservationId } = useParams(); // URL에서 예약 ID 가져오기
     // const [reservation, setReservation] = useState(null);
 
@@ -85,4 +85,4 @@ const PaymentDetail = () => {
     );
 };
 
-export default PaymentDetail;
+export default PaymentDetailLodging;
