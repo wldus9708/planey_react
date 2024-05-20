@@ -12,9 +12,9 @@ const RentCarHead = () => {
     const [data, setData] = useState([]);
     const navigator = useNavigate();
     const [cookies] = useCookies('accessToken');
-    let { id } = useParams(); // URL에서 레스토랑 ID 가져오기
-    const [car, setCar] = useState(null); // 레스토랑 정보
-    const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
+    let { id } = useParams(); 
+    const [car, setCar] = useState(null); 
+    const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
 

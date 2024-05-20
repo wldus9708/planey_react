@@ -14,6 +14,7 @@ import FindPW02 from './YOUNG/member/findPW02';
 import PaymentTest from './GUN/components/payment';
 import PackageFoot from './GUN/components/PackageFoot';
 import PackageList from './GUN/PackageList';
+import RentCarList from './GUN/RentCarList ';
 import PagckageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
@@ -49,6 +50,7 @@ function Routing() {
                 <Route path="/packageDetail" element={<PagckageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
+                <Route path="/Car/list" element={<RentCarList />} />
                 <Route path="/RentCarTest/:id" element={<RentCarTest />} />
                 <Route path="/Airport" element={<Airport />} />
 
@@ -58,4 +60,5 @@ function Routing() {
 }
 
 export default Routing;
+
 
