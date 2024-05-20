@@ -19,13 +19,15 @@
   width: 100%;
   padding: 1rem;
   z-index: 1000;
+  
 }
 .navBarSection .header .logoDiv .logo {
-  color: var(--whiteColor);
+  color: var(--PrimaryColor);
   font-weight: 500;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
+  text-decoration: none;
 }
 .navBarSection .header .logoDiv .logo .icon {
   color: var(--PrimaryColor);
@@ -59,6 +61,7 @@
     color: var(--textColor);
     font-size: 0.9rem;
     font-weight: 600;
+    
   }
   .navBarSection .header .navBar .navLists .navItem .navLink:hover {
     color: var(--PrimaryColor);
@@ -130,9 +133,10 @@
   .navBarSection .header .navBar .navLists .navItem .navLink {
     color: var(--whiteColor);
     padding: 0 0.45rem;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: 400;
     color: var(--PrimaryColor);
+    text-decoration: none;
   }
   .navBarSection .header .navBar .navLists .navItem .navLink:hover {
     color: var(--PrimaryColor);
