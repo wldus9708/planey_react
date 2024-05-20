@@ -8,7 +8,6 @@
    
 }
 
-
 .reservationDetail .row {
     display: flex;
     justify-content: space-between;
@@ -24,3 +23,17 @@
 .reservationDetail .value {
     text-align: right;
 }
+
+.paymentListBody{
+   
+    width: 1500px;
+    padding: 20px;
+    box-sizing: border-box;
+    
+}
+
+.navList{
+    width: 100%;
+}
+
+

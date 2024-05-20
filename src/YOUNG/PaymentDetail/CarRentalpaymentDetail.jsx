@@ -62,40 +62,15 @@ const CarRentalpaymentDetail = () => {
                         {/* <span className={styles.value}>{reservation.fli_departure_place}</span> */}
                         <span className={styles.value}>서울특별시 마포구 노고산동 1-3번지</span>
                     </div>
-
-
-
-
-
                     <div className={styles.row}>
-                        <span className={styles.label}>도착지</span>
+                        <span className={styles.label}>번호판</span>
                         {/* <span className={styles.value}>{reservation.fli_arrival_place}</span> */}
-                        <span className={styles.value}>제주국제공항</span>
+                        <span className={styles.value}>123허4567</span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>출발시간</span>
+                        <span className={styles.label}>보험 종류</span>
                         {/* <span className={styles.value}>{reservation.fli_departure_time}</span> */}
-                        <span className={styles.value}>17:00</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span className={styles.label}>도착시간</span>
-                        {/* <span className={styles.value}>{reservation.}</span> */}
-                        <span className={styles.value}>17:30</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span className={styles.label}>총 비행시간</span>
-                        {/* <span className={styles.value}>{reservation.fli_arrival_time}</span> */}
-                        <span className={styles.value}>30분</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span className={styles.label}>좌석</span>
-                        {/* <span className={styles.value}>{reservation.reservationStatus/span> */}
-                        <span className={styles.value}>45A</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span className={styles.label}>금액</span>
-                        {/* <span className={styles.value}>{reservation.reservationStatus/span> */}
-                        <span className={styles.value}>150,000</span>
+                        <span className={styles.value}>일반자동차보험</span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>이용상태</span>

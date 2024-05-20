@@ -99,7 +99,7 @@ const UpdateInfo = (props) => {
 
     return (
         <>
-            <h1>회원 정보 수정</h1>
+            <h4>회원 정보 수정</h4>
             <div className="DEOK_MP_CL_updateInfo">
                 <div className="DEOK_MP_CL_updateInfo_form-box">
                     <div className="DEOK_MP_CL_updateInfo_editPic">
