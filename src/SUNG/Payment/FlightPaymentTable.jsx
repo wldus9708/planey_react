@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import PaymentDetail from '../../YOUNG/PaymentDetail/RestaurantpaymentDetail'
+import FlightPaymentDetail from '../../YOUNG/PaymentDetail/FlightpaymentDetail'
 
 const TABLE_HEADS = [
     "상품이름",
@@ -16,7 +16,7 @@ const TABLE_HEADS = [
     "삭제"
 ];
 
-const PaymentTable = ({ endpoint }) => {
+const FlightPaymentTable = ({ endpoint }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
@@ -152,7 +152,7 @@ const PaymentTable = ({ endpoint }) => {
                                                 <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <PaymentDetail/>
+                                               <FlightPaymentDetail/>
                                             </Modal.Body>
                                         </Modal>
 
@@ -175,8 +175,8 @@ const PaymentTable = ({ endpoint }) => {
     );
 };
 
-PaymentTable.propTypes = {
+FlightPaymentTable.propTypes = {
     endpoint: PropTypes.string.isRequired
 };
 
-export default PaymentTable;
+export default FlightPaymentTable;
