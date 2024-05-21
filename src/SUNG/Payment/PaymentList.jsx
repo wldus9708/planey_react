@@ -6,7 +6,7 @@ import LodgingPaymentTable from './LodgingPaymentTable';
 import FlightPaymentTable from './FlightPaymentTable';
 import CarRentalPaymentTable from './CarRentalPaymentTable';
 import PackagePaymentTable from './PackagePaymentTable';
-
+import { useParams } from 'react-router-dom';
 
 
 
@@ -14,6 +14,7 @@ import PackagePaymentTable from './PackagePaymentTable';
 function PaymentList(props) {
     const [activeTab, setActiveTab] = useState('package'); // 패키지 탭을 기본으로 설정
     const userInfo = props.userInfo;
+    let { lodResId } = useParams(); // URL에서 예약 ID 가져오기
 
     const handleTabChange = (eventKey) => {
         setActiveTab(eventKey);
@@ -22,7 +23,7 @@ function PaymentList(props) {
     // 각 탭에 맞는 엔드포인트 설정
     const endpoints = {
         package: "http://localhost:8988/admin/members",
-        lodging: "http://localhost:8988/admin/members",
+        lodging: (`http://localhost:8988/lodging/paymentdetail/${lodResId}`),
         restaurant: "http://localhost:8988/admin/members",
         flight: "http://localhost:8988/admin/members",
         rentcar: "http://localhost:8988/admin/members"
