@@ -10,7 +10,8 @@ import FlightPaymentDetail from '../../YOUNG/PaymentDetail/FlightpaymentDetail'
 
 const TABLE_HEADS = [
     "상품이름",
-    "일정",
+    "출발일",
+    "도착일",
     "결제금액",
     "상세",
     "삭제"
@@ -135,8 +136,9 @@ const FlightPaymentTable = ({ endpoint }) => {
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.name}</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
-                                    <td className={styles[`column-3`]}><span>
+                                    <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
                                          className={styles['icon-Plus']}
                                          onClick={handleOpenModal} />
@@ -157,7 +159,7 @@ const FlightPaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-4`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
+                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
                         ) : (

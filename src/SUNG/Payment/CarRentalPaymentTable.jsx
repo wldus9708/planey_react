@@ -10,7 +10,8 @@ import CarRentalPaymentDetail from '../../YOUNG/PaymentDetail/CarRentalpaymentDe
 
 const TABLE_HEADS = [
     "상품이름",
-    "일정",
+    "대여시작",
+    "대여종료",
     "결제금액",
     "상세",
     "삭제"
@@ -135,8 +136,9 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.name}</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
-                                    <td className={styles[`column-3`]}><span>
+                                    <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
                                          className={styles['icon-Plus']}
                                          onClick={handleOpenModal} />
@@ -157,7 +159,7 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-4`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
+                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
                         ) : (

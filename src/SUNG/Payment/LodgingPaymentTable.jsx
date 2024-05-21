@@ -7,33 +7,39 @@ import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/fre
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingpaymentDetail'
+import { useParams } from "react-router-dom";
 
 const TABLE_HEADS = [
     "상품이름",
-    "일정",
+    "출발일",
+    "도착일",
     "결제금액",
     "상세",
     "삭제"
 ];
 
 const LodgingPaymentTable = ({ endpoint }) => {
+    let { id } = useParams(); // URL에서 숙소 ID 가져오기
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
+  
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoadingData(true); // 데이터 로딩 시작
             try {
-                const response = await axios.get(endpoint);
-                console.log('전체 데이터:', response.data);
-                const allData = response.data;
-                setTotalDataCount(allData.length);
+                const response = await axios.get(`http://localhost:8988/lodgingPayments/list`);
+                const responseData = response.data;
+                setData(responseData);
+                setTotalDataCount(responseData.length);
+
+                console.log('전체 데이터:', responseData);
 
                 const startIndex = (currentPage - 1) * 10;
                 const endIndex = currentPage * 10;
-                const newData = allData ? allData.slice(startIndex, endIndex) : [];
+                const newData = responseData ? responseData.slice(startIndex, endIndex) : [];
                 console.log(startIndex);
                 console.log(endIndex);
 
@@ -51,7 +57,6 @@ const LodgingPaymentTable = ({ endpoint }) => {
 
         fetchData();
     }, [currentPage, endpoint]);
-
     useEffect(() => {
         const handleScroll = () => {
             if (
@@ -131,12 +136,14 @@ const LodgingPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.id}`}>{dataItem.name}</Link>
+                                     
+                                        <Link to={`/lodgingDetail/${dataItem.id}`}>{dataItem.lodName}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.lodResPrice}</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
-                                    <td className={styles[`column-3`]}><span>
+                                    <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
                                          className={styles['icon-Plus']}
                                          onClick={handleOpenModal} />
@@ -157,7 +164,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-4`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
+                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
                         ) : (

@@ -79,18 +79,22 @@ tbody tr:nth-child(even) {
     margin: 0 auto;
 }
 .column-0 {
-    width: 30%;
-}
-.column-1 {
     width: 20%;
 }
+.column-1 {
+    width: 15%;
+}
 .column-2 {
-    width: 10%;
+    width: 15%;
 }
 .column-3 {
-    width: 5%;
+    width: 15%;
 }
 .column-4{
     width: 5%;
 }
+.column-5{
+    width: 5%;
+}
+
 
