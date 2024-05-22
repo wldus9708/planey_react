@@ -26,6 +26,13 @@ const RestaurantList = () => {
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
+    const [secondSearchQuery, setSecondSearchQuery] = useState("");
+
+
+    const handleSearch = (query) => {
+        console.log(query);
+        setSecondSearchQuery(query);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -142,6 +149,13 @@ const RestaurantList = () => {
             });
         }
 
+        if (secondSearchQuery.trim()) {
+            filteredData = filteredData.filter(item => {
+                const restaurantAddress = item.restAddress;
+                return restaurantAddress && restaurantAddress.toLowerCase().includes(secondSearchQuery.toLowerCase());
+            });
+        }
+
         return filteredData;
     };
 
@@ -156,7 +170,7 @@ const RestaurantList = () => {
 
     return (
         <div className={styles.restaurantListBody}>
-            <SearchField/>
+            <SearchField onSearch={handleSearch}/>
             <div className={styles['restList-container']}>
                 <div className={styles['restList-left-col']}>
                     <p>{data.length} + options</p>
