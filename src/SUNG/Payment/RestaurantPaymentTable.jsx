@@ -137,7 +137,7 @@ const RestaurantPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/restaurantDetail/${dataItem.id}`}>{dataItem.restName}</Link>
+                                        <Link to={`/restaurantDetail/${dataItem.restId}`}>{dataItem.restName}</Link>
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.restResDate}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.restResPrice}</span></td>
