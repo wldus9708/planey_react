@@ -19,7 +19,7 @@ export default function Product(props) {
       <Card.Body>
         <Card.Title>{props.name}</Card.Title>
         <Card.Text>
-        {props.description}
+          {props.description}
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">

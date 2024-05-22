@@ -3,6 +3,8 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 export default function Product(props) {
+
+  console.log("props.img:"+props.img);
   return (
     // <div className="card">
     //   <img className="product--image" src={props.img} alt="product image" />
@@ -23,7 +25,7 @@ export default function Product(props) {
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>{props.price}</ListGroup.Item>
+        <ListGroup.Item>{props.price.toLocaleString()}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
         <button>상세정보</button>

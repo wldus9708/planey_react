@@ -23,7 +23,7 @@ export default function Product(props) {
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>{props.price}</ListGroup.Item>
+        <ListGroup.Item>{props.price.toLocaleString()}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
         <button>상세정보</button>
