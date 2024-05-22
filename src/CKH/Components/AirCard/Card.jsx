@@ -37,18 +37,22 @@ export default function App() {
   }, []);
 
   const product = products.map((item,index) => (
+    
+
     <Product
     key={index}
     name={item.brand}
     img={item.brandImage}
-    price={item.fli_price}
+    price={item.price}
     description = {item.departureDate+"에 출발해서"+item.arrivalDate+"에 도착하는"+item.arrivalPlace+"행 "+item.brand+" 비행기 입니다."}
     />
   ));
 
+  console.log("Products to be passed as props:", products);
+
   return (
     <div className="CardApp">
-      <h1 className="Cardh1">항공</h1>
+      <h1 className="Cardh1">좋은 자리💺 미리 예약하자❗❗ 🛫</h1>
       <Carousel responsive={responsive}>
         {product}
       </Carousel>
