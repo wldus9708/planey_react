@@ -7,7 +7,6 @@ import { BsDot } from "react-icons/bs";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-
 const Popular = () => {
   const pic = "../../../BBS/image/";
   // 상태(state) 정의
@@ -82,7 +81,7 @@ const Popular = () => {
             data-aos-duration="2500"
             className="textDiv"
           >
-            <h2 className="sectitle">PRANEY Tour</h2>
+            <h2 className="sectitle">PLANEY Tour</h2>
             <p> 지금 예약하세요!</p>
           </div>
           <div
