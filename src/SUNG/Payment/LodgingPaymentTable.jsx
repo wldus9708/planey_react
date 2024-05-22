@@ -109,6 +109,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
         setShowModal(false); // 모달 닫기
     };
     // 끝
+  
 
     return (
         <section className={styles['content-payment-table']}>
@@ -141,7 +142,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate}</span></td>
-                                    <td className={styles[`column-3`]}><span>{dataItem.lodResPrice}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.lodResPrice}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
