@@ -7,6 +7,7 @@ import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/fre
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import RestaruantPaymentDetail from '../../YOUNG/PaymentDetail/RestaurantpaymentDetail'
+import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
     "상품이름",
@@ -21,12 +22,17 @@ const RestaurantPaymentTable = ({ endpoint }) => {
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
+    const [cookies] = useCookies(['accessToken']);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoadingData(true); // 데이터 로딩 시작
             try {
-                const response = await axios.get(endpoint);
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `${cookies.accessToken}`
+                    }
+                });
                 console.log('전체 데이터:', response.data);
                 const allData = response.data;
                 setTotalDataCount(allData.length);
@@ -131,10 +137,10 @@ const RestaurantPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.id}`}>{dataItem.name}</Link>
+                                        <Link to={`/restaurantDetail/${dataItem.id}`}>{dataItem.restName}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.restResDate}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.restResPrice}</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-3`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
