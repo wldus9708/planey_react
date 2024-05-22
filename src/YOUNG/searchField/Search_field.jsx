@@ -9,7 +9,7 @@ import ko from 'date-fns/locale/ko';
 
 
 
-function SearchField() {
+function SearchField({ onSearch }) {
    const today = new Date();
    const [date, setDate] = useState([
       {
@@ -61,6 +61,7 @@ function SearchField() {
    // 검색어와 입력값을 관리하는 상태
    const [input, setInput] = useState('');
    const [matchingSuggestions, setMatchingSuggestions] = useState([]);
+   
 
    // 입력값이 변경될 때마다 관련 검색어를 찾아 상태를 업데이트하는 함수
    const handleInputChange = (e) => {
@@ -71,8 +72,10 @@ function SearchField() {
             suggestion.toLowerCase().includes(inputValue)
          );
          setMatchingSuggestions(matching);
+         onSearch(inputValue);
       } else {
          setMatchingSuggestions([]); // 입력값이 없을 때는 제안을 숨김
+         onSearch("");
       }
    };
 
