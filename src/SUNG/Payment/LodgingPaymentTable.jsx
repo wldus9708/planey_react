@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingpaymentDetail'
 import { useParams } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
     "상품이름",
@@ -24,13 +25,17 @@ const LodgingPaymentTable = ({ endpoint }) => {
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
-  
+    const [cookies] = useCookies(['accessToken']);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoadingData(true); // 데이터 로딩 시작
             try {
-                const response = await axios.get(`http://localhost:8988/lodgingPayments/list`);
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `${cookies.accessToken}`
+                    }
+                });
                 const responseData = response.data;
                 setData(responseData);
                 setTotalDataCount(responseData.length);

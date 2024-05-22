@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 
 const PaymentDetailLodging = () => {
     let { lod_id } = useParams(); // URL에서 예약 ID 가져오기
-    const [reservation, setReservation] = useState(null);
+    const [reservation, setReservation] = useState(true);
 
     useEffect(() => {
         // 예약 정보를 불러오기
-        axios.get(`http://localhost:8988/lodgingPayments/detail${lod_id}`)
+        axios.get(`http://localhost:8988/lodgingPayments/detail/${lod_id}`)
             .then((response) => {
                 if (response.data) {
                     setReservation(response.data); // 예약 정보 업데이트
@@ -54,7 +54,7 @@ const PaymentDetailLodging = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>숙소 금액</span>
-                        <span className={styles.value}>{reservation.lodPrice.toLocaleString()}원</span>
+                        <span className={styles.value}>{reservation.lodPrice}원</span>
                        
                     </div>
                     <div className={styles.row}>
@@ -74,7 +74,7 @@ const PaymentDetailLodging = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>총 금액</span>
-                        <span className={styles.value}>{reservation.lodResPrice.toLocaleString()}원</span>
+                        <span className={styles.value}>{reservation.lodResPrice}원</span>
                  
                     </div>
                     <div className={styles.row}>
