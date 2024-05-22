@@ -6,7 +6,7 @@ import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 
 const PackageList = () => {
-    const fixedMinPrice = 50000;
+    const fixedMinPrice = 10000;
     const fixedMaxPrice = 10000000;
     const priceGap = 10000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
@@ -31,7 +31,7 @@ const PackageList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8988/Car/list`);
+                const response = await axios.get(`http://localhost:8988/car/list`);
                 const allData = response.data;
                 console.log(response.data)
                 setTotalDataCount(allData.length);
@@ -172,10 +172,8 @@ const PackageList = () => {
                     <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
                 </div>
                 <div className={styles['packList-house-info']}>
-                    <h3>{item.tour_pack_name}</h3>
-                    일정 : {item.tourPackStartDate}&nbsp; ~ &nbsp;{item.tourPackEndDate}<br />
-                    {item.tourPackCity}<br />
-                    {item.tourPackLodging}
+                    <h3>{item.carModel}</h3>
+
                     <p></p>
                     <FontAwesomeIcon icon={faStar} className={styles['packList-star-icon']} />
                     

@@ -14,12 +14,9 @@ const PackageList = () => {
     const [allChecked, setAllChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState({
         all: false,
-        한식: false,
-        양식: false,
-        중식: false,
-        일식: false,
-        불란서식: false,
-        기타: false
+        DOMESTIC: false,
+        INTERNATIONAL: false,
+
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
@@ -27,6 +24,8 @@ const PackageList = () => {
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
+    // useState 훅을 사용하여 국내 여행 여부를 나타내는 상태 값을 추가합니다.
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -146,9 +145,15 @@ const PackageList = () => {
             return data;
         }
         return data.filter(item => {
-            return checkboxStates[item.category];
+            if (item.nation === true && checkboxStates['DOMESTIC']) {
+                return true; // 국내 여행을 선택하고 국내 여행 데이터인 경우
+            } else if (item.nation === false && checkboxStates['INTERNATIONAL']) {
+                return true; // 해외 여행을 선택하고 해외 여행 데이터인 경우
+            } 
         });
     };
+    
+
 
     return (
         <div className={styles.packageListBody}>
@@ -164,35 +169,35 @@ const PackageList = () => {
                         <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
                     </div>
                     {data.length > 0 ? (
-    sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
-        console.log(item);
-        return (
-            <div className={styles['packList-house']} key={index}>
-                <div className={styles['packList-house-img']}>
-                    <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
-                </div>
-                <div className={styles['packList-house-info']}>
-                    <h3>{item.tour_pack_name}</h3>
-                    일정 : {item.tourPackStartDate}&nbsp; ~ &nbsp;{item.tourPackEndDate}<br />
-                    {item.tourPackCity}<br />
-                    {item.tourPackLodging}
-                    <p></p>
-                    <FontAwesomeIcon icon={faStar} className={styles['packList-star-icon']} />
-                    
-                    <p>{item.tour_pack_description}</p>
-                    <div className={styles['packList-house-price']}>
-                        <h4>₩ {item.price.toLocaleString()}</h4>
-                    </div>
-                    <div className={styles['packList-house-info2']}>
-                        <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;2508</p>
-                    </div>
-                </div>
-            </div>
-        );
-    })
-) : (
-    <p>검색 결과가 없습니다.</p>
-)}
+                        sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
+                            console.log(item);
+                            return (
+                                <div className={styles['packList-house']} key={index}>
+                                    <div className={styles['packList-house-img']}>
+                                        <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
+                                    </div>
+                                    <div className={styles['packList-house-info']}>
+                                        <h3>{item.tour_pack_name}</h3>
+                                        일정 : {item.tourPackStartDate}&nbsp; ~ &nbsp;{item.tourPackEndDate}<br />
+                                        위치 : {item.tourPackCity}<br />
+                                        {item.nation}
+                                        <p></p>
+                                        
+
+                                        <p>{item.tour_pack_description}</p>
+                                        <div className={styles['packList-house-price']}>
+                                            <h4>₩ {item.price.toLocaleString()}</h4>
+                                        </div>
+                                        <div className={styles['packList-house-info2']}>
+                                            <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <p>검색 결과가 없습니다.</p>
+                    )}
 
 
                 </div>
@@ -247,9 +252,29 @@ const PackageList = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <h3>국가 분류</h3>
+                        <h3>국내/해외</h3>
                         <div className={styles['packList-filter']}>
                             <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.packCategory).length})</span>
+                        </div>
+                        <div className={styles['packList-filter']}>
+                            <input type="checkbox" checked={checkboxStates['DOMESTIC']} onChange={() => toggleCheckbox('DOMESTIC')} /><p>국내</p><span>({data.filter(item => item.nation === true).length})</span>
+                        </div>
+                        <div className={styles['packList-filter']}>
+                            <input type="checkbox" checked={checkboxStates['INTERNATIONAL']} onChange={() => toggleCheckbox('INTERNATIONAL')} /><p>해외</p><span>({data.filter(item => item.nation === false).length})</span>
+                        </div>
+                      
+                        
+
+
+                        {/* <h3>국가 분류</h3>
+                        <div className={styles['packList-filter']}>
+                            <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.packCategory).length})</span>
+                        </div>
+                        <div className={styles['packList-filter']}>
+                            <input type="checkbox" checked={checkboxStates['동남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>동남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
+                        </div>
+                        <div className={styles['packList-filter']}>
+                            <input type="checkbox" checked={checkboxStates['서남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>서남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
                         </div>
                         <div className={styles['packList-filter']}>
                             <input type="checkbox" checked={checkboxStates['동남아/대만/서남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>동남아/대만/서남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
@@ -268,11 +293,11 @@ const PackageList = () => {
                         </div>
                         <div className={styles['packList-filter']}>
                             <input type="checkbox" checked={checkboxStates['미국/하와이/캐나다/중남미']} onChange={() => toggleCheckbox('ETC')} /><p>미국/하와이/캐나다/중남미</p><span>({data.filter(item => item.packCategory === 'ETC').length})</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
-            <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop}/>
+            <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
         </div>
     );
 };
