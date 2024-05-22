@@ -23,7 +23,7 @@ function PaymentList(props) {
     // 각 탭에 맞는 엔드포인트 설정
     const endpoints = {
         package: "http://localhost:8988/admin/members",
-        lodging: (`http://localhost:8988/lodging/paymentdetail/${lodResId}`),
+        lodging: (`http://localhost:8988/paymentList/lodging`),
         restaurant: "http://localhost:8988/restaurantPayments/list",
         flight: "http://localhost:8988/admin/members",  
         rentcar: "http://localhost:8988/admin/members"
