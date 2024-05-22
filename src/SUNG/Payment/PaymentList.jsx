@@ -24,7 +24,7 @@ function PaymentList(props) {
     const endpoints = {
         package: "http://localhost:8988/admin/members",
         lodging: (`http://localhost:8988/paymentList/lodging`),
-        restaurant: "http://localhost:8988/restaurantPayments/list",
+        restaurant: (`http://localhost:8988/paymentList/restaurant`),
         flight: "http://localhost:8988/admin/members",  
         rentcar: "http://localhost:8988/admin/members"
     };
