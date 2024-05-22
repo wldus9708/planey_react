@@ -22,7 +22,9 @@ import Test from "./Hye/advertisement";
 import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
 import MyPage from "./DEOK/MyPage/Mypage";
 import RentCarTest from './GUN/RentCarIndex';
-import Airport from "./YOUNG/Seat/SeatBooking"
+import Airport from "./YOUNG/Seat/SeatBooking";
+import Succcess from "./BBS/patment/Success";
+import Fail from "./BBS/patment/Fail";
 
 
 function Routing() {
@@ -53,6 +55,8 @@ function Routing() {
                 <Route path="/Car/list" element={<RentCarList />} />
                 <Route path="/RentCarTest/:id" element={<RentCarTest />} />
                 <Route path="/Airport" element={<Airport />} />
+                <Route path="/PaymentSuccess" element={<Succcess />} />
+                <Route path="/PaymentFail" element={<Fail />} />
 
             </Routes>
         </BrowserRouter>
