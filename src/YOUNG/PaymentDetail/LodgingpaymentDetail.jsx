@@ -3,22 +3,25 @@ import styles from './paymentDetail.module.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const PaymentDetailLodging = () => {
+const PaymentDetailLodging = (props) => {
+    const lodResId = props.lodResId;
+    console.log("여기")
+    console.log(lodResId)
     let { lod_id } = useParams(); // URL에서 예약 ID 가져오기
     const [reservation, setReservation] = useState(true);
 
-    useEffect(() => {
-        // 예약 정보를 불러오기
-        axios.get(`http://localhost:8988/lodgingPayments/detail/${lod_id}`)
-            .then((response) => {
-                if (response.data) {
-                    setReservation(response.data); // 예약 정보 업데이트
-                }
-            })
-            .catch(error => {
-                console.error('예약 정보를 가져오는 중 오류 발생:', error);
-            });
-    }, [lod_id]);
+    
+        // // 예약 정보를 불러오기
+        // axios.get(`http://localhost:8988/paymentDetail/lodging`)
+        //     .then((response) => {
+        //         if (response.data) {
+        //             setReservation(response.data); // 예약 정보 업데이트
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error('예약 정보를 가져오는 중 오류 발생:', error);
+        //     });
+    
 
     return (
         <div className={styles.reservationDetail}>

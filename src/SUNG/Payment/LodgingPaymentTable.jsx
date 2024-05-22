@@ -104,17 +104,18 @@ const LodgingPaymentTable = ({ endpoint }) => {
     }, []);
 
     // 김윤영
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (lodResId) => {
         setShowModal(true); // 모달 열기
+        
     };
 
     const handleCloseModal = () => {
         setShowModal(false); // 모달 닫기
     };
     // 끝
-  
+
 
     return (
         <section className={styles['content-payment-table']}>
@@ -142,18 +143,19 @@ const LodgingPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                     
+
                                         <Link to={`/lodgingDetail/${dataItem.id}`}>{dataItem.lodName}</Link>
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate}</span></td>
                                     <td className={styles[`column-3`]}><span>{dataItem.lodResPrice}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
-                                    <td className={styles[`column-4`]}><span>
-                                        <FontAwesomeIcon icon={faCirclePlus}
-                                         className={styles['icon-Plus']}
-                                         onClick={handleOpenModal} />
-                                    </span>
+                                    <td className={styles[`column-4`]}>
+                                        <span>
+                                            <FontAwesomeIcon icon={faCirclePlus}
+                                                className={styles['icon-Plus']}
+                                                onClick={handleOpenModal} />
+                                        </span>
                                         <Modal
                                             show={showModal}
                                             onHide={handleCloseModal}
@@ -162,10 +164,10 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                             keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                         >
                                             <Modal.Header closeButton>
-                                                <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
+                                                <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <LodgingPaymentDetail/>
+                                                <LodgingPaymentDetail lodResId={data[index].lodResId} />
                                             </Modal.Body>
                                         </Modal>
 
