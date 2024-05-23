@@ -7,6 +7,7 @@ import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/fre
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import PackagePaymentDetail from '../../YOUNG/PaymentDetail/PackagepaymentTab'
+import { useCookies } from 'react-cookie';
 
 
 const TABLE_HEADS = [
@@ -23,12 +24,18 @@ const PackagePaymentTable = ({ endpoint }) => {
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
+    const [cookies] = useCookies(['accessToken']);
+
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoadingData(true); // 데이터 로딩 시작
             try {
-                const response = await axios.get(endpoint);
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `${cookies.accessToken}`
+                    }
+                });
                 console.log('전체 데이터:', response.data);
                 const allData = response.data;
                 setTotalDataCount(allData.length);
@@ -96,7 +103,7 @@ const PackagePaymentTable = ({ endpoint }) => {
     }, []);
 
     // 김윤영
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = () => {
         setShowModal(true); // 모달 열기
@@ -133,17 +140,18 @@ const PackagePaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.id}`}>{dataItem.name}</Link>
+                                        <Link to={`/packageDetail/${dataItem.package_reservation_id}`}>{dataItem.tour_pack_name
+                                        }</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-3`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.tour_pack_startdate}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.tour_pack_enddate}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.price.toLocaleString()}</span></td>
 
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
-                                         className={styles['icon-Plus']}
-                                         onClick={handleOpenModal} />
+                                            className={styles['icon-Plus']}
+                                            onClick={handleOpenModal} />
                                     </span>
                                         <Modal
                                             show={showModal}
@@ -153,10 +161,10 @@ const PackagePaymentTable = ({ endpoint }) => {
                                             keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                         >
                                             <Modal.Header closeButton>
-                                                <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
+                                                <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <PackagePaymentDetail/>
+                                                <PackagePaymentDetail />
                                             </Modal.Body>
                                         </Modal>
 
