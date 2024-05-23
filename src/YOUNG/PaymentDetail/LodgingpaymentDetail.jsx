@@ -3,11 +3,12 @@ import styles from './paymentDetail.module.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const PaymentDetailLodging = (props) => {
+const LodgingPaymentDetail = (props) => {
     const lodResId = props.lodResId;
-    let { lod_id } = useParams(); // URL에서 예약 ID 가져오기
     const [reservation, setReservation] = useState(null);
-
+    const formatPhoneNumber = (phoneNumber) => {
+        return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    }
 
     useEffect(() => {
         // 예약 정보를 불러오기
@@ -28,63 +29,61 @@ const PaymentDetailLodging = (props) => {
 
             {reservation ? (
                 <>
-                    {/* <div className={styles.row}>
+                    <div className={styles.row}>
                         <span className={styles.label}>예약자명</span>
-                        <span className={styles.value}>{reservation.reserverName}</span>
-                      
-
+                        <span className={styles.value}>{reservation.memberName}</span>
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>핸드폰번호</span>
-                        <span className={styles.value}>{reservation.phoneNumber}</span>
-                        
+                        <span className={styles.value}>{formatPhoneNumber(reservation.phone)}</span>
+                    </div>
 
-                    </div> */}
                     <div className={styles.row}>
                         <span className={styles.label}>숙소 이름</span>
                         <span className={styles.value}>{reservation.lodName}</span>
-
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>숙소 주소</span>
                         <span className={styles.value}>{reservation.lodAddress}</span>
-
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>상세 주소</span>
                         <span className={styles.value}>{reservation.lodAddressDetail}</span>
-
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>숙소 금액</span>
-                        <span className={styles.value}>{reservation.lodPrice}원</span>
-
+                        <span className={styles.value}>{reservation.lodPrice.toLocaleString()}원</span>
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>체크인</span>
                         <span className={styles.value}>{reservation.lodDepartureDate}</span>
-
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>체크아웃</span>
                         <span className={styles.value}>{reservation.lodArrivalDate}</span>
-
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>인원수</span>
                         <span className={styles.value}>{reservation.lodResCapacity}</span>
-
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>총 금액</span>
-                        <span className={styles.value}>{reservation.lodResPrice}원</span>
-
+                        <span className={styles.value}>{reservation.lodResPrice.toLocaleString()}원</span>
                     </div>
+
                     <div className={styles.row}>
                         <span className={styles.label}>예약 상태</span>
                         <span className={styles.value}>{reservation.lodResState}</span>
-
                     </div>
+
                 </>
 
             ) : (
@@ -95,4 +94,4 @@ const PaymentDetailLodging = (props) => {
     );
 };
 
-export default PaymentDetailLodging;
+export default LodgingPaymentDetail;
