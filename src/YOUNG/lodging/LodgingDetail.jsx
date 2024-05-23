@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './LodgingDetail.module.css';
 import axios from "axios";
-import LodgingPayment from "./LodingPayment";
+import LodgingPayment from "./LodingPayment"; // 경로 수정
 import { useParams } from "react-router-dom";
-
 
 const LodgingDetail = () => {
   let { id } = useParams(); // URL에서 숙소 ID 가져오기
   const [lodging, setLodging] = useState(null);
-  // 이미지 목록을 위한 상태 추가
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-
+  const [reservations, setReservations] = useState([]); // 예약 내역을 위한 상태 추가
 
   // 스프링 연결 
   useEffect(() => {
@@ -29,16 +27,27 @@ const LodgingDetail = () => {
 
   }, [id]);
 
-  return (
+  useEffect(() => {
+    axios.get(`http://localhost:8988/lodgingDetail/reservation/${id}`)
+      .then((response) => {
+        if (response.data) {
+          setReservations(response.data); // 예약 내역 업데이트
+          console.log(response.data);
+        }
+      })
+      .catch(error => {
+        console.error('예약 내역을 가져오는 중 오류 발생:', error);
+      });
+  }, [id]);
 
+  return (
     <div className={styles.LodgingBody}>
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <div className={styles.lodgingDiv}>
             <div className={styles.lodgingDivLeft}>
               <div className={styles.imgContainer}>
-   
-              <img
+                <img
                   src={`/images/${lodging && lodging[`lodImage0${activeImageIndex + 1}`]}`}
                   alt={`이미지 등록중..`}
                 />
@@ -59,42 +68,37 @@ const LodgingDetail = () => {
               </div>
             </div>
             <div className={styles.lodgingDivRight}>
-            <div  className={styles.starImage}>
+              <div className={styles.starImage}>
                 <img src="/images/star.png" alt="star"/> &nbsp;&nbsp;&nbsp;5.0
-                </div>
+              </div>
               <div className={styles.lodgingHeader}>
                 <span className={styles.lodgingName}>{lodging && lodging.lodName}</span>
-                
                 <span className={styles.lodgingType}>{lodging && lodging.lodCategory}</span>
                 <br />
-            
               </div>
-
               <hr />
               <br />
               <span className={styles.lodgingAddress}>주소: {lodging && lodging.lodAddress}</span>
               <span className={styles.lodgingAddress}>상세 주소: {lodging && lodging.lodAddressDetail}</span>
               <br />
               <span className={styles.lodgingPrice}>{lodging && lodging.lodPrice.toLocaleString()}원</span>
-
               <p className={styles.lodgingDescription}>
-              {lodging && lodging.lodDescription}
+                {lodging && lodging.lodDescription}
               </p>
               <span className={styles.alreadyReservation}>
                   🔘  표시된 해당 날짜는 이미 예약이 완료되었습니다. 
-                </span>
-                <div>
-              <LodgingPayment/>
-              </div>
-            
-            </div>
+              </span>
+              <div>
+                <LodgingPayment 
+                  reservations={reservations}
 
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-
   );
 };
 
