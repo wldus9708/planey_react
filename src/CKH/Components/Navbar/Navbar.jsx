@@ -13,7 +13,7 @@ import { FaBoxOpen } from "react-icons/fa";
 import { FaHotel } from "react-icons/fa6";
 import { FaCarSide } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
-
+import LodgingList from "../../../YOUNG/lodging/LodgingList"
 const Navbar = () => {
   // Code to toggle/show navBar
   const [active, setActive] = useState("navBar");
@@ -58,37 +58,39 @@ const Navbar = () => {
 
         <div className={active}>
           <ul className="navLists flex">
-            <li className="navItem">
-              <a href="/home" className="navLink">
-                <FaHome />Home
-              </a>
-            </li>
+ 
 
             <li className="navItem">
-              <a href="/pakage" className="navLink">
+              <Link to="/PackageTour/list" className="navLink">
                 <FaBoxOpen />
                 Packge
-              </a>
+              </Link>
             </li>
 
             <li className="navItem">
-              <a href="/air" className="navLink">
+              <Link  to="/AirportList" className="navLink">
                 <BsFillAirplaneFill />
                 Airline
-              </a>
+              </Link>
             </li>
 
             <li className="navItem">
-              <a href="/hotel" className="navLink">
+              <Link to="/LodgingList" className="navLink">
                 <FaHotel /> Hotel
-              </a>
+              </Link>
             </li>
 
             <li className="navItem">
-              <a href="/rent" className="navLink">
+              <Link to="/Car/list" className="navLink">
                 <FaCarSide />
                 Rental Car
-              </a>
+              </Link>
+            </li>
+
+            <li className="navItem">
+              <Link to="/mypage" className="navLink">
+                <FaHome />MyPage
+              </Link>
             </li>
 
             <div className="headerBtns flex">

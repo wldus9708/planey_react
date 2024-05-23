@@ -184,7 +184,7 @@ const LodgingList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
 
     const handleSearch = (query) => {
-        console.log(query);
+       
         setSecondSearchQuery(query);
     };
 
