@@ -1,0 +1,261 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+:root {
+  --PrimaryColor: hsl(26, 93%, 50%);
+  --HoverColor: hsl(26, 90%, 42%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: rgb(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  --mainColor:  #C1908B;
+}
+.packageListBody {
+    margin: 0 auto; /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
+    max-width: 1600px; /* 요소의 최대 너비 설정 */
+}
+
+.packList-container{
+    margin-top: 50px;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+}
+.packList-left-col{
+    flex-basis:80%;
+}
+.packList-right-col{
+    flex-basis:15%;
+}
+.packList-left-col h1{
+   color: #333;
+   font-weight: 600;
+   margin-bottom: 30px;
+}
+.packList-check{
+    display: inline-block;
+}
+.packList-house{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px 0;
+    border-top: 1px solid #ccc;
+}
+.packList-house-img{
+    flex-basis: 30%;
+}
+.packList-house-info{
+    flex-basis: 68%;
+    color:#555;
+}
+.packList-house-img img{
+    width: 300px;
+    height:250px;
+    border-radius: 12px;
+}    
+.packList-house-info h3{
+    font-weight: 600;
+    color: #333;
+    font-size: 22px;
+    margin: 4px 0;
+}
+.packList-house-info p{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.packList-house-info2 {
+    margin-top: 70px;
+    display: inline-block;
+    
+}
+
+.packList-star-icon {
+    color: #ff5361;
+    font-size:18px;
+
+}
+.packList-heart-icon {
+    color: #ff5361;
+    font-size:18px;
+}
+.packList-check-icon{
+    color: #333;
+    font-size:18px;
+    margin:10px 1px;
+}
+.packList-house-price{
+    text-align:right; 
+}
+.packList-house-price h4{
+    font-size: 24px;
+}
+.packList-house-price h4 span{
+    font-size: 16px;
+    font-weight: 500;
+}
+.packList-sidebar{
+    border: 1px solid #b0b0b0;
+    padding : 20px 30px;
+    margin-top: 30px;
+}
+.packList-sidebar h2{
+    font-weight: 500;
+    margin-bottom: 20%;
+}
+.packList-sidebar h3{
+    font-weight: 500;
+    margin: 20px 0 10px;
+}
+.packList-filter{
+    display: flex;
+    align-items: center;
+    color: #999;
+    margin-bottom: 10px;
+}
+.packList-filter p{
+    flex:1;
+}
+.packList-PriceSlide{
+    position: relative;
+  height: 5px;
+  width: 150px;
+  border-radius: 10px;
+  background-color: #dddddd;
+} 
+.packList-PriceSlideInner{
+position: absolute;
+  left: 30%;
+  right: 30%;
+  height: 4px;
+  border-radius: 10px;
+  background-color: #b0b0b0;
+  display: flex; 
+}
+.packList-PriceRangeWrap{
+    position: relative;
+} 
+
+.packList-PriceRangeMin,.packList-PriceRangeMax {
+    position: absolute;
+  top: -9px;
+  height: 7px;
+  width: 100%;
+	-webkit-appearance: none;
+  background: none;
+
+	&::-webkit-slider-thumb {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 2px solid #b0b0b0;
+    background-color: white;
+    -webkit-appearance: none;
+    }
+    pointer-events: none;
+
+	&::-webkit-slider-thumb {
+		pointer-events: auto;
+  }
+}
+.packList-PriceSlideInner{
+    position: absolute;
+  height: 4px;
+  border-radius: 10px;
+  background-color: #b0b0b0;
+}
+.packList-PriceValue{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.packList-PriceValueMin{
+    margin-top: 7%;
+    color: #999;
+}
+.packList-PriceValueMax{
+    margin-top: 7%;
+    color: #999;
+}
+.packList-filter input{
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.packList-check {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.packList-check button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    color: #333;
+    cursor: pointer;
+}
+
+.packList-check button:focus {
+    outline: none;
+}
+
+.packList-check .active {
+    color: #ff5361;
+}
+
+.packList-check button.active .packList-check-icon {
+    color: #ff5361;
+}
+.packList-search input{
+    height: 40px;
+    margin-bottom: 15%;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+.icon-Circle {
+    position: fixed;
+    bottom: 40px; 
+    right: 40px; 
+    cursor: pointer;
+    width:50px;
+    height:50px;
+  }
+  .packList-filter input[type="checkbox"]:checked {
+    background-color: #007bff;
+}
+
+
+
+@media only screen and (max-width:700px){
+    .packList-list-container{
+        margin-top:150px;
+    }
+    .packList-left-col, .packList-right-col, .packList-house-img, .packList-house-info{
+        flex-basis: 100%;
+    }
+    .packList-left-col h1{
+        font-size:22px;
+    }
+    .packList-house-info h3{
+        font-size: 18px;
+    }
+    .packList-house-info i{
+        font-size: 16px;
+    }
+    .packList-sidebar{
+        display: none;
+    }
+}
+@media only screen and (max-width:1200px){
+    .packList-sidebar{
+        display: none;
+    }
+}

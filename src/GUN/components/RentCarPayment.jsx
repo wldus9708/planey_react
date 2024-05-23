@@ -44,13 +44,6 @@ const LodingPayment = () => {
                     minDate={startDate} // 시작 날짜 이후로만 선택 가능
                 />
             </div>
-            <div className={styles.counter}>
-                <label>성인: </label>
-                <button onClick={() => handleAdultsChange(-1)}>-</button>
-                <span>{adults}</span>
-                <button onClick={() => handleAdultsChange(1)}>+</button>
-     
-            </div>
               <div className={stylesBtn.btnGroups}>
                 <button type="button" className={stylesBtn.addCartBtn}>
                   <i className='fas fa-shopping-cart'></i>

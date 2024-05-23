@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from './PackageList.module.css';
+import styles from './RentCarList.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
@@ -175,10 +175,12 @@ const PackageList = () => {
                                 return (
                                     <div className={styles['packList-house']} key={index}>
                                         <div className={styles['packList-house-img']}>
-                                            <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
+                                            <img src={`/images/${item.car01}`} alt="" width="200px" height="200px" />
                                         </div>
                                         <div className={styles['packList-house-info']}>
-                                            <h3>{item.carModel}</h3>
+                                            차종 : <h3>{item.carModel}</h3>
+                                            렌트비 : {item.carp}
+                                            지점 : {item.carLocation}
 
                                             <p></p>
                                             <FontAwesomeIcon icon={faStar} className={styles['packList-star-icon']} />
