@@ -26,6 +26,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
     const [cookies] = useCookies(['accessToken']);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -106,7 +107,8 @@ const LodgingPaymentTable = ({ endpoint }) => {
     // 김윤영
     const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = (lodResId) => {
+    const handleOpenModal = (index) => {
+        setSelectedRow(data[index].lodResId);
         setShowModal(true); // 모달 열기
         
     };
@@ -154,7 +156,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                         <span>
                                             <FontAwesomeIcon icon={faCirclePlus}
                                                 className={styles['icon-Plus']}
-                                                onClick={handleOpenModal} />
+                                                onClick={() => handleOpenModal(index)} />
                                         </span>
                                         <Modal
                                             show={showModal}
@@ -167,7 +169,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                                 <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                <LodgingPaymentDetail lodResId={data[index].lodResId} />
+                                                <LodgingPaymentDetail lodResId={selectedRow} />
                                             </Modal.Body>
                                         </Modal>
 
