@@ -141,13 +141,23 @@ const LodgingList = () => {
         let filteredData = data;
 
         filteredData = filteredData.filter(item => item.lodPrice >= minPrice && item.lodPrice <= maxPrice);
-
+       
+        
         if (searchQuery.trim()) {
             filteredData = filteredData.filter(item => {
                 const lodgingName = item.lodName;
                 return lodgingName && lodgingName.toLowerCase().includes(searchQuery.toLowerCase());
             });
         }
+
+        if (secondSearchQuery.trim()) {
+            filteredData = filteredData.filter(item => {
+                const lodAddress = item.lodAddress;
+                return lodAddress && lodAddress.toLowerCase().includes(secondSearchQuery.toLowerCase());
+            });
+        }
+    
+
 
         return filteredData;
     };
@@ -170,11 +180,21 @@ const LodgingList = () => {
             return data;
         }
     };
+   // 주소검색창 기능 
+    const [secondSearchQuery, setSecondSearchQuery] = useState("");
+
+    const handleSearch = (query) => {
+        console.log(query);
+        setSecondSearchQuery(query);
+    };
+
+
+
 
 
     return (
         <div className={styles.restaurantListBody}>
-            <SearchField />
+            <SearchField onSearch={handleSearch}/>
             <div className={styles['restList-container']}>
                 <div className={styles['restList-left-col']}>
                     <p>{data.length} + options</p>
@@ -205,7 +225,7 @@ const LodgingList = () => {
 
                                         <p>{item.lodDescription}</p>
                                         <div className={styles['restList-house-price']}>
-                                            <h4>₩ {item.lodPrice.toLocaleString()}</h4>
+                                            <h4> {item.lodPrice.toLocaleString()}원</h4>
                                         </div>
                                         <div className={styles['restList-house-info2']}>
                                             <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;&nbsp;&nbsp;2508</p>
