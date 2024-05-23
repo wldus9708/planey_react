@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import SearchField from '../../YOUNG/searchField/Search_field';
+import NavBar from "../../CKH/Components/Navbar/Navbar"
 
 const RestaurantList = () => {
     const fixedMinPrice = 1000;
@@ -169,6 +170,10 @@ const RestaurantList = () => {
     };
 
     return (
+        <>
+        <div  style={{padding: '1rem', marginRight: '10rem'}}>
+        <NavBar />
+    </div>
         <div className={styles.restaurantListBody}>
             <SearchField onSearch={handleSearch}/>
             <div className={styles['restList-container']}>
@@ -286,6 +291,7 @@ const RestaurantList = () => {
             </div>
             <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop}/>
         </div>
+        </>
     );
 };
 

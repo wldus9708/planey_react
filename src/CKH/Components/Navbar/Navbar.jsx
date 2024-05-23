@@ -89,7 +89,7 @@ const Navbar = () => {
             </li>
 
             <li className="navItem">
-              <Link to="/mypage" className="navLink">
+              <Link to="/restaurant/list" className="navLink">
               <PiBowlFoodBold />Restaurant
               </Link>
             </li>
@@ -99,10 +99,7 @@ const Navbar = () => {
                 <FaHome />MyPage
               </Link>
             </li>
-            
-
-           
-
+          
             <div className="headerBtns flex">
               <button className="btn loginBtn">
                 <Link to="">
