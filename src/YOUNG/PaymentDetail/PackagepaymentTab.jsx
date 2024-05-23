@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const PackagepaymentTab = (props) => {
     const packResId = props.packResId;
+    console.log(packResId)
     const [reservation, setReservation] = useState(null); // 초기 값을 null로 설정
     const [activeTab, setActiveTab] = useState('package'); // 현재 활성화된 탭 상태
 
@@ -63,9 +64,27 @@ const PackagepaymentTab = (props) => {
                             <span className={styles.value}>{formatPhoneNumber(reservation.phone)}</span>
                         </div>
                         <div className={styles.row}>
-                            <span className={styles.label}>예약 상태</span>
-                            <span className={styles.value}>결제 완료</span>
+                            <span className={styles.label}>패키지명</span>
+                            <span className={styles.value}>{reservation.tour_pack_name}</span>
                         </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>명소</span>
+                            <span className={styles.value}>{reservation.attraction}</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>출발일</span>
+                            <span className={styles.value}>{reservation.tour_pack_startdate}</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>종료일</span>
+                            <span className={styles.value}>{reservation.tour_pack_enddate}</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>금액</span>
+                            <span className={styles.value}>{reservation.price.toLocaleString()}</span>
+                        </div>
+                        
+                        
                     </>
                 )}
 
@@ -100,14 +119,14 @@ const PackagepaymentTab = (props) => {
                             <span className={styles.label}>식당 이름</span>
                             <span className={styles.value}>{reservation.restName}</span>
                         </div>
-                        <div className={styles.row}>
+                        {/* <div className={styles.row}>
                             <span className={styles.label}>식당 주소</span>
                             <span className={styles.value}>{reservation.restAddress}</span>
                         </div>
                         <div className={styles.row}>
                             <span className={styles.label}>식당 금액</span>
                             <span className={styles.value}>{reservation.restPrice.toLocaleString()}원</span>
-                        </div>
+                        </div> */}
                     </>
                 )}
 
