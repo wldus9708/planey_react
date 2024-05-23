@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import RestaruantPaymentDetail from '../../YOUNG/PaymentDetail/RestaurantPaymentDetail'
+import RestaruantPaymentDetail from '../../YOUNG/PaymentDetail/RestaurantpaymentDetail'
 import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [

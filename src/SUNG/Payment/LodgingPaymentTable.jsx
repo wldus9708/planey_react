@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingPaymentDetail'
+import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingpaymentDetail'
 import { useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
