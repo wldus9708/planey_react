@@ -6,21 +6,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingpaymentDetail'
+import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingPaymentDetail'
 import { useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
-    "상품이름",
-    "출발일",
-    "도착일",
+    "숙소명",
+    "체크인",
+    "체크아웃",
     "결제금액",
     "상세",
-    "삭제"
+    // "삭제"
 ];
 
 const LodgingPaymentTable = ({ endpoint }) => {
-    let { id } = useParams(); // URL에서 숙소 ID 가져오기
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
@@ -41,13 +40,9 @@ const LodgingPaymentTable = ({ endpoint }) => {
                 setData(responseData);
                 setTotalDataCount(responseData.length);
 
-                console.log('전체 데이터:', responseData);
-
                 const startIndex = (currentPage - 1) * 10;
                 const endIndex = currentPage * 10;
                 const newData = responseData ? responseData.slice(startIndex, endIndex) : [];
-                console.log(startIndex);
-                console.log(endIndex);
 
                 if (currentPage === 1) {
                     setData(newData);
@@ -110,7 +105,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
     const handleOpenModal = (index) => {
         setSelectedRow(data[index].lodResId);
         setShowModal(true); // 모달 열기
-        
+
     };
 
     const handleCloseModal = () => {
@@ -150,7 +145,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate}</span></td>
-                                    <td className={styles[`column-3`]}><span>{dataItem.lodResPrice}원</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.lodResPrice.toLocaleString()}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}>
                                         <span>
@@ -174,7 +169,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
+                                    {/* <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td> */}
                                 </tr>
                             ))
                         ) : (

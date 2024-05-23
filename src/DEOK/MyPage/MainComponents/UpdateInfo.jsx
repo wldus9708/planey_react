@@ -75,8 +75,6 @@ const UpdateInfo = (props) => {
         }
     }
 
-    console.log(updateUserInfo)
-
     const handleUpdateClick = (event) => {
         event.preventDefault();
         if (validFail !== '') alert("양식에 맞춰서 수정해주세요.")
@@ -86,8 +84,7 @@ const UpdateInfo = (props) => {
             }
         })
             .then(response => {
-                console.log(response)
-                alert("회원 정보 수정이 완료되었습니다.");
+                alert(response.data.message);
                 window.location.reload();
             })
             .catch(error => {
