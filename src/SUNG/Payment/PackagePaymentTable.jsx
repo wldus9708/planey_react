@@ -25,6 +25,7 @@ const PackagePaymentTable = ({ endpoint }) => {
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
     const [cookies] = useCookies(['accessToken']);
+    const [selectedRow, setSelectedRow] = useState(null);
 
 
     useEffect(() => {
@@ -105,7 +106,10 @@ const PackagePaymentTable = ({ endpoint }) => {
     // 김윤영
     const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (index) => {
+        console.log(data)
+        const selectedId = data[index].package_reservation_id;
+        setSelectedRow(selectedId);
         setShowModal(true); // 모달 열기
     };
 
@@ -151,7 +155,7 @@ const PackagePaymentTable = ({ endpoint }) => {
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
                                             className={styles['icon-Plus']}
-                                            onClick={handleOpenModal} />
+                                            onClick={() => handleOpenModal(index)}  />
                                     </span>
                                         <Modal
                                             className={styles['modal-content']}
@@ -165,7 +169,7 @@ const PackagePaymentTable = ({ endpoint }) => {
                                                 <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                <PackagePaymentDetail />
+                                                <PackagePaymentDetail packResId={selectedRow} />
                                             </Modal.Body>
                                         </Modal>
 
