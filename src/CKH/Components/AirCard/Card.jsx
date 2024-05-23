@@ -48,8 +48,6 @@ export default function App() {
     />
   ));
 
-  console.log("Products to be passed as props:", products);
-
   return (
     <div className="CardApp">
       <h1 className="Cardh1">좋은 자리💺 미리 예약하자❗❗ 🛫</h1>
