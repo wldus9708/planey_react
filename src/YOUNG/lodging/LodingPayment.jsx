@@ -4,41 +4,45 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './LodingPayment.module.css';
 import stylesBtn from "./LodgingDetail.module.css"
 
-const LodingPayment = ({ reservations }) => {
+const LodingPayment = ({ reservations, updateTotalPrice }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [adults, setAdults] = useState(1);
     const [children, setChildren] = useState(0);
 
     const handleAdultsChange = (increment) => {
-        setAdults(prev => Math.max(1, prev + increment));
+        setAdults(prev => {
+            const newAdults = Math.max(1, prev + increment);
+            updateTotalPrice(newAdults, children);
+            return newAdults;
+        });
     };
 
     const handleChildrenChange = (increment) => {
-        setChildren(prev => Math.max(0, prev + increment));
+        setChildren(prev => {
+            const newChildren = Math.max(0, prev + increment);
+            updateTotalPrice(adults, newChildren);
+            return newChildren;
+        });
     };
 
     // 예약된 날짜 범위 계산
-    const getHighlightedDates = () => {
-        const highlightedDates = [];
+    const getExcludedDates = () => {
+        const excludedDates = [];
         reservations.forEach(reservation => {
             const start = new Date(reservation.lodDepartureDate);
             const end = new Date(reservation.lodArrivalDate);
-            for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
-                highlightedDates.push(new Date(d));
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                excludedDates.push(new Date(d));
             }
         });
-        return highlightedDates;
+        return excludedDates;
     };
 
-    const highlightDates = [
-        {
-            "react-datepicker__day--highlighted-custom-1": getHighlightedDates()
-        }
-    ];
+    const excludedDates = getExcludedDates();
 
     return (
-        <div className={styles.modal}>
+        <div>
             <div className={styles.datePicker}>
                 <label>시작 날짜: </label>
                 <DatePicker
@@ -47,8 +51,8 @@ const LodingPayment = ({ reservations }) => {
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
-                    minDate={new Date()} // 시작 날짜 이후로만 선택 가능
-                    highlightDates={highlightDates}
+                    minDate={new Date()}
+                    excludeDates={excludedDates} // 예약된 날짜 제외
                 />
             </div>
             <div className={styles.datePicker}>
@@ -59,8 +63,8 @@ const LodingPayment = ({ reservations }) => {
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
-                    minDate={startDate} // 시작 날짜 이후로만 선택 가능
-                    highlightDates={highlightDates}
+                    minDate={startDate}
+                    excludeDates={excludedDates} // 예약된 날짜 제외
                 />
             </div>
             <div className={styles.counter}>
