@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './paymentDetail.module.css';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
 const LodgingPaymentDetail = (props) => {
     const lodResId = props.lodResId;

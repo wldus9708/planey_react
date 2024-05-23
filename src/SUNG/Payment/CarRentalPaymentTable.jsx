@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import styles from "./PaymentTable.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCircleChevronUp, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import CarRentalPaymentDetail from '../../YOUNG/PaymentDetail/CarRentalpaymentDetail'
 
 const TABLE_HEADS = [
@@ -13,8 +13,7 @@ const TABLE_HEADS = [
     "대여시작",
     "대여종료",
     "결제금액",
-    "상세",
-    "삭제"
+    "상세"
 ];
 
 const CarRentalPaymentTable = ({ endpoint }) => {
@@ -160,7 +159,6 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
                         ) : (

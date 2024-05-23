@@ -5,16 +5,16 @@ import styles from "./PaymentTable.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import FlightPaymentDetail from '../../YOUNG/PaymentDetail/FlightpaymentDetail'
+import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
-    "상품이름",
+    "항공사",
     "출발일",
     "도착일",
     "결제금액",
-    "상세",
-    "삭제"
+    "상세"
 ];
 
 const FlightPaymentTable = ({ endpoint }) => {
@@ -22,21 +22,24 @@ const FlightPaymentTable = ({ endpoint }) => {
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
+    const [cookies] = useCookies(['accessToken']);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoadingData(true); // 데이터 로딩 시작
             try {
-                const response = await axios.get(endpoint);
-                console.log('전체 데이터:', response.data);
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `${cookies.accessToken}`
+                    }
+                });
                 const allData = response.data;
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 10;
                 const endIndex = currentPage * 10;
                 const newData = allData ? allData.slice(startIndex, endIndex) : [];
-                console.log(startIndex);
-                console.log(endIndex);
 
                 if (currentPage === 1) {
                     setData(newData);
@@ -97,7 +100,8 @@ const FlightPaymentTable = ({ endpoint }) => {
     // 김윤영
     const [showModal, setShowModal] = useState(false); 
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (index) => {
+        setSelectedRow(data[index].restResId);
         setShowModal(true); // 모달 열기
     };
 
@@ -141,7 +145,7 @@ const FlightPaymentTable = ({ endpoint }) => {
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
                                          className={styles['icon-Plus']}
-                                         onClick={handleOpenModal} />
+                                         onClick={() => handleOpenModal(index)} />
                                     </span>
                                         <Modal
                                             className={styles['modal-content']}
@@ -155,12 +159,11 @@ const FlightPaymentTable = ({ endpoint }) => {
                                                 <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <FlightPaymentDetail/>
+                                               <FlightPaymentDetail fliResId={selectedRow} />
                                             </Modal.Body>
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
                         ) : (
