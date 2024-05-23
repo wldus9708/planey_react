@@ -14,6 +14,7 @@ const LodgingPaymentDetail = (props) => {
         axios.get(`http://localhost:8988/paymentDetail/lodging?lodResId=${lodResId}`)
             .then((response) => {
                 if (response.data) {
+                    console.log(response.data)
                     setReservation(response.data); // 예약 정보 업데이트
                 }
             })
