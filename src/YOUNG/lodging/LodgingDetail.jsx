@@ -10,6 +10,7 @@ const LodgingDetail = () => {
   const [lodging, setLodging] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [reservations, setReservations] = useState([]); // 예약 내역을 위한 상태 추가
+  const [totalPrice, setTotalPrice] = useState(0); // 총 가격 상태 추가
 
   // 스프링 연결 
   useEffect(() => {
@@ -17,6 +18,7 @@ const LodgingDetail = () => {
     .then((response) => {
       if (response.data) {
         setLodging(response.data); // 숙소 정보 업데이트
+        setTotalPrice(response.data.lodPrice); // 초기 가격 설정
         console.log(response.data);
       }
       setActiveImageIndex(1); // 초기 인덱스 설정
@@ -39,6 +41,13 @@ const LodgingDetail = () => {
         console.error('예약 내역을 가져오는 중 오류 발생:', error);
       });
   }, [id]);
+
+  const updateTotalPrice = (adults, children) => {
+    if (lodging) {
+      const newPrice = lodging.lodPrice * adults + (lodging.lodPrice * 0.5 * children);
+      setTotalPrice(newPrice);
+    }
+  };
 
   return (
     <div className={styles.LodgingBody}>
@@ -68,9 +77,7 @@ const LodgingDetail = () => {
               </div>
             </div>
             <div className={styles.lodgingDivRight}>
-              <div className={styles.starImage}>
-                <img src="/images/star.png" alt="star"/> &nbsp;&nbsp;&nbsp;5.0
-              </div>
+              
               <div className={styles.lodgingHeader}>
                 <span className={styles.lodgingName}>{lodging && lodging.lodName}</span>
                 <span className={styles.lodgingType}>{lodging && lodging.lodCategory}</span>
@@ -81,7 +88,7 @@ const LodgingDetail = () => {
               <span className={styles.lodgingAddress}>주소: {lodging && lodging.lodAddress}</span>
               <span className={styles.lodgingAddress}>상세 주소: {lodging && lodging.lodAddressDetail}</span>
               <br />
-              <span className={styles.lodgingPrice}>{lodging && lodging.lodPrice.toLocaleString()}원</span>
+              <span className={styles.lodgingPrice}>{totalPrice.toLocaleString()}원</span>
               <p className={styles.lodgingDescription}>
                 {lodging && lodging.lodDescription}
               </p>
@@ -91,7 +98,7 @@ const LodgingDetail = () => {
               <div>
                 <LodgingPayment 
                   reservations={reservations}
-
+                  updateTotalPrice={updateTotalPrice} // 가격 업데이트 함수 전달
                 />
               </div>
             </div>
