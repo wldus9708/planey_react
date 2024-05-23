@@ -13,6 +13,7 @@ import { FaBoxOpen } from "react-icons/fa";
 import { FaHotel } from "react-icons/fa6";
 import { FaCarSide } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
+import { PiBowlFoodBold } from "react-icons/pi";
 import LodgingList from "../../../YOUNG/lodging/LodgingList"
 const Navbar = () => {
   // Code to toggle/show navBar
@@ -48,12 +49,12 @@ const Navbar = () => {
     <section className="navBarSection">
       <div className={transparent}>
         <div className="logoDiv">
-          <a href="#" className="logo">
+          <Link to="/" className="logo">
             <h1 className="flex">
             <TbBeach />
               PRANEY
             </h1>
-          </a>
+          </Link>
         </div>
 
         <div className={active}>
@@ -89,9 +90,18 @@ const Navbar = () => {
 
             <li className="navItem">
               <Link to="/mypage" className="navLink">
+              <PiBowlFoodBold />Restaurant
+              </Link>
+            </li>
+
+            <li className="navItem">
+              <Link to="/mypage" className="navLink">
                 <FaHome />MyPage
               </Link>
             </li>
+            
+
+           
 
             <div className="headerBtns flex">
               <button className="btn loginBtn">

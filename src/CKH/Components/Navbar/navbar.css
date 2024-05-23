@@ -52,7 +52,7 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    margin: auto;
+    /* margin: auto; */
   }
   .navBarSection .header .navBar .navLists .navItem {
     padding: 1rem 0;
@@ -68,12 +68,15 @@
   }
   .navBarSection .header .navBar .navLists .headerBtns {
     flex-direction: column;
+    
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn {
     margin-top: 1rem;
+    
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn a {
     font-weight: 600;
+    
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn a:hover {
     color: var(--whiteColor);
@@ -84,6 +87,7 @@
   }
   .navBarSection .header .navBar .navLists .headerBtns .loginBtn a {
     color: var(--PrimaryColor);
+    
   }
   .navBarSection .header .navBar .navLists .headerBtns .loginBtn:hover {
     background: var(--HoverColor);
@@ -145,8 +149,9 @@
     margin-left: 1rem;
   }
   .navBarSection .header .navBar .navLists .btn a {
-    color: var(--whiteColor);
+    font-weight: bold;
     font-weight: 500;
+    color: var(--PrimaryColor);
   }
   .navBarSection .header .navBar .navLists .loginBtn {
     background: none;
