@@ -25,6 +25,7 @@ import RentCarTest from './GUN/RentCarIndex';
 import Airport from "./YOUNG/Seat/SeatBooking";
 import Succcess from "./BBS/patment/Success";
 import Fail from "./BBS/patment/Fail";
+import AirportList from "./YOUNG/Airport/AirportList";
 
 
 function Routing() {
@@ -57,6 +58,7 @@ function Routing() {
                 <Route path="/Airport" element={<Airport />} />
                 <Route path="/PaymentSuccess" element={<Succcess />} />
                 <Route path="/PaymentFail" element={<Fail />} />
+                <Route path="/AirportList" element={<AirportList />} />
 
             </Routes>
         </BrowserRouter>
