@@ -23,7 +23,7 @@ export default function App() {
             latitude: item.lodLatitude,
             longitude: item.lodLongitude,
             description: item.lodDescription,
-            image: "../../../../public/images/"+item.lodImage01,
+            image: require("../../../../public/images/"+item.lodImage01),
             category: item.lodCategory,
             allProductState: item.allProductState,
         }));
@@ -39,14 +39,14 @@ export default function App() {
     <Product
       name={item.name}
       img={item.image}
-      price={item.price}
+      price={item.price.toLocaleString()}
       description={item.description}
     />
   ));
 
   return (
     <div className="CardApp">
-      <h1 className="Cardh1">호텔</h1>
+      <h1 className="Cardh1"> 더운 날🥵에는 🏰 호캉스💙 가자❕❕</h1>
       <Carousel responsive={responsive}>
         {product}
       </Carousel>

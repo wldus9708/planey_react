@@ -60,7 +60,7 @@ export default function App() {
 
   return (
     <div className="CardApp">
-      <h1 className="Cardh1">패키지</h1>
+      <h1 className="Cardh1">여행 패키지로 떠나세요❗ ✈️️️</h1>
       <Carousel responsive={responsive}>
         {product}
       </Carousel>
