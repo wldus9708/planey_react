@@ -144,10 +144,11 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                          onClick={handleOpenModal} />
                                     </span>
                                         <Modal
+                                            className={styles['modal-content']}
                                             show={showModal}
                                             onHide={handleCloseModal}
                                             animation={false}
-                                            backdrop="static" // 모달 외부 클릭 시 닫히지 않도록 설정
+                                            backdrop={false} // 모달 외부 클릭 시 닫히지 않도록 설정
                                             keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                         >
                                             <Modal.Header closeButton>
