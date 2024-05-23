@@ -1,11 +1,13 @@
+
 import React, { useState, useEffect } from "react";
-import styles from './LodgingList.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import styles from './AirportList.module.css'
 import SearchField from '../searchField/Search_field';
 
-const LodgingList = () => {
+
+const AirportList = () => {
     const fixedMinPrice = 100000;
     const fixedMaxPrice = 10000000;
     const priceGap = 10000;
@@ -189,16 +191,14 @@ const LodgingList = () => {
     };
 
 
-
-
-
-    return (
-        <div className={styles.restaurantListBody}>
+    return(
+        <>
+         <div className={styles.restaurantListBody}>
             <SearchField onSearch={handleSearch}/>
             <div className={styles['restList-container']}>
                 <div className={styles['restList-left-col']}>
                     <p>{data.length} + options</p>
-                    <h1>숙소 리스트</h1>
+                    <h1>항공 리스트</h1>
                     <div className={styles['restList-check']}>
                         <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
                         <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
@@ -225,7 +225,7 @@ const LodgingList = () => {
 
                                         <p>{item.lodDescription}</p>
                                         <div className={styles['restList-house-price']}>
-                                            <h4> {item.lodPrice.toLocaleString()}원</h4>
+                                            <h4>₩ {item.lodPrice.toLocaleString()}</h4>
                                         </div>
                                         <div className={styles['restList-house-info2']}>
                                             <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;&nbsp;&nbsp;2508</p>
@@ -323,7 +323,9 @@ const LodgingList = () => {
             </div>
             <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
         </div>
+        </>
+
     );
 };
 
-export default LodgingList;
+export default AirportList;
