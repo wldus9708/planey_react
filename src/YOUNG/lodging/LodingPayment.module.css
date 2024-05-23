@@ -58,3 +58,7 @@
 .submitButton:hover {
     background-color: #45a049;
 }
+.react-datepicker__day--highlighted-custom-1 {
+    background-color: gray;
+    color: white;
+}
