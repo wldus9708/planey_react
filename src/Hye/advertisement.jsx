@@ -8,41 +8,31 @@ const TestComponent = () => {
     const [updataset, setUpdataSet] = useState([]);
     const isInitialMount = useRef(true); // 초기 마운트를 추적하기 위한 참조
     const intervalRef = useRef(null); // interval 참조
- 
-    const [fetchTrigger, setFetchTrigger] = useState(0); // 데이터를 다시 가져오기 위한 트리거
-    
-        useEffect(() => {
-            const fetchInitialData = async () => {
-                try {
-                    const response = await axios.get('http://localhost:8988/admin/advertises/all');
-                    console.log('Initial Data:', response.data); // 성공 시 응답 데이터 출력
-                    setDataSet(response.data); // 변환된 데이터 저장// 응답 데이터만 저장
-                    const activeAds = response.data.filter(ad => ad.statusDate === 'ACTIVE'); // 'ACTIVE' 상태 필터링
-    
-                    if (activeAds.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * activeAds.length);
-                        setRandomAd(activeAds[randomIndex]); // 랜덤으로 하나 선택
-                    }
-                } catch (error) {
-                    console.error('Error fetching initial data:', error);
-                    setDataSet({ error: 'Error fetching initial data' }); // 오류 메시지를 저장
-                }
-            };
-            fetchInitialData();
 
-            // 30초마다 데이터 다시 가져오기
-            const interval = setInterval(fetchInitialData,10000);
-    
-            // 컴포넌트가 언마운트될 때 인터벌 정리
-            return () => clearInterval(interval);
-           
-    }, []); // fetchTrigger 상태를 의존성으로 설정하여 fetchTrigger가 변경될 때마다 fetchInitialData가 실행됩니다.
-    
-        // 이하 생략
-   
-    
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8988/admin/advertises/all');
+                console.log('Initial Data:', response.data); // 성공 시 응답 데이터 출력
+                setDataSet(response.data); // 응답 데이터만 저장
+                const activeAds = response.data.filter(ad => ad.statusDate === 'ACTIVE'); // 'ACTIVE' 상태 필터링
+
+                if (activeAds.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * activeAds.length);
+                    setRandomAd(activeAds[randomIndex]); // 랜덤으로 하나 선택
+                }
+            } catch (error) {
+                console.error('Error fetching initial data:', error);
+                setDataSet({ error: 'Error fetching initial data' }); // 오류 메시지를 저장
+            }
+        };
+
+        fetchInitialData(); // 처음 데이터 가져오기
+    }, []); // 빈 배열을 두 번째 인자로 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정합니다.
+
     useEffect(() => {
         const mergeData = (newData, existingData) => {
+            // newData가 배열인지 확인하고 배열이 아니면 배열로 변환
             if (!Array.isArray(newData)) {
                 newData = [newData];
             }
@@ -50,44 +40,52 @@ const TestComponent = () => {
             if (!Array.isArray(existingData)) {
                 existingData = [existingData];
             }
-            const dataMap = new Map(existingData.map(item => [item.id, item]));
-            newData.forEach(item => {
-                if (dataMap.has(item.id)) {
-                    console.log(`Updating item with id ${item.id}`);
-                    dataMap.set(item.id, { ...dataMap.get(item.id), ...item }); // 기존 항목 업데이트
-                } /*else {
-                    console.log(`Adding new item with id ${item.id}`);
-                    dataMap.set(item.id, item); // 새 항목 추가
-                }*/
-            });
+        
+            console.log('New Data:', newData);
+            console.log('Existing Data:', existingData);
+        
+            const dataMap = new Map(existingData.map(item => [parseInt(String(item.id).trim(), 10), item]));
+
+newData.forEach(item => {
+    const itemId = parseInt(String(item.id).trim(), 10);
+    if (isNaN(itemId)) {
+        console.error(`Invalid id found: ${item.id}`);
+        return; // 숫자가 아닌 경우 처리 중단
+    }
+    if (dataMap.has(itemId)) {
+        console.log(`Updating item with id ${itemId}`);
+        const updatedItem = { ...dataMap.get(itemId), ...item };
+        dataMap.set(itemId, updatedItem);
+    } else {
+        console.log(`Adding new item with id ${itemId}`);
+        dataMap.set(itemId, { ...item, id: parseInt(item.id, 10) });
+    }
+});
+
+
+        
+            // 변환된 데이터 반환
             return Array.from(dataMap.values());
         };
+        
 
         const fetchUpdatedData = async () => {
             try {
                 console.log('Fetching updated data...');
                 const response = await axios.get('http://localhost:8988/admin/adv');
                 console.log('Updated Data:', response.data); // 성공 시 응답 데이터 출력
-                
-                const updatedData = {
-                    ...response.data,
-                    id: parseInt(response.data.id)
-                };
-                console.log('확인데이터'+updatedData)
+                const updatedData = response.data;
+
                 // 기존 데이터와 새로운 데이터를 병합하여 업데이트
                 const mergedData = mergeData(updatedData, dataset);
                 console.log('Merged Data Length:', mergedData.length);
 
-                console.log(mergedData);
                 // 데이터가 변경된 경우에만 상태 업데이트
                 if (JSON.stringify(mergedData) !== JSON.stringify(dataset)) {
                     console.log('aaaa');
                     setDataSet(mergedData);
                     setUpdataSet(mergedData);
-                    
-                }else{
-                    console.log('bbb')
-                    axios.post('http://localhost:8988/admin/advertises/update-all', dataset)
+                    axios.post('http://localhost:8988//admin/advertises/update-all', mergedData)
                     .then(response => {
                         console.log('Dataset updated on the server:', response.data);
                     })
@@ -96,7 +94,9 @@ const TestComponent = () => {
                     });
                 }
             } catch (error) {
-                console.error('Error fetching updated data:', error);
+                if (updataset && updataset.length > 0) {
+                    console.error('Error fetching updated data:', error);
+                }
                 setUpdataSet([]); // 오류가 발생하면 빈 배열 설정
             }
         };
