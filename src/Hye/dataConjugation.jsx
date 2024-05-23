@@ -48,7 +48,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Survey Modal"
-      className="Modal"
+      className="OModal"
     >
       <div className='dmodal'>
         <h2>설문지</h2>
