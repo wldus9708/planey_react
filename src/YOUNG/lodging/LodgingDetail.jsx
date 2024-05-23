@@ -80,6 +80,9 @@ const LodgingDetail = () => {
               <p className={styles.lodgingDescription}>
               {lodging && lodging.lodDescription}
               </p>
+              <span className={styles.alreadyReservation}>
+                  🔘  표시된 해당 날짜는 이미 예약이 완료되었습니다. 
+                </span>
                 <div>
               <LodgingPayment/>
               </div>
