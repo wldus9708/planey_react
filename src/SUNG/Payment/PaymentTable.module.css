@@ -96,5 +96,8 @@ tbody tr:nth-child(even) {
 .column-5{
     width: 5%;
 }
-
+.modal-content {
+    background: rgba(255, 255, 255, 0.1); /* 배경을 약간 투명하게 설정 */
+    backdrop-filter: blur(1px); /* 백드롭에 블러 효과 적용 */
+}
 
