@@ -25,8 +25,8 @@ function PaymentList(props) {
         package: "http://localhost:8988/paymentList/packageTour",
         lodging: (`http://localhost:8988/paymentList/lodging`),
         restaurant: (`http://localhost:8988/paymentList/restaurant`),
-        flight: "http://localhost:8988/admin/members",  
-        rentcar: "http://localhost:8988/admin/members"
+        flight: "http://localhost:8988/paymentList/flight",
+        rentcar: "http://localhost:8988/paymentList/rentcar"
     };
 
      // 선택된 탭에 따라 해당 PaymentTable을 렌더링

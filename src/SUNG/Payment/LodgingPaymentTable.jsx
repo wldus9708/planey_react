@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import styles from "./PaymentTable.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCircleChevronUp, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import LodgingPaymentDetail from '../../YOUNG/PaymentDetail/LodgingPaymentDetail'
-import { useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
@@ -15,8 +14,7 @@ const TABLE_HEADS = [
     "체크인",
     "체크아웃",
     "결제금액",
-    "상세",
-    // "삭제"
+    "상세"
 ];
 
 const LodgingPaymentTable = ({ endpoint }) => {
@@ -170,7 +168,6 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    {/* <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td> */}
                                 </tr>
                             ))
                         ) : (
