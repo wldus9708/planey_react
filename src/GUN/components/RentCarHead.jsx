@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import styles from './PackageHead.module.css';
+import styles from './RentCarHead.module.css';
 import axios from "axios";
 import RentCarPayment from './RentCarPayment';
 import { useCookies } from "react-cookie";
@@ -17,6 +17,7 @@ const RentCarHead = () => {
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
+    const [paymentInfo, setPaymentInfo] = useState(null);
 
 
     useEffect(() => {
@@ -56,6 +57,10 @@ const RentCarHead = () => {
 
     }, [id]);
 
+    const handlePaymentInfo = (info) => {
+        setPaymentInfo(info);
+    }
+
     return (
         <div className={styles.LodgingBody}>
             <div className={styles.wrapper}>
@@ -68,11 +73,11 @@ const RentCarHead = () => {
                                     alt={`car0${activeImageIndex + 1}`}
                                 />
                             </div>
-                            <div className={styles.restDetailhoverContainer}>
+                            <div className={styles.rentDetailhoverContainer}>
                                 {[1, 2, 3, 4, 5].map(index => (
                                     <div
                                         key={index}
-                                        className={styles.restDetailactive}
+                                        className={styles.rentDetailactive}
                                         onMouseOver={() => setActiveImageIndex(index - 1)}
                                     >
                                         <img
@@ -110,12 +115,14 @@ const RentCarHead = () => {
                             <br />
                             <span className={styles.lodgingSchdule}>변속기 : {car && car.carTransmission}</span>
                             <br />
-                            <span className={styles.lodgingPrice}>렌트비(1박) : {car && car.carRentalPrice}</span>
-                            <RentCarPayment></RentCarPayment>
-
+                            <span className={styles.lodgingPrice}>렌트비 : {car && car.carRentalPrice}</span>
+                            {/* RentCarPayment 컴포넌트에 car 상태와 결제 정보 전달 */}
+                            <RentCarPayment car={car} onPaymentInfo={handlePaymentInfo} />
                             <p className={styles.lodgingDescription}>
-                            {car && car.carComment}
+                                {car && car.carComment}
                             </p>
+                            <h3>총 가격 : {car && car.carRentalPrice}+</h3>
+                            
                         </div>
                     </div>
                 </div>
