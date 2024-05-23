@@ -108,7 +108,7 @@ const PackagePaymentTable = ({ endpoint }) => {
 
     const handleOpenModal = (index) => {
         console.log(data)
-        const selectedId = data[index].package_reservation_id;
+        const selectedId = data[index].id;
         setSelectedRow(selectedId);
         setShowModal(true); // 모달 열기
     };
@@ -169,7 +169,7 @@ const PackagePaymentTable = ({ endpoint }) => {
                                                 <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                <PackagePaymentDetail packResId={selectedRow} />
+                                                <PackagePaymentDetail packResId={selectedRow}/>
                                             </Modal.Body>
                                         </Modal>
 
