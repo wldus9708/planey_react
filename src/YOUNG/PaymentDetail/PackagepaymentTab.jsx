@@ -159,39 +159,56 @@ const PackagepaymentTab = (props) => {
                     <>
                         <div className={styles.row}>
                             <span className={styles.label}>항공사</span>
-                            <span className={styles.value}>{reservation.fli_brand}</span>
+                            <span className={styles.value}>{reservation.flightBrand}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>출발일</span>
-                            <span className={styles.value}>{reservation.fli_departure_date}</span>
+                            <span className={styles.value}>{reservation.fliDepartureDate}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>종료일</span>
-                            <span className={styles.value}>{reservation.fli_arrival_date}</span>
+                            <span className={styles.value}>{reservation.fliArrivalDate}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>출발지</span>
-                            <span className={styles.value}>{reservation.fli_departure_place}</span>
+                            <span className={styles.value}>{reservation.fliDeparturePlace}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>도착지</span>
-                            <span className={styles.value}>{reservation.fli_arrival_place}</span>
+                            <span className={styles.value}>{reservation.fliArrivalPlace}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>출발시간</span>
-                            <span className={styles.value}>{reservation.fli_departure_time}</span>
+                            <span className={styles.value}>{reservation.fliDepartureTime}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>도착시간</span>
-                            <span className={styles.value}>{reservation.fli_arrival_time}</span>
+                            <span className={styles.value}>{reservation.fliArrivalTime}</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>총 비행시간</span>
-                            <span className={styles.value}>{reservation.total_flight_time}</span>
+                            <span className={styles.value}>{reservation.fliTotalTime}분</span>
                         </div>
+
                         <div className={styles.row}>
                             <span className={styles.label}>좌석</span>
-                            <span className={styles.value}>{reservation.seat}</span>
+                            <span className={styles.value}>{reservation.seatNo}</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>인원수</span>
+                            <span className={styles.value}>{reservation.fliResCapacity}명</span>
+                        </div>
+
+                        <div className={styles.row}>
+                            <span className={styles.label}>총금액</span>
+                            <span className={styles.value}>{reservation.fliResPrice.toLocaleString()}원</span>
                         </div>
                     </>
                 )}
