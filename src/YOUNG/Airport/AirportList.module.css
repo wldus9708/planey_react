@@ -39,7 +39,7 @@
    margin-bottom: 30px;
 }
 .restList-check{
-    display: inline-block;
+    /* display: inline-block; */
 }
 .restList-house{
     display: flex;
@@ -56,11 +56,7 @@
     color:#555;
     margin-bottom: -85px;;
 }
-.restList-house-img img{
-    width: 300px;
-    height:250px;
-    border-radius: 12px;
-}    
+  
 .restList-house-info h3{
     font-weight: 600;
     color: #333;
@@ -105,6 +101,7 @@ margin-top: 0;
     font-weight: 500;
 }
 .restList-sidebar{
+    
     background-color: #ff9f001a;
     padding: 20px 30px;
     margin-top: 30px;
@@ -245,6 +242,7 @@ position: absolute;
     }
     .restList-left-col, .restList-right-col, .restList-house-img, .restList-house-info{
         flex-basis: 100%;
+      
     }
     .restList-left-col h1{
         font-size:22px;
@@ -269,3 +267,83 @@ hr {
     width: 100%; /* 너비를 원하는 값으로 조정합니다. */
     margin: 0 auto; /* 가운데 정렬을 위해 margin을 auto로 설정합니다. */
 }
+.AirSelected{
+    display: flex;
+}
+
+.FliDiv{
+    display: flex;
+    border-radius: 0.5rem;
+    height: 11rem;
+    padding: 0px 30px;
+    border: 1px solid rgba(190, 190, 190, 0.425);
+    margin: 5px 0;
+    width: 67rem;
+
+}
+.FliArrPriceBox {
+    text-align: center;
+    border-radius: 0.5rem;
+    font-size: 20px;
+    font-weight: bold;
+    height: 11rem;
+    width: 11rem;
+    border: 1px solid rgba(190, 190, 190, 0.425);
+    padding: 60px 30px;
+    margin: 5px 0;
+    background-color: rgba(248, 170, 52, 0.452);
+    
+}
+.totalTime {
+    font-size: 15px;
+}
+.airPrice{
+    font-size: 20px;
+}
+
+.FliDiv img{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    
+}
+
+.FliList span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 15px;
+}
+.FliName{
+    margin-right: 15rem;
+    font-weight: bold;
+}
+.FliDate{
+    margin-right: 15rem;
+}
+.FliIcon { 
+    margin-left: 2rem;
+    margin-right: 2rem;
+    font-size: 3rem;
+}
+
+.FliDepRegion,
+.FliDepTime {
+    flex: 1; /* 각 요소들이 동일한 너비를 가지도록 함 */
+    margin: 0 5px;
+}
+
+
+.FliArrRegion,
+.FliArrTime {
+    flex: 1; /* 각 요소들이 동일한 너비를 가지도록 함 */
+    margin: 0 5px;
+}
+
+
+
+
+
+

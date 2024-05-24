@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './AirportList.module.css'
 import SearchField from '../searchField/Search_field';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
+import { MdOutlineConnectingAirports } from "react-icons/md";
 
 const AirportList = () => {
     const fixedMinPrice = 100000;
@@ -100,22 +101,6 @@ const AirportList = () => {
         }
     }, []);
 
-    const toggleAllCheckbox = () => {
-        const newState = !allChecked;
-        const newCheckboxStates = { ...checkboxStates };
-        for (let key in newCheckboxStates) {
-            newCheckboxStates[key] = newState;
-        }
-        setCheckboxStates(newCheckboxStates); // 모든 체크박스 상태 업데이트
-        setAllChecked(newState); // 전체 체크 상태 업데이트
-    };
-
-    const toggleCheckbox = (name) => {
-        const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
-        setCheckboxStates(newCheckboxStates);
-        const allChecked = Object.values(newCheckboxStates).every(value => value);
-        setAllChecked(allChecked); // 전체 체크 상태 업데이트
-    };
 
 
     useEffect(() => {
@@ -193,7 +178,7 @@ const AirportList = () => {
 
     return (
         <>
-            <div style={{padding: '1rem'}}>
+            <div style={{ padding: '1rem' }}>
                 <NavBar />
             </div>
             <div className={styles.restaurantListBody}>
@@ -213,28 +198,80 @@ const AirportList = () => {
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
 
                                 return (
-                                    <div className={styles['restList-house']} key={index}>
-                                        <div className={styles['restList-house-img']}>
+                                    <div className={styles.AirportList}>
+                                        <div className={styles.AirSelected}>
+                                            <div className={styles.FliDiv}>
+                                                <ul>
+                                                    <li className={styles.FliList}>
+                                                        <span>
+                                                            <img src="images/air05.jpg" alt="진에어 로고" />
+                                                            <div className={styles.FliName}>
+                                                                진에어
+                                                            </div>
+                                                            <div className={styles.FliDate}>
+                                                                2024.05.25(토)
+                                                            </div>
+                                                            <div className={styles.FliArrRegionandTime}>
+                                                                <span className={styles.FliDepRegion}>
+                                                                    서울
+                                                                </span>
+                                                                <span className={styles.FliDepTime}>
+                                                                    09:35
+                                                                </span>
+                                                            </div>
+                                                            <div className={styles.FliIcon}>
+                                                                <MdOutlineConnectingAirports />
+                                                            </div>
+                                                            <div className={styles.FliArrRegionandTime}>
+                                                                <span className={styles.FliArrRegion}>
+                                                                    후쿠오카
+                                                                </span>
+                                                                <span className={styles.FliArrTime}>
+                                                                    11:00
+                                                                </span>
+                                                            </div >
+                                                        </span>
+                                                    </li>
 
-                                            <img src={`/images/${item.lodImage01}`} alt="" width="200px" height="200px" />
-                                        </div>
-                                        <div className={styles['restList-house-info']}>
-                                            <p>{item.lodCategory}</p>
-                                            <h3>{item.lodName}</h3>
-                                            <p>{item.lodAddress}</p>
-                                            <p>{item.lodAddressDetail}</p>
-                                            {/* <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                                        {item.restGrade}  */}
-
-                                            <p>{item.lodDescription}</p>
-                                            <div className={styles['restList-house-price']}>
-                                                <h4>₩ {item.lodPrice.toLocaleString()}</h4>
+                                                    <li className={styles.FliList}>
+                                                        <span >
+                                                            <img src="images/air05.jpg" alt="진에어 로고" />
+                                                            <div className={styles.FliName}>
+                                                                진에어
+                                                            </div>
+                                                            <div className={styles.FliDate}>
+                                                                2024.05.28(화)
+                                                            </div>
+                                                            <div className={styles.FliArrRegionandTime}>
+                                                                <span className={styles.FliDepRegion}>
+                                                                    후쿠오카
+                                                                </span>
+                                                                <span className={styles.FliDepTime}>
+                                                                    12:40
+                                                                </span>
+                                                            </div>
+                                                            <div className={styles.FliIcon}>
+                                                                <MdOutlineConnectingAirports />
+                                                            </div>
+                                                            <div className={styles.FliArrRegionandTime}>
+                                                                <span className={styles.FliArrRegion}>
+                                                                    서울
+                                                                </span>
+                                                                <span className={styles.FliArrTime}>
+                                                                    14:10
+                                                                </span>
+                                                            </div>
+                                                        </span>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <div className={styles['restList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;&nbsp;&nbsp;2508</p>
+                                            <div className={styles.FliArrPriceBox}>
+                                            <p className={styles.totalTime}>총 1시간 20분</p>
+                                                <p className={styles.airPrice}>2999,000원</p>
                                             </div>
                                         </div>
                                     </div>
+
                                 );
                             })
                         ) : (
@@ -285,41 +322,6 @@ const AirportList = () => {
                                         {rangeMaxValue.toLocaleString()}원
                                     </div>
                                 </div>
-                            </div>
-                            < br />
-                            < br />
-                            <h6>숙소 이름으로 검색</h6>
-
-                            <div className={styles['restList-search']}>
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    placeholder="검색어를 입력하세요"
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                            </div>
-                            <h6>숙소 유형</h6>
-                            < br />
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.lodCategory).length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['호텔']} onChange={() => toggleCheckbox('HOTEL')} /><p>호텔</p><span>({data.filter(item => item.lodCategory === 'HOTEL').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['모텔']} onChange={() => toggleCheckbox('MOTEL')} /><p>모텔</p><span>({data.filter(item => item.lodCategory === 'MOTEL').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['콘도']} onChange={() => toggleCheckbox('CONDO')} /><p>콘도</p><span>({data.filter(item => item.lodCategory === 'CONDO').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['펜션']} onChange={() => toggleCheckbox('PENSION')} /><p>펜션</p><span>({data.filter(item => item.lodCategory === 'PENSION').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['리조트']} onChange={() => toggleCheckbox('RESORT')} /><p>리조트</p><span>({data.filter(item => item.lodCategory === 'RESORT').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['기타']} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.lodCategory === 'ETC').length})</span>
                             </div>
                         </div>
                     </div>
