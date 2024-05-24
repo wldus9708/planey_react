@@ -158,7 +158,7 @@ const PackagePaymentTable = ({ endpoint }) => {
                                             onClick={() => handleOpenModal(index)}  />
                                     </span>
                                         <Modal
-                                            className={styles['modal-content']}
+                                            className={styles['dmodal-content']}
                                             show={showModal}
                                             onHide={handleCloseModal}
                                             animation={false}
