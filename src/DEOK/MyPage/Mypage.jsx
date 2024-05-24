@@ -3,7 +3,6 @@ import './Mypage.css';
 import 'material-icons';
 import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
-import InsertShop from './MainComponents/InsertShop';
 import PaymentList  from '../../SUNG/Payment/PaymentList';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,7 @@ import WishList from './MainComponents/WishList';
 const MpClient = () => {
     const [cookies] = useCookies(['accessToken']);
     const navigator = useNavigate();
-    const [viewWhat, setViewWhat] = useState('updateInfo');
+    const [viewWhat, setViewWhat] = useState('paymentList');
     const [isUlHidden, setIsUlHidden] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -76,11 +75,11 @@ const MpClient = () => {
                         <p className='DEOK_MP_CL_Nickname'>
                             {userInfo.nickname}
                         </p>
-                        <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
-                            <h3>회원 정보 수정</h3>
-                        </p>
                         <p className={viewWhat === 'paymentList' ? 'active' : ''} onClick={() => clickMenu("paymentList")}>
                             <h3>결제 내역</h3>
+                        </p>
+                        <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
+                            <h3>회원 정보 수정</h3>
                         </p>
                         <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => clickMenu('wishList')}>
                             <h3>찜목록</h3>
@@ -103,7 +102,6 @@ const MpClient = () => {
                 <main>
                     <div className='DEOK_MP_CL_main'>
                         {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
-                        {viewWhat === "insertShop" && <InsertShop />}
                         {viewWhat === "paymentList" && <PaymentList userInfo={userInfo} />}
                         {viewWhat === "wishList" && <WishList />}
                         {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}

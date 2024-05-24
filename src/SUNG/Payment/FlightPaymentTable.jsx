@@ -136,7 +136,7 @@ const FlightPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.id}`}>{dataItem.name}</Link>
+                                        <Link to={`/product/${dataItem.fliId}`}>{dataItem.name}</Link>
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
