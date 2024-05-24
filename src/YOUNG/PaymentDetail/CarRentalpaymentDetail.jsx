@@ -69,7 +69,7 @@ const CarRentalpaymentDetail = (props) => {
 
                     <div className={styles.row}>
                         <span className={styles.label}>대여료</span>
-                        <span className={styles.value}>{data.rentalPrice}</span>
+                        <span className={styles.value}>{data.rentalPrice.toLocaleString()}원</span>
                     </div>
 
                     <div className={styles.row}>
