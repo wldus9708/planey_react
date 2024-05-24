@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './LodgingDetail.module.css';
 import axios from "axios";
-import LodgingPayment from "./LodingPayment"; // 경로 수정
 import { useParams } from "react-router-dom";
+import LodgingPayment from "./LodingPayment"; // 경로 수정
+import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { useCookies } from "react-cookie";
+import { useNavigate } from 'react-router-dom';
 
 const LodgingDetail = () => {
   let { id } = useParams(); // URL에서 숙소 ID 가져오기
@@ -11,9 +14,39 @@ const LodgingDetail = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [reservations, setReservations] = useState([]); // 예약 내역을 위한 상태 추가
   const [totalPrice, setTotalPrice] = useState(0); // 총 가격 상태 추가
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  const navigator = useNavigate();
+  const [cookies] = useCookies('accessToken');
+  const [user, setUser] = useState(null);
 
   // 스프링 연결 
   useEffect(() => {
+
+    console.log("accessToken :" + cookies.accessToken);
+    // console.log("user :" + cookies.name);
+    if (cookies.accessToken) {
+      // Fetch user information using the access token
+      axios.get('http://localhost:8988/member/detailPage', {
+        headers: {
+          Authorization: `${cookies.accessToken}`,
+        },
+      })
+        .then((response) => {
+          setUser(response.data);
+           console.log(response.data.id);
+        })
+  
+        .catch(error => {
+          console.error('사용자 정보 가져오는 중 오류 발생:', error);
+        });
+    } else if (!cookies.accessToken) {
+      navigator('/login');
+      alert("결제전에 로그인을 해주세요.");
+    }
+
     axios.get(`http://localhost:8988/lodging/detail/${id}`)
     .then((response) => {
       if (response.data) {
@@ -47,6 +80,61 @@ const LodgingDetail = () => {
       const newPrice = lodging.lodPrice * adults + (lodging.lodPrice * 0.5 * children);
       setTotalPrice(newPrice);
     }
+  };
+
+  // 결제 요청 함수
+  const handlePayment = () => {
+    const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
+    loadTossPayments(clientKey)
+      .then(tossPayments => {
+        tossPayments.requestPayment('CARD', {
+          amount: totalPrice, // 결제할 금액
+          orderId: `order_${id}`, // 주문의 고유한 식별자
+          orderName: `${lodging.lodName} 예약`, // 주문의 이름 또는 설명
+          successUrl: `http://localhost:3000/PaymentSuccessLoging?member_id=${user.id}&lodging=${lodging.category}`, // 결제 성공 후 이동할 URL 주소
+          failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
+        })
+        .then(response => {
+          const { amount } = response;
+          handlePaymentSuccess(amount);
+        })
+        .catch((error) => {
+          console.error('결제 중 오류 발생:', error);
+          alert("결제 실패.");
+        });
+      })
+      .catch(error => {
+        console.error('토스페이먼츠 로딩 중 오류 발생:', error);
+        alert("결제 애플리케이션 로딩 실패.");
+      });
+  };
+
+  const saveLodgingReservation = (reservationData) => {
+    console.log("여기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
+    axios.post('http://localhost:8988/payment/saveLodgingReservation', reservationData)
+      .then(response => {
+        if (response.data) {
+          console.log('숙소 예약이 성공적으로 처리되었습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('숙소 예약 정보를 저장하는데 실패했습니다:', error);
+      });
+  };
+
+  const handlePaymentSuccess = ( amount ) => {
+    const reservationData = {
+      memberId: user.id,
+      lodgingId: id,
+      relationship:10001,
+      lodDepartureDate: startDate, // 시작 날짜
+      lodArrivalDate: endDate, // 종료 날짜
+      lodResTime: new Date(), // 현재 시간
+      lodResCapacity: adults + children, // 총 인원
+      lodResPrice: amount,
+      lodResState: "COMPLETED",
+    };
+    saveLodgingReservation(reservationData);
   };
 
   return (
@@ -99,6 +187,11 @@ const LodgingDetail = () => {
                 <LodgingPayment 
                   reservations={reservations}
                   updateTotalPrice={updateTotalPrice} // 가격 업데이트 함수 전달
+                  handlePayment={handlePayment} // 결제 요청 함수 전달
+                  setStartDate={setStartDate} // 시작 날짜 설정 함수 전달
+                  setEndDate={setEndDate} // 종료 날짜 설정 함수 전달
+                  setAdults={setAdults} // 성인 수 설정 함수 전달
+                  setChildren={setChildren} // 어린이 수 설정 함수 전달
                 />
               </div>
             </div>
