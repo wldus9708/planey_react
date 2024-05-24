@@ -216,33 +216,44 @@ const PackagepaymentTab = (props) => {
                 {activeTab === 'rentcar' && (
                     <>
                         <div className={styles.row}>
-                            <span className={styles.label}>차량 모델</span>
-                            <span className={styles.value}>{reservation.carModel}</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span className={styles.label}>대여 시작일</span>
-                            <span className={styles.value}>{reservation.rent_start_date}</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span className={styles.label}>대여 종료일</span>
-                            <span className={styles.value}>{reservation.rent_end_date}</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span className={styles.label}>차량 대여 지점명</span>
-                            <span className={styles.value}>{reservation.rent_location}</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span className={styles.label}>차량 대여 지점 주소</span>
-                            <span className={styles.value}>{reservation.rent_location_address}</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span className={styles.label}>번호판</span>
-                            <span className={styles.value}>{reservation.car_plate}</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span className={styles.label}>보험 종류</span>
-                            <span className={styles.value}>{reservation.insurance_type}</span>
-                        </div>
+                        <span className={styles.label}>차량 모델</span>
+                        <span className={styles.value}>{reservation.carModel}</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>대여 시작일</span>
+                        <span className={styles.value}>{reservation.rentalStartDate}</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>대여 종료일</span>
+                        <span className={styles.value}>{reservation.rentalEndDate}</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>대여 지점명</span>
+                        <span className={styles.value}>{reservation.locationName}</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>대여 지점 주소</span>
+                        <span className={styles.value}>{reservation.locationAddress}</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>차량 번호</span>
+                        <span className={styles.value}>{reservation.carLicensePlate}</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>대여료</span>
+                        <span className={styles.value}>{reservation.rentalPrice.toLocaleString()}원</span>
+                    </div>
+
+                    <div className={styles.row}>
+                        <span className={styles.label}>보험 종류</span>
+                        <span className={styles.value}>{reservation.carInsurance}</span>
+                    </div>
                     </>
                 )}
             </div>
