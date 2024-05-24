@@ -101,7 +101,7 @@ const FlightPaymentTable = ({ endpoint }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = (index) => {
-        setSelectedRow(data[index].restResId);
+        setSelectedRow(data[index].fliResId);
         setShowModal(true); // 모달 열기
     };
 
@@ -136,11 +136,11 @@ const FlightPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.fliId}`}>{dataItem.name}</Link>
+                                        <Link to={`/product/${dataItem.fliId}`}>{dataItem.fli_brand}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-3`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.fli_departure_date}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.fli_arrival_date}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.fli_res_price}</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
