@@ -9,7 +9,7 @@ import NavBar from "./../CKH/Components/Navbar/Navbar"
 const RentCarList = () => {
     const fixedMinPrice = 10000;
     const fixedMaxPrice = 500000;
-    const priceGap = 10000;
+    const priceGap = 1000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
     const [allChecked, setAllChecked] = useState(false);
@@ -28,6 +28,7 @@ const RentCarList = () => {
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -41,7 +42,7 @@ const RentCarList = () => {
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' + startIndex);
                 console.log('끝페이지:' + endIndex);
-                setData(prevData => [...prevData, ...newData]); 
+                setData(prevData => [...prevData, ...newData]);
                 if (currentPage === 1) {
                     setData(newData);
                 } else {
@@ -104,6 +105,16 @@ const RentCarList = () => {
         const allChecked = Object.values(newCheckboxStates).every(value => value);
         setAllChecked(allChecked);
     };
+    
+    const filterByFuelType = (data) => {
+        if (checkboxStates.all || Object.values(checkboxStates).every(value => !value)) {
+            return data;
+        }
+        return data.filter(item => {
+            return checkboxStates[item.carFuelType];
+        });
+    };
+    
 
     const prcieRangeMinValueHandler = e => {
         setRangeMinValue(parseInt(e.target.value));
@@ -135,6 +146,15 @@ const RentCarList = () => {
 
         filteredData = filteredData.filter(item => item.carRentalPrice >= minPrice && item.carRentalPrice <= maxPrice);
 
+        if (searchQuery.trim()) {
+            filteredData = filteredData.filter(item => {
+                const restaurantName = item.carModel;
+                return restaurantName && restaurantName.toLowerCase().includes(searchQuery.toLowerCase());
+            });
+        }
+
+
+
 
 
         return filteredData;
@@ -145,7 +165,7 @@ const RentCarList = () => {
             return data;
         }
         return data.filter(item => {
-            return checkboxStates[item.category];
+            return checkboxStates[item.carFuelType];
         });
     };
 
@@ -240,7 +260,7 @@ const RentCarList = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3>차종</h3>
+                            <h3>모델로 검색</h3>
                             <div className={styles['rentList-search']}>
                                 <input
                                     type="text"
@@ -249,24 +269,24 @@ const RentCarList = () => {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            <h3>분류</h3>
+                            <h3>연료유형</h3>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['all']} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.rentCategory).length})</span>
+                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.carFuelType).length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['GASOLINE']} onChange={() => toggleCheckbox('GASOLINE')} /><p>휘발유</p><span>({data.filter(item => item.rentCategory === 'GASOLINE').length})</span>
+                                <input type="checkbox" checked={checkboxStates.GASOLINE} onChange={() => toggleCheckbox('GASOLINE')} /><p>휘발유</p><span>({data.filter(item => item.carFuelType === 'GASOLINE').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['DIESEL']} onChange={() => toggleCheckbox('DIESEL')} /><p>경유</p><span>({data.filter(item => item.rentCategory === 'DIESEL').length})</span>
+                                <input type="checkbox" checked={checkboxStates.DIESEL} onChange={() => toggleCheckbox('DIESEL')} /><p>경유</p><span>({data.filter(item => item.carFuelType === 'DIESEL').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['HYBRID']} onChange={() => toggleCheckbox('HYBRID')} /><p>하이브리드</p><span>({data.filter(item => item.rentCategory === 'HYBRID').length})</span>
+                                <input type="checkbox" checked={checkboxStates.HYBRID} onChange={() => toggleCheckbox('HYBRID')} /><p>하이브리드</p><span>({data.filter(item => item.carFuelType === 'HYBRID').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['ELECTRIC']} onChange={() => toggleCheckbox('ELECTRIC')} /><p>전기</p><span>({data.filter(item => item.rentCategory === 'ELECTRIC').length})</span>
+                                <input type="checkbox" checked={checkboxStates.ELECTRIC} onChange={() => toggleCheckbox('ELECTRIC')} /><p>전기</p><span>({data.filter(item => item.carFuelType === 'ELECTRIC').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['HYDROGEN']} onChange={() => toggleCheckbox('HYDROGEN')} /><p>수소</p><span>({data.filter(item => item.rentCategory === 'HYDROGEN').length})</span>
+                                <input type="checkbox" checked={checkboxStates.HYDROGEN} onChange={() => toggleCheckbox('HYDROGEN')} /><p>수소</p><span>({data.filter(item => item.carFuelType === 'HYDROGEN').length})</span>
                             </div>
                         </div>
                     </div>

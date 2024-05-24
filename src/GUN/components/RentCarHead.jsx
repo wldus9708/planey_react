@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
-
 const RentCarHead = () => {
     const [data, setData] = useState([]);
     const navigator = useNavigate();
@@ -16,33 +15,9 @@ const RentCarHead = () => {
     const [car, setCar] = useState(null); 
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
-
     const [paymentInfo, setPaymentInfo] = useState(null);
 
-
     useEffect(() => {
-        // console.log("accessToken :" + cookies.accessToken);
-        // if (cookies.accessToken) {
-        //     axios.get('http://localhost:8988/member/detailPage', {
-        //         headers: {
-        //             Authorization: `${cookies.accessToken}`,
-        //         },
-        //     })
-        //         .then((response) => {
-        //             if (response.data) {
-        //                 setUser(response.data);
-        //             }
-        //             console.log(response.data);
-        //         })
-
-        //         .catch(error => {
-        //          console.error('사용자 정보 가져오는 중 오류 발생:', error);
-        //         });
-        // } else if (!cookies.accessToken) {
-        //     navigator('/login');
-        //     alert("결제 전에 로그인을 해주세요.");
-        // }
-
         axios.get(`http://localhost:8988/car/detail/${id}`)
             .then((response) => {
                 if (response.data) {
@@ -89,15 +64,13 @@ const RentCarHead = () => {
                             </div>
                         </div>
                         <div className={styles.lodgingDivRight}>
-
                             <div className={styles.lodgingHeader}>
                                 <span className={styles.lodgingName}>
-                                {car && car.carModel}
+                                    {car && car.carModel}
                                 </span>
                                 <img src="/images/star.png" alt="star" className={styles.starImage} />
                                 <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
                             </div>
-
                             <hr />
                             <br />
                             <br />
@@ -116,20 +89,16 @@ const RentCarHead = () => {
                             <span className={styles.lodgingSchdule}>변속기 : {car && car.carTransmission}</span>
                             <br />
                             <span className={styles.lodgingPrice}>렌트비 : {car && car.carRentalPrice}</span>
-                            {/* RentCarPayment 컴포넌트에 car 상태와 결제 정보 전달 */}
                             <RentCarPayment car={car} onPaymentInfo={handlePaymentInfo} />
                             <p className={styles.lodgingDescription}>
                                 {car && car.carComment}
                             </p>
-                            <h3>총 가격 : {car && car.carRentalPrice}+</h3>
-                            
+                            <h3>총 가격 : {paymentInfo && paymentInfo.totalPrice} 원</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     );
 };
 
