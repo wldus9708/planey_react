@@ -92,24 +92,24 @@ const PackagepaymentTab = (props) => {
                     <>
                         <div className={styles.row}>
                             <span className={styles.label}>숙소 이름</span>
-                            <span className={styles.value}>{reservation.lodgingName}</span>
+                            <span className={styles.value}>{reservation.lodName}</span>
                         </div>
                         <div className={styles.row}>
                             <span className={styles.label}>숙소 주소</span>
-                            <span className={styles.value}>{reservation.lodgingAddress}</span>
+                            <span className={styles.value}>{reservation.lodAddress}</span>
                         </div>
                         <div className={styles.row}>
                             <span className={styles.label}>상세 주소</span>
-                            <span className={styles.value}>{reservation.lodgingAddressDetail}</span>
+                            <span className={styles.value}>{reservation.lodAddressDetail}</span>
                         </div>
-                        <div className={styles.row}>
+                        {/* <div className={styles.row}>
                             <span className={styles.label}>예약 날짜</span>
                             <span className={styles.value}>{reservation.reservationDate}</span>
                         </div>
                         <div className={styles.row}>
                             <span className={styles.label}>인원수</span>
                             <span className={styles.value}>{reservation.numberOfPeople}</span>
-                        </div>
+                        </div> */}
                     </>
                 )}
 
@@ -124,7 +124,7 @@ const PackagepaymentTab = (props) => {
                             <span className={styles.value}>{reservation.restAddress}</span>
                         </div>
                         
-                        <div className={styles.row}>
+                        {/* <div className={styles.row}>
                             <span className={styles.label}>인원수</span>
                             <span className={styles.value}>{reservation.restResCapacity}명</span>
                         </div>
@@ -139,7 +139,7 @@ const PackagepaymentTab = (props) => {
                         <div className={styles.row}>
                             <span className={styles.label}>식당 금액</span>
                             <span className={styles.value}>{reservation.restPrice.toLocaleString()}원</span>
-                        </div>
+                        </div> */}
                     </>
                 )}
 
