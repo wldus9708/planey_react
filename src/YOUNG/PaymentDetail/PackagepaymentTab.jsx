@@ -117,16 +117,29 @@ const PackagepaymentTab = (props) => {
                     <>
                         <div className={styles.row}>
                             <span className={styles.label}>식당 이름</span>
-                            <span className={styles.value}>{reservation.restName}</span>
+                            <span className={styles.value}>{reservation.restaurantName}</span>
                         </div>
-                        {/* <div className={styles.row}>
+                        <div className={styles.row}>
                             <span className={styles.label}>식당 주소</span>
                             <span className={styles.value}>{reservation.restAddress}</span>
+                        </div>
+                        
+                        <div className={styles.row}>
+                            <span className={styles.label}>인원수</span>
+                            <span className={styles.value}>{reservation.restResCapacity}명</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>예약 날짜</span>
+                            <span className={styles.value}>{reservation.restResDate}</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>예약 시간</span>
+                            <span className={styles.value}>{reservation.restResTime}</span>
                         </div>
                         <div className={styles.row}>
                             <span className={styles.label}>식당 금액</span>
                             <span className={styles.value}>{reservation.restPrice.toLocaleString()}원</span>
-                        </div> */}
+                        </div>
                     </>
                 )}
 
