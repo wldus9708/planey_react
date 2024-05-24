@@ -23,14 +23,33 @@ export function SuccessPage() {
     }
   }, [user, restaurant, paymentKey, product_id, amount, navigate]);
 
+  const saveRestaurantReservation = async (reservationData) => {
+    try {
+      const response = await fetch(`http://localhost:8988/payment/saveRestaurantReservation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reservationData)
+      });
+
+      if (response.ok) {
+        console.log('레스토랑 예약이 성공적으로 처리되었습니다.');
+      } else {
+        console.error('레스토랑 예약 정보를 저장하는데 실패했습니다:', response.statusText);
+      }
+    } catch (error) {
+      console.error('레스토랑 예약 정보를 저장하는데 실패했습니다:', error);
+    }
+  };
+
   const confirmPayment = useCallback(async () => {
     if (!user) {
-      console.error('사용자 .'+user);
-      // console.error('레스토랑 정보가 없습니다.'+restaurant);
+      console.error('사용자 정보가 없습니다.');
       return;
-    }else{
+    } else {
       console.log("사용자 아이디" + user);
-      console.log("사용자 아이디" + restaurant);
+      console.log("레스토랑" + restaurant);
       console.log("paymentKey: " + paymentKey);
       console.log("orderId:" + product_id);
       console.log("amount:" + amount);
@@ -45,14 +64,24 @@ export function SuccessPage() {
           paymentKey,
           product_id,
           amount,
-          member_id :user,
+          member_id: user,
           product_type: restaurant,
-
         })
       });
-
+  
       if (response.ok) {
         setIsConfirmed(true);
+        const reservationData = {
+          restaurantId: parseInt(product_id.replace('order_', '')), // 문자열을 숫자로 변환
+          memberId: parseInt(user), // 문자열을 숫자로 변환
+          relationshipId: 10001,
+          restResDate: new Date().toISOString(), // 현재 시간
+          restResTime: new Date().toISOString(), // 예약 시간 추가
+          restResCapacity: 1, // 총 인원 (필요에 따라 수정)
+          restResPrice: parseInt(amount), // 문자열을 숫자로 변환
+          reservationStatus: "COMPLETED",
+        };
+        await saveRestaurantReservation(reservationData);
       } else {
         console.error('결제 승인 실패:', response.statusText);
       }
