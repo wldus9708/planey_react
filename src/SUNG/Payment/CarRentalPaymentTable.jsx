@@ -7,6 +7,7 @@ import { faCircleChevronUp, faCirclePlus } from '@fortawesome/free-solid-svg-ico
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import CarRentalPaymentDetail from '../../YOUNG/PaymentDetail/CarRentalpaymentDetail'
+import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
     "상품이름",
@@ -21,21 +22,24 @@ const CarRentalPaymentTable = ({ endpoint }) => {
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [data, setData] = useState([]);
+    const [cookies] = useCookies(['accessToken']);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoadingData(true); // 데이터 로딩 시작
             try {
-                const response = await axios.get(endpoint);
-                console.log('전체 데이터:', response.data);
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `${cookies.accessToken}`
+                    }
+                });
                 const allData = response.data;
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 10;
                 const endIndex = currentPage * 10;
                 const newData = allData ? allData.slice(startIndex, endIndex) : [];
-                console.log(startIndex);
-                console.log(endIndex);
 
                 if (currentPage === 1) {
                     setData(newData);
@@ -94,9 +98,10 @@ const CarRentalPaymentTable = ({ endpoint }) => {
     }, []);
 
     // 김윤영
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (index) => {
+        setSelectedRow(data[index]);
         setShowModal(true); // 모달 열기
     };
 
@@ -139,8 +144,8 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
-                                         className={styles['icon-Plus']}
-                                         onClick={handleOpenModal} />
+                                            className={styles['icon-Plus']}
+                                            onClick={() => handleOpenModal(index)} />
                                     </span>
                                         <Modal
                                             className={styles['modal-content']}
@@ -151,13 +156,12 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                             keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                         >
                                             <Modal.Header closeButton>
-                                                <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
+                                                <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <CarRentalPaymentDetail/>
+                                                <CarRentalPaymentDetail rentalId={selectedRow} />
                                             </Modal.Body>
                                         </Modal>
-
                                     </td>
                                 </tr>
                             ))
