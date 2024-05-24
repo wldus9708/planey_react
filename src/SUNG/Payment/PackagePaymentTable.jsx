@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import PackagePaymentDetail from '../../YOUNG/PaymentDetail/PackagepaymentTab'
+import PackagePaymentDetail from '../../YOUNG/PaymentDetail/PackagePaymentTab'
 import { useCookies } from 'react-cookie';
 
 
@@ -15,8 +15,7 @@ const TABLE_HEADS = [
     "출발일",
     "도착일",
     "결제금액",
-    "상세",
-    "삭제"
+    "상세"
 ];
 
 const PackagePaymentTable = ({ endpoint }) => {
@@ -174,7 +173,6 @@ const PackagePaymentTable = ({ endpoint }) => {
                                         </Modal>
 
                                     </td>
-                                    <td className={styles[`column-5`]}><span><FontAwesomeIcon icon={faCircleMinus} className={styles['icon-Delete']} /></span></td>
                                 </tr>
                             ))
                         ) : (
