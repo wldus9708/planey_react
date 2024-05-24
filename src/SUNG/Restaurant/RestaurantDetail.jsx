@@ -7,7 +7,6 @@ import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 
-
 const RestaurantDetail = () => {
   const navigator = useNavigate();
   const [cookies] = useCookies('accessToken');
@@ -19,7 +18,6 @@ const RestaurantDetail = () => {
 
   useEffect(() => {
     console.log("accessToken :" + cookies.accessToken);
-    // console.log("user :" + cookies.name);
     if (cookies.accessToken) {
       // Fetch user information using the access token
       axios.get('http://localhost:8988/member/detailPage', {
@@ -29,9 +27,8 @@ const RestaurantDetail = () => {
       })
         .then((response) => {
           setUser(response.data);
-           console.log(response.data.id);
+          console.log(response.data.id);
         })
-  
         .catch(error => {
           console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
@@ -53,7 +50,6 @@ const RestaurantDetail = () => {
       });
   }, [id]);
 
-
   // 인원 수 증가 함수
   const increaseNumberOfPeople = () => {
     setNumberOfPeople(prevCount => prevCount + 1);
@@ -66,11 +62,36 @@ const RestaurantDetail = () => {
     }
   };
 
+  // 결제 성공 시 예약 데이터 저장 함수
+  const saveRestaurantReservation = (reservationData) => {
+    axios.post(`http://localhost:8988/payment/saveRestaurantReservation/${id}`, reservationData)
+      .then(response => {
+        if (response.data) {
+          console.log('레스토랑 예약이 성공적으로 처리되었습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('레스토랑 예약 정보를 저장하는데 실패했습니다:', error);
+      });
+  };
 
+  // 결제 성공 처리 함수
+  const handlePaymentSuccess = (amount) => {
+    const reservationData = {
+      memberId: user.id,
+      restaurantId: id,
+      relationship:10001,
+      restResDate: new Date(), // 현재 시간
+      restResTime: new Date().toISOString(), // 예약 시간 추가
+      restResCapacity: numberOfPeople, // 총 인원
+      restResPrice: amount,
+      restResState: "COMPLETED",
+    };
+    saveRestaurantReservation(reservationData);
+  };
 
   // 결제 요청 함수
   const handlePayment = () => {
-
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
     loadTossPayments(clientKey)
       .then(tossPayments => {
@@ -81,18 +102,20 @@ const RestaurantDetail = () => {
           successUrl: `http://localhost:3000/PaymentSuccess?member_id=${user.id}&restaurant=${restaurant.category}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
         })
-        
+          .then((response) => {
+            if (response.success) {
+              handlePaymentSuccess(response.amount);
+            }
+          })
           .catch((error) => {
             console.error('결제 중 오류 발생:', error);
             alert("결제 실패.");
           });
-          
       })
       .catch(error => {
         console.error('토스페이먼츠 로딩 중 오류 발생:', error);
         alert("결제 애플리케이션 로딩 실패.");
       });
-
   };
   return (
     <div className={styles.restDetailBody}>
@@ -102,8 +125,8 @@ const RestaurantDetail = () => {
             <div className={styles.restDetailDivLeft}>
               <div className={styles.restDetailimgContainer}>
                 <img
-                  src={`/images/${restaurant && restaurant[`restImage0${activeImageIndex + 1}`]}`}
-                  alt={`images${activeImageIndex + 1}`}
+                  src={`/images/${restaurant && restaurant.restImage01}`}
+                  alt={`images1`}
                 />
               </div>
               <div className={styles.restDetailhoverContainer}>
