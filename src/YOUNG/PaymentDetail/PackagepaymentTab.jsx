@@ -132,6 +132,10 @@ const PackagepaymentTab = (props) => {
                             <span className={styles.value}>{reservation.restaurantName}</span>
                         </div>
                         <div className={styles.row}>
+                            <span className={styles.label}>식당 카테고리</span>
+                            <span className={styles.value}>{reservation.restCategory}</span>
+                        </div>
+                        <div className={styles.row}>
                             <span className={styles.label}>식당 주소</span>
                             <span className={styles.value}>{reservation.restAddress}</span>
                         </div>
