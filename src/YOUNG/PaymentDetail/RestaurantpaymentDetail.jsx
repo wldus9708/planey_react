@@ -32,7 +32,7 @@ const RestaurantPaymentDetail = (props) => {
                     </div>
 
                     <div className={styles.row}>
-                        <span className={styles.label}>핸드폰번호</span>
+                        <span className={styles.label}>연락처</span>
                         <span className={styles.value}>{formatPhoneNumber(reservation.phone)}</span>
                     </div>
 
