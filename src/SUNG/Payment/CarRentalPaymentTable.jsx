@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
-import CarRentalPaymentDetail from '../../YOUNG/PaymentDetail/CarRentalpaymentDetail'
+import CarRentalPaymentDetail from '../../YOUNG/PaymentDetail/CarRentalPaymentDetail'
 import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
