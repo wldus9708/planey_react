@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import styles from "./PaymentTable.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronUp, faCircleMinus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCircleChevronUp, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import FlightPaymentDetail from '../../YOUNG/PaymentDetail/FlightpaymentDetail'
@@ -98,7 +98,7 @@ const FlightPaymentTable = ({ endpoint }) => {
     }, []);
 
     // 김윤영
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = (index) => {
         setSelectedRow(data[index].restResId);
@@ -144,8 +144,8 @@ const FlightPaymentTable = ({ endpoint }) => {
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
-                                         className={styles['icon-Plus']}
-                                         onClick={() => handleOpenModal(index)} />
+                                            className={styles['icon-Plus']}
+                                            onClick={() => handleOpenModal(index)} />
                                     </span>
                                         <Modal
                                             className={styles['modal-content']}
@@ -156,10 +156,10 @@ const FlightPaymentTable = ({ endpoint }) => {
                                             keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                         >
                                             <Modal.Header closeButton>
-                                                <Modal.Title style={{fontSize: '16px'}}>예약내역 상세 정보</Modal.Title>
+                                                <Modal.Title style={{ fontSize: '16px' }}>예약내역 상세 정보</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                               <FlightPaymentDetail fliResId={selectedRow} />
+                                                <FlightPaymentDetail fliResId={selectedRow} />
                                             </Modal.Body>
                                         </Modal>
 
