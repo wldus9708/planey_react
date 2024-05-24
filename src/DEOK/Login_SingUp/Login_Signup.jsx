@@ -36,20 +36,19 @@ const SignUpForm = () => {
         birth: ""
     });
     const [showErrMsg, setShowErrMsg] = useState(false);
-
+    const [birth, setBirth]=useState('');
     function validateBirth(birth) {
-        // birthDate 형식: YYYY/MM/DD
-        const parts = birth.split('/');
-        if (parts.length !== 3) {
-            return false; // 올바른 형식이 아님
+        if (!/^\d{7}$/.test(birth)) {
+            return false; // 7자리의 숫자 형식이 아님
         }
-
-        const year = parseInt(parts[0]);
-        const month = parseInt(parts[1]);
-        const day = parseInt(parts[2]);
+      
+        const year = parseInt(birth.substring(0, 2));
+        const month = parseInt(birth.substring(2, 4));
+        const day = parseInt(birth.substring(4, 6));
+        const gender= parseInt(birth.substring(6, 7));
 
         // 올바른 날짜 범위 확인
-        if (year < 1940) {
+        if (year < 0) {
             return false; // 최소 1940년 이상이어야 함
         }
         if (month < 1 || month > 12) {
@@ -57,6 +56,9 @@ const SignUpForm = () => {
         }
         if (day < 1 || day > 31) {
             return false; // 올바른 일 범위 확인 (1~31)
+        }
+        if(gender<1||gender>4){
+            return false;
         }
 
         // 월에 따른 올바른 일 수 확인
@@ -131,6 +133,7 @@ const SignUpForm = () => {
                 break;
 
             case "birth":
+                
                 if (!validateBirth(value)) {
                     setValidErrorMsg({ birth: "올바른 생일 양식으로 입력해 주세요." })
                     setShowErrMsg(true);
@@ -147,6 +150,11 @@ const SignUpForm = () => {
             ...prevState,
             [name]: value
         }));
+        if (name === "birth") {
+            // birth 상태 업데이트
+            setBirth(value);
+        }
+        console.log(formData);
     }
 
     const handleSignUpClick = (event) => {
@@ -270,6 +278,7 @@ const SignUpForm = () => {
         + `&response_type=code`
         + `&scope=email profile`;
 
+    const formattedBirth = birth.length === 7 ? `${birth.slice(0, 6)}-${birth[6]}******` : birth;
 
     return (
         <div className={styles.body}>
@@ -457,13 +466,14 @@ const SignUpForm = () => {
                             </div>
                         </div>
                         <div className={styles["input-box"]}>
-                            <input
-                                type="text"
-                                placeholder="생년월일 (예시 : 1995/05/16)"
-                                name="birth"
-                                onBlur={validCheck}
-                                onChange={handleChange}
-                            />
+                        <input
+                            type="text"
+                            placeholder="생년월일 (예시 : 9505161)"
+                            name="birth"
+                            value={formattedBirth}
+                            onBlur={validCheck}
+                            onChange={handleChange}
+                        />
                             <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
                                 <p>{validErrorMsg.birth}</p>
                             </div>

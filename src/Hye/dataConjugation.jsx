@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import './conjugation.scss';
-
+import Dad from'./ttest';
 Modal.setAppElement('#root');
 
 const SurveyModal = ({ isOpen, onRequestClose }) => {
@@ -148,6 +148,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
               </label>
             </div>
           )}
+          <Dad/>
           <button type="submit" className='dd-button'>Submit</button>
         </form>
         <button onClick={onRequestClose} className='dd-close'>Close</button>
