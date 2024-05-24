@@ -4,23 +4,26 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './LodingPayment.module.css';
 import stylesBtn from "./LodgingDetail.module.css"
 
-const LodingPayment = ({ reservations, updateTotalPrice }) => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
+const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStartDate, setEndDate, setAdults, setChildren }) => {
+    const [localStartDate, setLocalStartDate] = useState(new Date());
+    const [localEndDate, setLocalEndDate] = useState(new Date());
+    const [adults, setLocalAdults] = useState(1);
+    const [children, setLocalChildren] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleAdultsChange = (increment) => {
-        setAdults(prev => {
+        setLocalAdults(prev => {
             const newAdults = Math.max(1, prev + increment);
+            setAdults(newAdults); // 부모 컴포넌트에 성인 수 설정
             updateTotalPrice(newAdults, children);
             return newAdults;
         });
     };
 
     const handleChildrenChange = (increment) => {
-        setChildren(prev => {
+        setLocalChildren(prev => {
             const newChildren = Math.max(0, prev + increment);
+            setChildren(newChildren); // 부모 컴포넌트에 어린이 수 설정
             updateTotalPrice(adults, newChildren);
             return newChildren;
         });
@@ -41,13 +44,30 @@ const LodingPayment = ({ reservations, updateTotalPrice }) => {
 
     const excludedDates = getExcludedDates();
 
+    const handleStartDateChange = (date) => {
+        setLocalStartDate(date);
+        setStartDate(date); // 부모 컴포넌트에 시작 날짜 설정
+        setLocalEndDate(date); // 시작 날짜가 바뀌면 종료 날짜도 시작 날짜와 같게 설정
+        setEndDate(date); // 부모 컴포넌트에 종료 날짜 설정
+    };
+
+    const handleEndDateChange = (date) => {
+        if (date < localStartDate) {
+            setErrorMessage('종료 날짜는 시작 날짜보다 이전일 수 없습니다.');
+        } else {
+            setErrorMessage('');
+            setLocalEndDate(date);
+            setEndDate(date); // 부모 컴포넌트에 종료 날짜 설정
+        }
+    };
+
     return (
         <div>
             <div className={styles.datePicker}>
                 <label>시작 날짜: </label>
                 <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    selected={localStartDate}
+                    onChange={handleStartDateChange}
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
@@ -58,15 +78,16 @@ const LodingPayment = ({ reservations, updateTotalPrice }) => {
             <div className={styles.datePicker}>
                 <label>종료 날짜: </label>
                 <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
+                    selected={localEndDate}
+                    onChange={handleEndDateChange}
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
-                    minDate={startDate}
+                    minDate={localStartDate}
                     excludeDates={excludedDates} // 예약된 날짜 제외
                 />
             </div>
+            {errorMessage && <div className={styles.error}>{errorMessage}</div>}
             <div className={styles.counter}>
                 <label>성인: </label>
                 <button onClick={() => handleAdultsChange(-1)}>-</button>
@@ -83,7 +104,7 @@ const LodingPayment = ({ reservations, updateTotalPrice }) => {
                   <i className='fas fa-shopping-cart'></i>
                   장바구니 추가
                 </button>
-                <button type="button" className={stylesBtn.buyNowBtn}>
+                <button type="button" className={stylesBtn.buyNowBtn} onClick={handlePayment}>
                   <i className='fas fa-wallet'></i>
                   예약 하러 가기
                 </button>

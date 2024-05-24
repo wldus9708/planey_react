@@ -71,25 +71,6 @@ const RestaurantDetail = () => {
   // 결제 요청 함수
   const handlePayment = () => {
 
-    const handleSuccess = () => {
-    //   // 결제가 성공했을 때 서버로 결제 정보 전송
-    //   axios.post('http://localhost:8988/payment/detail' , {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     orderId: `order_${id}`,
-    //     orderName: `${restaurant.restName} 예약`,
-    //     // customerName: user,
-    //     amount: (restaurant.restPrice * numberOfPeople), // 결제 금액
-    //   })
-    //     .then((response) => {
-    //       console.log('결제 정보 전송 성공:', response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.error('결제 정보 전송 중 오류 발생:', error);
-    //     });
-    };
-
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
     loadTossPayments(clientKey)
       .then(tossPayments => {
@@ -99,8 +80,6 @@ const RestaurantDetail = () => {
           orderName: `${restaurant.restName} 예약`, // 주문의 이름 또는 설명
           successUrl: `http://localhost:3000/PaymentSuccess?member_id=${user.id}&restaurant=${restaurant.category}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
-          onPaymentSuccess: handleSuccess,
-          
         })
         
           .catch((error) => {
