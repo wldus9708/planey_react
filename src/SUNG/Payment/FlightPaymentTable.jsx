@@ -140,7 +140,7 @@ const FlightPaymentTable = ({ endpoint }) => {
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.fli_departure_date}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.fli_arrival_date}</span></td>
-                                    <td className={styles[`column-3`]}><span>{dataItem.fli_res_price}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.fli_res_price.toLocaleString()}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
