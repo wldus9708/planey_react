@@ -139,7 +139,7 @@ const LodgingPaymentTable = ({ endpoint }) => {
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
 
-                                        <Link to={`/lodgingDetail/${dataItem.id}`}>{dataItem.lodName}</Link>
+                                        <Link to={`/lodgingDetail/${dataItem.lodId}`}>{dataItem.lodName}</Link>
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate}</span></td>
