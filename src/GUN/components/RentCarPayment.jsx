@@ -2,23 +2,46 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../../YOUNG/lodging/LodingPayment.module.css';
-import stylesBtn from "../../YOUNG/lodging/LodgingDetail.module.css"
+import stylesBtn from "../../YOUNG/lodging/LodgingDetail.module.css";
 
-const LodingPayment = () => {
+const RentCarPayment = ({ car, onPaymentInfo }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+        calculateTotalPrice(date, endDate);
+    };
+
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+        calculateTotalPrice(startDate, date);
+    };
+
+    const calculateTotalPrice = (start, end) => {
+        if (car) {
+            const dateDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            let calculatedTotalPrice = 0;
+
+            // 대여 기간이 1일인 경우
+            if (dateDiff === 1) {
+                calculatedTotalPrice = car.carRentalPrice;
+            } 
+            // 대여 기간이 2일 이상인 경우
+            else {
+                calculatedTotalPrice = car.carRentalPrice + ((dateDiff - 1) * 90000);
+            }
+
+            setTotalPrice(calculatedTotalPrice);
+            onPaymentInfo({ startDate: start, endDate: end, totalPrice: calculatedTotalPrice });
+        }
+    };
 
     const handleAdultsChange = (increment) => {
         setAdults(prev => Math.max(1, prev + increment));
     };
-
-    const handleChildrenChange = (increment) => {
-        setChildren(prev => Math.max(0, prev + increment));
-    };
-
-  
 
     return (
         <div className={styles.modal}>
@@ -26,7 +49,7 @@ const LodingPayment = () => {
                 <label>시작 날짜: </label>
                 <DatePicker
                     selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={handleStartDateChange}
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
@@ -37,26 +60,28 @@ const LodingPayment = () => {
                 <label>종료 날짜: </label>
                 <DatePicker
                     selected={endDate}
-                    onChange={(date) => setEndDate(date)}
+                    onChange={handleEndDateChange}
                     dateFormat="yyyy/MM/dd"
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
                     minDate={startDate} // 시작 날짜 이후로만 선택 가능
                 />
             </div>
-              <div className={stylesBtn.btnGroups}>
+            <div>
+                <span>총 가격: {totalPrice} 원</span>
+            </div>
+            <div className={stylesBtn.btnGroups}>
                 <button type="button" className={stylesBtn.addCartBtn}>
-                  <i className='fas fa-shopping-cart'></i>
-                  장바구니 추가
+                    <i className='fas fa-shopping-cart'></i>
+                    장바구니 추가
                 </button>
                 <button type="button" className={stylesBtn.buyNowBtn}>
-                  <i className='fas fa-wallet'></i>
-                  예약 하러 가기
+                    <i className='fas fa-wallet'></i>
+                    예약 하러 가기
                 </button>
-
-              </div>
+            </div>
         </div>
     );
 };
 
-export default LodingPayment;
+export default RentCarPayment;
