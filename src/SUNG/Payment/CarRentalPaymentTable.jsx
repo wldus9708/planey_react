@@ -10,7 +10,7 @@ import CarRentalPaymentDetail from '../../YOUNG/PaymentDetail/CarRentalPaymentDe
 import { useCookies } from 'react-cookie';
 
 const TABLE_HEADS = [
-    "상품이름",
+    "자동차 모델",
     "대여시작",
     "대여종료",
     "결제금액",
@@ -101,7 +101,7 @@ const CarRentalPaymentTable = ({ endpoint }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = (index) => {
-        setSelectedRow(data[index]);
+        setSelectedRow(data[index].rentalId);
         setShowModal(true); // 모달 열기
     };
 
@@ -136,11 +136,11 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.carId}`}>{dataItem.name}</Link>
+                                        <Link to={`/product/${dataItem.carId}`}>{dataItem.carModel}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.name}</span></td>
-                                    <td className={styles[`column-3`]}><span>{dataItem.name}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.rentalStartDate}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.rentalEndDate}</span></td>
+                                    <td className={styles[`column-3`]}><span>{dataItem.rentalPrice}</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>
                                         <FontAwesomeIcon icon={faCirclePlus}
