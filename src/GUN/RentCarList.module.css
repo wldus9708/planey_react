@@ -16,121 +16,121 @@
   --inputColor: hsl(330, 12%, 97%);
   --mainColor:  #C1908B;
 }
-.packageListBody {
+.rentCarListBody {
     margin: 0 auto; /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
     max-width: 1600px; /* 요소의 최대 너비 설정 */
 }
 
-.packList-container{
+.rentList-container{
     margin-top: 50px;
     display: flex;
     flex-wrap:wrap;
     justify-content: space-between;
 }
-.packList-left-col{
+.rentList-left-col{
     flex-basis:80%;
 }
-.packList-right-col{
+.rentList-right-col{
     flex-basis:15%;
 }
-.packList-left-col h1{
+.rentList-left-col h1{
    color: #333;
    font-weight: 600;
    margin-bottom: 30px;
 }
-.packList-check{
+.rentList-check{
     display: inline-block;
 }
-.packList-house{
+.rentList-house{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 20px 0;
     border-top: 1px solid #ccc;
 }
-.packList-house-img{
+.rentList-house-img{
     flex-basis: 30%;
 }
-.packList-house-info{
+.rentList-house-info{
     flex-basis: 68%;
     color:#555;
 }
-.packList-house-img img{
+.rentList-house-img img{
     width: 300px;
     height:250px;
     border-radius: 12px;
 }    
-.packList-house-info h3{
+.rentList-house-info h3{
     font-weight: 600;
     color: #333;
     font-size: 22px;
     margin: 4px 0;
 }
-.packList-house-info p{
+.rentList-house-info p{
     margin-top:10px;
     margin-bottom:10px;
 }
 
-.packList-house-info2 {
+.rentList-house-info2 {
     margin-top: 70px;
     display: inline-block;
     
 }
 
-.packList-star-icon {
+.rentList-star-icon {
     color: #ff5361;
     font-size:18px;
 
 }
-.packList-heart-icon {
+.rentList-heart-icon {
     color: #ff5361;
     font-size:18px;
 }
-.packList-check-icon{
+.rentList-check-icon{
     color: #333;
     font-size:18px;
     margin:10px 1px;
 }
-.packList-house-price{
+.rentList-house-price{
     text-align:right; 
 }
-.packList-house-price h4{
+.rentList-house-price h4{
     font-size: 24px;
 }
-.packList-house-price h4 span{
+.rentList-house-price h4 span{
     font-size: 16px;
     font-weight: 500;
 }
-.packList-sidebar{
+.rentList-sidebar{
     border: 1px solid #b0b0b0;
     padding : 20px 30px;
     margin-top: 30px;
 }
-.packList-sidebar h2{
+.rentList-sidebar h2{
     font-weight: 500;
     margin-bottom: 20%;
 }
-.packList-sidebar h3{
+.rentList-sidebar h3{
     font-weight: 500;
     margin: 20px 0 10px;
 }
-.packList-filter{
+.rentList-filter{
     display: flex;
     align-items: center;
     color: #999;
     margin-bottom: 10px;
 }
-.packList-filter p{
+.rentList-filter p{
     flex:1;
 }
-.packList-PriceSlide{
+.rentList-PriceSlide{
     position: relative;
   height: 5px;
   width: 150px;
   border-radius: 10px;
   background-color: #dddddd;
 } 
-.packList-PriceSlideInner{
+.rentList-PriceSlideInner{
 position: absolute;
   left: 30%;
   right: 30%;
@@ -139,11 +139,11 @@ position: absolute;
   background-color: #b0b0b0;
   display: flex; 
 }
-.packList-PriceRangeWrap{
+.rentList-PriceRangeWrap{
     position: relative;
 } 
 
-.packList-PriceRangeMin,.packList-PriceRangeMax {
+.rentList-PriceRangeMin,.rentList-PriceRangeMax {
     position: absolute;
   top: -9px;
   height: 7px;
@@ -165,37 +165,37 @@ position: absolute;
 		pointer-events: auto;
   }
 }
-.packList-PriceSlideInner{
+.rentList-PriceSlideInner{
     position: absolute;
   height: 4px;
   border-radius: 10px;
   background-color: #b0b0b0;
 }
-.packList-PriceValue{
+.rentList-PriceValue{
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
-.packList-PriceValueMin{
+.rentList-PriceValueMin{
     margin-top: 7%;
     color: #999;
 }
-.packList-PriceValueMax{
+.rentList-PriceValueMax{
     margin-top: 7%;
     color: #999;
 }
-.packList-filter input{
+.rentList-filter input{
     margin-right: 15px;
     cursor: pointer;
 }
 
-.packList-check {
+.rentList-check {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 
-.packList-check button {
+.rentList-check button {
     background-color: transparent;
     border: none;
     padding: 10px 20px;
@@ -203,18 +203,18 @@ position: absolute;
     cursor: pointer;
 }
 
-.packList-check button:focus {
+.rentList-check button:focus {
     outline: none;
 }
 
-.packList-check .active {
+.rentList-check .active {
     color: #ff5361;
 }
 
-.packList-check button.active .packList-check-icon {
+.rentList-check button.active .rentList-check-icon {
     color: #ff5361;
 }
-.packList-search input{
+.rentList-search input{
     height: 40px;
     margin-bottom: 15%;
     border: 1px solid lightgray;
@@ -228,34 +228,34 @@ position: absolute;
     width:50px;
     height:50px;
   }
-  .packList-filter input[type="checkbox"]:checked {
+  .rentList-filter input[type="checkbox"]:checked {
     background-color: #007bff;
 }
 
 
 
 @media only screen and (max-width:700px){
-    .packList-list-container{
+    .rentList-list-container{
         margin-top:150px;
     }
-    .packList-left-col, .packList-right-col, .packList-house-img, .packList-house-info{
+    .rentList-left-col, .rentList-right-col, .rentList-house-img, .rentList-house-info{
         flex-basis: 100%;
     }
-    .packList-left-col h1{
+    .rentList-left-col h1{
         font-size:22px;
     }
-    .packList-house-info h3{
+    .rentList-house-info h3{
         font-size: 18px;
     }
-    .packList-house-info i{
+    .rentList-house-info i{
         font-size: 16px;
     }
-    .packList-sidebar{
+    .rentList-sidebar{
         display: none;
     }
 }
 @media only screen and (max-width:1200px){
-    .packList-sidebar{
+    .rentList-sidebar{
         display: none;
     }
 }

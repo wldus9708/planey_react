@@ -6,21 +6,20 @@ import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar from "./../CKH/Components/Navbar/Navbar"
 
-const PackageList = () => {
+const RentCarList = () => {
     const fixedMinPrice = 10000;
-    const fixedMaxPrice = 10000000;
+    const fixedMaxPrice = 500000;
     const priceGap = 10000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
     const [allChecked, setAllChecked] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState({
         all: false,
-        한식: false,
-        양식: false,
-        중식: false,
-        일식: false,
-        불란서식: false,
-        기타: false
+        GASOLINE: false,
+        DIESEL: false,
+        HYBRID: false,
+        ELECTRIC: false,
+        HYDROGEN: false,
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
@@ -34,7 +33,7 @@ const PackageList = () => {
             try {
                 const response = await axios.get(`http://localhost:8988/car/list`);
                 const allData = response.data;
-                console.log(response.data)
+                console.log(allData)
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 10 + 1;
@@ -42,7 +41,12 @@ const PackageList = () => {
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' + startIndex);
                 console.log('끝페이지:' + endIndex);
-                setData(prevData => [...prevData, ...newData]);
+                setData(prevData => [...prevData, ...newData]); 
+                if (currentPage === 1) {
+                    setData(newData);
+                } else {
+                    setData(prevData => [...prevData, ...newData]);
+                }
                 setIsLoadingData(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -86,12 +90,11 @@ const PackageList = () => {
     }, []);
 
     const toggleAllCheckbox = () => {
-        const newState = !allChecked;
-        setAllChecked(newState);
-        const newCheckboxStates = { ...checkboxStates };
-        for (let key in newCheckboxStates) {
-            newCheckboxStates[key] = newState;
-        }
+        const newState = !checkboxStates.all;
+        const newCheckboxStates = Object.keys(checkboxStates).reduce((acc, key) => {
+            acc[key] = newState;
+            return acc;
+        }, {});
         setCheckboxStates(newCheckboxStates);
     };
 
@@ -130,14 +133,9 @@ const PackageList = () => {
     const filterData = (data, searchQuery, minPrice, maxPrice) => {
         let filteredData = data;
 
-        filteredData = filteredData.filter(item => item.price >= minPrice && item.price <= maxPrice);
+        filteredData = filteredData.filter(item => item.carRentalPrice >= minPrice && item.carRentalPrice <= maxPrice);
 
-        if (searchQuery.trim()) {
-            filteredData = filteredData.filter(item => {
-                const tour_pack_name = item.tour_pack_name;
-                return tour_pack_name && tour_pack_name.toLowerCase().includes(searchQuery.toLowerCase());
-            });
-        }
+
 
         return filteredData;
     };
@@ -157,40 +155,38 @@ const PackageList = () => {
                 <NavBar />
             </div>
             <SearchField />
-            <div className={styles.packageListBody}>
-
-                <div className={styles['packList-container']}>
-                    <div className={styles['packList-left-col']}>
+            <div className={styles.rentcarListBody}>
+                <div className={styles['rentList-container']}>
+                    <div className={styles['rentList-left-col']}>
                         <p>{data.length} + options</p>
                         <h1>렌트카 리스트</h1>
-                        <div className={styles['packList-check']}>
-                            <FontAwesomeIcon icon={faCheck} className={`${styles['packList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
+                        <div className={styles['rentList-check']}>
+                            <FontAwesomeIcon icon={faCheck} className={`${styles['rentList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
                             <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
-                            <FontAwesomeIcon icon={faCheck} className={`${styles['packList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
+                            <FontAwesomeIcon icon={faCheck} className={`${styles['rentList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
                             <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
                         </div>
                         {data.length > 0 ? (
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
                                 console.log(item);
+
                                 return (
-                                    <div className={styles['packList-house']} key={index}>
-                                        <div className={styles['packList-house-img']}>
-                                            <img src={`/images/${item.car01}`} alt="" width="200px" height="200px" />
+                                    <div className={styles['rentList-house']} key={index}>
+                                        <div className={styles['rentList-house-img']}>
+                                            <img src={`/images/${item.car01}`} alt="carimage" width="200px" height="200px" />
                                         </div>
-                                        <div className={styles['packList-house-info']}>
+                                        <div className={styles['rentList-house-info']}>
                                             차종 : <h3>{item.carModel}</h3>
-                                            렌트비 : {item.carp}
-                                            지점 : {item.carLocation}
-
+                                            <h4>렌트비 : {item.carRentalPrice}</h4>
+                                            렌트카 지점 : {item.carLocation} <br />
+                                            연료 : {item.carFuelType}
                                             <p></p>
-                                            <FontAwesomeIcon icon={faStar} className={styles['packList-star-icon']} />
-
-                                            <p>{item.tour_pack_description}</p>
-                                            <div className={styles['packList-house-price']}>
-                                                <h4>₩ {item.price.toLocaleString()}</h4>
+                                            <FontAwesomeIcon icon={faStar} className={styles['rentList-star-icon']} />
+                                            <div className={styles['rentList-house-price']}>
+                                                <h4>₩ {item.carRentalPrice.toLocaleString()}</h4>
                                             </div>
-                                            <div className={styles['packList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                            <div className={styles['rentList-house-info2']}>
+                                                <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;2508</p>
                                             </div>
                                         </div>
                                     </div>
@@ -202,15 +198,15 @@ const PackageList = () => {
 
 
                     </div>
-                    <div className={styles['packList-right-col']}>
-                        <div className={styles['packList-sidebar']}>
+                    <div className={styles['rentList-right-col']}>
+                        <div className={styles['rentList-sidebar']}>
                             <h2>필터 선택</h2>
-                            <div className={styles['packList-PriceSlide']} >
-                                <div className={styles['packList-PriceSlideInner']} >
+                            <div className={styles['rentList-PriceSlide']} >
+                                <div className={styles['rentList-PriceSlideInner']} >
                                     {/* 가격 슬라이드 바 */}
                                 </div>
                             </div>
-                            <div className={styles['packList-PriceRangeWrap']}>
+                            <div className={styles['rentList-PriceRangeWrap']}>
                                 <input
                                     type="range"
                                     min={fixedMinPrice}
@@ -221,7 +217,7 @@ const PackageList = () => {
                                         prcieRangeMinValueHandler(e);
                                         twoRangeHandler();
                                     }}
-                                    className={styles['packList-PriceRangeMin']}
+                                    className={styles['rentList-PriceRangeMin']}
                                 />
                                 <input
                                     type="range"
@@ -233,19 +229,19 @@ const PackageList = () => {
                                         prcieRangeMaxValueHandler(e);
                                         twoRangeHandler();
                                     }}
-                                    className={styles['packList-PriceRangeMax']}
+                                    className={styles['rentList-PriceRangeMax']}
                                 />
-                                <div className={styles['packList-PriceValue']}>
-                                    <div className={styles['packList-PriceValueMin']}>
+                                <div className={styles['rentList-PriceValue']}>
+                                    <div className={styles['rentList-PriceValueMin']}>
                                         {rangeMinValue.toLocaleString()}원
                                     </div>
-                                    <div className={styles['packList-PriceValueMax']}>
+                                    <div className={styles['rentList-PriceValueMax']}>
                                         {rangeMaxValue.toLocaleString()}원
                                     </div>
                                 </div>
                             </div>
-                            <h3>국가명</h3>
-                            <div className={styles['packList-search']}>
+                            <h3>차종</h3>
+                            <div className={styles['rentList-search']}>
                                 <input
                                     type="text"
                                     value={searchQuery}
@@ -253,27 +249,24 @@ const PackageList = () => {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            <h3>국가 분류</h3>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.packCategory).length})</span>
+                            <h3>분류</h3>
+                            <div className={styles['rentList-filter']}>
+                                <input type="checkbox" checked={checkboxStates['all']} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.rentCategory).length})</span>
                             </div>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['동남아/대만/서남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>동남아/대만/서남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
+                            <div className={styles['rentList-filter']}>
+                                <input type="checkbox" checked={checkboxStates['GASOLINE']} onChange={() => toggleCheckbox('GASOLINE')} /><p>휘발유</p><span>({data.filter(item => item.rentCategory === 'GASOLINE').length})</span>
                             </div>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['일본']} onChange={() => toggleCheckbox('ITALIAN')} /><p>일본</p><span>({data.filter(item => item.packCategory === 'ITALIAN').length})</span>
+                            <div className={styles['rentList-filter']}>
+                                <input type="checkbox" checked={checkboxStates['DIESEL']} onChange={() => toggleCheckbox('DIESEL')} /><p>경유</p><span>({data.filter(item => item.rentCategory === 'DIESEL').length})</span>
                             </div>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['유럽/아프리카']} onChange={() => toggleCheckbox('CHINESE')} /><p>유럽/아프리카</p><span>({data.filter(item => item.packCategory === 'CHINESE').length})</span>
+                            <div className={styles['rentList-filter']}>
+                                <input type="checkbox" checked={checkboxStates['HYBRID']} onChange={() => toggleCheckbox('HYBRID')} /><p>하이브리드</p><span>({data.filter(item => item.rentCategory === 'HYBRID').length})</span>
                             </div>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['중국/홍콩/몽골/중앙아시아']} onChange={() => toggleCheckbox('JAPANESE')} /><p>중국/홍콩/몽골/중앙아시아</p><span>({data.filter(item => item.packCategory === 'JAPANESE').length})</span>
+                            <div className={styles['rentList-filter']}>
+                                <input type="checkbox" checked={checkboxStates['ELECTRIC']} onChange={() => toggleCheckbox('ELECTRIC')} /><p>전기</p><span>({data.filter(item => item.rentCategory === 'ELECTRIC').length})</span>
                             </div>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['괌/사이판/호주/뉴질랜드']} onChange={() => toggleCheckbox('FRENCH')} /><p>괌/사이판/호주/뉴질랜드</p><span>({data.filter(item => item.packCategory === 'FRENCH').length})</span>
-                            </div>
-                            <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['미국/하와이/캐나다/중남미']} onChange={() => toggleCheckbox('ETC')} /><p>미국/하와이/캐나다/중남미</p><span>({data.filter(item => item.packCategory === 'ETC').length})</span>
+                            <div className={styles['rentList-filter']}>
+                                <input type="checkbox" checked={checkboxStates['HYDROGEN']} onChange={() => toggleCheckbox('HYDROGEN')} /><p>수소</p><span>({data.filter(item => item.rentCategory === 'HYDROGEN').length})</span>
                             </div>
                         </div>
                     </div>
@@ -284,4 +277,4 @@ const PackageList = () => {
     );
 };
 
-export default PackageList;
+export default RentCarList;

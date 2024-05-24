@@ -53,7 +53,7 @@ function Routing() {
                 <Route path="/packageDetail" element={<PagckageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
-                <Route path="/Car/list" element={<RentCarList />} />
+                <Route path="/car/list" element={<RentCarList />} />
                 <Route path="/RentCarTest/:id" element={<RentCarTest />} />
                 <Route path="/Airport" element={<Airport />} />
                 <Route path="/PaymentSuccess" element={<Succcess />} />
