@@ -16,7 +16,7 @@
   --inputColor: hsl(330, 12%, 97%);
   --mainColor:  #C1908B;
 }
-.packageListBody {
+.packaurantListBody {
     margin: 0 auto; /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
     max-width: 1600px; /* 요소의 최대 너비 설정 */
 }
@@ -54,6 +54,7 @@
 .packList-house-info{
     flex-basis: 68%;
     color:#555;
+    margin-bottom: -85px;
 }
 .packList-house-img img{
     width: 300px;
@@ -67,12 +68,13 @@
     margin: 4px 0;
 }
 .packList-house-info p{
-    margin-top:10px;
+    margin-top:5px;
     margin-bottom:10px;
+    line-height: 150%;
 }
 
 .packList-house-info2 {
-    margin-top: 70px;
+
     display: inline-block;
     
 }
@@ -102,17 +104,21 @@
     font-weight: 500;
 }
 .packList-sidebar{
-    border: 1px solid #b0b0b0;
+    background-color: #ff9f001a;
     padding : 20px 30px;
     margin-top: 30px;
+    border-radius: 5px;
 }
 .packList-sidebar h2{
     font-weight: 500;
     margin-bottom: 20%;
 }
-.packList-sidebar h3{
-    font-weight: 500;
-    margin: 20px 0 10px;
+
+.packList-sidebar h4{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size:22px;
+
 }
 .packList-filter{
     display: flex;
@@ -122,11 +128,16 @@
 }
 .packList-filter p{
     flex:1;
+    margin-top: 18px;
+}
+.packList-filter h6{
+    margin-top: 18px;
+    flex:1;
 }
 .packList-PriceSlide{
     position: relative;
   height: 5px;
-  width: 150px;
+  width: 185px;
   border-radius: 10px;
   background-color: #dddddd;
 } 
@@ -134,7 +145,7 @@
 position: absolute;
   left: 30%;
   right: 30%;
-  height: 4px;
+  height: 2px;
   border-radius: 10px;
   background-color: #b0b0b0;
   display: flex; 
@@ -145,18 +156,18 @@ position: absolute;
 
 .packList-PriceRangeMin,.packList-PriceRangeMax {
     position: absolute;
-  top: -9px;
+  top: -7px;
   height: 7px;
   width: 100%;
 	-webkit-appearance: none;
   background: none;
 
 	&::-webkit-slider-thumb {
-    height: 30px;
-    width: 30px;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
-    border: 2px solid #b0b0b0;
-    background-color: white;
+    border: 2px solid #ffaf47af;
+    background-color: #ffaf47e1;
     -webkit-appearance: none;
     }
     pointer-events: none;
@@ -196,7 +207,7 @@ position: absolute;
 }
 
 .packList-check button {
-    background-color: transparent;
+    background-color: transpapack;
     border: none;
     padding: 10px 20px;
     color: #333;
@@ -217,6 +228,7 @@ position: absolute;
 .packList-search input{
     height: 40px;
     margin-bottom: 15%;
+    background-color: #ff9d0000;
     border: 1px solid lightgray;
     border-radius: 3px;
 }
