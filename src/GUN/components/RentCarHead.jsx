@@ -24,7 +24,7 @@ const RentCarHead = () => {
                     setCar(response.data); // 차 정보 설정
                     console.log(response.data);
                 }
-                setActiveImageIndex(1); // 초기 인덱스 설정
+                setActiveImageIndex(0); // 초기 인덱스 설정
             })
             .catch(error => {
                 console.error('이미지 이름을 가져오는 중 오류 발생:', error);
