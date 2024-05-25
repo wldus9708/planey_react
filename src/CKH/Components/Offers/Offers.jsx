@@ -9,13 +9,13 @@ import { MdLocationOn } from "react-icons/md";
 import { BsArrowRightShort } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { PiForkKnife } from "react-icons/pi";
-
-
 import Aos from "aos";
 import "aos/dist/aos.css";
+import useUser from "../../../BBS/Log/useUser";
 
 const Offer = () => {
   const [tour, setTour] = useState([]);
+  const user = useUser();
 
   useEffect(() => {
     const pic = "../../../BBS/image/";
@@ -59,7 +59,7 @@ const Offer = () => {
         {/* secIntro는 App.css 에서 스타일링 함... */}
         <div className="secIntro">
           <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
-            지금❗ 🧡PLANEY🧡에서 할인받고 여행🛫 가자 ❗❗
+          지금❗ 🧡PLANEY🧡에서 {user ? `${user.name}님 만을 위한❕❗ ` : ""}할인받고 여행🛫 가자 ❗❗
           </h2>
           <p data-aos="fade-up" data-aos-duration="2000">
             세일 정보를 확인해보세요❕
@@ -86,9 +86,6 @@ const Offer = () => {
                     <span className="status">{tour.category}</span>
                   </div>
                   <div className="amenities flex">
-
-
-
                     {tour.parking && (
                       <div className="singleAmenity flex">
                         <FaCarSide className="icon" />
@@ -109,7 +106,6 @@ const Offer = () => {
                       </div>
                     )}
 
-
                     {tour.shuttle && (
                       <div className="singleAmenity flex">
                         <MdAirportShuttle className="icon" />
@@ -123,7 +119,6 @@ const Offer = () => {
                         <small>breakfast</small>
                       </div>
                     )}
-
                   </div>
 
                   <div className="location flex">
@@ -137,8 +132,6 @@ const Offer = () => {
                       <BsArrowRightShort className="icon" />
                     </button>
                   </Link>
-
-
                 </div>
               </div>
             );

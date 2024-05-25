@@ -6,11 +6,13 @@ import { IoReloadSharp } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import useUser from "../../../BBS/Log/useUser";
 
 const Popular = () => {
   const pic = "../../../BBS/image/";
   // 상태(state) 정의
   const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
+  const user = useUser();
   let count = 1;
 
   const handleArrowRightClick = () => {
@@ -82,7 +84,7 @@ const Popular = () => {
             className="textDiv"
           >
             <h2 className="sectitle">PLANEY Tour</h2>
-            <p> 지금 예약하세요!</p>
+            <p> {user ? `${user.name}님, ` : ""}지금 예약하세요!</p>
           </div>
           <div
             data-aos="fade-left"
