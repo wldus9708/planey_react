@@ -2,30 +2,39 @@ import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './PackageHead.module.css';
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const PackageHead = () => {
+    const [data, setData] = useState([]);
+    const navigator = useNavigate();
+    const [cookies] = useCookies('accessToken');
+    let { id } = useParams();
+    const [packageTour, setPackgeTour] = useState(null);
+    const [numberOfPeople, setNumberOfPeople] = useState(1);
+    const [paymentInfo, setPaymentInfo] = useState(null);
+
     // 이미지 목록을 위한 상태 추가
     const [imageList, setImageList] = useState([
         'images/pack01.png'
     ]);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-      useEffect(() => {
-          axios.get("http://localhost:8988/api/images/pakImage")
+    useEffect(() => {
+        axios.get(`http://localhost:8988/PackageTour/detail/${id}`)
             .then((response) => {
-              setImageList(response.data) // 이미지 목록 상태 업데이트
-              setActiveImageIndex(0) // 초기 인덱스 설정 
+                if (response.data) {
+                    setPackgeTour(response.data); // 패키지 정보 설정
+                    console.log(response.data);
+                }
+                setActiveImageIndex(0); // 초기 인덱스 설정
             })
-            .catch(error =>{
-              console.error('Error fetching image names:', error)
-            });
+            .catch(error => {
+                console.error('이미지 이름을 가져오는 중 오류 발생:', error);
+            })
 
-      }, []); // 빈 종속성 배열로, 한 번만 실행
-
-    // 이미지 목록이 업데이트되었는지 확인 후 렌더링
-    if (imageList.length === 0) {
-        return <div>Loading...</div>;
-    }
+    }, [id]);
 
     return (
         <div className={styles.LodgingBody}>
@@ -35,7 +44,7 @@ const PackageHead = () => {
                         <div className={styles.lodgingDivLeft}>
                             <div className={styles.imgContainer}>
                                 <img
-                                    src={`/images/${imageList[activeImageIndex]}`}
+                                    src={`/images/${packageTour && packageTour[`packImage0${activeImageIndex + 1}`]}`}
                                     alt={`pack0${activeImageIndex + 1}`}
                                 />
                             </div>
@@ -61,7 +70,7 @@ const PackageHead = () => {
 
                             <div className={styles.lodgingHeader}>
                                 <span className={styles.lodgingName}>
-                                    제목영역
+                                    {packageTour && packageTour.tour_pack_name}
                                 </span>
                                 <img src="/images/star.png" alt="star" className={styles.starImage} />
                                 <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
@@ -69,14 +78,14 @@ const PackageHead = () => {
 
                             <hr />
                             <br />
-                            <span className={styles.lodgingAddress}>목적지 : </span>
+                            <span className={styles.lodgingAddress}>목적지 : {packageTour && packageTour.tourPackCity} </span>
                             <br />
-                            <span className={styles.lodgingSchdule}>여행일정 : </span>
+                            <span className={styles.lodgingSchdule}>여행일정 : &nbsp; {packageTour && packageTour.tourPackEndDate} ~ {packageTour && packageTour.tourPackStartDate} </span>
                             <br />
-                            <span className={styles.lodgingPrice}> 원</span>
+                            <span className={styles.lodgingPrice}> {packageTour && packageTour.price.toLocaleString()}원</span>
 
                             <p className={styles.lodgingDescription}>
-                                Description 영역
+                            {packageTour && packageTour.tour_pack_description}
                             </p>
                             <div className={styles.btnGroups}>
                                 <button type="button" className={styles.addCartBtn}>
