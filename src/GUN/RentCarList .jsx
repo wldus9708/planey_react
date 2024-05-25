@@ -7,6 +7,7 @@ import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar from "./../CKH/Components/Navbar/Navbar"
 
 const RentCarList = () => {
+    const [secondSearchQuery, setSecondSearchQuery] = useState("");
     const fixedMinPrice = 10000;
     const fixedMaxPrice = 500000;
     const priceGap = 1000;
@@ -151,7 +152,18 @@ const RentCarList = () => {
                 const restaurantName = item.carModel;
                 return restaurantName && restaurantName.toLowerCase().includes(searchQuery.toLowerCase());
             });
+
+            
         }
+
+        if (secondSearchQuery.trim()) {
+            filteredData = filteredData.filter(item => {
+                const carLocation = item.carLocation;
+                return carLocation && carLocation.toLowerCase().includes(secondSearchQuery.toLowerCase());
+            });
+        }
+
+        
 
 
 
@@ -169,13 +181,18 @@ const RentCarList = () => {
         });
     };
 
+    const handleSearch = (query) => {
+        console.log(query);
+        setSecondSearchQuery(query);
+    };
+
     return (
         <>
             <div style={{ padding: '1rem' }}>
                 <NavBar />
             </div>
-            <SearchField />
             <div className={styles.rentcarListBody}>
+            <SearchField onSearch={handleSearch} />
                 <div className={styles['rentList-container']}>
                     <div className={styles['rentList-left-col']}>
                         <p>{data.length} + options</p>

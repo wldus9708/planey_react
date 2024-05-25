@@ -16,7 +16,7 @@
   --inputColor: hsl(330, 12%, 97%);
   --mainColor:  #C1908B;
 }
-.rentCarListBody {
+.rentaurantListBody {
     margin: 0 auto; /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
     max-width: 1600px; /* 요소의 최대 너비 설정 */
 }
@@ -54,6 +54,7 @@
 .rentList-house-info{
     flex-basis: 68%;
     color:#555;
+    margin-bottom: -85px;
 }
 .rentList-house-img img{
     width: 300px;
@@ -67,12 +68,13 @@
     margin: 4px 0;
 }
 .rentList-house-info p{
-    margin-top:10px;
+    margin-top:5px;
     margin-bottom:10px;
+    line-height: 150%;
 }
 
 .rentList-house-info2 {
-    margin-top: 70px;
+
     display: inline-block;
     
 }
@@ -102,17 +104,21 @@
     font-weight: 500;
 }
 .rentList-sidebar{
-    border: 1px solid #b0b0b0;
+    background-color: #ff9f001a;
     padding : 20px 30px;
     margin-top: 30px;
+    border-radius: 5px;
 }
 .rentList-sidebar h2{
     font-weight: 500;
     margin-bottom: 20%;
 }
-.rentList-sidebar h3{
-    font-weight: 500;
-    margin: 20px 0 10px;
+
+.rentList-sidebar h4{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size:22px;
+
 }
 .rentList-filter{
     display: flex;
@@ -122,11 +128,16 @@
 }
 .rentList-filter p{
     flex:1;
+    margin-top: 18px;
+}
+.rentList-filter h6{
+    margin-top: 18px;
+    flex:1;
 }
 .rentList-PriceSlide{
     position: relative;
   height: 5px;
-  width: 150px;
+  width: 185px;
   border-radius: 10px;
   background-color: #dddddd;
 } 
@@ -134,7 +145,7 @@
 position: absolute;
   left: 30%;
   right: 30%;
-  height: 4px;
+  height: 2px;
   border-radius: 10px;
   background-color: #b0b0b0;
   display: flex; 
@@ -145,18 +156,18 @@ position: absolute;
 
 .rentList-PriceRangeMin,.rentList-PriceRangeMax {
     position: absolute;
-  top: -9px;
+  top: -7px;
   height: 7px;
   width: 100%;
 	-webkit-appearance: none;
   background: none;
 
 	&::-webkit-slider-thumb {
-    height: 30px;
-    width: 30px;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
-    border: 2px solid #b0b0b0;
-    background-color: white;
+    border: 2px solid #ffaf47af;
+    background-color: #ffaf47e1;
     -webkit-appearance: none;
     }
     pointer-events: none;
@@ -217,6 +228,7 @@ position: absolute;
 .rentList-search input{
     height: 40px;
     margin-bottom: 15%;
+    background-color: #ff9d0000;
     border: 1px solid lightgray;
     border-radius: 3px;
 }
