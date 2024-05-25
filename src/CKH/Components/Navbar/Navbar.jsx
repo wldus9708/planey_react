@@ -14,7 +14,9 @@ import { FaHotel } from "react-icons/fa6";
 import { FaCarSide } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
 import { PiBowlFoodBold } from "react-icons/pi";
-import LodgingList from "../../../YOUNG/lodging/LodgingList"
+import LodgingList from "../../../YOUNG/lodging/LodgingList";
+import useUser from "../../../BBS/Log/useUser"; // useUser hook imported
+
 const Navbar = () => {
   // Code to toggle/show navBar
   const [active, setActive] = useState("navBar");
@@ -40,9 +42,11 @@ const Navbar = () => {
 
   //        쿠키 상태 관리        //
   const [cookies] = useCookies(["accessToken"]);
+  const user = useUser(); // useUser hook used
 
   const handleLogoutClick = () => {
     jsCookies.remove("accessToken");
+    window.location.reload(); // Reload page after logout
   };
 
   return (
@@ -51,7 +55,7 @@ const Navbar = () => {
         <div className="logoDiv">
           <Link to="/" className="logo">
             <h1 className="flex">
-            <TbBeach />
+              <TbBeach />
               PRANEY
             </h1>
           </Link>
@@ -59,8 +63,6 @@ const Navbar = () => {
 
         <div className={active}>
           <ul className="navLists flex">
- 
-
             <li className="navItem">
               <Link to="/PackageTour/list" className="navLink">
                 <FaBoxOpen />
@@ -69,7 +71,7 @@ const Navbar = () => {
             </li>
 
             <li className="navItem">
-              <Link  to="/AirportList" className="navLink">
+              <Link to="/AirportList" className="navLink">
                 <BsFillAirplaneFill />
                 Airline
               </Link>
@@ -90,7 +92,7 @@ const Navbar = () => {
 
             <li className="navItem">
               <Link to="/restaurant/list" className="navLink">
-              <PiBowlFoodBold />Restaurant
+                <PiBowlFoodBold />Restaurant
               </Link>
             </li>
 
@@ -110,16 +112,21 @@ const Navbar = () => {
 
             <div className="headerBtns flex">
               <button className="btn loginBtn">
-                {cookies.accessToken === undefined ? (
-                  <Link to="login">
-                    <GrLogin />
-                    <a>JoinUs</a>
-                  </Link>
-                ) : (
+                {user ? (
                   <a onClick={handleLogoutClick}>Logout</a>
+                ) : (
+                  <Link to="/login">
+                    <GrLogin />
+                    <span>Join Us</span>
+                  </Link>
                 )}
               </button>
             </div>
+          {user && (
+            <li className="navItem BBSuserGreeting">
+              <span className="btn loginBtn nbtn customCursor">{user.name}</span>
+            </li>
+          )}
           </ul>
 
           <div onClick={removeNav} className="closeNavbar">
