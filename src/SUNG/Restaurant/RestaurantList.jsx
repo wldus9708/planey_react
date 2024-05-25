@@ -40,7 +40,9 @@ const RestaurantList = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8988/restaurant/list`);
+                const response1 = await axios.get(`http://localhost:8988/lodging/list`);
                 const allData = response.data;
+                console.log("111111111"+response1.data)
                 console.log(response.data)
                 setTotalDataCount(allData.length);
 
