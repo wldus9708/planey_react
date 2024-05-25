@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import styles from './AirportList.module.css'
 import SearchField from '../searchField/Search_field';
@@ -26,7 +26,7 @@ const AirportList = () => {
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
-    const [isLoadingData, setIsLoadingData] = useState(true);
+    const [isflightsData, setIsFlightsData] = useState(true);
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
@@ -35,9 +35,9 @@ const AirportList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8988/lodging/list`);
-                const allData = response.data;
-                console.log(response.data);
+                const response = await axios.get(`http://localhost:8988/products/allFlightData`);
+                const allData = Object.values(response.data);
+                console.log(allData);
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 10 + 1;
@@ -55,11 +55,11 @@ const AirportList = () => {
                 } else {
                     setData(prevData => [...prevData, ...newData]);
                 }
-                setIsLoadingData(false);
+                setIsFlightsData(false);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setIsLoadingData(false);
+                setIsFlightsData(false);
             }
         }
         console.log("가져와짐.");
@@ -101,11 +101,32 @@ const AirportList = () => {
         }
     }, []);
 
+    const toggleAllCheckbox = () => {
+        const newState = !allChecked;
+        const newCheckboxStates = { ...checkboxStates };
+        for (let key in newCheckboxStates) {
+            newCheckboxStates[key] = newState;
+        }
+        setCheckboxStates(newCheckboxStates); // 모든 체크박스 상태 업데이트
+        setAllChecked(newState); // 전체 체크 상태 업데이트
+    };
+
+    const toggleCheckbox = (name) => {
+        const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
+        setCheckboxStates(newCheckboxStates);
+        const allChecked = Object.values(newCheckboxStates).every(value => value);
+        setAllChecked(allChecked); // 전체 체크 상태 업데이트
+    };
 
 
     useEffect(() => {
         console.log('checkboxStates:', checkboxStates);
     }, [checkboxStates]);
+
+
+
+
+   
 
     const prcieRangeMinValueHandler = e => {
         setRangeMinValue(parseInt(e.target.value));
@@ -124,25 +145,25 @@ const AirportList = () => {
         }
     };
 
-    const filterData = (data, searchQuery, minPrice, maxPrice) => {
+    const filterData = (data, minPrice, maxPrice) => {
         let filteredData = data;
 
-        filteredData = filteredData.filter(item => item.lodPrice >= minPrice && item.lodPrice <= maxPrice);
+        filteredData = filteredData.filter(item => item.fli_price >= minPrice && item.fli_price <= maxPrice);
 
 
-        if (searchQuery.trim()) {
-            filteredData = filteredData.filter(item => {
-                const lodgingName = item.lodName;
-                return lodgingName && lodgingName.toLowerCase().includes(searchQuery.toLowerCase());
-            });
-        }
+        // if (searchQuery.trim()) {
+        //     filteredData = filteredData.filter(item => {
+        //         const lodgingName = item.lodName;
+        //         return lodgingName && lodgingName.toLowerCase().includes(searchQuery.toLowerCase());
+        //     });
+        // }
 
-        if (secondSearchQuery.trim()) {
-            filteredData = filteredData.filter(item => {
-                const lodAddress = item.lodAddress;
-                return lodAddress && lodAddress.toLowerCase().includes(secondSearchQuery.toLowerCase());
-            });
-        }
+        // if (secondSearchQuery.trim()) {
+        //     filteredData = filteredData.filter(item => {
+        //         const lodAddress = item.lodAddress;
+        //         return lodAddress && lodAddress.toLowerCase().includes(secondSearchQuery.toLowerCase());
+        //     });
+        // }
 
 
 
@@ -158,11 +179,13 @@ const AirportList = () => {
         });
     };
 
+  
+
     const sortData = (data, sortOption) => {
         if (sortOption === "lowPrice") {
-            return data.slice().sort((a, b) => a.lodPrice - b.lodPrice);
+            return data.slice().sort((a, b) => a.fli_price - b.fli_price);
         } else if (sortOption === "highPrice") {
-            return data.slice().sort((a, b) => b.lodPrice - a.lodPrice);
+            return data.slice().sort((a, b) => b.fli_price - a.fli_price);
         } else {
             return data;
         }
@@ -198,25 +221,34 @@ const AirportList = () => {
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
 
                                 return (
-                                    <div className={styles.AirportList}>
+                                    <div className={styles.AirportList} key={index}>
                                         <div className={styles.AirSelected}>
                                             <div className={styles.FliDiv}>
                                                 <ul>
                                                     <li className={styles.FliList}>
-                                                        <span>
-                                                            <img src="images/air05.jpg" alt="진에어 로고" />
+                                                        <span> 
+                                                            {/* 가는편 */}
+                                                            <img src={item.fli_brand_image} alt="항공사로고" />
                                                             <div className={styles.FliName}>
-                                                                진에어
+                                                                {/* 항공사 */}
+                                                            {item.fli_brand}
                                                             </div>
                                                             <div className={styles.FliDate}>
-                                                                2024.05.25(토)
+                                                                 {/* 출발일 */}
+                                                                 {item.fli_departure_date}
+                                                            </div>
+                                                            <div className={styles.fli_arrival_date}>
+                                                                 {/* 도착일 */}
+                                                                 {item.fli_departure_date}
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliDepRegion}>
-                                                                    서울
+                                                                     {/* 출발지 */}
+                                                                     {item.fli_departure_place}
                                                                 </span>
                                                                 <span className={styles.FliDepTime}>
-                                                                    09:35
+                                                                     {/* 출발시간 */}
+                                                                     {item.fli_departure_time}
                                                                 </span>
                                                             </div>
                                                             <div className={styles.FliIcon}>
@@ -224,30 +256,42 @@ const AirportList = () => {
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliArrRegion}>
-                                                                    후쿠오카
+                                                                     {/* 도착지 */}
+                                                                     {item.fli_arrival_place}
+
                                                                 </span>
                                                                 <span className={styles.FliArrTime}>
-                                                                    11:00
+                                                                     {/* 도착시간 */}
+                                                                     {item.fli_arrival_time}
                                                                 </span>
                                                             </div >
                                                         </span>
                                                     </li>
 
                                                     <li className={styles.FliList}>
-                                                        <span >
-                                                            <img src="images/air05.jpg" alt="진에어 로고" />
+                                                        <span> 
+                                                            {/* 오는편 */}
+                                                            <img src={item.return_fli_brand_image} alt="항공사로고" />
                                                             <div className={styles.FliName}>
-                                                                진에어
+                                                                {/* 항공사 */}
+                                                            {item.return_fli_brand}
                                                             </div>
                                                             <div className={styles.FliDate}>
-                                                                2024.05.28(화)
+                                                                 {/* 출발일 */}
+                                                                 {item.return_fli_departure_date}
+                                                            </div>
+                                                            <div className={styles.fli_arrival_date}>
+                                                                 {/* 도착일 */}
+                                                                 {item.return_fli_arrival_date}
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliDepRegion}>
-                                                                    후쿠오카
+                                                                     {/* 출발지 */}
+                                                                     {item.return_fli_departure_place}
                                                                 </span>
                                                                 <span className={styles.FliDepTime}>
-                                                                    12:40
+                                                                     {/* 출발시간 */}
+                                                                     {item.return_fli_departure_time}
                                                                 </span>
                                                             </div>
                                                             <div className={styles.FliIcon}>
@@ -255,18 +299,24 @@ const AirportList = () => {
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliArrRegion}>
-                                                                    서울
+                                                                     {/* 도착지 */}
+                                                                     {item.return_fli_arrival_place}
+
                                                                 </span>
                                                                 <span className={styles.FliArrTime}>
-                                                                    14:10
+                                                                     {/* 도착시간 */}
+                                                                     {item.return_fli_arrival_time}
                                                                 </span>
-                                                            </div>
+                                                            </div >
                                                         </span>
                                                     </li>
+
                                                 </ul>
                                             </div>
                                             <div className={styles.FliArrPriceBox}>
+                                                 {/* 총비행시간 */}
                                             <p className={styles.totalTime}>총 1시간 20분</p>
+                                             {/* 요금 */}
                                                 <p className={styles.airPrice}>2999,000원</p>
                                             </div>
                                         </div>
