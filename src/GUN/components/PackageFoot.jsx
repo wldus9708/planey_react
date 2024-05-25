@@ -180,7 +180,6 @@ function PackageFoot() {
                 </ul>
             </div>
             <div className={PaymentStyles.wrapper}>
-                <Payment></Payment>
             </div>
         </div>
     );

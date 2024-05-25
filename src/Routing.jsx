@@ -11,11 +11,9 @@ import LodgingList from './YOUNG/lodging/LodgingList';
 import FindId from './YOUNG/member/findId';
 import FindPW01 from './YOUNG/member/findPW01';
 import FindPW02 from './YOUNG/member/findPW02';
-import PaymentTest from './GUN/components/payment';
-import PackageFoot from './GUN/components/PackageFoot';
 import PackageList from './GUN/PackageList';
 import RentCarList from './GUN/RentCarList ';
-import PagckageDetail from "./GUN/PackageIndex";
+import PackageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/advertisement";
@@ -45,13 +43,11 @@ function Routing() {
                 <Route path="/findPW02" element={<FindPW02 />} />
                 <Route path="/restaurant/list" element={<RestaurantList />} />
                 <Route path="/LodgingList" element={<LodgingList />} />
-                <Route path="/PackageFoot" element={<PackageFoot />} />
-                <Route path="/PaymentTest" element={<PaymentTest />} />
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
                 <Route path="/searchField" element={<SearchField />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
-                <Route path="/packageDetail" element={<PagckageDetail />} />
+                <Route path="/PackageDetail/:id" element={<PackageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
                 <Route path="/car/list" element={<RentCarList />} />
