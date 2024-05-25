@@ -9,6 +9,43 @@
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
 }
+.BBSuserGreeting {
+  font-weight: bold;
+  color: var(--whiteColor);
+  /* padding: 0px 0px; Increase vertical padding */
+  border-radius: 5px;
+}
+
+.BBSuserGreeting span {
+  color: var(--PrimaryColor);
+  display: inline-block;
+  background-color: var(--PrimaryColor);
+  padding: 9px 12px; /* Adjust padding to match other buttons */
+  font-size: 12px; /* Adjust font size if needed */
+  border-radius: 5px; /* Optional: Add border radius to match buttons */
+  cursor: none;
+}
+.nbtn{
+ /* 호버 시 마우스 커서 변하지 않도록 설정 */
+ cursor: none;
+ 
+}
+
+@media screen and (max-width: 768px) {
+  .BBSuserGreeting {
+    font-size: 0.8rem; /* Smaller font size for mobile */
+    padding: 5px; /* Adjust padding for mobile */
+    margin-left: -1px; /* Adjust margin for mobile */
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .BBSuserGreeting {
+    font-size: 1rem; /* Default font size for larger screens */
+    padding: 10px; /* Default padding for larger screens */
+    margin-left: -2px; /* Default margin for larger screens */
+  }
+}
 
 .navBarSection .header {
   position: fixed;
@@ -173,4 +210,4 @@
   .header {
     padding: 1rem 8.5rem !important;
   }
-}/*# sourceMappingURL=navbar.css.map */
+}
