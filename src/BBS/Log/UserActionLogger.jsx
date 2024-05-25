@@ -27,14 +27,17 @@ const UserActionLogger = () => {
 
         // 로그 데이터를 서버에 전송
         logUserAction(logData);
-        // 로그 데이터를 콘솔에 출력
+        // 로그 데이터�� 콘솔에 출력
         console.log("UserActionLogger.jsx에서 출력 :", logData);
     };
 
     useEffect(() => {
         if (user) {
             // 클릭 이벤트 핸들러
-            const handleClick = () => handleUserAction('CLICK');
+            const handleClick = (event) => {
+                const action = event.target.getAttribute('data-action') || 'CLICK';
+                handleUserAction(action);
+            };
             // 문서에 클릭 이벤트 리스너 추가
             document.addEventListener('click', handleClick);
 

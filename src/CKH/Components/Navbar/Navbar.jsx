@@ -14,8 +14,8 @@ import { FaHotel } from "react-icons/fa6";
 import { FaCarSide } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
 import { PiBowlFoodBold } from "react-icons/pi";
-import LodgingList from "../../../YOUNG/lodging/LodgingList";
 import useUser from "../../../BBS/Log/useUser"; // useUser hook imported
+import UserActionLogger from '../../../BBS/Log/UserActionLogger'; // UserActionLogger imported
 
 const Navbar = () => {
   // Code to toggle/show navBar
@@ -51,6 +51,7 @@ const Navbar = () => {
 
   return (
     <section className="navBarSection">
+      <UserActionLogger /> {/* UserActionLogger added */}
       <div className={transparent}>
         <div className="logoDiv">
           <Link to="/" className="logo">
@@ -97,7 +98,7 @@ const Navbar = () => {
             </li>
 
             <li className="navItem">
-              <Link to="/mypage" className="navLink">
+              <Link to="/mypage" className="navLink" data-action="MY_PAGE_CLICK">
                 <FaHome />MyPage
               </Link>
             </li>
@@ -115,7 +116,7 @@ const Navbar = () => {
                 {user ? (
                   <a onClick={handleLogoutClick}>Logout</a>
                 ) : (
-                  <Link to="/login">
+                  <Link to="/login" data-action="LOGIN_CLICK">
                     <GrLogin />
                     <span>Join Us</span>
                   </Link>
