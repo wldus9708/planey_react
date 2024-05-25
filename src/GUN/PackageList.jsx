@@ -6,6 +6,7 @@ import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar from "./../CKH/Components/Navbar/Navbar"
 const PackageList = () => {
+    const [secondSearchQuery, setSecondSearchQuery] = useState("");
     const fixedMinPrice = 50000;
     const fixedMaxPrice = 10000000;
     const priceGap = 10000;
@@ -137,6 +138,13 @@ const PackageList = () => {
             });
         }
 
+        if (secondSearchQuery.trim()) {
+            filteredData = filteredData.filter(item => {
+                const tourPackCity = item.tourPackCity;
+                return tourPackCity && tourPackCity.toLowerCase().includes(secondSearchQuery.toLowerCase());
+            });
+        }
+
         return filteredData;
     };
 
@@ -153,6 +161,11 @@ const PackageList = () => {
         });
     };
 
+    const handleSearch = (query) => {
+        console.log(query);
+        setSecondSearchQuery(query);
+    };
+
 
 
     return (
@@ -161,7 +174,7 @@ const PackageList = () => {
             <div className={styles.NavBar} style={{padding: '1rem'}}>
                 <NavBar />
             </div>
-            <SearchField />
+            <SearchField onSearch={handleSearch} />
             <div className={styles.packageListBody}>
 
                 <div className={styles['packList-container']}>
@@ -249,7 +262,7 @@ const PackageList = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3>국가명</h3>
+                            <h3>도시명</h3>
                             <div className={styles['packList-search']}>
                                 <input
                                     type="text"
@@ -269,37 +282,6 @@ const PackageList = () => {
                                 <input type="checkbox" checked={checkboxStates['INTERNATIONAL']} onChange={() => toggleCheckbox('INTERNATIONAL')} /><p>해외</p><span>({data.filter(item => item.nation === false).length})</span>
                             </div>
 
-
-
-
-                            {/* <h3>국가 분류</h3>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.packCategory).length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['동남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>동남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['서남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>서남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['동남아/대만/서남아']} onChange={() => toggleCheckbox('KOREAN')} /><p>동남아/대만/서남아</p><span>({data.filter(item => item.packCategory === 'KOREAN').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['일본']} onChange={() => toggleCheckbox('ITALIAN')} /><p>일본</p><span>({data.filter(item => item.packCategory === 'ITALIAN').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['유럽/아프리카']} onChange={() => toggleCheckbox('CHINESE')} /><p>유럽/아프리카</p><span>({data.filter(item => item.packCategory === 'CHINESE').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['중국/홍콩/몽골/중앙아시아']} onChange={() => toggleCheckbox('JAPANESE')} /><p>중국/홍콩/몽골/중앙아시아</p><span>({data.filter(item => item.packCategory === 'JAPANESE').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['괌/사이판/호주/뉴질랜드']} onChange={() => toggleCheckbox('FRENCH')} /><p>괌/사이판/호주/뉴질랜드</p><span>({data.filter(item => item.packCategory === 'FRENCH').length})</span>
-                        </div>
-                        <div className={styles['packList-filter']}>
-                            <input type="checkbox" checked={checkboxStates['미국/하와이/캐나다/중남미']} onChange={() => toggleCheckbox('ETC')} /><p>미국/하와이/캐나다/중남미</p><span>({data.filter(item => item.packCategory === 'ETC').length})</span>
-                        </div> */}
                         </div>
                     </div>
                 </div>
