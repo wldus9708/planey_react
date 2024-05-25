@@ -28,7 +28,8 @@
 .paymentListBody{
    
     width: 1500px;
-    padding: 20px;
+    height:auto;
+    min-height: 300px;
     box-sizing: border-box;
     
 }
