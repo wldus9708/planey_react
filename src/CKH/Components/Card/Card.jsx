@@ -5,9 +5,11 @@ import "react-multi-carousel/lib/styles.css";
 import Product from "./Product";
 import { responsive } from "./data";
 import axios from "axios";
+import useUser from "../../../BBS/Log/useUser";
 
 export default function App() {
   const [products, setProducts] = useState([]);
+  const user = useUser();
 
   useEffect(() => {
     axios
@@ -58,7 +60,9 @@ export default function App() {
 
   return (
     <div className="CardApp">
-      <h1 className="Cardh1">🧡PLANEY🧡 패키지 추천❗</h1>
+      <h1 className="Cardh1">
+        🧡PLANEY🧡 에서 {user ? `${user.name}님의 ` : ""}패키지 추천❗
+      </h1>
       <Carousel responsive={responsive}>
         {productComponents}
       </Carousel>
