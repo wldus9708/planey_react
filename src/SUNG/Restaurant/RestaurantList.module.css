@@ -243,6 +243,14 @@ position: absolute;
   .restList-filter input[type="checkbox"]:checked {
     background-color: #007bff;
 }
+.restListLink a {
+    color: inherit; /* 부모 요소의 색상을 상속 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.restListLink a:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
 
 
 
