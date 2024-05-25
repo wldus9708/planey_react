@@ -5,7 +5,6 @@ import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-s
 import axios from 'axios';
 import SearchField from '../../YOUNG/searchField/Search_field';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
-import { Link } from 'react-router-dom';
 
 const RestaurantList = () => {
     const fixedMinPrice = 1000;
@@ -40,18 +39,16 @@ const RestaurantList = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8988/restaurant/list`);
-                const response1 = await axios.get(`http://localhost:8988/lodging/list`);
                 const allData = response.data;
-                console.log("111111111"+response1.data)
                 console.log(response.data)
                 setTotalDataCount(allData.length);
-
+    
                 const startIndex = (currentPage - 1) * 10 + 1;
                 const endIndex = currentPage * 10;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
-                console.log('시작페이지:' + startIndex);
-                console.log('끝페이지:' + endIndex);
-                setData(prevData => [...prevData, ...newData]);
+                console.log('시작페이지:' +startIndex);
+                console.log('끝페이지:' +endIndex);
+                setData(prevData => [...prevData, ...newData]); 
                 if (currentPage === 1) {
                     setData(newData);
                 } else {
@@ -65,7 +62,7 @@ const RestaurantList = () => {
         }
         fetchData();
     }, [currentPage]);
-
+    
 
     useEffect(() => {
         const handleScroll = () => {
@@ -128,7 +125,7 @@ const RestaurantList = () => {
         if (rangeMaxValue - rangeMinValue < priceGap) {
             setRangeMaxValue(rangeMinValue + priceGap);
             setRangeMinValue(rangeMaxValue - priceGap);
-        }
+        } 
     };
 
     const sortData = (data, sortOption) => {
@@ -174,128 +171,126 @@ const RestaurantList = () => {
 
     return (
         <>
-            <div style={{ padding: '1rem', marginRight: '10rem' }}>
-                <NavBar />
-            </div>
-            <div className={styles.restaurantListBody}>
-                <SearchField onSearch={handleSearch} />
-                <div className={styles['restList-container']}>
-                    <div className={styles['restList-left-col']}>
-                        <p>{data.length} + options</p>
-                        <h1>맛집 리스트</h1>
-                        <div className={styles['restList-check']}>
-                            <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
-                            <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
-                        </div>
-                        {data.length > 0 ? (
-                            sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => (
-                                <div className={styles['restList-house']} key={index}>
-                                    <div className={styles['restList-house-img']}>
-                                        <img src={`/images/${item.restImage01}`} alt="" width="200px" height="200px" />
-                                    </div>
-                                    <div className={styles['restList-house-info']}>
-                                        <p>{item.restCategory}</p>
-                                        <h3 className={styles.restListLink}>
-                                            <Link to={`/restaurantDetail/${item.id}`}>{item.restName}</Link>
-                                        </h3>
-                                        <p>{item.restAddress}</p>
-                                        <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
-                                        {item.restGrade}
-                                        <p>{item.restDescription}</p>
-                                        <div className={styles['restList-house-price']}>
-                                            <h4>₩ {item.restPrice.toLocaleString()}</h4>
-                                        </div>
-                                        <div className={styles['restList-house-info2']}>
-                                            <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <p>검색 결과가 없습니다.</p>
-                        )}
-
+        <div  style={{padding: '1rem', marginRight: '10rem'}}>
+        <NavBar />
+    </div>
+        <div className={styles.restaurantListBody}>
+            <SearchField onSearch={handleSearch}/>
+            <div className={styles['restList-container']}>
+                <div className={styles['restList-left-col']}>
+                    <p>{data.length} + options</p>
+                    <h1>맛집 리스트</h1>
+                    <div className={styles['restList-check']}>
+                        <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
+                        <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                        <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
+                        <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
                     </div>
-                    <div className={styles['restList-right-col']}>
-                        <div className={styles['restList-sidebar']}>
-                            <h4>금액 설정</h4>
-                            <div className={styles['restList-PriceSlide']} >
-                                <div className={styles['restList-PriceSlideInner']} >
-                                    {/* 가격 슬라이드 바 */}
+                    {data.length > 0 ? (
+                        sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => (
+                            <div className={styles['restList-house']} key={index}>
+                                <div className={styles['restList-house-img']}>
+                                    <img src={`/images/${item.restImage01}`} alt="" width="200px" height="200px" />
                                 </div>
-                            </div>
-                            <div className={styles['restList-PriceRangeWrap']}>
-                                <input
-                                    type="range"
-                                    min={fixedMinPrice}
-                                    max={fixedMaxPrice - priceGap}
-                                    step="1000"
-                                    value={rangeMinValue}
-                                    onChange={e => {
-                                        prcieRangeMinValueHandler(e);
-                                        twoRangeHandler();
-                                    }}
-                                    className={styles['restList-PriceRangeMin']}
-                                />
-                                <input
-                                    type="range"
-                                    min={fixedMinPrice + priceGap}
-                                    max={fixedMaxPrice}
-                                    step="1000"
-                                    value={rangeMaxValue}
-                                    onChange={e => {
-                                        prcieRangeMaxValueHandler(e);
-                                        twoRangeHandler();
-                                    }}
-                                    className={styles['restList-PriceRangeMax']}
-                                />
-                                <div className={styles['restList-PriceValue']}>
-                                    <div className={styles['restList-PriceValueMin']}>
-                                        {rangeMinValue.toLocaleString()}원
+                                <div className={styles['restList-house-info']}>
+                                    <p>{item.restCategory}</p>
+                                    <h3>{item.restName}</h3>
+                                    <p>{item.restAddress}</p>
+                                    <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
+                                    {item.restGrade}
+                                    <p>{item.restDescription}</p>
+                                    <div className={styles['restList-house-price']}>
+                                        <h4>₩ {item.restPrice.toLocaleString()}</h4>
                                     </div>
-                                    <div className={styles['restList-PriceValueMax']}>
-                                        {rangeMaxValue.toLocaleString()}원
+                                    <div className={styles['restList-house-info2']}>
+                                        <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
                                     </div>
                                 </div>
                             </div>
-                            <h4>식당 이름으로 검색</h4>
-                            <div className={styles['restList-search']}>
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    placeholder="검색어를 입력하세요"
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
+                        ))
+                    ) : (
+                        <p>검색 결과가 없습니다.</p>
+                    )}
+
+                </div>
+                <div className={styles['restList-right-col']}>
+                    <div className={styles['restList-sidebar']}>
+                        <h4>금액 설정</h4>
+                        <div className={styles['restList-PriceSlide']} >
+                            <div className={styles['restList-PriceSlideInner']} >
+                                {/* 가격 슬라이드 바 */}
                             </div>
-                            <h4>식당 유형</h4>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
+                        </div>
+                        <div className={styles['restList-PriceRangeWrap']}>
+                            <input
+                                type="range"
+                                min={fixedMinPrice}
+                                max={fixedMaxPrice - priceGap}
+                                step="1000"
+                                value={rangeMinValue}
+                                onChange={e => {
+                                    prcieRangeMinValueHandler(e);
+                                    twoRangeHandler();
+                                }}
+                                className={styles['restList-PriceRangeMin']}
+                            />
+                            <input
+                                type="range"
+                                min={fixedMinPrice + priceGap}
+                                max={fixedMaxPrice}
+                                step="1000"
+                                value={rangeMaxValue}
+                                onChange={e => {
+                                    prcieRangeMaxValueHandler(e);
+                                    twoRangeHandler();
+                                }}
+                                className={styles['restList-PriceRangeMax']}
+                            />
+                            <div className={styles['restList-PriceValue']}>
+                                <div className={styles['restList-PriceValueMin']}>
+                                    {rangeMinValue.toLocaleString()}원
+                                </div>
+                                <div className={styles['restList-PriceValueMax']}>
+                                    {rangeMaxValue.toLocaleString()}원
+                                </div>
                             </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.KOREAN} onChange={() => toggleCheckbox('KOREAN')} /><p>한식</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.ITALIAN} onChange={() => toggleCheckbox('ITALIAN')} /><p>양식</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.CHINESE} onChange={() => toggleCheckbox('CHINESE')} /><p>중식</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.JAPANESE} onChange={() => toggleCheckbox('JAPANESE')} /><p>일식</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.FRENCH} onChange={() => toggleCheckbox('FRENCH')} /><p>불란서식</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
-                            </div>
-                            <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
-                            </div>
+                        </div>
+                        <h4>식당 이름으로 검색</h4>
+                        <div className={styles['restList-search']}>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                placeholder="검색어를 입력하세요"
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                        <h4>식당 유형</h4>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
+                        </div>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.KOREAN} onChange={() => toggleCheckbox('KOREAN')} /><p>한식</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
+                        </div>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.ITALIAN} onChange={() => toggleCheckbox('ITALIAN')} /><p>양식</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
+                        </div>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.CHINESE} onChange={() => toggleCheckbox('CHINESE')} /><p>중식</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
+                        </div>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.JAPANESE} onChange={() => toggleCheckbox('JAPANESE')} /><p>일식</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
+                        </div>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.FRENCH} onChange={() => toggleCheckbox('FRENCH')} /><p>불란서식</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
+                        </div>
+                        <div className={styles['restList-filter']}>
+                            <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
                         </div>
                     </div>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
             </div>
+            <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop}/>
+        </div>
         </>
     );
 };

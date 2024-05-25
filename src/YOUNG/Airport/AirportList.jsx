@@ -14,16 +14,6 @@ const AirportList = () => {
     const priceGap = 10000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
-    const [allChecked, setAllChecked] = useState(false);
-    const [checkboxStates, setCheckboxStates] = useState({
-        all: false,
-        HOTEL: false,
-        MOTEL: false,
-        CONDO: false,
-        PENSION: false,
-        RESORT: false,
-        ETC: false
-    });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [isflightsData, setIsFlightsData] = useState(true);
@@ -36,13 +26,26 @@ const AirportList = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8988/products/allFlightData`);
-                const allData = Object.values(response.data);
-                console.log(allData);
-                setTotalDataCount(allData.length);
+                console.log(response.data)
+
+                // 데이터가 리스트2개 불러와져서 합침
+                const { flights, returnFlights } = response.data;
+                console.log("flights 데이터:", flights);
+                console.log("returnFlights 데이터:", returnFlights);
+
+                const combinedData = flights.map((flight, index) => ({
+                    ...flight,
+                    returnFlight: returnFlights[index],
+                }));
+
+
+                console.log("결합된 데이터:", combinedData);
+                setTotalDataCount(combinedData.length);
+
 
                 const startIndex = (currentPage - 1) * 10 + 1;
                 const endIndex = currentPage * 10;
-                const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
+                const newData = combinedData ? combinedData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' + startIndex);
                 console.log('끝페이지:' + endIndex);
 
@@ -62,7 +65,6 @@ const AirportList = () => {
                 setIsFlightsData(false);
             }
         }
-        console.log("가져와짐.");
         fetchData();
 
     }, [currentPage]);
@@ -101,33 +103,6 @@ const AirportList = () => {
         }
     }, []);
 
-    const toggleAllCheckbox = () => {
-        const newState = !allChecked;
-        const newCheckboxStates = { ...checkboxStates };
-        for (let key in newCheckboxStates) {
-            newCheckboxStates[key] = newState;
-        }
-        setCheckboxStates(newCheckboxStates); // 모든 체크박스 상태 업데이트
-        setAllChecked(newState); // 전체 체크 상태 업데이트
-    };
-
-    const toggleCheckbox = (name) => {
-        const newCheckboxStates = { ...checkboxStates, [name]: !checkboxStates[name] };
-        setCheckboxStates(newCheckboxStates);
-        const allChecked = Object.values(newCheckboxStates).every(value => value);
-        setAllChecked(allChecked); // 전체 체크 상태 업데이트
-    };
-
-
-    useEffect(() => {
-        console.log('checkboxStates:', checkboxStates);
-    }, [checkboxStates]);
-
-
-
-
-   
-
     const prcieRangeMinValueHandler = e => {
         setRangeMinValue(parseInt(e.target.value));
     };
@@ -138,49 +113,10 @@ const AirportList = () => {
 
     const twoRangeHandler = () => {
         if (rangeMaxValue - rangeMinValue < priceGap) {
-            setRangeMaxValue(rangeMinValue => rangeMinValue + priceGap);
-            setRangeMinValue(rangeMaxValue => rangeMaxValue - priceGap);
-        } else {
-
-        }
+            setRangeMaxValue(rangeMinValue + priceGap);
+            setRangeMinValue(rangeMaxValue - priceGap);
+        } 
     };
-
-    const filterData = (data, minPrice, maxPrice) => {
-        let filteredData = data;
-
-        filteredData = filteredData.filter(item => item.fli_price >= minPrice && item.fli_price <= maxPrice);
-
-
-        // if (searchQuery.trim()) {
-        //     filteredData = filteredData.filter(item => {
-        //         const lodgingName = item.lodName;
-        //         return lodgingName && lodgingName.toLowerCase().includes(searchQuery.toLowerCase());
-        //     });
-        // }
-
-        // if (secondSearchQuery.trim()) {
-        //     filteredData = filteredData.filter(item => {
-        //         const lodAddress = item.lodAddress;
-        //         return lodAddress && lodAddress.toLowerCase().includes(secondSearchQuery.toLowerCase());
-        //     });
-        // }
-
-
-
-        return filteredData;
-    };
-
-    const filterByCategory = (data) => {
-        if (checkboxStates.all || Object.values(checkboxStates).every(value => !value)) {
-            return data;
-        }
-        return data.filter(item => {
-            return checkboxStates[item.lodCategory];
-        });
-    };
-
-  
-
     const sortData = (data, sortOption) => {
         if (sortOption === "lowPrice") {
             return data.slice().sort((a, b) => a.fli_price - b.fli_price);
@@ -190,6 +126,40 @@ const AirportList = () => {
             return data;
         }
     };
+
+    const filterData = (data, minPrice, maxPrice) => {
+        let filteredData = data;
+
+        filteredData = filteredData.filter(item => item.fli_price >= minPrice && item.fli_price <= maxPrice);
+
+        // searchfield 검색을 출발지 도착지 주소로 넣음
+        if (secondSearchQuery.trim()) {
+            filteredData = filteredData.filter(item => {
+                const flightAddress = item.fli_arrival_place;
+                const flightAddress2 = item.fli_departure_place;
+                const returnFlightAddress = item.returnFlight.return_fli_arrival_place;
+                const returnFlightDepartureDate = item.returnFlight.return_fli_departure_date;
+
+
+                const containsSearchQuery = (address) => {
+                    return address && address.toLowerCase().includes(secondSearchQuery.toLowerCase());
+                };
+
+
+                return containsSearchQuery(flightAddress) ||
+                    containsSearchQuery(flightAddress2) ||
+                    containsSearchQuery(returnFlightAddress) ||
+                    containsSearchQuery(returnFlightDepartureDate);
+            });
+        }
+
+        return filteredData;
+    };
+
+
+
+
+    
     // 주소검색창 기능 
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
 
@@ -218,7 +188,7 @@ const AirportList = () => {
                         </div>
 
                         {data.length > 0 ? (
-                            sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
+                            sortData(filterData(data, searchQuery, rangeMinValue, rangeMaxValue), sortOption).map((item, index) => {
 
                                 return (
                                     <div className={styles.AirportList} key={index}>
@@ -226,29 +196,29 @@ const AirportList = () => {
                                             <div className={styles.FliDiv}>
                                                 <ul>
                                                     <li className={styles.FliList}>
-                                                        <span> 
+                                                        <span>
                                                             {/* 가는편 */}
-                                                            <img src={item.fli_brand_image} alt="항공사로고" />
+                                                            <img src={`/images/${item.fli_brand_image}`} alt="항공사로고" />
                                                             <div className={styles.FliName}>
                                                                 {/* 항공사 */}
-                                                            {item.fli_brand}
+                                                                {item.fli_brand}
                                                             </div>
                                                             <div className={styles.FliDate}>
-                                                                 {/* 출발일 */}
-                                                                 {item.fli_departure_date}
+                                                                {/* 출발일 */}
+                                                                {item.fli_departure_date}
                                                             </div>
                                                             <div className={styles.fli_arrival_date}>
-                                                                 {/* 도착일 */}
-                                                                 {item.fli_departure_date}
+                                                                {/* 도착일 */}
+                                                                {item.fli_departure_date}
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliDepRegion}>
-                                                                     {/* 출발지 */}
-                                                                     {item.fli_departure_place}
+                                                                    {/* 출발지 */}
+                                                                    {item.fli_departure_place}
                                                                 </span>
                                                                 <span className={styles.FliDepTime}>
-                                                                     {/* 출발시간 */}
-                                                                     {item.fli_departure_time}
+                                                                    {/* 출발시간 */}
+                                                                    {item.fli_departure_time}
                                                                 </span>
                                                             </div>
                                                             <div className={styles.FliIcon}>
@@ -256,42 +226,42 @@ const AirportList = () => {
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliArrRegion}>
-                                                                     {/* 도착지 */}
-                                                                     {item.fli_arrival_place}
+                                                                    {/* 도착지 */}
+                                                                    {item.fli_arrival_place}
 
                                                                 </span>
                                                                 <span className={styles.FliArrTime}>
-                                                                     {/* 도착시간 */}
-                                                                     {item.fli_arrival_time}
+                                                                    {/* 도착시간 */}
+                                                                    {item.fli_arrival_time}
                                                                 </span>
                                                             </div >
                                                         </span>
                                                     </li>
 
                                                     <li className={styles.FliList}>
-                                                        <span> 
+                                                        <span>
                                                             {/* 오는편 */}
-                                                            <img src={item.return_fli_brand_image} alt="항공사로고" />
+                                                            <img src={`/images/${item.returnFlight.return_fli_brand_image}`} alt="항공사로고" />
                                                             <div className={styles.FliName}>
                                                                 {/* 항공사 */}
-                                                            {item.return_fli_brand}
+                                                                {item.returnFlight.return_fli_brand}
                                                             </div>
                                                             <div className={styles.FliDate}>
-                                                                 {/* 출발일 */}
-                                                                 {item.return_fli_departure_date}
+                                                                {/* 출발일 */}
+                                                                {item.returnFlight.return_fli_departure_date}
                                                             </div>
                                                             <div className={styles.fli_arrival_date}>
-                                                                 {/* 도착일 */}
-                                                                 {item.return_fli_arrival_date}
+                                                                {/* 도착일 */}
+                                                                {item.returnFlight.return_fli_arrival_date}
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliDepRegion}>
-                                                                     {/* 출발지 */}
-                                                                     {item.return_fli_departure_place}
+                                                                    {/* 출발지 */}
+                                                                    {item.returnFlight.return_fli_departure_place}
                                                                 </span>
                                                                 <span className={styles.FliDepTime}>
-                                                                     {/* 출발시간 */}
-                                                                     {item.return_fli_departure_time}
+                                                                    {/* 출발시간 */}
+                                                                    {item.returnFlight.return_fli_departure_time}
                                                                 </span>
                                                             </div>
                                                             <div className={styles.FliIcon}>
@@ -299,13 +269,13 @@ const AirportList = () => {
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <span className={styles.FliArrRegion}>
-                                                                     {/* 도착지 */}
-                                                                     {item.return_fli_arrival_place}
+                                                                    {/* 도착지 */}
+                                                                    {item.returnFlight.return_fli_arrival_place}
 
                                                                 </span>
                                                                 <span className={styles.FliArrTime}>
-                                                                     {/* 도착시간 */}
-                                                                     {item.return_fli_arrival_time}
+                                                                    {/* 도착시간 */}
+                                                                    {item.returnFlight.return_fli_arrival_time}
                                                                 </span>
                                                             </div >
                                                         </span>
@@ -314,10 +284,11 @@ const AirportList = () => {
                                                 </ul>
                                             </div>
                                             <div className={styles.FliArrPriceBox}>
-                                                 {/* 총비행시간 */}
-                                            <p className={styles.totalTime}>총 1시간 20분</p>
-                                             {/* 요금 */}
-                                                <p className={styles.airPrice}>2999,000원</p>
+                                                {/* 총비행시간 */}
+                                                <p className={styles.totalTime}>총 {item.fli_total_time + item.returnFlight.return_fli_total_time}분</p>
+                                                {/* 요금 */}
+                                                {/* 돌아오는편에 요금이 없어서 주석 처리했음 */}
+                                                <p className={styles.airPrice}>{(item.fli_price/*+ item.returnFlight.return_fli_price*/).toLocaleString()}원</p>
                                             </div>
                                         </div>
                                     </div>
@@ -356,7 +327,7 @@ const AirportList = () => {
                                     type="range"
                                     min={fixedMinPrice + priceGap}
                                     max={fixedMaxPrice}
-                                    step="1000"
+                                    step="10000"
                                     value={rangeMaxValue}
                                     onChange={e => {
                                         prcieRangeMaxValueHandler(e);
