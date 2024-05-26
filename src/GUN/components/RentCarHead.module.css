@@ -59,14 +59,14 @@ img{
     width: 600px;
     margin: 0 auto;
 }
-.hoverContainer{
+.rentDetailhoverContainer{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin-top: 32px;
 }
-.hoverContainer div{
+.rentDetailhoverContainer div{
     border: 2px solid rgba(252, 160, 175, 0.7);
     padding: 1rem;
     border-radius: 3px;
@@ -78,10 +78,10 @@ img{
 .active {
     border-color: rgb(255, 145, 163)!important;
 }
-.hoverContainer div:hover{
+.rentDetailhoverContainer div:hover{
     border-color: rgb(255, 145, 163);
 }
-.hoverContainer div img {
+.rentDetailhoverContainer div img {
     width: 80px;
     cursor: pointer;
 }
@@ -165,15 +165,7 @@ img{
     margin-bottom: 20px; /* 아이콘들 간의 간격 조절 */
 }
 
-.rentDetailhoverContainer{
-    border: 2px solid rgba(252, 160, 175, 0.7);
-    padding: 1rem;
-    border-radius: 3px;
-    margin: 0 4px 8px 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 
 
