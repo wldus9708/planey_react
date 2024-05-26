@@ -21,6 +21,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
     "date-fns": "^3.6.0",
+    "gapi-script": "^1.2.0",
     "gatsby-plugin-image": "^3.13.1",
     "gatsby-plugin-sharp": "^5.13.1",
     "gatsby-transformer-sharp": "^5.13.1",
