@@ -3,9 +3,9 @@ import './Mypage.css';
 import 'material-icons';
 import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
-import PaymentList  from '../../SUNG/Payment/PaymentList';
+import PaymentList from '../../SUNG/Payment/PaymentList';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import WishList from './MainComponents/WishList';
 
@@ -69,8 +69,13 @@ const MpClient = () => {
             <div className="DEOK_MP_CL_container">
                 <aside className="DEOK_MP_CL_aside">
                     <div className="DEOK_MP_CL_sidebar">
+                        <div>
+                            <Link to="/">
+                                홈으로
+                            </Link>
+                        </div>
                         <div className="DEOK_MP_CL_profileBox">
-                            <img className="DEOK_MP_CL_profile" src={"/images/" + userInfo.memberImage} alt='프로필 사진' />
+                            <img className="DEOK_MP_CL_profile" src={"/images/" + userInfo.memberImage} alt='' />
                         </div>
                         <p className='DEOK_MP_CL_Nickname'>
                             {userInfo.nickname}

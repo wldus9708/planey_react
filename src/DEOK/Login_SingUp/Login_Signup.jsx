@@ -9,6 +9,7 @@ import { naverLoginUrl } from "../../SUNG/SocialNaver";
 import Agreement from "../../YOUNG/member/Agreement";
 import FindId from "../../YOUNG/member/findId"
 import { Button, Modal } from 'react-bootstrap';
+import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "./OAUTH";
 
 const SignUpForm = () => {
 
@@ -275,17 +276,6 @@ const SignUpForm = () => {
         setShowModal(false); // 모달 닫기
     };
 
-    //                           구글 로그인 API                          //
-    const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
-    const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    const googleLoginAPI_url =
-        `https://accounts.google.com/o/oauth2/auth`
-        + `?client_id=${CLIENT_ID}`
-        + `&redirect_uri=http://localhost:3000`
-        // + `&access_type=offline`
-        + `&response_type=code`
-        + `&scope=email profile`;
-
     const formattedBirth = birth.length === 7 ? `${birth.slice(0, 6)}-${birth[6]}******` : birth;
 
     return (
@@ -382,10 +372,10 @@ const SignUpForm = () => {
                             <Link to={naverLoginUrl}>
                                 <img className={styles.naver} src='/images/btn_naver.svg' alt="naver" />
                             </Link>
-                            <Link to="/login/Socialkakao">
+                            <Link to={KAKAO_AUTH_URL}>
                                 <img className={styles.kakao} src='/images/btn_kakao.svg' alt="kakao" />
                             </Link>
-                            <Link to={`${googleLoginAPI_url}`}>
+                            <Link to={GOOGLE_AUTH_URL}>
                                 <img className={styles.google} src='/images/btn_google.svg' alt="google" />
                             </Link>
                         </div>
