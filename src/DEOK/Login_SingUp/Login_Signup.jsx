@@ -9,7 +9,6 @@ import { naverLoginUrl } from "../../SUNG/SocialNaver";
 import Agreement from "../../YOUNG/member/Agreement";
 import FindId from "../../YOUNG/member/findId"
 import { Button, Modal } from 'react-bootstrap';
-import { KAKAO_AUTH_URL } from "./OAUTH";
 
 const SignUpForm = () => {
 
@@ -39,15 +38,23 @@ const SignUpForm = () => {
     const [showErrMsg, setShowErrMsg] = useState(false);
     const [birth, setBirth]=useState('');
     function validateBirth(birth) {
-        if (!/^\d{7}$/.test(birth)) {
+        console.log(birth);
+        if (!/^\d{6}-[1-4][\d*]{6}$/.test(birth)) {
             return false; // 7자리의 숫자 형식이 아님
+            
         }
       
-        const year = parseInt(birth.substring(0, 2));
+        let year = parseInt(birth.substring(0, 2));
         const month = parseInt(birth.substring(2, 4));
         const day = parseInt(birth.substring(4, 6));
-        const gender= parseInt(birth.substring(6, 7));
+        const gender= parseInt(birth.substring(7, 8));
 
+        if (gender === 1 || gender === 2) {
+            year += 1900;
+        } else if (gender === 3 || gender === 4) {
+            year += 2000;
+        }
+    
         // 올바른 날짜 범위 확인
         if (year < 0) {
             return false; // 최소 1940년 이상이어야 함
@@ -268,15 +275,13 @@ const SignUpForm = () => {
         setShowModal(false); // 모달 닫기
     };
 
-       //                           구글 로그인 API                          //
-    // const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
-    // const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    const REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
-    const CLIENT_ID = '1073954166943-5bur4ek1tdb1nt01peuembfjufkgled0.apps.googleusercontent.com';
+    //                           구글 로그인 API                          //
+    const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+    const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const googleLoginAPI_url =
         `https://accounts.google.com/o/oauth2/auth`
         + `?client_id=${CLIENT_ID}`
-        + `&redirect_uri=${REDIRECT_URI}`
+        + `&redirect_uri=http://localhost:3000`
         // + `&access_type=offline`
         + `&response_type=code`
         + `&scope=email profile`;
@@ -377,7 +382,7 @@ const SignUpForm = () => {
                             <Link to={naverLoginUrl}>
                                 <img className={styles.naver} src='/images/btn_naver.svg' alt="naver" />
                             </Link>
-                            <Link to={KAKAO_AUTH_URL}>
+                            <Link to="/login/Socialkakao">
                                 <img className={styles.kakao} src='/images/btn_kakao.svg' alt="kakao" />
                             </Link>
                             <Link to={`${googleLoginAPI_url}`}>
