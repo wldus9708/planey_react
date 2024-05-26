@@ -9,6 +9,7 @@ import { naverLoginUrl } from "../../SUNG/SocialNaver";
 import Agreement from "../../YOUNG/member/Agreement";
 import FindId from "../../YOUNG/member/findId"
 import { Button, Modal } from 'react-bootstrap';
+import { KAKAO_AUTH_URL } from "./OAUTH";
 
 const SignUpForm = () => {
 
@@ -374,7 +375,7 @@ const SignUpForm = () => {
                             <Link to={naverLoginUrl}>
                                 <img className={styles.naver} src='/images/btn_naver.svg' alt="naver" />
                             </Link>
-                            <Link to="/login/Socialkakao">
+                            <Link to={KAKAO_AUTH_URL}>
                                 <img className={styles.kakao} src='/images/btn_kakao.svg' alt="kakao" />
                             </Link>
                             <Link to={`${googleLoginAPI_url}`}>
