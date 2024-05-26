@@ -268,13 +268,15 @@ const SignUpForm = () => {
         setShowModal(false); // 모달 닫기
     };
 
-    //                           구글 로그인 API                          //
-    const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
-    const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+       //                           구글 로그인 API                          //
+    // const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+    // const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
+    const CLIENT_ID = '1073954166943-5bur4ek1tdb1nt01peuembfjufkgled0.apps.googleusercontent.com';
     const googleLoginAPI_url =
         `https://accounts.google.com/o/oauth2/auth`
         + `?client_id=${CLIENT_ID}`
-        + `&redirect_uri=http://localhost:3000`
+        + `&redirect_uri=${REDIRECT_URI}`
         // + `&access_type=offline`
         + `&response_type=code`
         + `&scope=email profile`;
