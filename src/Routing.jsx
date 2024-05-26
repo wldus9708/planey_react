@@ -17,7 +17,7 @@ import PackageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
 import Test from "./Hye/advertisement";
-import GoogleLoginRedirect from "./DEOK/Login_SingUp/GoogleLoginRedirect";
+import GoogleLogin from "./DEOK/Login_SingUp/GoogleLogin";
 import MyPage from "./DEOK/MyPage/Mypage";
 import RentCarTest from './GUN/RentCarIndex';
 import Airport from "./YOUNG/Seat/SeatBooking";
@@ -46,7 +46,7 @@ function Routing() {
                 <Route path="/rentcardetail" element={<RentcarDetail />} />
                 <Route path="/searchField" element={<SearchField />} />
                 <Route path="/test" element={<Test />} />
-                <Route path="/oauth/redirect" element={<GoogleLoginRedirect />} />
+                <Route path="/login/oauth2/callback/google" element={<GoogleLogin />} />
                 <Route path="/PackageDetail/:id" element={<PackageDetail />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/PackageTour/list" element={<PackageList />} />
