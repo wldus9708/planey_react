@@ -59,14 +59,14 @@ img{
     width: 600px;
     margin: 0 auto;
 }
-.hoverContainer{
+.packDetailhoverContainer{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin-top: 32px;
 }
-.hoverContainer div{
+.packDetailhoverContainer div{
     border: 2px solid rgba(252, 160, 175, 0.7);
     padding: 1rem;
     border-radius: 3px;
@@ -78,10 +78,10 @@ img{
 .active {
     border-color: rgb(255, 145, 163)!important;
 }
-.hoverContainer div:hover{
+.packDetailhoverContainer div:hover{
     border-color: rgb(255, 145, 163);
 }
-.hoverContainer div img {
+.packDetailhoverContainer div img {
     width: 80px;
     cursor: pointer;
 }

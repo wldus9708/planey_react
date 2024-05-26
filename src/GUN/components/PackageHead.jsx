@@ -43,24 +43,21 @@ const PackageHead = () => {
                     <div className={styles.lodgingDiv}>
                         <div className={styles.lodgingDivLeft}>
                             <div className={styles.imgContainer}>
-                                <img
-                                    src={`/images/${packageTour && packageTour[`packImage0${activeImageIndex + 1}`]}`}
+                            <img
+                                    src={`/images/${packageTour && packageTour[`image0${activeImageIndex + 1}`]}`}
                                     alt={`pack0${activeImageIndex + 1}`}
                                 />
                             </div>
-                            <div className={styles.hoverContainer}>
-                                {/* 각 이미지에 마우스 오버 이벤트 추가 */}
-                                {imageList.map((image, index) => (
-
+                            <div className={styles.packDetailhoverContainer}>
+                                {[1, 2, 3, 4, 5].map(index => (
                                     <div
                                         key={index}
-                                        className={
-                                            index === activeImageIndex ? styles.active : ''
-                                        } // 'active' 클래스 적용
-                                        onMouseOver={() => setActiveImageIndex(index)} // 이벤트 처리
+                                        className={styles.packDetailactive}
+                                        onMouseOver={() => setActiveImageIndex(index - 1)}
                                     >
                                         <img
-                                            src={`/images/${image}`}
+                                            src={`/images/${packageTour && packageTour[`image0${index}`]}`}
+                                            alt={`images${index}`}
                                         />
                                     </div>
                                 ))}
