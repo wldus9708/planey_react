@@ -11,7 +11,7 @@ import { MdOutlineConnectingAirports } from "react-icons/md";
 const AirportList = () => {
     const fixedMinPrice = 100000;
     const fixedMaxPrice = 10000000;
-    const priceGap = 10000;
+    const priceGap = 100000;
     const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
     const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
     const [currentPage, setCurrentPage] = useState(1);
@@ -131,6 +131,8 @@ const AirportList = () => {
         let filteredData = data;
 
         filteredData = filteredData.filter(item => item.fli_price >= minPrice && item.fli_price <= maxPrice);
+        console.log("최소 금액 :" + minPrice)
+        console.log("최대 금액 :" + maxPrice)
 
         // searchfield 검색을 출발지 도착지 주소로 넣음
         if (secondSearchQuery.trim()) {
@@ -188,7 +190,7 @@ const AirportList = () => {
                         </div>
 
                         {data.length > 0 ? (
-                            sortData(filterData(data, searchQuery, rangeMinValue, rangeMaxValue), sortOption).map((item, index) => {
+                            sortData(filterData(data,rangeMinValue, rangeMaxValue), sortOption).map((item, index) => {
 
                                 return (
                                     <div className={styles.AirportList} key={index}>
@@ -315,7 +317,7 @@ const AirportList = () => {
                                     type="range"
                                     min={fixedMinPrice}
                                     max={fixedMaxPrice - priceGap}
-                                    step="1000"
+                                    step="100000"
                                     value={rangeMinValue}
                                     onChange={e => {
                                         prcieRangeMinValueHandler(e);
@@ -327,7 +329,7 @@ const AirportList = () => {
                                     type="range"
                                     min={fixedMinPrice + priceGap}
                                     max={fixedMaxPrice}
-                                    step="10000"
+                                    step="100000"
                                     value={rangeMaxValue}
                                     onChange={e => {
                                         prcieRangeMaxValueHandler(e);
