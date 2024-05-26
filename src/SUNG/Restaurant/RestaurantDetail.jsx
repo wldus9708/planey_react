@@ -125,7 +125,7 @@ const RestaurantDetail = () => {
             <div className={styles.restDetailDivLeft}>
               <div className={styles.restDetailimgContainer}>
                 <img
-                  src={`/images/${restaurant && restaurant.restImage01}`}
+                src={`/images/${restaurant && restaurant[`restImage0${activeImageIndex + 1}`]}`}
                   alt={`images1`}
                 />
               </div>
