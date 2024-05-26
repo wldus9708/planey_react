@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App'
 import Login from './DEOK/Login_SingUp/Login_Signup';
-import KakaoLogin from './GUN/SocialKakao';
+import KakaoLogin from './DEOK/Login_SingUp/KaKaoLogin';
 import LodgingDetail from './YOUNG/lodging/LodgingDetail';
 import PreLodging from './YOUNG/lodging/preLodgingDetail';
 import PlanMain from './YEON/planMain';
@@ -33,7 +33,7 @@ function Routing() {
             <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/login/Socialkakao" element={<KakaoLogin />} />
+                <Route path="/login/oauth2/callback/kakao" element={<KakaoLogin />} />
                 <Route path="/lodgingDetail/:id" element={<LodgingDetail />} />
                 <Route path="/prelodging" element={<PreLodging />} />
                 <Route path="/planMain" element={<PlanMain />} />
