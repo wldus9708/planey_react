@@ -43,7 +43,9 @@ const KaKaoLogin = () => {
         if (user) {
             kakaoLogin();
         } else {
+            kakaoLogin();
             console.log("사용자 정보가 없습니다.");
+
         }
     }, [user]); // user를 의존성 배열에 추가
 
