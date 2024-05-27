@@ -7,6 +7,7 @@ import LodgingPayment from "./LodingPayment"; // 경로 수정
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
+import NavBar from "../../CKH/Components/Navbar/Navbar"
 
 const LodgingDetail = () => {
   let { id } = useParams(); // URL에서 숙소 ID 가져오기
@@ -139,6 +140,9 @@ const LodgingDetail = () => {
 
   return (
     <div className={styles.LodgingBody}>
+      <div style={{ padding: '1rem', marginRight: '10rem' }}>
+        <NavBar />
+      </div>
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <div className={styles.lodgingDiv}>
