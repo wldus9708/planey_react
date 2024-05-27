@@ -10,7 +10,6 @@ const KaKaoLogin = () => {
     const code = new URL(window.location.href).searchParams.get("code");
     const [cookies, setCookie] = useCookies([]);
     const user = useUser(); // 사용자 정보 가져오기
-    console.log(user);
 
     const kakaoLogin = async () => {
         await axios.get(`http://localhost:8988/login/oauth2/callback/kakao?code=${code}`)
@@ -31,7 +30,6 @@ const KaKaoLogin = () => {
                     };
 
                     await logUserAction(logData, response.data.accessToken);
-                    console.log("로그인 성공 로그:", logData);
 
                     navigate('/');
                 
