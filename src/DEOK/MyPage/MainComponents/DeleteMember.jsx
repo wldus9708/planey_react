@@ -44,7 +44,6 @@ const DeleteMember = (props) => {
                 .then((response) => {
                     alert(response.data.message);
                     jsCookies.remove('accessToken');
-                    jsCookies.remove('refreshToken');
                     navigator('/login');
                 })
                 .catch((error) => {

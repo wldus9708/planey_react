@@ -105,7 +105,7 @@ const Navbar = () => {
           
             <div className="headerBtns flex">
               <button className="btn loginBtn" data-action="MY_PAGE_CLICK">
-                <Link to="" >
+              <Link to="/cart">
                   <BsCart4 />
                 </Link>
               </button>
