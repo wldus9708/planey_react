@@ -241,8 +241,9 @@ position: absolute;
     height:50px;
   }
   .restList-filter input[type="checkbox"]:checked {
-    background-color: #ffaf47e1;
+    accent-color: #ED6D35;
 }
+
 .restList-house {
     position: relative;
     overflow: hidden;

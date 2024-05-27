@@ -241,7 +241,7 @@ position: absolute;
     height:50px;
   }
   .rentList-filter input[type="checkbox"]:checked {
-    background-color: #007bff;
+    accent-color: #ED6D35;
 }
 .rentList-house {
     position: relative;
