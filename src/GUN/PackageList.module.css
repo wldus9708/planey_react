@@ -16,7 +16,7 @@
   --inputColor: hsl(330, 12%, 97%);
   --mainColor:  #C1908B;
 }
-.packaurantListBody {
+.packageListBody {
     margin: 0 auto; /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
     max-width: 1600px; /* 요소의 최대 너비 설정 */
 }

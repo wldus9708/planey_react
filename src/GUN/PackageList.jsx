@@ -36,12 +36,22 @@ const PackageList = () => {
                 console.log(response.data)
                 setTotalDataCount(allData.length);
 
-                const startIndex = (currentPage - 1) * 10 + 1;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 5 + 1;
+                const endIndex = currentPage * 5;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' + startIndex);
                 console.log('끝페이지:' + endIndex);
                 setData(prevData => [...prevData, ...newData]);
+                if (currentPage === 1) {
+                    setData(newData);
+                } else {
+                    setData(prevData => {
+                        const newDataStartIndex = (currentPage - 1) * 5;
+                        const newDataEndIndex = currentPage * 5;
+                        const newDataSlice = newData.slice(newDataStartIndex, newDataEndIndex);
+                        return [...prevData, ...newDataSlice];
+                    });
+                }
                 setIsLoadingData(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
