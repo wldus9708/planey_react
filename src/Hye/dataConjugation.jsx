@@ -51,6 +51,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
       className="OModal"
     >
       <div className='dmodal'>
+      <button onClick={onRequestClose} className='dd-close'>x</button>
         <h2>설문지</h2>
         <form onSubmit={handleSubmit}>
           <div className='modal-content'>
@@ -124,8 +125,8 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
                   required
                 >
                   <option value="" disabled>Select your preference</option>
-                  <option value="0">국내</option>
-                  <option value="1">해외</option>
+                  <option value="0">서</option>
+                  <option value="1">동</option>
                 </select>
               </label>
             </div>
@@ -133,7 +134,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
           {middle_category && (
             <div className='modal-content'>
               <label>
-                국내/국외:
+                관광지:
                 <select
                   value={minor_category}
                   onChange={(e) => setPreference2(e.target.value)}
@@ -148,10 +149,10 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
               </label>
             </div>
           )}
-          <Dad/>
+          {/*<Dad/>*/}
           <button type="submit" className='dd-button'>Submit</button>
         </form>
-        <button onClick={onRequestClose} className='dd-close'>Close</button>
+       
       </div>
     </Modal>
   );

@@ -18,13 +18,13 @@
   
  
 .dmodal{
-    height: 40vh;
-    width: 30vw;
+    height: 50vh;
+    width: 40vw;
     text-align: center;
     background-color: #fefefe;
     margin: auto;
     position: relative;
-    top: 30%;
+    top: 25%;
 }
 .dmodal-content {
     background-color: rgba(255, 255, 255, 0.5);
@@ -32,15 +32,20 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    height: 10%;
-    font-size: 20px;
+    height: 15%;
+    font-size: 30px;
 }
 
 .dd-close {
-    color: #aaa;
+    color: #000;
     float: right;
-    font-size: 28px;
+    font-size:40px;
     font-weight: bold;
+    border: black 1px;
+    background: rgb(221, 38, 38);
+    cursor: pointer;
+    top:2%;
+    position: relative;
 }
 
 .dd-close:hover,
