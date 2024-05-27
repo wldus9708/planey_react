@@ -251,6 +251,7 @@ position: absolute;
 
 .restList-house:hover {
     background-color: rgba(0, 0, 0, 0.1); /* 연한 배경색으로 흐리게 표시 */
+    border-radius: 10px;
     cursor: pointer; /* 마우스 커서 스타일 변경 */
 }
 
