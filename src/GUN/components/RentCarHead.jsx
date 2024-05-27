@@ -6,13 +6,15 @@ import RentCarPayment from './RentCarPayment';
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import NavBar from "../../CKH/Components/Navbar/Navbar"
+
 
 const RentCarHead = () => {
     const [data, setData] = useState([]);
     const navigator = useNavigate();
     const [cookies] = useCookies('accessToken');
-    let { id } = useParams(); 
-    const [car, setCar] = useState(null); 
+    let { id } = useParams();
+    const [car, setCar] = useState(null);
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [paymentInfo, setPaymentInfo] = useState(null);
@@ -38,6 +40,9 @@ const RentCarHead = () => {
 
     return (
         <div className={styles.LodgingBody}>
+            <div style={{ padding: '1rem', marginRight: '10rem' }}>
+                <NavBar />
+            </div>
             <div className={styles.wrapper}>
                 <div className={styles.container}>
                     <div className={styles.lodgingDiv}>

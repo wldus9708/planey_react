@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
+import NavBar from "../../CKH/Components/Navbar/Navbar"
 
 const RestaurantDetail = () => {
   const navigator = useNavigate();
@@ -80,7 +81,7 @@ const RestaurantDetail = () => {
     const reservationData = {
       memberId: user.id,
       restaurantId: id,
-      relationship:10001,
+      relationship: 10001,
       restResDate: new Date(), // 현재 시간
       restResTime: new Date().toISOString(), // 예약 시간 추가
       restResCapacity: numberOfPeople, // 총 인원
@@ -117,8 +118,11 @@ const RestaurantDetail = () => {
         alert("결제 애플리케이션 로딩 실패.");
       });
   };
-  return (
+  return (            
     <div className={styles.restDetailBody}>
+      <div style={{ padding: '1rem', marginRight: '10rem' }}>
+        <NavBar />
+      </div>
       <div className={styles.restDetailwrapper}>
         <div className={styles.restDetailcontainer}>
           <div className={styles.restDetailDiv}>
