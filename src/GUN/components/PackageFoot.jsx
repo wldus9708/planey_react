@@ -10,11 +10,18 @@ import PaymentStyles from './payment.module.css';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from "react-router-dom";
+
+
 
 
 function PackageFoot() {
-    
-    
+    const { id } = useParams();
+    const [car, setCar] = useState(null); 
+    const [restaurant, setRestaurant] = useState(null);  
+    const [lodging, setLodging] = useState(null); 
+
+
     const [selectedItem, setSelectedItem] = useState(null);
     const [highlightedItem, setHighlightedItem] = useState(null);
 
@@ -29,34 +36,39 @@ function PackageFoot() {
         vehicle: false
     });
 
-    const DataFetchingComponent = () => {
-        const [data, setData] = useState([]);
-        const [loading, setloading] = useState(true);
-        const [error, setError] = useState(null);
 
-        useEffect(() => {
+    useEffect(() => {
+        if (id) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get('http://localhost:8988/restaurant/list')
-                    setData(response.data);
-                    setloading(false);
+                    const packageTourResponse = await axios.get(`http://localhost:8988/PackageTour/detail/${id}`);
+                    const packageTourId = parseInt(id);
+
+                    // 차량 데이터 가져오기
+                    const carResponse = await axios.get(`http://localhost:8988/car/detail/${19999 + packageTourId}`);
+                    setCar(carResponse.data);
+
+                    // 레스토랑 데이터 가져오기
+                    const restaurantResponse = await axios.get(`http://localhost:8988/restaurant/detail/${24999 + packageTourId}`);
+                    setRestaurant(restaurantResponse.data);
+
+                    // 숙소 데이터 가져오기
+                    const lodgingResponse = await axios.get(`http://localhost:8988/lodging/detail/${4999 + packageTourId}`);
+                    setLodging(lodgingResponse.data);
+
+                    console.log(packageTourResponse.data);
                 } catch (error) {
-                    setError(error);
-                    setloading(false);
+                    console.error('데이터를 불러오는 중 에러 발생:', error);
                 }
             };
 
             fetchData();
-        },[]);
+        }
+    }, [id]);
 
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error: {error.message}</p>;
-    }
 
 
     useEffect(() => {
-
-
         const handleScroll = () => {
             const contentElements = contentRef.current.querySelectorAll("li");
             contentElements.forEach(element => {
@@ -143,39 +155,116 @@ function PackageFoot() {
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
                     <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
-                        <p>핵심 내용</p>
+                        <h4>핵심 내용</h4>
                         <p>
                             InnerDescription
                         </p>
                     </li>
                     <hr />
                     <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
-                        <p>관광지 내용</p>
-                        <p>
-                            InnerDescription
-                        </p>
+                        <h4>관광지</h4>
+                        InnerDescription
                     </li>
                     <hr />
                     <li id="hotel" className={highlightedItem === "hotel" ? styles.active : ""}>
-                        <p>숙소 내용</p>
-                        <p>
-                            InnerDescription
-                        </p>
+                        <h4>숙소</h4>
+                        <img
+                            className={styles.PackImage}
+                            src={`/images/${lodging && lodging[`lodImage0${id}`]}`}
+                            alt={`images${id}`}
+                        />
+                         <table className={styles.carTable}>
+                            <tbody>
+                                <tr>
+                                    <th>숙소 이름</th>
+                                    <td>{lodging && lodging.lodName}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 유형</th>
+                                    <td>{lodging && lodging.lodCategory}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 주소</th>
+                                    <td>{lodging && lodging.lodAddress}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 설명</th>
+                                    <td>{lodging && lodging.lodDescription}</td> {/*텍스트 줄변경*/}
+                                </tr>
+                            </tbody>
+                        </table>
                     </li>
                     <hr />
                     <li id="restaurant" className={highlightedItem === "restaurant" ? styles.active : ""}>
-                        <p>식사 내용</p>
-                        <p>
-                            InnerDescription
-                        </p>
+                        <h4>식당</h4>
+                        <img
+                            className={styles.PackImage}
+                            src={`/images/${restaurant && restaurant[`restImage0${id}`]}`}
+                            alt={`images${id}`}
+                        />
+                        <table className={styles.carTable}>
+                            <tbody>
+                                <tr>
+                                    <th>식당 이름</th>
+                                    <td>{restaurant && restaurant.restName}</td>
+                                </tr>
+                                <tr>
+                                    <th>식사 종류</th>
+                                    <td>{restaurant && restaurant.restCategory}</td>
+                                </tr>
+                                <tr>
+                                    <th>수용 인원</th>
+                                    <td>{restaurant && restaurant.restCapacity}명</td>
+                                </tr>
+                                <tr>
+                                    <th>식당 설명</th>
+                                    <td>{restaurant && restaurant.restDescription.split('.').map((line, index) =>  (
+                                        <div key={index}>{line}</div>
+                                    ))}</td> {/*텍스트 줄변경*/}
+                                </tr>
+                            </tbody>
+                        </table>
                     </li>
                     <hr />
                     <li id="vehicle" className={highlightedItem === "vehicle" ? styles.active : ""}>
-                        <p>이동수단 내용</p>
-                        <p>
-                            InnerDescription
-                        </p>
+                        <h4>이동수단</h4>
+                        <img
+                            className={styles.PackImage}
+                            src={`/images/${car && car[`carImage0${id}`]}`}
+                            alt={`images${id}`}
+                        />
+                        <table className={styles.carTable}>
+                            <tbody>
+                                <tr>
+                                    <th>차량 모델</th>
+                                    <td>{car && car.carModel}</td>
+                                </tr>
+                                <tr>
+                                    <th>연료 타입</th>
+                                    <td>{car && car.carFuelType}</td>
+                                </tr>
+                                <tr>
+                                    <th>색상</th>
+                                    <td>{car && car.carColor}</td>
+                                </tr>
+                                <tr>
+                                    <th>수용인원</th>
+                                    <td>{car && car.carCapacity}</td>
+                                </tr>
+                                <tr>
+                                    <th>변속기</th>
+                                    <td>{car && car.carTransmission}</td>
+                                </tr>
+                                <tr>
+                                    <th>차량 설명</th>
+                                    <td>{car && car.carComment.split('.').map((line, index) =>  (
+                                        <div key={index}>{line}</div>
+                                    ))}</td> {/*텍스트 줄변경*/}
+                                </tr>
+                            </tbody>
+                        </table>
                     </li>
+
                     <hr />
                 </ul>
             </div>
@@ -186,3 +275,5 @@ function PackageFoot() {
 }
 
 export default PackageFoot;
+
+

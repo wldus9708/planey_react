@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: left;
     margin-right: 500px;
+    margin-bottom: 50px;
 }
 
 .bodyBanner {
@@ -39,7 +40,7 @@
     border: none;
     border-radius: 10px;
     box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 12%);
-    width: 172px;
+    width: 180px;
     height: 300px;
     top: 0;
     left: 0;
@@ -59,4 +60,37 @@
 
 .notAllowed {
     color: red;
+}
+
+.serviceTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: start;
+}
+
+.serviceTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.serviceTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.serviceTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+.allowed {
+    color: green;
+    font-weight: bold;
+}
+
+.notAllowed {
+    color: red;
+    font-weight: bold;
 }
