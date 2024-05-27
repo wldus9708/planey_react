@@ -216,7 +216,7 @@ const LodgingList = () => {
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
 
                                 return (
-                                    <div className={styles['restList-house']} key={index}>
+                                    <div className={styles['restList-house']} key={index} onClick={() => window.location.href = `/lodgingDetail/${item.id}`}>
                                         <div className={styles['restList-house-img']}>
 
                                             <img src={`/images/${item.lodImage01}`} alt="" width="200px" height="200px" />
