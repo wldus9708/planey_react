@@ -5,6 +5,7 @@ import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-s
 import axios from 'axios';
 import SearchField from '../../YOUNG/searchField/Search_field';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
+import { Link } from 'react-router-dom';
 
 const RestaurantList = () => {
     const fixedMinPrice = 1000;
@@ -43,8 +44,8 @@ const RestaurantList = () => {
                 console.log(response.data)
                 setTotalDataCount(allData.length);
     
-                const startIndex = (currentPage - 1) * 10 + 1;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 5 + 1;
+                const endIndex = currentPage * 5;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' +startIndex);
                 console.log('끝페이지:' +endIndex);
@@ -52,8 +53,14 @@ const RestaurantList = () => {
                 if (currentPage === 1) {
                     setData(newData);
                 } else {
-                    setData(prevData => [...prevData, ...newData]);
+                    setData(prevData => {
+                        const newDataStartIndex = (currentPage - 1) * 5;
+                        const newDataEndIndex = currentPage * 5;
+                        const newDataSlice = newData.slice(newDataStartIndex, newDataEndIndex);
+                        return [...prevData, ...newDataSlice];
+                    });
                 }
+                
                 setIsLoadingData(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -194,7 +201,9 @@ const RestaurantList = () => {
                                 </div>
                                 <div className={styles['restList-house-info']}>
                                     <p>{item.restCategory}</p>
-                                    <h3>{item.restName}</h3>
+                                    <h3 className={styles.restListLink}>
+                                            <Link to={`/restaurantDetail/${item.id}`}>{item.restName}</Link>
+                                        </h3>
                                     <p>{item.restAddress}</p>
                                     <FontAwesomeIcon icon={faStar} className={styles['restList-star-icon']} />
                                     {item.restGrade}
