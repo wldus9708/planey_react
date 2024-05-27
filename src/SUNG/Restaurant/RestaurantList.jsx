@@ -118,6 +118,7 @@ const RestaurantList = () => {
         const allChecked = Object.values(newCheckboxStates).slice(1).every(value => value);
         newCheckboxStates.all = allChecked;
         setCheckboxStates(newCheckboxStates);
+        console.log(newCheckboxStates);
     };
 
     const prcieRangeMinValueHandler = e => {

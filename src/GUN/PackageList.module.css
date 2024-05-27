@@ -241,7 +241,7 @@ position: absolute;
     height:50px;
   }
   .packList-filter input[type="checkbox"]:checked {
-    background-color: #007bff;
+    accent-color: #ED6D35;
 }
 .packList-house {
     position: relative;
