@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './advertisementComponent.scss'; // 스타일링 파일
+import './mcAdvertisementComponent.scss'; // 스타일링 파일
 import { useCookies } from 'react-cookie';
 
-const UserInfoDisplay = () => {
+const TestComponent = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [cookies] = useCookies(['accessToken']);
     const [chackdata, setChackData]=useState(null);
+    const [combinedData, setCombinedData] = useState('');
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
@@ -86,24 +87,75 @@ const UserInfoDisplay = () => {
     };
     sendModifiedUserInfoToSpring();
     },[userInfo]);
-
+    useEffect(() => {
+        if (chackdata) {
+            const combined = `${chackdata.major_category}${chackdata.middle_category}${chackdata.minor_category}`;
+            setCombinedData(combined);
+            console.log(combinedData);
+        }
+    }, [chackdata]);
+    const getPlaceName = (combinedData) => {
+        switch (combinedData) {
+            case '000':
+                return '강릉';
+            case '001':
+                return '경주';
+            case '002':
+                return '제주시';
+            case '003':
+                return '독도';
+            case '004':
+                return '명동';
+            case '010':
+                return '부산';
+            case '011':
+                return '여수';
+            case '012':
+                return '인천';
+            case '013':
+                return '전주';
+            case '014':
+                return '인도';
+            case '100':
+                return '네덜란드';
+            case '101':
+                return '뉴질랜드';
+            case '102':
+                return '발리';
+            case '103':
+                return '베니스';
+            case '104':
+                return '보라카이';
+            case '110':
+                return '산토리니';
+            case '111':
+                return '스위스';
+            case '112':
+                return '아프가니스탄';
+            case '113':
+                return '이집트';
+            case '114':
+                return '이탈리아';
+            default:
+                return '';
+        }
+    };
     return (
         <div>
-            {randomAd ? (
-                <div className="advertisement-item">
-                    <div className="advertisement-content">
-                        <p>인공지능 추천서비스입니다.</p>
-                        <p>{userInfo.birth}살인</p>
-                        <p>{getGender(userInfo.birth)}가</p>
-                        <p>{getCurrentMonth()}달에 가장 많이 가는곳입니다.</p>
+            {userInfo ? (
+                <div className="mcadvertisement-item">
+                    <div className="mcadvertisement-content">
+                        <h1>인공지능 추천서비스입니다.</h1>
+                        <p className='mcadverisermnet-text'>{calculateAge(userInfo.birth)}세인 {getGender(userInfo.birth)}가</p>
+                        <p className='mcadverisermnet-text'>{getCurrentMonth()}달에 가장 많이 가는곳은</p>
+                        <p className='mcadverisermnet-text'>{getPlaceName(combinedData)}입니다.</p>
                     </div>
-                    <div className="advertisement-image">
-                        <img className="advertisement-img" src={require(`./component/${randomAd.image}`)} alt={randomAd.title} />
+                    <div className="mcadvertisement-image">
+                        <img className="mcadvertisement-img"   src={combinedData ? require(`./component/${combinedData}.jpg`) : require('./component/제주01.jpg')}
+    alt={combinedData ? getPlaceName(combinedData) : 'Default Image'} />
                     </div>
                 </div>
-            ) : dataset.length > 0 ? (
-                <p>No ACTIVE advertisements found</p>
-            ) : (
+            )  : (
                 <p>Loading...</p>
             )}
         </div>
