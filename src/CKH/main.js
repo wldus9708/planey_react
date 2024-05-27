@@ -6,24 +6,25 @@ import Popular from "./Components/Popular/Popular";
 import Offers from "./Components/Offers/Offers";
 import About from "./Components/About/About";
 import Blog from "./Components/Blog/Blog";
-import Banner from "./Components/banner/About"
+// import Banner from "./Components/banner/About"
 import Card from "./Components/Card/Card"
 import Advertise from "../Hye/advertisement";
-import Home from "./Components/Home/CarouselPage";
+// import Home from "./Components/Home/CarouselPage";
 import AirCard from "./Components/AirCard/Card"
 import HotelCard from "./Components/hotelCard/Card"
 import PakCard from "./Components/PakCard/Card"
 // import Sliders from "./Components/slider/Slider"
-// import Hero from "./Components/Hero/Data"
+import Hero from "./Components/Hero/Hero"
 
 
 const App = () => {
   return (
     <>
       <Navbar /> 
-      <Home />
+      <Hero />
+      {/* <Home /> */}
       <Card/>
-      <Banner />
+      {/* <Banner /> */}
       <Popular />
       <Advertise/>
       <Offers />
@@ -34,7 +35,6 @@ const App = () => {
       <Advertise/>
       <Blog />
       <Footer />
-      {/* <Hero /> */}
       {/* <Sliders/> */}
     </>
   );
