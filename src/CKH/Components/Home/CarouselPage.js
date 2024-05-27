@@ -1,9 +1,9 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
-import img1 from "./image/airport.jpg";
-import img2 from "./image/hotel.jpg";
-import img3 from "./image/car.jpg";
-import img4 from "./image/tour.jpg";
+import img1 from "../../../BBS/image/보라카이02.jpg";
+import img2 from "../../../BBS/image/보라카이02.jpg";
+import img3 from "../../../BBS/image/보라카이02.jpg";
+import img4 from "../../../BBS/image/보라카이02.jpg";
 import "./CarouselPage.css";
 import Button from "react-bootstrap/Button";
 
@@ -13,7 +13,7 @@ function CarouselPage() {
       <Carousel>
         <Carousel.Item>
           <img
-            style={{ height: "90vh" }}
+            style={{ height: "100vh" }}
             className="d-block w-100"
             src={img1}
             alt="First slide"
@@ -28,7 +28,7 @@ function CarouselPage() {
         </Carousel.Item>
         <Carousel.Item>
           <img
-            style={{ height: "90vh" }}
+            style={{ height: "100vh" }}
             className="d-block w-100"
             src={img2}
             alt="Second slide"
@@ -44,7 +44,7 @@ function CarouselPage() {
         </Carousel.Item>
         <Carousel.Item>
           <img
-            style={{ height: "90vh" }}
+            style={{ height: "100vh" }}
             className="d-block w-100"
             src={img3}
             alt="Third slide"
@@ -60,7 +60,7 @@ function CarouselPage() {
         </Carousel.Item>
         <Carousel.Item>
           <img
-            style={{ height: "90vh" }}
+            style={{ height: "100vh" }}
             className="d-block w-100"
             src={img4}
             alt="Third slide"

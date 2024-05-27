@@ -1,0 +1,7 @@
+.Back {
+  background-image: url('../../../BBS/image/산토리니01.jpg');
+  background-size: cover;
+  height: 90vh;
+  background-position: center;
+  position: relative;
+}
