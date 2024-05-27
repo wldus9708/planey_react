@@ -10,8 +10,11 @@ import Agreement from "../../YOUNG/member/Agreement";
 import FindId from "../../YOUNG/member/findId"
 import { Button, Modal } from 'react-bootstrap';
 import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "./OAUTH";
+import { logUserAction } from "../../BBS/Log/LogService"; // logUserAction 함수 임포트
+import useUser from "../../BBS/Log/useUser"; // useUser 훅 임포트
 
 const SignUpForm = () => {
+    const user = useUser(); // 사용자 정보 가져오기
 
     const member_url = "http://localhost:8988/member/";
 
@@ -166,31 +169,78 @@ const SignUpForm = () => {
         console.log(formData);
     }
 
-    const handleSignUpClick = (event) => {
+    const handleSignUpClick = async (event) => {
         event.preventDefault();
 
-        axios
-            .post(member_url + "insert", formData)
-            .then((response) => {
-                alert(response.data.message);
-                window.location.href = '/login';
-            })
-            .catch((error) => {
-                console.log("에러 발생", error)
-                alert(error.response.data.message);
-            });
-    }
+        try {
+            const response = await axios.post(member_url + "insert", formData);
+            alert(response.data.message);
+            
+            // 회원가입 성공 후 로그 기록
+            const timestamp = new Date().toISOString();
+            const logData = {
+                memberId: response.data.memberId || user?.id, // 서버에서 반환된 사용자 ID 사용
+                username: response.data.username || user?.name, // 서버에서 반환된 사용자 이름 사용
+                action: 'SIGNUP',
+                timestamp: timestamp,
+                ipAddress: '', // IP 주소는 서버에서 설정
+                userAgent: navigator.userAgent,
+                details: `${response.data.username || user?.name} 님이 ${timestamp}에 'SIGNUP'를 성공하셨습니다.`,
+            };
 
-    //                        로그인 화면 관련 로직                         //
+            await logUserAction(logData, response.data.accessToken);
+
+            window.location.href = '/login';
+        } catch (error) {
+            console.log("에러 발생", error);
+            alert(error.response.data.message);
+        }
+    };
+
+    const handleLogInClick = async (event) => {
+        event.preventDefault();
+        setUserLoginInfo({
+            email: event.target.email.value,
+            password: event.target.password.value
+        });
+
+        try {
+            const response = await axios.post(member_url + "login", {
+                email: userLoginInfo.email,
+                password: userLoginInfo.password
+            });
+
+            setCookie("accessToken", response.data.accessToken);
+            console.log(useCookies);
+
+            // 로그인 성공 후 로그 기록
+            const timestamp = new Date().toISOString();
+            const logData = {
+                memberId: response.data.memberId || user?.id, // 서버에서 반환된 사용자 ID 사용
+                username: response.data.username || user?.name, // 서버에서 반환된 사용자 이름 사용
+                action: 'LOGIN',
+                timestamp: timestamp,
+                ipAddress: '', // IP 주소는 서버에서 설정
+                userAgent: navigator.userAgent,
+                details: `${response.data.username || user?.name} 님이 ${timestamp}에 'LOGIN'를 성공하셨습니다.`,
+            };
+
+            await logUserAction(logData, response.data.accessToken);
+
+            navigator('/');
+        } catch (error) {
+            console.log("로그인중 axios error 발생");
+            console.log(error);
+            setLoginFailed(true);
+        }
+    };
+
     const [userLoginInfo, setUserLoginInfo] = useState({
         email: "",
         password: ""
     });
 
-    //          state : 로그인 에러 메시지              //
     const [loginFailed, setLoginFailed] = useState(false);
-
-    //          state, function : 비밀번호 보기, 안보기 아이콘 클릭           //
     const [pwVisible, setPwVisible] = useState(false);
     const [pwIcon, setPwIcon] = useState("FaEyeSlash");
 
@@ -199,73 +249,34 @@ const SignUpForm = () => {
         setPwVisible(!pwVisible);
     };
 
-    //          state,function : 로그인 폼 <---> 회원가입 폼         //
     const [action, setAction] = useState("");
-
-
-
-
     const registerLink = () => {
-
-        setModalShow(true); // 김윤영 회원가입 버튼 클릭 시 모달 표시
-        console.log("setModalShow called"); //김윤영 함수 호출 확인
+        setModalShow(true);
         setAction(" active");
-
     };
 
-    // 김윤영
-    const [modalShow, setModalShow] = useState(false); // 모달 표시 여부
+    const [modalShow, setModalShow] = useState(false);
 
     const handleModalAgree = () => {
-        setModalShow(false); // 모달 닫기
+        setModalShow(false);
     };
 
     const handleModalOpen = () => {
-        setModalShow(true); // 모달 닫기
+        setModalShow(true);
     }
 
     const handleModalClose = () => {
-        setModalShow(false); // 모달 닫기
+        setModalShow(false);
     }
-    // 끝
-
-
 
     const loginLink = () => {
         setAction("");
     };
-    //                          쿠키 상태                          //
-    const [cookies, setCookie] = useCookies([]);
 
-    //          네비게이터          //
+    const [cookies, setCookie] = useCookies([]);
     const navigator = useNavigate();
 
-
-
-    //                      로그인 버튼 클릭                    //
-    const handleLogInClick = (event) => {
-        event.preventDefault();
-        setUserLoginInfo({
-            email: event.target.email.value,
-            password: event.target.password.value
-        })
-
-        axios.post(member_url + "login", {
-            email: userLoginInfo.email,
-            password: userLoginInfo.password
-        })
-            .then((response) => {
-                setCookie("accessToken", response.data.accessToken);
-                navigator('/');
-            })
-            .catch((error) => {
-                console.log("로그인중 axios error 발생");
-                console.log(error);
-                setLoginFailed(true);
-            });
-    }
-
-    const [showModal, setShowModal] = useState(false); // 모달 상태 관리
+    const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = () => {
         setShowModal(true); // 모달 열기
@@ -335,7 +346,6 @@ const SignUpForm = () => {
                                     backdrop="static" // 모달 외부 클릭 시 닫히지 않도록 설정
                                     keyboard={false} // ESC 키 등 키보드 입력으로 닫히지 않도록 설정
                                 >
-
                                     <Modal.Header closeButton>
                                         <Modal.Title>회원정보 찾기</Modal.Title>
                                     </Modal.Header>
@@ -357,7 +367,6 @@ const SignUpForm = () => {
                                     <span>비밀번호 찾기</span>
                                 </Link>
                             </div>
-
 
                             <div className={styles["register-link"]}>
                                 <p onClick={registerLink}>계정이 없으신가요?</p>
