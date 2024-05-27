@@ -38,8 +38,8 @@ const RentCarList = () => {
                 console.log(allData)
                 setTotalDataCount(allData.length);
 
-                const startIndex = (currentPage - 1) * 10 + 1;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 5 + 1;
+                const endIndex = currentPage * 5;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' + startIndex);
                 console.log('끝페이지:' + endIndex);
@@ -47,7 +47,12 @@ const RentCarList = () => {
                 if (currentPage === 1) {
                     setData(newData);
                 } else {
-                    setData(prevData => [...prevData, ...newData]);
+                    setData(prevData => {
+                        const newDataStartIndex = (currentPage - 1) * 5;
+                        const newDataEndIndex = currentPage * 5;
+                        const newDataSlice = newData.slice(newDataStartIndex, newDataEndIndex);
+                        return [...prevData, ...newDataSlice];
+                    });
                 }
                 setIsLoadingData(false);
             } catch (error) {
@@ -210,7 +215,7 @@ const RentCarList = () => {
                                 return (
                                     <div className={styles['rentList-house']} key={index} onClick={() => window.location.href = `/RentCarTest/${item.id}`}>
                                         <div className={styles['rentList-house-img']}>
-                                            <img src={`/images/${item.car01}`} alt="carimage" width="200px" height="200px" />
+                                            <img src={`/images/${item.carImage01}`} alt="carimage" width="200px" height="200px" />
                                         </div>
                                         <div className={styles['rentList-house-info']}>
                                             차종 : <h3>{item.carModel}</h3>
