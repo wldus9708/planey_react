@@ -208,7 +208,7 @@ const RentCarList = () => {
                                 console.log(item);
 
                                 return (
-                                    <div className={styles['rentList-house']} key={index}>
+                                    <div className={styles['rentList-house']} key={index} onClick={() => window.location.href = `/RentCarTest/${item.id}`}>
                                         <div className={styles['rentList-house-img']}>
                                             <img src={`/images/${item.car01}`} alt="carimage" width="200px" height="200px" />
                                         </div>

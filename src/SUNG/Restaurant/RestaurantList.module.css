@@ -243,14 +243,34 @@ position: absolute;
   .restList-filter input[type="checkbox"]:checked {
     background-color: #007bff;
 }
-.restListLink a {
-    color: inherit; /* 부모 요소의 색상을 상속 */
-    text-decoration: none; /* 밑줄 제거 */
+.restList-house {
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
-.restListLink a:hover {
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
+.restList-house:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 연한 배경색으로 흐리게 표시 */
+    cursor: pointer; /* 마우스 커서 스타일 변경 */
 }
+
+.restList-house:hover h3 {
+    color: #333; /* 선택된 링크의 텍스트 색상 변경 */
+}
+
+.restList-house:hover img {
+    filter: brightness(70%); /* 이미지의 밝기 조절 */
+}
+
+.restList-house {
+    transition: transform 0.3s ease; /* 변화가 발생할 때 0.3초 동안 부드럽게 이동 */
+}
+
+.restList-house:hover {
+    transform: translateY(-5px); /* 이미지와 텍스트를 위로 10px 이동 */
+}
+
+
 
 
 
