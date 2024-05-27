@@ -20,8 +20,7 @@ const GoogleLoginRedirect = () => {
                 alert(response.data.message);
                 navigate('/login');
             } else if (response.data.code === "LoginSU") {
-                setCookie("accessToken", response.data.accessToken);
-                setCookie("refreshToken", response.data.refreshToken);
+                setCookie("accessToken", response.data.accessToken, { path: '/' });
                 navigate('/');
             }
             
