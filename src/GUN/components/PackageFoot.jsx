@@ -20,6 +20,7 @@ function PackageFoot() {
     const [car, setCar] = useState(null); 
     const [restaurant, setRestaurant] = useState(null);  
     const [lodging, setLodging] = useState(null); 
+    const [attraction, setAttraction] = useState(null); 
 
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -55,6 +56,10 @@ function PackageFoot() {
                     // 숙소 데이터 가져오기
                     const lodgingResponse = await axios.get(`http://localhost:8988/lodging/detail/${4999 + packageTourId}`);
                     setLodging(lodgingResponse.data);
+                    
+                    // 명소 데이터 가져오기
+                    const attractionResponse = await axios.get(`http://localhost:8988/attraction/${999 + packageTourId}`);
+                    setAttraction(attractionResponse.data);
 
                     console.log(packageTourResponse.data);
                 } catch (error) {
@@ -163,14 +168,34 @@ function PackageFoot() {
                     <hr />
                     <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
                         <h4>관광지</h4>
-                        InnerDescription
+                        <img
+                            className={styles.PackImage}
+                            src={`/images/${attraction && attraction[`attImage01`]}`}
+                            alt={`images${id}`}
+                        />
+                        <table className={styles.carTable}>
+                            <tbody>
+                                <tr>
+                                    <th>명소 이름</th>
+                                    <td>{attraction && attraction.attName}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 주소</th>
+                                    <td>{attraction && attraction.attAddress}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 설명</th>
+                                    <td>{attraction && attraction.attDescription}</td> {/*텍스트 줄변경*/}
+                                </tr>
+                            </tbody>
+                        </table>
                     </li>
                     <hr />
                     <li id="hotel" className={highlightedItem === "hotel" ? styles.active : ""}>
                         <h4>숙소</h4>
                         <img
                             className={styles.PackImage}
-                            src={`/images/${lodging && lodging[`lodImage0${id}`]}`}
+                            src={`/images/${lodging && lodging[`lodImage01`]}`}
                             alt={`images${id}`}
                         />
                          <table className={styles.carTable}>
@@ -199,7 +224,7 @@ function PackageFoot() {
                         <h4>식당</h4>
                         <img
                             className={styles.PackImage}
-                            src={`/images/${restaurant && restaurant[`restImage0${id}`]}`}
+                            src={`/images/${restaurant && restaurant[`restImage01`]}`}
                             alt={`images${id}`}
                         />
                         <table className={styles.carTable}>
@@ -230,7 +255,7 @@ function PackageFoot() {
                         <h4>이동수단</h4>
                         <img
                             className={styles.PackImage}
-                            src={`/images/${car && car[`carImage0${id}`]}`}
+                            src={`/images/${car && car[`carImage01`]}`}
                             alt={`images${id}`}
                         />
                         <table className={styles.carTable}>
