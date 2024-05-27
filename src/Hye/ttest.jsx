@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import * as tf from '@tensorflow/tfjs';
+
 const UserInfoDisplay = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [cookies] = useCookies(['accessToken']);
@@ -11,68 +11,32 @@ const UserInfoDisplay = () => {
             try {
                 const response = await axios.get('http://localhost:8988/member/detailPage', {
                     headers: {
-                        Authorization: cookies.accessToken // 요청에 토큰 추가
+                        Authorization: cookies.accessToken, // 요청에 토큰 추가
+                        'Content-Type': 'application/json',
                     }
                 });
-                console.log('User Info:', response.data);
-                setUserInfo(response.data);
-                const firstModel = await tf.loadLayersModel('/component/major_model_params.json');
-                console.log('aa');
-                // 두 번째 모델 로드
-                const secondModel = await tf.loadLayersModel('/component/middle_model_params.json');
+                
+                const result = response.data;
+                console.log('User Info:', result);
+                setUserInfo(result);
 
-                // 세 번째 모델 로드
-                const thirdModel = await tf.loadLayersModel('/component/minor_model_params.json');
-
-                // 입력 데이터 생성 (첫 번째 모델에 입력될 데이터)
-                const inputData1 = tf.tensor2d([
-                    [getGender(userInfo.birth),calculateAge(userInfo.birth) ,getCurrentMonth()] // userInfo에서 나이와 월을 가져와서 사용
-                ]);
-
-                // 첫 번째 모델에 입력 데이터 제공하여 예측 수행
-                const outputData1 = firstModel.predict(inputData1);
-
-                // 두 번째 모델에 입력 데이터 생성 (첫 번째 모델의 출력값을 사용)
-                const inputData2 = tf.tensor2d(
-                    [getGender(userInfo.birth),calculateAge(userInfo.birth) ,getCurrentMonth(),
-                    outputData1.dataSync() // 첫 번째 모델의 출력값을 사용
-                ]);
-
-                // 두 번째 모델에 입력 데이터 제공하여 예측 수행
-                const outputData2 = secondModel.predict(inputData2);
-
-                // 세 번째 모델에 입력 데이터 생성 (두 번째 모델의 출력값을 사용)
-                const inputData3 = tf.tensor2d([
-                    getGender(userInfo.birth),calculateAge(userInfo.birth) ,getCurrentMonth(),
-                    outputData1.dataSync(),outputData2.dataSync() // 두 번째 모델의 출력값을 사용
-                ]);
-
-                // 세 번째 모델에 입력 데이터 제공하여 예측 수행
-                const outputData3 = thirdModel.predict(inputData3);
-
-                // 출력 데이터 확인
-                console.log('Third Model Output:', outputData3.dataSync());
-
-                // 모델 사용 후 메모리 해제
-                inputData1.dispose();
-                inputData2.dispose();
-                inputData3.dispose();
-                outputData1.dispose();
-                outputData2.dispose();
-                outputData3.dispose();
             } catch (error) {
                 console.error('Error fetching user info:', error);
             }
         };
 
         fetchUserInfo();
-    }, []);
-
+    }, [cookies.accessToken]);
+    const getGender = (birth) => {
+        const genderCode = parseInt(birth.charAt(6));
+        return genderCode === 1 || genderCode === 3 ? '남자' : '여자';
+    };
     // 나이를 계산하는 함수
     const calculateAge = (birth) => {
         const currentYear = new Date().getFullYear();
-       let birthYear = parseInt(birth.substring(0, 2), 10);
-        if (birthYear < 40) {
+        const gender = parseInt(birth.substring(6,7));
+        let birthYear = parseInt(birth.substring(0, 2));
+        if (gender>2) {
             birthYear += 2000;
         } else {
             birthYear += 1900;
@@ -81,15 +45,46 @@ const UserInfoDisplay = () => {
     };
 
     // 성별을 반환하는 함수
-    const getGender = (birth) => {
-        const genderCode = parseInt(birth.charAt(6), 10);
-        return genderCode === 1 || genderCode === 3 ? '남자' : '여자';
-    };
+    
 
     // 현재 달을 반환하는 함수
     const getCurrentMonth = () => {
         return new Date().getMonth() + 1;
     };
+  // 수정된 사용자 정보와 함께 성별, 나이, 현재 월 값을 스프링으로 보내는 함수
+    useEffect(()=>{
+        const sendModifiedUserInfoToSpring = async () => {
+            console.log('aa');
+            if (!userInfo) return;
+            try {
+            // 성별, 나이, 현재 월 값 계산
+            const gender = parseInt(userInfo.birth.substring(6,7));;
+            const age = calculateAge(userInfo.birth);
+            const month = getCurrentMonth();
+
+        // 수정된 사용자 정보와 함께 데이터를 맵 형식으로 생성
+        const dataToSend = {
+            gender: gender,
+            age: age,
+            month: month
+        };
+        console.log(dataToSend);
+            // 스프링으로 데이터 전송
+            const response = await axios.post('http://localhost:8988/admin/send-data', dataToSend, {
+                headers: {
+                    Authorization:`Bearer ${cookies.accessToken}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            console.log('Modified user info and additional data sent to Spring:', response.data);
+
+        } catch (error) {
+            console.error('Error sending modified user info and additional data to Spring:', error);
+        }
+    };
+    sendModifiedUserInfoToSpring();
+    },[userInfo]);
 
     return (
         <div>
