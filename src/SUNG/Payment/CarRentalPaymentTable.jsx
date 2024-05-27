@@ -136,7 +136,7 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                             data.map((dataItem, index) => (
                                 <tr key={index}>
                                     <td className={styles[`column-0`]}>
-                                        <Link to={`/product/${dataItem.carId}`}>{dataItem.carModel}</Link>
+                                        <Link to={`/RentCarTest/${dataItem.carId}`}>{dataItem.carModel}</Link>
                                     </td>
                                     <td className={styles[`column-1`]}><span>{dataItem.rentalStartDate}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.rentalEndDate}</span></td>
