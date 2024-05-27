@@ -191,7 +191,7 @@ const PackageList = () => {
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
                                 console.log(item);
                                 return (
-                                    <div className={styles['packList-house']} key={index}>
+                                    <div className={styles['packList-house']} key={index} onClick={() => window.location.href = `/PackageDetail/${item.id}`}>
                                         <div className={styles['packList-house-img']}>
                                             <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
                                         </div>
