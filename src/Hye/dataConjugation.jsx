@@ -4,7 +4,6 @@ import axios from 'axios';
 import './conjugation.scss';
 import Dad from'./ttest';
 Modal.setAppElement('#root');
-
 const SurveyModal = ({ isOpen, onRequestClose }) => {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
@@ -37,27 +36,26 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
       const response = await axios.post('http://localhost:8988/admin/aa', formData);
       console.log('Response from server:', response.data);
       // 요청이 성공하면 모달 닫기
-      onRequestClose();
+      
+      onRequestClose();      
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
 
   return (
-    <Modal
+    /*<Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Survey Modal"
       className="OModal"
-    >
+    >*/
       <div className='dmodal'>
-      <button onClick={onRequestClose} className='dd-close'>x</button>
         <h2>설문지</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='surveyForm'>
           <div className='modal-content'>
-            <label>
+          <div className="form-group">
               성별:
-              <div>
                 <label>
                   <input
                     type="radio"
@@ -78,13 +76,13 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
                   />
                   여성
                 </label>
-              </div>
-            </label>
+            </div>
           </div>
           <div className='modal-content'>
             <label>
               나이:
               <input
+                className="form-control"
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
@@ -98,6 +96,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
             <label>
               국내/국외:
               <select
+              className="form-control"
                 value={major_category}
                 onChange={(e) => {
                   setPreference0(e.target.value);
@@ -117,6 +116,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
               <label>
                 국내/국외:
                 <select
+                className="form-control"
                   value={middle_category}
                   onChange={(e) => {
                     setPreference1(e.target.value);
@@ -136,6 +136,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
               <label>
                 관광지:
                 <select
+                className="form-control"
                   value={minor_category}
                   onChange={(e) => setPreference2(e.target.value)}
                   required
@@ -150,11 +151,11 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
             </div>
           )}
           {/*<Dad/>*/}
-          <button type="submit" className='dd-button'>Submit</button>
+          <button variant="primary"type="submit" className='dd-button'>Submit</button>
         </form>
        
       </div>
-    </Modal>
+   /* </Modal>*/
   );
 };
 

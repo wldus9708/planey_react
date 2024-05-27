@@ -1,0 +1,38 @@
+.mcadvertisement-item {
+    position: relative;
+    width: 80vw;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(127, 251, 255);
+    margin: 0 auto;
+    border-radius: 50px;
+
+}
+
+.mcadvertisement-content {
+    top: 0;
+    left: 0;
+    width: 50vw;
+    height:30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //background-color: rgba(0, 0, 0, 0.1); /* 텍스트 색상 설정 */
+     /* 텍스트가 이미지 위에 오도록 설정 */
+}
+
+.mcadvertisement-image {
+    position: relative;
+    right: 20%;
+    /* 이미지가 텍스트 위에 오도록 설정 */
+}
+.mcadvertisement-img {
+    width: 20vw;
+    height: 30vh;
+    margin: auto;
+}
+.mcadverisermnet-text{
+    font-size: 30px;
+}

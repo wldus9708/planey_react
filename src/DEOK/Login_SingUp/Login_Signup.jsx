@@ -12,6 +12,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "./OAUTH";
 import { logUserAction } from "../../BBS/Log/LogService"; // logUserAction 함수 임포트
 import useUser from "../../BBS/Log/useUser"; // useUser 훅 임포트
+import Survey from"../../Hye/dataConjugation";
 
 const SignUpForm = () => {
     const user = useUser(); // 사용자 정보 가져오기
@@ -41,6 +42,7 @@ const SignUpForm = () => {
     });
     const [showErrMsg, setShowErrMsg] = useState(false);
     const [birth, setBirth]=useState('');
+    const [showTestComponent, setShowTestComponent] = useState(false);
     function validateBirth(birth) {
         console.log(birth);
         if (!/^\d{6}-[1-4][\d*]{6}$/.test(birth)) {
@@ -60,7 +62,7 @@ const SignUpForm = () => {
         }
     
         // 올바른 날짜 범위 확인
-        if (year < 0) {
+        if (year < 1900) {
             return false; // 최소 1940년 이상이어야 함
         }
         if (month < 1 || month > 12) {
@@ -81,7 +83,6 @@ const SignUpForm = () => {
 
         return true; // 모든 조건을 만족하면 유효
     }
-
     function validCheck(event) {
         const { name, value } = event.target;
         // eslint-disable-next-line default-case
@@ -190,13 +191,16 @@ const SignUpForm = () => {
 
             await logUserAction(logData, response.data.accessToken);
 
-            window.location.href = '/login';
+            setShowTestComponent(true); 
         } catch (error) {
             console.log("에러 발생", error);
             alert(error.response.data.message);
         }
     };
-
+    const handleCloseTestComponent = () => {
+        setShowTestComponent(false);
+        window.location.href = '/login'; // 모달을 닫을 때 로그인 페이지로 이동
+    }
     const handleLogInClick = async (event) => {
         event.preventDefault();
         setUserLoginInfo({
@@ -291,6 +295,19 @@ const SignUpForm = () => {
     return (
         <div className={styles.body}>
             <div className={`${styles.wrapper} ${action && styles.active}`}>
+            <Modal show={showTestComponent} onHide={handleCloseTestComponent} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>회원가입 완료</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleCloseTestComponent}>
+                        닫기
+                    </Button>
+                </Modal.Footer>
+            </Modal>
                 <div className={`${styles["form-box"]} ${styles.login}`}>
                     <form onSubmit={handleLogInClick}>
                         <h1>
@@ -509,6 +526,11 @@ const SignUpForm = () => {
                     </form>
                 </div>
             </div>
+            <Agreement
+                show={modalShow}
+                onHide={handleModalClose}
+                onAgree={handleModalAgree}
+            />
         </div>
     );
 };
