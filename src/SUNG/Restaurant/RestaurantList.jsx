@@ -268,7 +268,6 @@ const RestaurantList = () => {
                                 <input
                                     type="text"
                                     value={searchQuery}
-                                    placeholder="검색어를 입력하세요"
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
