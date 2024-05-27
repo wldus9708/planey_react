@@ -256,7 +256,6 @@ const SignUpForm = () => {
         })
             .then((response) => {
                 setCookie("accessToken", response.data.accessToken);
-                setCookie("refreshToken", response.data.refreshToken);
                 navigator('/');
             })
             .catch((error) => {
