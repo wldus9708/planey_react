@@ -28,6 +28,7 @@ const PackageList = () => {
     const [searchQuery, setSearchQuery] = useState("");
     // useState 훅을 사용하여 국내 여행 여부를 나타내는 상태 값을 추가합니다.
     const [showAdvertise, setShowAdvertise] = useState(true);
+    const [count, setCount] = useState(1); // 인원수 상태 추가
 
     useEffect(() => {
         const fetchData = async () => {
@@ -176,6 +177,10 @@ const PackageList = () => {
         console.log(query);
         setSecondSearchQuery(query);
     };
+    const handleCountChange = (count) => {
+        setCount(count); // 인원수 상태 업데이트
+    };
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -191,7 +196,7 @@ const PackageList = () => {
             <div className={styles.NavBar} style={{padding: '1rem'}}>
                 <NavBar />
             </div>
-            <SearchField onSearch={handleSearch} />
+            <SearchField onSearch={handleSearch} onCountChange={handleCountChange} />
             {/**/}
             {showAdvertise && <McAdvertise />}
             <div className={styles.packageListBody}>

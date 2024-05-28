@@ -27,6 +27,7 @@ const LodgingList = () => {
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
+    const [count, setCount] = useState(1); // 인원수 상태 추가
 
 
     useEffect(() => {
@@ -187,6 +188,10 @@ const LodgingList = () => {
 
         setSecondSearchQuery(query);
     };
+    const handleCountChange = (count) => {
+        setCount(count); // 인원수 상태 업데이트
+    };
+
 
 
 
@@ -200,7 +205,7 @@ const LodgingList = () => {
             </div>
             <div className={styles.restaurantListBody}>
          
-                <SearchField onSearch={handleSearch} />
+                <SearchField onSearch={handleSearch} onCountChange={handleCountChange} />
                 <div className={styles['restList-container']}>
                     <div className={styles['restList-left-col']}>
                         <p>{data.length} + options</p>
