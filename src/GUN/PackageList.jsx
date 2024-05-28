@@ -29,6 +29,8 @@ const PackageList = () => {
     // useState 훅을 사용하여 국내 여행 여부를 나타내는 상태 값을 추가합니다.
     const [showAdvertise, setShowAdvertise] = useState(true);
     const [count, setCount] = useState(1); // 인원수 상태 추가
+    const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
+    const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
 
     useEffect(() => {
         const fetchData = async () => {
@@ -180,6 +182,10 @@ const PackageList = () => {
     const handleCountChange = (count) => {
         setCount(count); // 인원수 상태 업데이트
     };
+    const handleDateChange = (date) => {
+        setStartDate(date.startDate);
+        setEndDate(date.endDate);
+    };
 
 
     useEffect(() => {
@@ -196,7 +202,7 @@ const PackageList = () => {
             <div className={styles.NavBar} style={{padding: '1rem'}}>
                 <NavBar />
             </div>
-            <SearchField onSearch={handleSearch} onCountChange={handleCountChange} />
+            <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
             {/**/}
             {showAdvertise && <McAdvertise />}
             <div className={styles.packageListBody}>
