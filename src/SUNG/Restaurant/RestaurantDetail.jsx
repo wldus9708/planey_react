@@ -10,7 +10,7 @@ import NavBar from "../../CKH/Components/Navbar/Navbar"
 
 const RestaurantDetail = () => {
   const navigator = useNavigate();
-  const [cookies] = useCookies('accessToken');
+  const [cookies] = useCookies(['accessToken']);
   const [user, setUser] = useState(null);
   let { id } = useParams(); // URL에서 레스토랑 ID 가져오기
   const [restaurant, setRestaurant] = useState(null); // 레스토랑 정보
@@ -118,7 +118,23 @@ const RestaurantDetail = () => {
         alert("결제 애플리케이션 로딩 실패.");
       });
   };
-  return (            
+
+  const addToCart = async () => {
+    await axios.post(`http://localhost:8988/cart/insert?productId=${id}`, { count: numberOfPeople }, {
+      headers: {
+        Authorization: cookies.accessToken
+      }
+    })
+      .then((response) => {
+        console.log(response);
+        alert(response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
+
+  return (
     <div className={styles.restDetailBody}>
       <div style={{ padding: '1rem', marginRight: '10rem' }}>
         <NavBar />
@@ -129,7 +145,7 @@ const RestaurantDetail = () => {
             <div className={styles.restDetailDivLeft}>
               <div className={styles.restDetailimgContainer}>
                 <img
-                src={`/images/${restaurant && restaurant[`restImage0${activeImageIndex + 1}`]}`}
+                  src={`/images/${restaurant && restaurant[`restImage0${activeImageIndex + 1}`]}`}
                   alt={`images1`}
                 />
               </div>
@@ -172,7 +188,7 @@ const RestaurantDetail = () => {
                   <span className={styles.numberOfPeople}>{numberOfPeople}</span>
                   <button className={styles.numberOfPeopleBtn} onClick={increaseNumberOfPeople}>+</button>
                 </div>
-                <button type="button" className={styles.restDetailaddCartBtn}>
+                <button type="button" onClick={addToCart} className={styles.restDetailaddCartBtn}>
                   <i className='fas fa-shopping-cart'></i>
                   장바구니 추가
                 </button>

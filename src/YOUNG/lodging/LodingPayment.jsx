@@ -3,8 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './LodingPayment.module.css';
 import stylesBtn from "./LodgingDetail.module.css"
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
-const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStartDate, setEndDate, setAdults, setChildren }) => {
+const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStartDate, setEndDate, setAdults, setChildren, lodgingId }) => {
+    const [cookies] = useCookies(['accessToken']);
     const [localStartDate, setLocalStartDate] = useState(new Date());
     const [localEndDate, setLocalEndDate] = useState(new Date());
     const [adults, setLocalAdults] = useState(1);
@@ -60,6 +63,22 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
             setEndDate(date); // 부모 컴포넌트에 종료 날짜 설정
         }
     };
+    
+    const addToCart = async () => {
+        const totalPeople = Number(adults) + Number(children);
+        await axios.post(`http://localhost:8988/cart/insert?productId=${lodgingId}`, { count: totalPeople, children: children }, {
+            headers: {
+                Authorization: cookies.accessToken
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            alert(response.data.message);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    };
 
     return (
         <div>
@@ -100,7 +119,7 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
                 <button onClick={() => handleChildrenChange(1)}>+</button>
             </div>
             <div className={stylesBtn.btnGroups}>
-                <button type="button" className={stylesBtn.addCartBtn}>
+                <button type="button" onClick={addToCart} className={stylesBtn.addCartBtn}>
                   <i className='fas fa-shopping-cart'></i>
                   장바구니 추가
                 </button>

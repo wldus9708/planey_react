@@ -3,8 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../../YOUNG/lodging/LodingPayment.module.css';
 import stylesBtn from "../../YOUNG/lodging/LodgingDetail.module.css";
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
-const RentCarPayment = ({ car, onPaymentInfo }) => {
+const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
+    const [cookies] = useCookies(['accessToken']);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [adults, setAdults] = useState(1);
@@ -43,6 +46,21 @@ const RentCarPayment = ({ car, onPaymentInfo }) => {
         setAdults(prev => Math.max(1, prev + increment));
     };
 
+    const addToCart = async () => {
+        await axios.post(`http://localhost:8988/cart/insert?productId=${carId}`,null, {
+            headers: {
+                Authorization: cookies.accessToken
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            alert(response.data.message);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    };
+
     return (
         <div className={styles.modal}>
             <div className={styles.datePicker}>
@@ -71,7 +89,7 @@ const RentCarPayment = ({ car, onPaymentInfo }) => {
                 <span>총 가격: {totalPrice} 원</span>
             </div>
             <div className={stylesBtn.btnGroups}>
-                <button type="button" className={stylesBtn.addCartBtn}>
+                <button type="button" onClick={addToCart} className={stylesBtn.addCartBtn}>
                     <i className='fas fa-shopping-cart'></i>
                     장바구니 추가
                 </button>
