@@ -7,7 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import { format, isBefore } from 'date-fns';
 import ko from 'date-fns/locale/ko';
 
-function SearchField({ onSearch, onCountChange }) {
+function SearchField({ onSearch, onCountChange, onDateChange }) {
    const today = new Date();
    const [date, setDate] = useState([
       {
@@ -42,6 +42,7 @@ function SearchField({ onSearch, onCountChange }) {
          setShowAlert(false); // 경고 숨기기
       }
       setDate([item.selection]);
+      onDateChange(item.selection);
    };
 
    const handleAlertClose = () => setShowAlert(false); // 경고 닫기

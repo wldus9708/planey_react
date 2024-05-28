@@ -28,6 +28,8 @@ const LodgingList = () => {
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
     const [count, setCount] = useState(1); // 인원수 상태 추가
+    const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
+    const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
 
 
     useEffect(() => {
@@ -191,6 +193,10 @@ const LodgingList = () => {
     const handleCountChange = (count) => {
         setCount(count); // 인원수 상태 업데이트
     };
+    const handleDateChange = (date) => {
+        setStartDate(date.startDate);
+        setEndDate(date.endDate);
+    };
 
 
 
@@ -205,7 +211,7 @@ const LodgingList = () => {
             </div>
             <div className={styles.restaurantListBody}>
          
-                <SearchField onSearch={handleSearch} onCountChange={handleCountChange} />
+            <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
                 <div className={styles['restList-container']}>
                     <div className={styles['restList-left-col']}>
                         <p>{data.length} + options</p>

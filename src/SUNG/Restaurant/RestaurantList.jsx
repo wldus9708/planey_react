@@ -29,6 +29,8 @@ const RestaurantList = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
     const [count, setCount] = useState(1); // 인원수 상태 추가
+    const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
+    const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
 
     const handleSearch = (query) => {
         setSecondSearchQuery(query);
@@ -36,6 +38,11 @@ const RestaurantList = () => {
 
     const handleCountChange = (count) => {
         setCount(count); // 인원수 상태 업데이트
+    };
+
+    const handleDateChange = (date) => {
+        setStartDate(date.startDate);
+        setEndDate(date.endDate);
     };
 
     useEffect(() => {
@@ -183,7 +190,7 @@ const RestaurantList = () => {
                 <NavBar />
             </div>
             <div className={styles.restaurantListBody}>
-                <SearchField onSearch={handleSearch} onCountChange={handleCountChange} />
+                <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
                 <div className={styles['restList-container']}>
                     <div className={styles['restList-left-col']}>
                         <p>{data.length} + options</p>
