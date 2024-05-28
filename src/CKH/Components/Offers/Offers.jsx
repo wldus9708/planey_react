@@ -7,15 +7,19 @@ import { FaWifi } from "react-icons/fa";
 import { MdAirportShuttle } from "react-icons/md";
 import { MdLocationOn } from "react-icons/md";
 import { BsArrowRightShort } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PiForkKnife } from "react-icons/pi";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import useUser from "../../../BBS/Log/useUser";
+import { handleNavItemClick } from "../Navbar/Navbar";
+import { useCookies } from "react-cookie";
 
 const Offer = () => {
   const [tour, setTour] = useState([]);
   const user = useUser();
+  const [cookies] = useCookies(['accessToken']);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const pic = "../../../BBS/image/";
@@ -42,7 +46,7 @@ const Offer = () => {
           shuttle: tour.shuttle,
           breakfast: tour.breakfast,
         }));
-        console.log("가져와짐.");
+        // console.log("가져와짐.");
         setTour(tourData); // tour 엔티티 정보 저장
       })
       .catch((error) => {
@@ -59,7 +63,7 @@ const Offer = () => {
         {/* secIntro는 App.css 에서 스타일링 함... */}
         <div className="secIntro">
           <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
-          지금❗ 🧡PLANEY🧡에서 {user ? `${user.name}님 만을 위한❕❗ ` : ""}할인받고 여행🛫 가자 ❗❗
+            지금❗ 🧡PLANEY🧡에서 {user ? `${user.name}님 만을 위한❕❗ ` : ""}할인받고 여행🛫 가자 ❗❗
           </h2>
           <p data-aos="fade-up" data-aos-duration="2000">
             세일 정보를 확인해보세요❕
@@ -125,13 +129,12 @@ const Offer = () => {
                     <MdLocationOn className="icon" />
                     <small>{tour.location}.</small>
                   </div>
-
-                  <Link to={`/PackageDetail/${tour.id}`}>
-                    <button className="btn flex">
-                      View Details
-                      <BsArrowRightShort className="icon" />
-                    </button>
-                  </Link>
+                  <button
+                    className="btn flex"
+                    onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL_DISCOUNT', `/PackageDetail/${tour.id}`, navigate)}>
+                    View Details
+                    <BsArrowRightShort className="icon" />
+                  </button>
                 </div>
               </div>
             );

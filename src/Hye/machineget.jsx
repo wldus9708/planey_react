@@ -19,7 +19,7 @@ const TestComponent = () => {
                 });
                 
                 const result = response.data;
-                console.log('User Info:', result);
+                // console.log('User Info:', result);
                 setUserInfo(result);
 
             } catch (error) {
@@ -56,7 +56,7 @@ const TestComponent = () => {
   // 수정된 사용자 정보와 함께 성별, 나이, 현재 월 값을 스프링으로 보내는 함수
     useEffect(()=>{
         const sendModifiedUserInfoToSpring = async () => {
-            console.log('aa');
+            // console.log('aa');
             if (!userInfo) return;
             try {
             // 성별, 나이, 현재 월 값 계산
@@ -70,7 +70,7 @@ const TestComponent = () => {
             age: age,
             month: month
         };
-        console.log(dataToSend);
+        // console.log(dataToSend);
             // 스프링으로 데이터 전송
             const response = await axios.post('http://localhost:8988/admin/send-data', dataToSend, {
                 headers: {
@@ -79,7 +79,7 @@ const TestComponent = () => {
                 }
             });
             setChackData(response.data);
-            console.log('Modified user info and additional data sent to Spring:', response.data);
+            // console.log('Modified user info and additional data sent to Spring:', response.data);
 
         } catch (error) {
             console.error('Error sending modified user info and additional data to Spring:', error);
@@ -91,7 +91,7 @@ const TestComponent = () => {
         if (chackdata) {
             const combined = `${chackdata.major_category}${chackdata.middle_category}${chackdata.minor_category}`;
             setCombinedData(combined);
-            console.log(combinedData);
+            // console.log(combinedData);
         }
     }, [chackdata]);
     const getPlaceName = (combinedData) => {

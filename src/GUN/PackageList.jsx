@@ -36,14 +36,14 @@ const PackageList = () => {
             try {
                 const response = await axios.get(`http://localhost:8988/PackageTour/list`);
                 const allData = response.data;
-                console.log(response.data);
+                // console.log(response.data);
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 5 + 1;
                 const endIndex = currentPage * 5;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
-                console.log('시작페이지:' + startIndex);
-                console.log('끝페이지:' + endIndex);
+                // console.log('시작페이지:' + startIndex);
+                // console.log('끝페이지:' + endIndex);
                 setData(prevData => [...prevData, ...newData]);
                 if (currentPage === 1) {
                     setData(newData);
@@ -57,7 +57,7 @@ const PackageList = () => {
                 }
                 setIsLoadingData(false);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.log('Error fetching data:', error);
                 setIsLoadingData(false);
             }
         }
@@ -175,7 +175,7 @@ const PackageList = () => {
     };
 
     const handleSearch = (query) => {
-        console.log(query);
+        // console.log(query);
         setSecondSearchQuery(query);
     };
     const handleCountChange = (count) => {
@@ -225,7 +225,7 @@ const PackageList = () => {
                         </div>
                         {data.length > 0 ? (
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
-                                console.log(item);
+                                // console.log(item);
                                 return (
                                     <div className={styles['packList-house']} key={index} onClick={() => window.location.href = `/PackageDetail/${item.id}`}>
                                         <div className={styles['packList-house-img']}>

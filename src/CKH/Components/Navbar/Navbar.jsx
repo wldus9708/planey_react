@@ -3,7 +3,7 @@ import "./navbar.css";
 import { TbBeach } from "react-icons/tb";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { TbGridDots } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import jsCookies from "js-cookie";
 import { FaHome } from "react-icons/fa";
@@ -33,7 +33,7 @@ export const handleNavItemClick = async (user, cookies, actionType, path, naviga
 
     try {
       await logUserAction(logData, cookies.accessToken);
-      // console.log(`${actionType} 로그 전송 성공`);
+      console.log(`${actionType} 로그 전송 성공`);
       navigate(path);
     } catch (error) {
       // console.error(`${actionType} 로그 전송 실패:`, error);

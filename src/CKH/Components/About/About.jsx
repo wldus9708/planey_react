@@ -2,14 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./about.css";
 import axios from "axios";
 import { BsArrowRightShort } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import video from "../../Assets/여행영상.mp4";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { handleNavItemClick } from "../Navbar/Navbar";
+import useUser from "../../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
 
 const About = () => {
+
+  const user = useUser();
+  const [cookies] = useCookies(['accessToken']);
+  const navigate = useNavigate();
 
   const pic = "../../../BBS/image/";
   // 상태(state) 정의
@@ -33,10 +40,10 @@ const About = () => {
           tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
           hotel: tour.tourPackLodging, // 상품 호텔
           tourPackLandmark: tour.tourPackLandmark, // 상품 랜드마크
-          nation:tour.nation,
+          nation: tour.nation,
 
         }));
-        console.log("가져와짐.");
+        // console.log("가져와짐.");
         setTours(packageTour); // packgeTour 엔티티 정보 저장
       })
       .catch((error) => {
@@ -63,12 +70,12 @@ const About = () => {
               <img src={tour.imgSrc} alt={tour.destTitle} />
               <h3>{tour.destTitle}</h3>
               <p>{tour.comment}</p>
-              <Link to={`/PackageDetail/${tour.id}`}>
-                    <button className="btn flex">
-                      View Details
-                      <BsArrowRightShort className="icon" />
-                    </button>
-                  </Link>
+              <button
+                className="btn flex"
+                onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL_ABROAD', `/PackageDetail/${tour.id}`, navigate)}>
+                View Details
+                <BsArrowRightShort className="icon" />
+              </button>
             </div>
           ))}
         </div>
