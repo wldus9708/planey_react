@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Tabs, Tab, Alert  } from 'react-bootstrap'; // React Bootstrap의 탭 컴포넌트 사용
+import React, { useState, useRef, useEffect } from "react";
+import { Tabs, Tab, Alert } from 'react-bootstrap'; // React Bootstrap의 탭 컴포넌트 사용
 import styles from "./Search_field.module.css";
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
@@ -7,9 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import { format, isBefore } from 'date-fns';
 import ko from 'date-fns/locale/ko';
 
-
-
-function SearchField({ onSearch }) {
+function SearchField({ onSearch, onCountChange }) {
    const today = new Date();
    const [date, setDate] = useState([
       {
@@ -26,7 +24,6 @@ function SearchField({ onSearch }) {
          return;
       }
       setOpenDate(false);
-
    };
 
    const handleConfirm = () => {
@@ -34,10 +31,10 @@ function SearchField({ onSearch }) {
       console.log("Selected date range:", date);
    };
 
-    // 경고 메시지 상태 추가
-    const [showAlert, setShowAlert] = useState(false);
+   // 경고 메시지 상태 추가
+   const [showAlert, setShowAlert] = useState(false);
 
-    const handleDateChange = (item) => {
+   const handleDateChange = (item) => {
       if (isBefore(item.selection.startDate, today)) { // 현재 날짜보다 이전인 경우
          setShowAlert(true); // 경고 표시
          return;
@@ -46,22 +43,15 @@ function SearchField({ onSearch }) {
       }
       setDate([item.selection]);
    };
-    
- 
-    const handleAlertClose = () => setShowAlert(false); // 경고 닫기
 
+   const handleAlertClose = () => setShowAlert(false); // 경고 닫기
 
-
-   //  ===========================================
    // 검색어로 지역 찾기
-
-   // 검색어 목록 (가정)
    const suggestions = ['강원', '제주', '강남', '송파구', '부산', '부천', '동대문', '인천', '홍대', '홍콩'];
 
    // 검색어와 입력값을 관리하는 상태
    const [input, setInput] = useState('');
    const [matchingSuggestions, setMatchingSuggestions] = useState([]);
-   
 
    // 입력값이 변경될 때마다 관련 검색어를 찾아 상태를 업데이트하는 함수
    const handleInputChange = (e) => {
@@ -84,9 +74,8 @@ function SearchField({ onSearch }) {
       setInput(suggestion);
       setMatchingSuggestions([]);
    };
-   //  ===========================================
-   // 인원수 조절 버튼 
 
+   // 인원수 조절 버튼
    const [count, setCount] = useState(1);
 
    const increment = () => {
@@ -101,24 +90,21 @@ function SearchField({ onSearch }) {
       }
    };
 
-
-
-
+   // 인원수가 변경될 때 부모 컴포넌트로 전달
+   useEffect(() => {
+      onCountChange(count);
+   }, [count, onCountChange]);
 
    return (
       <section className={styles.home}>
-
          <div
             className={`${styles.secContainer} container`}
             onClick={handleCalendarClick}>
-
-
             <Tabs
                defaultActiveKey="region"
                id="uncontrolled-tab-example"
                className="mb-3"
                fill>
-
                <Tab
                   eventKey="region"
                   title="지역선택"
@@ -144,32 +130,25 @@ function SearchField({ onSearch }) {
                         </ul>
                      </div>
                   </div>
-
                </Tab>
                {/* 날짜 고르기 */}
                <Tab
                   eventKey="date"
                   title="날짜 선택"
                   className={styles.calendarPicker}>
-                  <div  locale={ko} className={`${styles.calendar} ${openDate ? styles.calendarOpen : ''}`} ref={calendarRef}>
+                  <div locale={ko} className={`${styles.calendar} ${openDate ? styles.calendarOpen : ''}`} ref={calendarRef}>
                      <span
-                       
                         className={styles.dateCheck}
                         onClick={() => setOpenDate(!openDate)}>
                         {`${format(date[0].startDate, "yyyy.MM.dd(EEE)", { locale: ko })} - ${format(date[0].endDate, "yyyy.MM.dd(EEE)", { locale: ko })}`}
-
                      </span>
-
                      {openDate && <DateRange
-                        
                         editableDateInputs={false}
                         onChange={handleDateChange} // 변경된 핸들러로 교체
                         moveRangeOnFirstSelection={false}
                         ranges={date}
                         className={`${styles.date} date-range-wrapper`} // 클래스 추가
                         locale={ko}
-                        
-                       
                      />}
                      {openDate && (
                         <div>
@@ -179,27 +158,24 @@ function SearchField({ onSearch }) {
                         </div>
                      )}
                      {/* 경고 표시 */}
-                     <Alert 
-                     show={showAlert} 
-                     variant="danger" 
-                     onClose={handleAlertClose} 
-                     dismissible
-                     className={styles.showAlert}>
-                       당일 및 이전 날짜는 선택할 수 없습니다.
+                     <Alert
+                        show={showAlert}
+                        variant="danger"
+                        onClose={handleAlertClose}
+                        dismissible
+                        className={styles.showAlert}>
+                        당일 및 이전 날짜는 선택할 수 없습니다.
                      </Alert>
                   </div>
                </Tab>
                <Tab
-
                   eventKey="count" title="인원 선택">
-                  <div
-                  >
+                  <div>
                      <label
                         className={styles.countTab}>소아 적용기준은 선택하신 상품 별로 상이할 수 있습니다. </label>
                      <br />
                      <label
                         className={styles.countTab}>성인 최대 20명 까지 가능합니다. </label>
-
                      <div>
                         <button
                            onClick={decrement}
@@ -216,16 +192,10 @@ function SearchField({ onSearch }) {
                      </div>
                   </div>
                </Tab>
-
             </Tabs>
          </div>
-
       </section>
    );
 }
 
 export default SearchField;
-
-
-
-

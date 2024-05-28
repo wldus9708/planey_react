@@ -5,7 +5,6 @@ import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-s
 import axios from 'axios';
 import SearchField from '../../YOUNG/searchField/Search_field';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
-import { Link } from 'react-router-dom';
 
 const RestaurantList = () => {
     const fixedMinPrice = 1000;
@@ -29,11 +28,14 @@ const RestaurantList = () => {
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
-
+    const [count, setCount] = useState(1); // 인원수 상태 추가
 
     const handleSearch = (query) => {
-        console.log(query);
         setSecondSearchQuery(query);
+    };
+
+    const handleCountChange = (count) => {
+        setCount(count); // 인원수 상태 업데이트
     };
 
     useEffect(() => {
@@ -41,14 +43,12 @@ const RestaurantList = () => {
             try {
                 const response = await axios.get(`http://localhost:8988/restaurant/list`);
                 const allData = response.data;
-                console.log(response.data)
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 5 + 1;
                 const endIndex = currentPage * 5;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
-                console.log('시작페이지:' + startIndex);
-                console.log('끝페이지:' + endIndex);
+                
                 setData(prevData => [...prevData, ...newData]);
                 if (currentPage === 1) {
                     setData(newData);
@@ -69,7 +69,6 @@ const RestaurantList = () => {
         }
         fetchData();
     }, [currentPage]);
-
 
     useEffect(() => {
         const handleScroll = () => {
@@ -118,7 +117,6 @@ const RestaurantList = () => {
         const allChecked = Object.values(newCheckboxStates).slice(1).every(value => value);
         newCheckboxStates.all = allChecked;
         setCheckboxStates(newCheckboxStates);
-        console.log(newCheckboxStates);
     };
 
     const prcieRangeMinValueHandler = e => {
@@ -146,7 +144,7 @@ const RestaurantList = () => {
         }
     };
 
-    const filterData = (data, searchQuery, minPrice, maxPrice) => {
+    const filterData = (data, searchQuery, minPrice, maxPrice, count) => {
         let filteredData = data;
 
         filteredData = filteredData.filter(item => item.restPrice >= minPrice && item.restPrice <= maxPrice);
@@ -164,6 +162,8 @@ const RestaurantList = () => {
                 return restaurantAddress && restaurantAddress.toLowerCase().includes(secondSearchQuery.toLowerCase());
             });
         }
+
+        filteredData = filteredData.filter(item => item.restCapacity >= count);
 
         return filteredData;
     };
@@ -183,7 +183,7 @@ const RestaurantList = () => {
                 <NavBar />
             </div>
             <div className={styles.restaurantListBody}>
-                <SearchField onSearch={handleSearch} />
+                <SearchField onSearch={handleSearch} onCountChange={handleCountChange} />
                 <div className={styles['restList-container']}>
                     <div className={styles['restList-left-col']}>
                         <p>{data.length} + options</p>
@@ -195,7 +195,7 @@ const RestaurantList = () => {
                             <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
                         </div>
                         {data.length > 0 ? (
-                            sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => (
+                            sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue, count)), sortOption).map((item, index) => (
                                 <div className={styles['restList-house']} key={index} onClick={() => window.location.href = `/restaurantDetail/${item.id}`}>
                                     <div className={styles['restList-house-img']}>
                                         <img src={`/images/${item.restImage01}`} alt="" width="200px" height="200px" />
@@ -215,12 +215,10 @@ const RestaurantList = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             ))
                         ) : (
                             <p>검색 결과가 없습니다.</p>
                         )}
-
                     </div>
                     <div className={styles['restList-right-col']}>
                         <div className={styles['restList-sidebar']}>
@@ -304,3 +302,4 @@ const RestaurantList = () => {
 };
 
 export default RestaurantList;
+
