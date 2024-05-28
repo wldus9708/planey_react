@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 const PackageHead = () => {
     const [data, setData] = useState([]);
     const navigator = useNavigate();
-    const [cookies] = useCookies('accessToken');
+    const [cookies] = useCookies(['accessToken']);
     let { id } = useParams();
     const [packageTour, setPackgeTour] = useState(null);
     const [numberOfPeople, setNumberOfPeople] = useState(1);
@@ -35,6 +35,21 @@ const PackageHead = () => {
             })
 
     }, [id]);
+
+    const addToCart = async () => {
+        await axios.post(`http://localhost:8988/cart/insert?productId=${id}`, {}, {
+            headers: {
+                Authorization: cookies.accessToken
+            }
+        })
+        .then((response) => {
+            console.log(response);
+            alert(response.data.message);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    };
 
     return (
         <div className={styles.LodgingBody}>
@@ -85,7 +100,7 @@ const PackageHead = () => {
                             {packageTour && packageTour.tour_pack_description}
                             </p>
                             <div className={styles.btnGroups}>
-                                <button type="button" className={styles.addCartBtn}>
+                                <button type="button" onClick={addToCart} className={styles.addCartBtn}>
                                     <i className='fas fa-shopping-cart'></i>
                                     장바구니 추가
                                 </button>

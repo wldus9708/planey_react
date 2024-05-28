@@ -196,6 +196,9 @@ const LodgingDetail = () => {
                   setEndDate={setEndDate} // 종료 날짜 설정 함수 전달
                   setAdults={setAdults} // 성인 수 설정 함수 전달
                   setChildren={setChildren} // 어린이 수 설정 함수 전달
+                  lodgingId={id} // 숙소 아이디 전달 for Cart
+                  adults={adults} // 성인 수 전달 for Cart
+                  children={children} // 어린이 수 전달 for Cart
                 />
               </div>
             </div>

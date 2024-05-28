@@ -82,7 +82,7 @@
 
 .cart_product_wrap {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   place-items: center;
   justify-content: center;
 }
@@ -137,6 +137,16 @@
   height: 45px;
   border: 1px solid #c4c4c4;
   border-radius: 5px;
+}
+
+.cart_product_count p {
+  position: relative;
+  bottom: 20px;
+  font-size: 14px;
+}
+
+.cart_product_count p span {
+  font-size: 0.8rem;
 }
 
 .cart_product_count .minus {
