@@ -1,0 +1,42 @@
+.mcListment-item {
+    position: relative;
+    max-width: 1400px;
+    height: 40vh;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(58, 223, 252,0.1);
+    margin: auto;
+    border-radius: 50px;
+    border-color: black;
+
+}
+
+.mcListment-content {
+    top: 0;
+    left: 0;
+    width: 40vw;
+    height:30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    //background-color: rgba(0, 0, 0, 0.1); /* 텍스트 색상 설정 */
+     /* 텍스트가 이미지 위에 오도록 설정 */
+    border-radius: 1rem;
+}
+
+.mcListment-image {
+    position: relative;
+    right: 10%;
+    top: 18%;
+    /* 이미지가 텍스트 위에 오도록 설정 */
+}
+.mcListment-img {
+    width:15vw;
+    height: 20vh;
+    margin:15% auto;
+    border-radius: 1rem;
+}
+.mcListmnet-text{
+    font-size: 30px;
+}

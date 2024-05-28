@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './mcAdvertisementComponent.scss'; // 스타일링 파일
+import './mcListComponent.scss'; // 스타일링 파일
 import { useCookies } from 'react-cookie';
 
 const TestComponent = () => {
@@ -142,21 +142,19 @@ const TestComponent = () => {
     };
     return (
         <div>
-            {userInfo ? (
-                <div className="mcadvertisement-item">
-                    <div className="mcadvertisement-content">
+            {userInfo && (
+                <div className="mcListment-item">
+                    <div className="mcListment-content">
                         <h1>인공지능 추천서비스입니다.</h1>
-                        <p className='mcadverisermnet-text'>{calculateAge(userInfo.birth)}세인 {getGender(userInfo.birth)}가</p>
-                        <p className='mcadverisermnet-text'>{getCurrentMonth()}달에 가장 많이 가는곳은</p>
-                        <p className='mcadverisermnet-text'>{getPlaceName(combinedData)}입니다.</p>
+                        <p className='mcListmnet-text'>{calculateAge(userInfo.birth)}세인 {getGender(userInfo.birth)}가</p>
+                        <p className='mcListmnet-text'>{getCurrentMonth()}월달에 가장 많이 가는곳은</p>
+                        <p className='mcListmnet-text'>{getPlaceName(combinedData)}입니다.</p>
                     </div>
-                    <div className="mcadvertisement-image">
-                        <img className="mcadvertisement-img"   src={combinedData ? require(`./component/${combinedData}.jpg`) : require('./component/제주01.jpg')}
+                    <div className="mcListment-image">
+                        <img className="mcListment-img"   src={combinedData ? require(`./component/${combinedData}.jpg`) : require('./component/제주01.jpg')}
     alt={combinedData ? getPlaceName(combinedData) : 'Default Image'} />
                     </div>
                 </div>
-            )  : (
-                <p>Loading...</p>
             )}
         </div>
     );

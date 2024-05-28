@@ -142,7 +142,7 @@ const TestComponent = () => {
     };
     return (
         <div>
-            {userInfo ? (
+            {userInfo && (
                 <div className="mcadvertisement-item">
                     <div className="mcadvertisement-content">
                         <h1>인공지능 추천서비스입니다.</h1>
@@ -155,9 +155,7 @@ const TestComponent = () => {
     alt={combinedData ? getPlaceName(combinedData) : 'Default Image'} />
                     </div>
                 </div>
-            )  : (
-                <p>Loading...</p>
-            )}
+            )  }
         </div>
     );
 };
