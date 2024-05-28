@@ -173,7 +173,7 @@ const RestaurantPaymentTable = ({ endpoint }) => {
                         )}
                     </tbody>
                 </table>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} />
+                {/* <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} /> */}
             </div>
         </section>
     );
