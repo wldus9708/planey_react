@@ -309,7 +309,8 @@ const AirportList = () => {
 
                                                 {/* 요금 */}
 
-                                                <p className={styles.airPrice}>{(item.fli_price).toLocaleString()}원</p>
+                                                <p className={styles.airPrice1}>{(item.fli_price).toLocaleString()}원</p>
+                                                <p className={styles.airPrice2}>{(item.returnFlight.return_fli_price).toLocaleString()}원</p>
 
                                             </div>
                                         </div>

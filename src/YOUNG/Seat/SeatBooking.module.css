@@ -1,10 +1,6 @@
 * {
     box-sizing: border-box;
   }
-
-  .modal-dialog {
-    max-width: 400px; /* 모달의 최대 너비 설정 */
-  }
   
   .body {
     font-size: 16px;
@@ -15,13 +11,10 @@
     margin: 20px auto;
     max-width: 300px;
     background: rgba(207, 206, 206, 0.418);
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-
   }
   
   .select {
-    height: 250px;
+    
     position: relative;
     overflow: hidden;
     text-align: center;

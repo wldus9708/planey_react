@@ -1,7 +1,7 @@
 .AirportDetail .hh5{
     font-weight: bold;
     margin-left: 8rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
    
 }
 .Returnh4 {
@@ -20,7 +20,7 @@
 .backList{
     text-decoration: none;
     color: inherit;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     
 }
@@ -31,7 +31,7 @@
 .hr {
     border: none;
     height: 3px;
-    width: 28rem;
+    width: 20rem;
     background-color: black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
     margin: 20px 108px 20px 108px;
@@ -39,24 +39,23 @@
 
 .flightGoTicket {
     width: 1100px;
-    height: 250px;
-    
+    height: 225px;
     margin: 0 auto;
     margin-bottom: 50px;
-    margin-top: 4rem;
+    margin-top: 2rem;
     border-radius: 0.5rem;
     box-shadow: .3rem 0 1.6rem #698aa154;
 }
 .flightReturnTicket{
     width: 1100px;
-    height: 250px;
+    height: 225px;
     margin: 0 auto;
     border-radius: 0.5rem;
     box-shadow: .3rem 0 1.6rem #698aa154;
 }
 .flightColor {
     width: 150px;
-    height: 250px;
+    height: 225px;
     background-color: rgba(250, 195, 44, 0.329);
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
@@ -152,8 +151,8 @@
     color: rgb(110, 110, 110);
     font-weight: 800;
     width: 450px;
-    font-size: 20px;
-    margin-top: 2rem;
+    font-size: 15px;
+    margin-top: 1rem;
     margin-left: 7rem;
 }
 .flightSeat{
@@ -188,23 +187,23 @@
 }
 .flightGoReservation {
     
-    width: 50rem;
+    width: 30rem;
     font-size: 15px;
     margin-left: 30px;
 
 }
 .flightReturnReservation{
     
-    width: 40rem;
+    width: 20rem;
     font-size: 15px;
 }
-.h4{
+.h5{
     margin-top: 20px;
     font-weight: 800;
 }
 .totalPrice {
     margin-top: 20px;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
 }
 
