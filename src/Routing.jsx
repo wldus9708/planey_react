@@ -27,6 +27,7 @@ import Fail from "./BBS/patment/Fail";
 import AirportList from "./YOUNG/Airport/AirportList";
 import NaverLogin from "./SUNG/NaverLogin";
 import Cart from "./DEOK/Cart/Cart";
+import AirportDetail from "./YOUNG/Airport/AirportDetail";
 
 function Routing() {
     return (
@@ -61,6 +62,7 @@ function Routing() {
                 <Route path="/PaymentSuccessLoging" element={<SuccessLoging />} />
                 <Route path="/login/oauth2/callback/naver" element={<NaverLogin />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/AirportDetail/:id" element={<AirportDetail />} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,6 +1,10 @@
 * {
     box-sizing: border-box;
   }
+
+  .modal-dialog {
+    max-width: 400px; /* 모달의 최대 너비 설정 */
+  }
   
   .body {
     font-size: 16px;
