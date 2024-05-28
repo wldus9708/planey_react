@@ -28,6 +28,7 @@ const RentCarList = () => {
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
+    const [count, setCount] = useState(1); // 인원수 상태 추가
 
 
     useEffect(() => {
@@ -190,6 +191,9 @@ const RentCarList = () => {
         console.log(query);
         setSecondSearchQuery(query);
     };
+    const handleCountChange = (count) => {
+        setCount(count); // 인원수 상태 업데이트
+    };
 
     return (
         <>
@@ -197,7 +201,7 @@ const RentCarList = () => {
                 <NavBar />
             </div>
             <div className={styles.rentcarListBody}>
-            <SearchField onSearch={handleSearch} />
+            <SearchField onSearch={handleSearch}  onCountChange={handleCountChange} />
                 <div className={styles['rentList-container']}>
                     <div className={styles['rentList-left-col']}>
                         <p>{data.length} + options</p>
