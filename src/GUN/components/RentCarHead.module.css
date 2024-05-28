@@ -57,6 +57,7 @@ img{
   
 .imgContainer img{
     width: 600px;
+    height: 400px;
     margin: 0 auto;
 }
 .rentDetailhoverContainer{
@@ -83,6 +84,7 @@ img{
 }
 .rentDetailhoverContainer div img {
     width: 80px;
+    height:70px;
     cursor: pointer;
 }
 .lodgingDivRight span{
