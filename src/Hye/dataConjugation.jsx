@@ -7,6 +7,8 @@ Modal.setAppElement('#root');
 const SurveyModal = ({ isOpen, onRequestClose }) => {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
+  const [mCategory, setMCategory] = useState('');
+  const [mdCategory, setMdCategory] = useState('');
   const [majorCategory, setMajorCategory] = useState('');
   const [middleCategory, setMiddleCategory] = useState('');
   const [minorCategory, setMinorCategory] = useState('');
@@ -116,9 +118,10 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
             국내/국외:
             <select
               className="form-control"
-              value={majorCategory}
+              value={mCategory}
               onChange={(e) => {
-                setMajorCategory(e.target.value);
+                setMCategory(e.target.value);
+                setMajorCategory('');
                 setMiddleCategory(''); // Reset next preference
                 setMinorCategory('');
               }}
@@ -130,17 +133,17 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
             </select>
           </label>
         </div>
-        {majorCategory && (
+        {mCategory && (
           <div className='modal-content'>
             <label>
-              {majorCategory === 'domestic' ? '국내 지역:' : '해외 지역:'}
+              {mCategory === 'domestic' ? '국내 지역:' : '해외 지역:'}
+              {mCategory}
               <select
                 className="form-control"
-                value={middleCategory}
+                value={mdCategory}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setMiddleCategory(value);
-                  setMinorCategory(value);
+                  setMdCategory(value);
                   setMajorCategory(value.charAt(0));
                   setMiddleCategory(value.charAt(1));
                   setMinorCategory(value.charAt(2));
@@ -148,7 +151,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
                 required
               >
                 <option value="" disabled>Select your preference</option>
-                {majorCategory === 'domestic' ? (
+                {mCategory === 'domestic' ? (
                   domesticOptions.map(option => (
                     <option key={option.value} value={option.value}>{option.label}</option>
                   ))

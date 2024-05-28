@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './advertisementComponent.scss'; // 스타일링 파일
-import SurveyModal from './dataConjugation'; // SurveyModal 컴포넌트 경로 확인
+
 
 const TestComponent = () => {
   const [dataset, setDataSet] = useState([]);
@@ -123,7 +123,7 @@ const TestComponent = () => {
 
   return (
     <div>
-      {randomAd ? (
+      {randomAd && (
         <div className="advertisement-item" onClick={handleAdClick}>
           <div className="advertisement-content">
             <h1>{randomAd.title}</h1>
@@ -134,11 +134,7 @@ const TestComponent = () => {
             <img className="advertisement-img" src={require(`./component/${randomAd.image}`)} alt={randomAd.title} />
           </div>
         </div>
-      ) : dataset.length > 0 ? (
-        <p>No ACTIVE advertisements found</p>
-      ) : (
-        <p>Loading...</p>
-      )}
+      ) }
 
     </div>
   );

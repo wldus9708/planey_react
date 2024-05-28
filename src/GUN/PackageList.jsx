@@ -6,6 +6,7 @@ import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar from "./../CKH/Components/Navbar/Navbar";
 import McAdvertise from "./../Hye/machineList";
+
 const PackageList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
     const fixedMinPrice = 50000;
@@ -18,7 +19,6 @@ const PackageList = () => {
         all: false,
         DOMESTIC: false,
         INTERNATIONAL: false,
-
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
@@ -26,18 +26,17 @@ const PackageList = () => {
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
-    // useState 훅을 사용하여 국내 여행 여부를 나타내는 상태 값을 추가합니다.
     const [showAdvertise, setShowAdvertise] = useState(true);
-    const [count, setCount] = useState(1); // 인원수 상태 추가
-    const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
-    const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
+    const [count, setCount] = useState(1);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8988/PackageTour/list`);
                 const allData = response.data;
-                console.log(response.data)
+                console.log(response.data);
                 setTotalDataCount(allData.length);
 
                 const startIndex = (currentPage - 1) * 5 + 1;
@@ -168,9 +167,9 @@ const PackageList = () => {
         }
         return data.filter(item => {
             if (item.nation === true && checkboxStates['DOMESTIC']) {
-                return true; // 국내 여행을 선택하고 국내 여행 데이터인 경우
+                return true;
             } else if (item.nation === false && checkboxStates['INTERNATIONAL']) {
-                return true; // 해외 여행을 선택하고 해외 여행 데이터인 경우
+                return true;
             }
         });
     };
@@ -180,33 +179,40 @@ const PackageList = () => {
         setSecondSearchQuery(query);
     };
     const handleCountChange = (count) => {
-        setCount(count); // 인원수 상태 업데이트
+        setCount(count);
     };
     const handleDateChange = (date) => {
         setStartDate(date.startDate);
         setEndDate(date.endDate);
     };
 
-
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowAdvertise(false);
-        }, 5000); // 광고를 5초 동안만 표시
-
+        }, 10000);
         return () => clearTimeout(timer);
     }, []);
 
+    const closeModal = () => {
+        setShowAdvertise(false);
+    };
+
     return (
         <>
-           
-            <div className={styles.NavBar} style={{padding: '1rem'}}>
+            <div className={styles.NavBar} style={{ padding: '1rem' }}>
                 <NavBar />
             </div>
             <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
-            {/**/}
-            {showAdvertise && <McAdvertise />}
+            {showAdvertise && (
+                <div className={styles.mcmodal}>
+                    <div className={styles.mcmodalContent}>
+                        {/*<span className={styles.mcclose} onClick={closeModal}>&times;</span>*/}
+                        <McAdvertise />
+                    </div>
+                </div>
+            )}
+            
             <div className={styles.packageListBody}>
-
                 <div className={styles['packList-container']}>
                     <div className={styles['packList-left-col']}>
                         <p>{data.length} + options</p>
@@ -231,8 +237,6 @@ const PackageList = () => {
                                             위치 : {item.tourPackCity}<br />
                                             {item.nation}
                                             <p></p>
-
-
                                             <p>{item.tour_pack_description}</p>
                                             <div className={styles['packList-house-price']}>
                                                 <h4>₩ {item.price.toLocaleString()}</h4>
@@ -247,8 +251,6 @@ const PackageList = () => {
                         ) : (
                             <p>검색 결과가 없습니다.</p>
                         )}
-
-
                     </div>
                     <div className={styles['packList-right-col']}>
                         <div className={styles['packList-sidebar']}>
@@ -311,7 +313,6 @@ const PackageList = () => {
                             <div className={styles['packList-filter']}>
                                 <input type="checkbox" checked={checkboxStates['INTERNATIONAL']} onChange={() => toggleCheckbox('INTERNATIONAL')} /><p>해외</p><span>({data.filter(item => item.nation === false).length})</span>
                             </div>
-
                         </div>
                     </div>
                 </div>
