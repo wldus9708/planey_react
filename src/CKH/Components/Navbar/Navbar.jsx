@@ -33,10 +33,10 @@ export const handleNavItemClick = async (user, cookies, actionType, path, naviga
 
     try {
       await logUserAction(logData, cookies.accessToken);
-      console.log(`${actionType} 로그 전송 성공`);
+      // console.log(`${actionType} 로그 전송 성공`);
       navigate(path);
     } catch (error) {
-      console.error(`${actionType} 로그 전송 실패:`, error);
+      // console.error(`${actionType} 로그 전송 실패:`, error);
     }
   } else {
     navigate(path);
@@ -85,9 +85,9 @@ const Navbar = () => {
     // 로그 전송
     try {
         await logUserAction(logData, cookies.accessToken);
-        console.log("로그아웃 로그 전송 성공");
+        // console.log("로그아웃 로그 전송 성공");
     } catch (error) {
-        console.error("로그아웃 로그 전송 실패:", error);
+        // console.error("로그아웃 로그 전송 실패:", error);
     }
 
     window.location.reload();
@@ -98,8 +98,8 @@ const Navbar = () => {
     // 로그인 및 회원가입 성공 플래그를 확인하고 로그를 전송하는 함수
     const sendLoginLog = async (actionType, flagName) => {
       if (localStorage.getItem(flagName) === 'true' && user) {
-        console.log(`${actionType} 성공 플래그 확인됨`);
-        console.log("사용자 정보:", user);
+        // console.log(`${actionType} 성공 플래그 확인됨`);
+        // console.log("사용자 정보:", user);
 
         const timestamp = new Date().toISOString();
         const logData = {
@@ -114,13 +114,13 @@ const Navbar = () => {
 
         try {
           await logUserAction(logData, cookies.accessToken); // 로그 전송
-          console.log("로그 전송 성공");
+          // console.log("로그 전송 성공");
         } catch (error) {
-          console.error("로그 전송 실패:", error);
+          // console.error("로그 전송 실패:", error);
         }
 
         localStorage.removeItem(flagName); // 플래그 제거
-        console.log(`${actionType} 성공 플래그 제거됨`);
+        // console.log(`${actionType} 성공 플래그 제거됨`);
       }
     };
 
