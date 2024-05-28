@@ -1,0 +1,213 @@
+.AirportDetail .hh5{
+    font-weight: bold;
+    margin-left: 8rem;
+    font-size: 1.5rem;
+   
+}
+.Returnh4 {
+    font-weight: bold;
+    position: relative;
+    left: 250px;;
+    top: 20px;
+  
+}
+.Goh4{
+    font-weight: bold;
+    position: relative;
+    left: 250px;;
+    top: 134px;
+}
+.backList{
+    text-decoration: none;
+    color: inherit;
+    font-size: 1.5rem;
+    font-weight: bold;
+    
+}
+
+.AirportHeader{
+    display: flex;
+}
+.hr {
+    border: none;
+    height: 3px;
+    width: 28rem;
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+    margin: 20px 108px 20px 108px;
+}
+
+.flightGoTicket {
+    width: 1100px;
+    height: 250px;
+    
+    margin: 0 auto;
+    margin-bottom: 50px;
+    margin-top: 4rem;
+    border-radius: 0.5rem;
+    box-shadow: .3rem 0 1.6rem #698aa154;
+}
+.flightReturnTicket{
+    width: 1100px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    box-shadow: .3rem 0 1.6rem #698aa154;
+}
+.flightColor {
+    width: 150px;
+    height: 250px;
+    background-color: rgba(250, 195, 44, 0.329);
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    position: relative;
+    top: -1px; 
+
+}
+.flightColor img{
+    width: 146px;
+    height: 131px;
+    top: -31px;
+    position: relative;
+   
+}
+.flightGoRegion {
+    font-size: 40px;
+    font-weight: bold;
+    position: relative;
+    left: 311px;
+    top: -31px;
+
+}
+.flightArriRegion{
+    font-size: 40px;
+    font-weight: bold;
+    position: relative;
+    left: 598px;
+    top: -72px;
+    
+}
+
+.flightGoDate{
+    font-size: 22px;
+    color: rgb(110, 110, 110);
+    position: relative;
+    left: 303px;
+    top: -142px;
+}
+.flightArriDate{
+    font-size: 22px;
+    color: rgb(110, 110, 110);
+    position: relative;
+    left: 590px;
+    top: -164px;
+}
+.flightGoTime{
+    font-size: 22px;
+    color: rgb(110, 110, 110);
+    position: relative;
+    left: 321px;
+    top: -103px;
+}
+.flightArriTime{
+    font-size: 22px;
+    color: rgb(110, 110, 110);
+    position: relative;
+    left: 610px;
+    top: -125px;
+}
+.totalTime{
+    font-size: 15px;
+    color: rgb(110, 110, 110);
+    position: relative;
+    left: 448px;
+    top: -192px;
+}
+.FliIcon{
+    font-size: 32px;
+    color: rgb(110, 110, 110);
+    position: relative;
+    left: 474px;
+    top: -183px;
+}
+.passengerSelection{
+    position: relative;
+    left: 935px;
+    top: -349px;
+    font-size: 19px;
+    
+}
+.passengerSelection button{
+    background-color: rgba(30, 250, 221, 0.322);
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.passengerType{
+    margin-bottom: 20px;
+}
+.priceComent{
+    color: rgb(110, 110, 110);
+    font-weight: 800;
+    width: 450px;
+    font-size: 20px;
+    margin-top: 2rem;
+    margin-left: 7rem;
+}
+.flightSeat{
+    position: relative;
+    left: 941px;
+    top: -180px;
+    width: 118px;
+    height: 39px;
+    font-weight: bold;
+    background-color: rgba(154, 250, 237, 0.411);
+    border-radius: 5px;
+    border: none;
+
+    
+}
+.flightSeat:hover {
+    border: 1px solid rgba(30, 250, 221, 0.411);
+    background-color: #ffffff;
+}
+
+.flightReservation{
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: .6rem 0 1.6rem #698aa154;
+    z-index: 9102;
+    height: 10rem;
+
+}
+.flightGoReservation {
+    
+    width: 50rem;
+    font-size: 15px;
+    margin-left: 30px;
+
+}
+.flightReturnReservation{
+    
+    width: 40rem;
+    font-size: 15px;
+}
+.h4{
+    margin-top: 20px;
+    font-weight: 800;
+}
+.totalPrice {
+    margin-top: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+
+

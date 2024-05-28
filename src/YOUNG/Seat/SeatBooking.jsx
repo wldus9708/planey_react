@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styels from './SeatBooking.module.css';
+import styles from './SeatBooking.module.css'; // 오타 수정: styels -> styles
 
 const SEAT_ROWS = [
   ['1A', '1B', '1C', '1D', '1E', '1F'],
@@ -13,14 +13,15 @@ const SEAT_ROWS = [
   ['9A', '9B', '9C', '9D', '9E', '9F'],
   ['10A', '10B', '10C', '10D', '10E', '10F'],
 ];
-const reservedSeats = ['1A', '3C', '5E']; // 예약된 좌석 정보
-const SeatBooking = () => {
-  
+
+const reservedSeats = []; // 예약된 좌석 정보
+
+const SeatBooking = ({ onSelectSeat }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleSeatChange = (event) => {
     const { id, checked } = event.target;
-  
+
     // 예약된 좌석인지 확인
     const isReserved = reservedSeats.includes(id);
 
@@ -31,45 +32,40 @@ const SeatBooking = () => {
           ? [...prevSelectedSeats, id]
           : prevSelectedSeats.filter(seat => seat !== id)
       );
+      if (checked) {
+        onSelectSeat(id);
+      }
     }
   };
-  
-
-
 
   return (
-<div className={styels.body}>
-    <div className={styels.plane}>
-      <div className={styels.select}>
-        <h5 className={styels.h5}>좌석을 선택 해주세요.</h5>
+    <div className={styles.body}>
+      <div className={styles.plane}>
+        <div className={styles.select}></div>
+        <div className={styles.exit}></div>
+        <ol>
+          {SEAT_ROWS.map((row, rowIndex) => (
+            <li key={rowIndex}>
+              <ol className={styles.seats}>
+                {row.map(seatId => (
+                  <li className={styles.seat} key={seatId}>
+                    <input
+                      type="checkbox"
+                      id={seatId}
+                      checked={selectedSeats.includes(seatId)}
+                      onChange={handleSeatChange}
+                      disabled={reservedSeats.includes(seatId)} // 예약된 좌석인 경우 disabled 속성 적용
+                    />
+                    <label htmlFor={seatId}>{seatId}</label>
+                  </li>
+                ))}
+              </ol>
+            </li>
+          ))}
+        </ol>
+        <div className={styles.exit}></div>
       </div>
-      <div className={styels.exit}></div>
-      <ol>
-        {SEAT_ROWS.map((row, rowIndex) => (
-          <li key={rowIndex}>
-            <ol className={styels.seats}>
-              {row.map(seatId => (
-                <li className={styels.seat} key={seatId}>
-                
-                  <input
-                    type="checkbox"
-                    id={seatId}
-                    checked={selectedSeats.includes(seatId)}
-                    onChange={handleSeatChange}
-                    disabled={reservedSeats.includes(seatId)} // 예약된 좌석인 경우 disabled 속성 적용
-                  />
-                  <label htmlFor={seatId}>{seatId}</label>
-                </li>
-              ))}
-            </ol>
-          </li>
-        ))}
-      </ol>
-      <div className={styels.exit}></div>
-
     </div>
-    </div>
-    
   );
 };
 
