@@ -126,7 +126,7 @@ const Offer = () => {
                     <small>{tour.location}.</small>
                   </div>
 
-                  <Link to="/">
+                  <Link to={`/PackageDetail/${tour.id}`}>
                     <button className="btn flex">
                       View Details
                       <BsArrowRightShort className="icon" />

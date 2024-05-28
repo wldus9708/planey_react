@@ -35,8 +35,8 @@ export default function App() {
   }, []);
 
   const product = products.map((item) => (
-    console.log(item.image),
     <Product
+      id={item.id}
       name={item.name}
       img={item.image}
       price={item.price.toLocaleString()}

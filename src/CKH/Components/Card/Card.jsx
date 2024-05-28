@@ -28,7 +28,7 @@ export default function App() {
           tourPackCity: item.tourPackCity,
           category: item.category,
           allProductState: item.allProductState,
-          images: require("../../../BBS/image/"+item.image01+".jpg"),
+          images: require("../../../BBS/image/" + item.image01 + ".jpg"),
           name: item.tour_pack_name,
           description: item.tour_pack_description,
           price: item.price,
@@ -51,6 +51,7 @@ export default function App() {
   const productComponents = products.map((item, index) => (
     <Product
       key={index}
+      id={item.id}
       name={item.name}
       img={item.images}
       price={item.price}

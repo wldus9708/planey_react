@@ -63,7 +63,7 @@ const About = () => {
               <img src={tour.imgSrc} alt={tour.destTitle} />
               <h3>{tour.destTitle}</h3>
               <p>{tour.comment}</p>
-              <Link to="/">
+              <Link to={`/PackageDetail/${tour.id}`}>
                     <button className="btn flex">
                       View Details
                       <BsArrowRightShort className="icon" />

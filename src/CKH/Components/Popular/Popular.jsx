@@ -7,6 +7,7 @@ import { BsDot } from "react-icons/bs";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import useUser from "../../../BBS/Log/useUser";
+import { Link } from "react-router-dom";
 
 const Popular = () => {
   const pic = "../../../BBS/image/";
@@ -22,15 +23,15 @@ const Popular = () => {
         console.log("handleArrowRightClick : 데이터 가져와짐.");
         const newTours = response.data.map((newTour) => ({
           id: newTour.id,
-          imgSrc: require("../../../BBS/image/"+newTour.image01+".jpg"),// 대표이미지 
+          imgSrc: require("../../../BBS/image/" + newTour.image01 + ".jpg"),// 대표이미지 
           destTitle: newTour.tour_pack_name, // 투어 이름
           location: newTour.tourPackCity, // 투어 지역
           category: newTour.category.split("_")[0], // 상품 종류
           comment: newTour.tour_pack_description, // 상품 설명
           tourPackRestaurant: newTour.tourPackRestaurant, // 상품 식당
           hotel: newTour.tourPackLodging, // 상품 호텔
-          nation:newTour.nation, // 상품 랜드마크
-          
+          nation: newTour.nation, // 상품 랜드마크
+
         }));
         setTours(newTours); // 기존 tours 배열에 새 tours 추가
         console.log("데이터 가져와짐.");
@@ -53,14 +54,14 @@ const Popular = () => {
         // PackageTour 엔티티 형식으로 변환
         const packageTour = response.data.map((tour) => ({
           id: tour.id,
-          imgSrc: require("../../../BBS/image/"+tour.image01+".jpg"), // 대표이미지 
+          imgSrc: require("../../../BBS/image/" + tour.image01 + ".jpg"), // 대표이미지 
           destTitle: tour.tour_pack_name, // 투어 이름
           location: tour.tourPackCity, // 투어 지역
           category: tour.category.split("_")[0], // 상품 종류
           comment: tour.tour_pack_description, // 상품 설명
           tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
           hotel: tour.tourPackLodging, // 상품 호텔
-          nation:tour.nation, // 상품 랜드마크
+          nation: tour.nation, // 상품 랜드마크
 
         }));
         console.log("가져와짐.");
@@ -108,7 +109,9 @@ const Popular = () => {
                 <div className="overlayInfo">
                   <h3>{tour.destTitle}</h3>
                   <p>{tour.comment}</p>
-                  <BsArrowRightShort className="icon" />
+                  <Link to={`/PackageDetail/${tour.id}`}>
+                    <BsArrowRightShort className="icon" />
+                  </Link>
                 </div>
               </div>
 

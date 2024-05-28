@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import { Link } from "react-router-dom";
 
 export default function Product(props) {
   return (
@@ -19,14 +20,17 @@ export default function Product(props) {
       <Card.Body>
         <Card.Title>{props.name}</Card.Title>
         <Card.Text>
-        {props.description}
+          {props.description}
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
         <ListGroup.Item>{props.price.toLocaleString()}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
-        <button>상세정보</button>
+        <Link
+         to={`/PackageDetail/${props.id}`}>
+          <button>상세정보</button>
+        </Link>
       </Card.Body>
     </Card>
   );
