@@ -100,7 +100,14 @@ const AirportDetail = () => {
     let selectedReturnSeatCount = selectedSeats.return.length;
   
     if (isOutbound) {
-      if (selectedOutboundSeatCount < totalOutboundPassengerCount) {
+      if (selectedSeats.outbound.includes(seat)) {
+        alert('이미 선택된 좌석입니다.');
+        setSelectedSeats(prev => ({
+          ...prev,
+          outbound: prev.outbound.filter(selectedSeat => selectedSeat !== seat)
+        }));
+      } else if (selectedOutboundSeatCount < totalOutboundPassengerCount) {
+        // 선택된 좌석이 없거나 선택된 좌석의 수가 인원 수보다 적을 때 좌석 선택
         setSelectedSeats(prev => ({
           ...prev,
           outbound: [...prev.outbound, seat]
@@ -109,7 +116,14 @@ const AirportDetail = () => {
         alert('가는 항공편의 모든 승객이 좌석을 선택 하였습니다.');
       }
     } else {
-      if (selectedReturnSeatCount < totalReturnPassengerCount) {
+      if (selectedSeats.return.includes(seat)) {
+        alert('이미 선택된 좌석입니다.');
+        setSelectedSeats(prev => ({
+          ...prev,
+          return: prev.return.filter(selectedSeat => selectedSeat !== seat)
+        }));
+      } else if (selectedReturnSeatCount < totalReturnPassengerCount) {
+        // 선택된 좌석이 없거나 선택된 좌석의 수가 인원 수보다 적을 때 좌석 선택
         setSelectedSeats(prev => ({
           ...prev,
           return: [...prev.return, seat]
@@ -119,6 +133,7 @@ const AirportDetail = () => {
       }
     }
   };
+
 
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
   return (
@@ -268,9 +283,9 @@ const AirportDetail = () => {
       </div>
       <div className={styles.flightReservation}>
         <div className={styles.flightGoReservation}>
-          <h4
-          className={styles.h4}
-          >가는 항공편</h4>
+          <h5
+          className={styles.h5}
+          >가는 항공편</h5>
           <br />
           <div>
             성인{outboundAdultCount}명
@@ -285,9 +300,9 @@ const AirportDetail = () => {
           </div>
         </div>
         <div> 
-          <h4
-          className={styles.h4}
-          >오는 항공편</h4>
+        <h5
+          className={styles.h5}
+          >오는 항공편</h5>
           <br />
           <div className={styles.flightReturnReservation}>
             <div>
@@ -313,13 +328,14 @@ const AirportDetail = () => {
         <Modal.Header closeButton>
           <Modal.Title>좌석을 선택해 주세요.</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-        <AirportSeat  onSelectSeat={handleSelectSeat}/>
-        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleModalClose}>닫기</Button>
           <Button variant="primary" onClick={handleConfirm}>확인</Button>
         </Modal.Footer>
+        <Modal.Body>
+        <AirportSeat onSelectSeat={handleSelectSeat} selectedSeats={isOutbound ? selectedSeats.outbound : selectedSeats.return}/>
+        </Modal.Body>
+    
       </Modal>
 
 
