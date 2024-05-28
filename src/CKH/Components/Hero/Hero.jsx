@@ -1,4 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import useUser from "../../../BBS/Log/useUser"; // 사용자 정보를 가져오는 훅
+import { handleNavItemClick } from "../Navbar/Navbar"; // 공통 함수 임포트
 import video1 from "./Asset/뉴욕.mp4";
 import video2 from "./Asset/여행영상.mp4";
 import video3 from "./Asset/항공.mp4";
@@ -6,6 +10,10 @@ import video4 from "./Asset/카리브해.mp4";
 import "./Hero.css";
 
 const HeroSection = () => {
+  const user = useUser();
+  const [cookies] = useCookies(["accessToken"]);
+  const navigate = useNavigate();
+
   return (
     <div className="Back">
       <div className="back-overlay"></div>
@@ -25,12 +33,12 @@ const HeroSection = () => {
             </span>
           </h1>
           <div className="flex justify-center my-10">
-            <a
-              href="#"
+            <button
+              onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_LIST', '/PackageTour/list', navigate)}
               className="bg-gradient-to-r from-orange-500 to-orange-800 py-3 px-4 mx-3 rounded-md"
             >
               패키지 보러가기
-            </a>
+            </button>
           </div>
           <div className="flex mt-10 justify-center">
             <video
