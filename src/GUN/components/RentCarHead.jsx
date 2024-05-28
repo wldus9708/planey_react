@@ -19,6 +19,37 @@ const RentCarHead = () => {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [paymentInfo, setPaymentInfo] = useState(null);
 
+     // Enum 클래스 정의
+     const FuelType = car && car.carFuelType;
+     let fuelLabel;
+     
+     if (FuelType === 'GASOLINE') {
+         fuelLabel = '휘발유';
+     } else if (FuelType === 'DIESEL') {
+         fuelLabel = '경유';
+     } else if (FuelType === 'HYBRID') {
+         fuelLabel = '하이브리드';
+     } else if (FuelType === 'ELECTRIC') {
+         fuelLabel = '전기';
+     } else {
+         fuelLabel = '수소';
+     }
+
+     const CapacityType = car && car.carCapacity;
+     let capacityLabel;
+     
+     if (CapacityType === 'TWO_SEATER') {
+         capacityLabel = '2인승';
+     } else if (CapacityType === 'FOUR_SEATER') {
+         capacityLabel = '4인승';
+     } else if (CapacityType === 'FIVE_SEATER') {
+         capacityLabel = '5인승';
+     } else if (CapacityType === '7인승') {
+         capacityLabel = '9인승';
+     } else {
+         capacityLabel = '12인승';
+     }
+
     useEffect(() => {
         axios.get(`http://localhost:8988/car/detail/${id}`)
             .then((response) => {
@@ -85,13 +116,13 @@ const RentCarHead = () => {
                             <br />
                             <span className={styles.lodgingSchdule}>번호 : {car && car.carLicensePlate}</span>
                             <br />
-                            <span className={styles.lodgingSchdule}>수용 인원 : {car && car.carCapacity}</span>
+                            <span className={styles.lodgingSchdule}>수용 인원 : {capacityLabel}</span>
                             <br />
-                            <span className={styles.lodgingSchdule}>연료 유형 : {car && car.carFuelType}</span>
+                            <span className={styles.lodgingSchdule}>연료 유형 : {fuelLabel}</span>
                             <br />
                             <span className={styles.lodgingSchdule}>지점 위치 : {car && car.carLocation}점</span>
                             <br />
-                            <span className={styles.lodgingSchdule}>변속기 : {car && car.carTransmission}</span>
+                            <span className={styles.lodgingSchdule}>변속기 : {FuelType === 'manual' ? '수동' : '자동'}</span>
                             <br />
                             <span className={styles.lodgingPrice}>렌트비 : {car && car.carRentalPrice}</span>
                             <RentCarPayment carId={id} car={car} onPaymentInfo={handlePaymentInfo} />

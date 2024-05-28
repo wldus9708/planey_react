@@ -59,8 +59,8 @@ const PackageHead = () => {
                         <div className={styles.lodgingDivLeft}>
                             <div className={styles.imgContainer}>
                             <img
-                                    src={`/images/${packageTour && packageTour[`image0${activeImageIndex + 1}`]}`}
-                                    alt={`pack0${activeImageIndex + 1}`}
+                                    src={packageTour && packageTour[`image0${activeImageIndex + 1}`] ? require(`../../BBS/image/${packageTour[`image0${activeImageIndex + 1}`]}.jpg`) : null}
+                                    alt={`images${activeImageIndex + 1}`}
                                 />
                             </div>
                             <div className={styles.packDetailhoverContainer}>
@@ -71,7 +71,7 @@ const PackageHead = () => {
                                         onMouseOver={() => setActiveImageIndex(index - 1)}
                                     >
                                         <img
-                                            src={`/images/${packageTour && packageTour[`image0${index}`]}`}
+                                            src={packageTour && packageTour[`image0${index}`] ? require(`../../BBS/image/${packageTour[`image0${index}`]}.jpg`) : null}
                                             alt={`images${index}`}
                                         />
                                     </div>
