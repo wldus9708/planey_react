@@ -47,7 +47,7 @@ const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
     };
 
     const addToCart = async () => {
-        await axios.post(`http://localhost:8988/cart/insert?productId=${carId}`,null, {
+        await axios.post(`http://localhost:8988/cart/insert?productId=${carId}`, {}, {
             headers: {
                 Authorization: cookies.accessToken
             }
