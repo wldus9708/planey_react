@@ -268,3 +268,37 @@ img{
     
 }
 
+/* RentCarList.module.css */
+.optionsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.optionsTable th,
+.optionsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.optionsTable th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.optionsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.optionsTable tr:hover {
+    background-color: #ddd;
+}
+
+.optionsTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+

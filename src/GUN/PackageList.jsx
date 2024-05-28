@@ -211,7 +211,7 @@ const PackageList = () => {
                     </div>
                 </div>
             )}
-            
+
             <div className={styles.packageListBody}>
                 <div className={styles['packList-container']}>
                     <div className={styles['packList-left-col']}>
@@ -229,7 +229,7 @@ const PackageList = () => {
                                 return (
                                     <div className={styles['packList-house']} key={index} onClick={() => window.location.href = `/PackageDetail/${item.id}`}>
                                         <div className={styles['packList-house-img']}>
-                                            <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
+                                            <img src={require(`../BBS/image/${item.image01}.jpg`)} alt="" width="200px" height="200px" />
                                         </div>
                                         <div className={styles['packList-house-info']}>
                                             <h3>{item.tour_pack_name}</h3>

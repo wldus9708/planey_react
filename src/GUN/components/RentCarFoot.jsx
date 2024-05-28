@@ -19,7 +19,7 @@ const DataFetchingComponent = () => {
     const [loading, setloading] = useState(true);
     const [error, setError] = useState(null);
 
-   
+
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
@@ -52,16 +52,16 @@ function RentCarFoot() {
     useEffect(() => {
 
         axios.get(`http://localhost:8988/car/detail/${id}`)
-         .then((response) => {
-            if(response.data){
-                setCar(response.data);
-                console.log(response.data);
-            }
-            setActiveImageIndex(1);    
-         })
-         .catch(error => {
-            console.error('이미지 이름을 가져오는 중 오류 발생:', error);
-         })
+            .then((response) => {
+                if (response.data) {
+                    setCar(response.data);
+                    console.log(response.data);
+                }
+                setActiveImageIndex(1);
+            })
+            .catch(error => {
+                console.error('이미지 이름을 가져오는 중 오류 발생:', error);
+            })
 
 
         const handleScroll = () => {
@@ -98,13 +98,13 @@ function RentCarFoot() {
                 const wrapperRect = wrapperRef.current.getBoundingClientRect();
                 const targetRect = targetElement.getBoundingClientRect();
                 const offset = targetRect.top - wrapperRect.top + wrapperRef.current.scrollTop;
-    
+
                 // 디버깅을 위한 로그 추가
                 console.log('targetElement:', targetElement);
                 console.log('wrapperRect:', wrapperRect);
                 console.log('targetRect:', targetRect);
                 console.log('offset:', offset);
-    
+
                 wrapperRef.current.scrollTo({
                     top: offset,
                     behavior: 'smooth'
@@ -115,15 +115,15 @@ function RentCarFoot() {
         } else {
             console.log('contentRef.current is null');
         }
-    
+
         setIcons({
             megaphone: what === 'megaphone',
             beach: what === 'beach',
             hotel: what === 'hotel',
         });
     };
-    
-    
+
+
 
     return (
         <div ref={wrapperRef} className={styles.wrapper}>
@@ -151,10 +151,25 @@ function RentCarFoot() {
             </div>
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
-                    <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
-                        <p>옵션</p>
+                    <li id="settingsOption" className={highlightedItem === "settingsOption" ? styles.active : ""}>
+                        <h2><p>옵션</p></h2>
                         <p>
-                            {car && car.carOption}
+                            {car && (
+                                <table className={styles.optionsTable}>
+                                    <thead>
+                                        <tr>
+                                            <th>옵션</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {car.carOption.split(',').map((option, index) => (
+                                            <tr key={index}>
+                                                <td>{option.trim()}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
                         </p>
                     </li>
                     <hr />
@@ -189,17 +204,17 @@ function RentCarFoot() {
                             ***보험적용불가 : 모든 자차 및 특약은 1회성(1사고 1건)이며, 13대 중과실, 우도內사고/미보고(사고발생 직후 사고현장) 사고는 자차 및 특약 적용되지 않습니다.<br /><br />
 
                             <ul>
-                            <li><h3>다음의 경우는 보험처리 및 차량손해(자차) 면책처리가 불가능합니다.</h3></li>
-                            <li>- 임차인의 고의로 인한 사고</li>
-                            <li>- 무면허 운전사고</li>
-                            <li>- 음주운전, 약물중독운전 사고 - 렌트카를 경기용이나 연습용, 테스트용으로 사용하던 중 발생한 사고</li>
-                            <li>- 임차인(임차인과 기록된 공동임차인 포함) 이외의 제3자가 렌트카를 사용하여 발생한 사고</li>
-                            <li>- 본인 부주의로 인한 차량도난사고</li>
-                            <li>- 정원초과로 인한 사고</li>
-                            <li>- 사고 후 당사 미보고 사고</li>
-                            <li>- 1사고 1건 초과 사고</li>
-                            <li>- 우도내에서 발생하는 모든 사고.</li>
-                            <li>- 타이어펑크 및 타이어파손 비용, 사고견인, 현장출동(배터리방전,키분실 등)비용은 자차에 적용되지 않습니다. (고객부담)</li>
+                                <li><h3>다음의 경우는 보험처리 및 차량손해(자차) 면책처리가 불가능합니다.</h3></li>
+                                <li>- 임차인의 고의로 인한 사고</li>
+                                <li>- 무면허 운전사고</li>
+                                <li>- 음주운전, 약물중독운전 사고 - 렌트카를 경기용이나 연습용, 테스트용으로 사용하던 중 발생한 사고</li>
+                                <li>- 임차인(임차인과 기록된 공동임차인 포함) 이외의 제3자가 렌트카를 사용하여 발생한 사고</li>
+                                <li>- 본인 부주의로 인한 차량도난사고</li>
+                                <li>- 정원초과로 인한 사고</li>
+                                <li>- 사고 후 당사 미보고 사고</li>
+                                <li>- 1사고 1건 초과 사고</li>
+                                <li>- 우도내에서 발생하는 모든 사고.</li>
+                                <li>- 타이어펑크 및 타이어파손 비용, 사고견인, 현장출동(배터리방전,키분실 등)비용은 자차에 적용되지 않습니다. (고객부담)</li>
                             </ul>
                         </p>
                     </li>
