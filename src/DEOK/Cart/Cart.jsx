@@ -3,7 +3,8 @@ import Navbar from "../../CKH/Components/Navbar/Navbar";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 
 export const Cart = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -11,6 +12,28 @@ export const Cart = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [discount, setDiscount] = useState(0);
+  const [user, setUser] = useState(null); // 사용자 정보를 저장할 상태 추가
+  const navigate = useNavigate();
+
+  // 사용자 정보 가져오기
+  useEffect(() => {
+    if (cookies.accessToken) {
+      axios.get('http://localhost:8988/member/detailPage', {
+        headers: {
+          Authorization: `${cookies.accessToken}`,
+        },
+      })
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch(error => {
+          console.error('사용자 정보 가져오는 중 오류 발생:', error);
+        });
+    } else {
+      navigate('/login');
+      alert("결제 전에 로그인을 해주세요.");
+    }
+  }, [cookies.accessToken, navigate]);
 
   // 장바구니 데이터 가져오기
   useEffect(() => {
@@ -119,6 +142,76 @@ export const Cart = () => {
       return product.price * product.count;
     }
   };
+
+  // 결제 성공 시 예약 데이터 저장 함수
+  const saveCartReservation = (reservationData) => {
+    axios.post(`http://localhost:8988/payment/saveCartReservation`, reservationData)
+      .then(response => {
+        if (response.data) {
+          console.log('장바구니 예약이 성공적으로 처리되었습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('장바구니 예약 정보를 저장하는데 실패했습니다:', error);
+      });
+  };
+
+  // 결제 성공 처리 함수
+  const handlePaymentSuccess = (amount) => {
+    const reservationData = {
+      memberId: user.id,
+      cartItems: selectedItems.map(index => data[index]),
+      totalAmount: amount,
+      reservationDate: new Date(),
+      reservationState: "COMPLETED",
+    };
+    saveCartReservation(reservationData);
+  };
+
+  // 결제 요청 함수
+  const handlePayment = () => {
+    const totalAmount = getTotalPrice() - discount;
+    
+    if (totalAmount <= 0) {
+      alert("결제할 상품을 선택해 주세요.");
+      return;
+    }
+
+    const orderId = `order_${new Date().getTime()}`;
+    const cartItemsData = selectedItems.map(index => ({
+      productId: data[index].id,
+      category: data[index].category,
+      count: data[index].count,
+      price: data[index].price
+    }));
+
+    const successUrl = `http://localhost:3000/PaymentSuccessCart?member_id=${user.id}&orderId=${orderId}&cartItems=${encodeURIComponent(JSON.stringify(cartItemsData))}`;
+
+    const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
+  loadTossPayments(clientKey)
+    .then(tossPayments => {
+      tossPayments.requestPayment('CARD', {
+        amount: totalAmount,
+        orderId: orderId,
+        orderName: '장바구니 결제',
+        successUrl: successUrl,
+        failUrl: "http://localhost:3000/PaymentFail",
+      })
+      .then((response) => {
+        if (response.success) {
+          handlePaymentSuccess(response.amount);
+        }
+      })
+      .catch((error) => {
+        console.error('결제 중 오류 발생:', error);
+        alert("결제 실패.");
+      });
+    })
+    .catch(error => {
+      console.error('토스페이먼츠 로딩 중 오류 발생:', error);
+      alert("결제 애플리케이션 로딩 실패.");
+    });
+};
 
   return (
     <>
@@ -259,7 +352,7 @@ export const Cart = () => {
             <p className={styles.cart_prouct_payment}>결제 예정 금액</p>
             <p className={styles.cart_prouct_payment_price}>{(getTotalPrice() - discount).toLocaleString()}원</p>
           </div>
-          <button className={styles.btn_submit}>주문하기</button>
+          <button className={styles.btn_submit} onClick={handlePayment}>주문하기</button>
         </div>
       </div>
     </>
