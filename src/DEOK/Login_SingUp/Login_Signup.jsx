@@ -43,6 +43,8 @@ const SignUpForm = () => {
     const [showErrMsg, setShowErrMsg] = useState(false);
     const [birth, setBirth]=useState('');
     const [showTestComponent, setShowTestComponent] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(true);
+    
     function validateBirth(birth) {
         console.log(birth);
         if (!/^\d{6}-[1-4][\d*]{6}$/.test(birth)) {
@@ -86,75 +88,71 @@ const SignUpForm = () => {
     function validCheck(event) {
         const { name, value } = event.target;
         // eslint-disable-next-line default-case
+        let valid = true;
+        let errorMsg = "";
         switch (name) {
             case "email":
                 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 if (!emailRegex.test(value)) {
-                    setShowErrMsg(true);
-                    setValidErrorMsg({ email: "올바른 이메일 형식으로 입력해 주세요." });
-                } else {
-                    setShowErrMsg(false);
+                    errorMsg = "올바른 이메일 형식으로 입력해 주세요.";
+                    valid = false;
                 }
                 break;
 
             case "password":
                 const passwordRegex = /[a-zA-Z0-9!@#$%^&*()\-_=+`~]{8,20}/;
                 if (!passwordRegex.test(value)) {
-                    setValidErrorMsg({ password: "특수문자, 영문, 숫자를 조합하여 8~20자를 입력해 주세요." });
-                    setShowErrMsg(true);
+                    errorMsg = "특수문자, 영문, 숫자를 조합하여 8~20자를 입력해 주세요.";
+                    valid = false;
                 } else {
-                    setShowErrMsg(false);
                     setPassword(value);
                 }
                 break;
 
             case "exactPassword":
                 if (password !== value) {
-                    setValidErrorMsg({ exactPassword: "비밀번호가 다릅니다." });
-                    setShowErrMsg(true);
-                } else {
-                    setShowErrMsg(false);
-                }
+                    errorMsg = "비밀번호가 다릅니다.";
+                    valid = false;
+                } 
                 break;
 
             case "name":
                 if (value === "" || value === null) {
-                    setValidErrorMsg({ name: "필수 입력 사항입니다." });
-                    setShowErrMsg(true);
-                } else {
-                    setShowErrMsg(false);
-                }
+                    errorMsg = "필수 입력 사항입니다.";
+                    valid = false;
+                } 
                 break;
 
             case "nickname":
                 if (value.length < 2) {
-                    setValidErrorMsg({ nickname: "필수 입력 사항입니다." });
-                    setShowErrMsg(true);
-                } else {
-                    setShowErrMsg(false);
-                }
+                    errorMsg = "필수 입력 사항입니다.";
+                    valid = false;
+                } 
                 break;
 
             case "phone":
                 const phoneRegex = /^[0-9]{11}$/;
                 if (!phoneRegex.test(value)) {
-                    setValidErrorMsg({ phone: "올바른 핸드폰 번호를 입력해 주세요." });
-                    setShowErrMsg(true);
-                } else {
-                    setShowErrMsg(false);
-                }
+                    errorMsg = "올바른 핸드폰 번호를 입력해 주세요.";
+                    valid = false;
+                } 
                 break;
 
             case "birth":
                 
                 if (!validateBirth(value)) {
-                    setValidErrorMsg({ birth: "올바른 생일 양식으로 입력해 주세요." })
-                    setShowErrMsg(true);
-                } else {
-                    setShowErrMsg(false);
-                }
+                    errorMsg = "올바른 생일 양식으로 입력해 주세요.";
+                    valid = false;
+                } 
                 break;
         }
+        setValidErrorMsg(prevState => ({
+            ...prevState,
+            [name]: errorMsg
+        }));
+    
+        setShowErrMsg(!valid);
+        setIsFormValid(valid);
     }
 
     const handleChange = (event) => {
@@ -172,7 +170,10 @@ const SignUpForm = () => {
 
     const handleSignUpClick = async (event) => {
         event.preventDefault();
-
+    if (!isFormValid) {
+        console.log("폼이 유효하지 않습니다. 오류를 수정하고 다시 시도해 주세요.");
+        return;
+    }
         try {
             const response = await axios.post(member_url + "insert", formData);
             alert(response.data.message);
@@ -303,9 +304,10 @@ const SignUpForm = () => {
                 <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} />
                 </Modal.Body>
                 <Modal.Footer>
+                    {/*}
                     <Button variant="primary" onClick={handleCloseTestComponent}>
                         닫기
-                    </Button>
+    </Button>*/}
                 </Modal.Footer>
             </Modal>
                 <div className={`${styles["form-box"]} ${styles.login}`}>

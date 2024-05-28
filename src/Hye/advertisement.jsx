@@ -75,7 +75,10 @@ const TestComponent = () => {
         const response = await axios.get('http://localhost:8988/admin/adv');
         console.log('Updated Data:', response.data); // 성공 시 응답 데이터 출력
         const updatedData = response.data;
-
+        const activeAds = updatedData.filter(ad => ad.statusDate === 'ACTIVE');
+     if (activeAds.length > 0) {
+        setRandomAd(activeAds);
+}
         // 기존 데이터와 새로운 데이터를 병합하여 업데이트
         const mergedData = mergeData(updatedData, dataset);
         console.log('Merged Data Length:', mergedData.length);
@@ -137,10 +140,6 @@ const TestComponent = () => {
         <p>Loading...</p>
       )}
 
-      <SurveyModal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 };
