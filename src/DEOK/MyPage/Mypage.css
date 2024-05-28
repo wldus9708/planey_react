@@ -40,7 +40,7 @@
     
 }
 .Allbody{
-    
+
 }
 
 .DEOK_MP_CL_body {
@@ -137,7 +137,7 @@
 .DEOK_MP_CL_container {
     display: flex;
     justify-content: center;
-    margin: 0 auto;
+    margin: 100px auto;
     gap: 1.8rem;
 }
 
