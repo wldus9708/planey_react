@@ -8,4 +8,12 @@
     margin: 0 auto;
     margin-top: 1rem;
 }
+.paymentListBody h4{
+  margin-bottom:30px;
+}
+.paymentListBody a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
 
