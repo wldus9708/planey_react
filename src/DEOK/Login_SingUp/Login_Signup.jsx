@@ -210,8 +210,15 @@ const SignUpForm = () => {
     
             // 로그인 성공 플래그 설정
             localStorage.setItem('loginSuccess', 'true');
+
+        
+            // 유저 및 관리자 페이지 따로
+            if (response.data.role === 'ADMIN') {
+                window.location.href = 'http://localhost:4000';
+            } else {
+                navigator('/');
+            }
     
-            navigator('/');
         } catch (error) {
             console.log("로그인중 axios error 발생");
             console.log(error);
