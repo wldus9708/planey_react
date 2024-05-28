@@ -9,7 +9,7 @@ export const logUserAction = async (logData, token) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log('로그 전송 성공:', response.data);
+        // console.log('로그 전송 성공:', response.data);
     } catch (error) {
         console.error('로그 전송 실패:', error);
     }

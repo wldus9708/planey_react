@@ -23,7 +23,7 @@ const useUser = () => {
         })
         .catch(error => {
           // API 호출 실패 시 에러 로그 출력
-          console.error('사용자 정보 가져오는 중 오류 발생:', error);
+          // console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
     }
   }, [cookies]); // cookies가 변경될 때마다 useEffect 실행
