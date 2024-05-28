@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
-import NavBar from "./../CKH/Components/Navbar/Navbar"
+import NavBar from "./../CKH/Components/Navbar/Navbar";
+import McAdvertise from "./../Hye/machineList";
 const PackageList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
     const fixedMinPrice = 50000;
@@ -26,7 +27,7 @@ const PackageList = () => {
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
     // useState 훅을 사용하여 국내 여행 여부를 나타내는 상태 값을 추가합니다.
-
+    const [showAdvertise, setShowAdvertise] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -176,7 +177,13 @@ const PackageList = () => {
         setSecondSearchQuery(query);
     };
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowAdvertise(false);
+        }, 5000); // 광고를 5초 동안만 표시
 
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <>
@@ -185,6 +192,8 @@ const PackageList = () => {
                 <NavBar />
             </div>
             <SearchField onSearch={handleSearch} />
+            {/**/}
+            {showAdvertise && <McAdvertise />}
             <div className={styles.packageListBody}>
 
                 <div className={styles['packList-container']}>
