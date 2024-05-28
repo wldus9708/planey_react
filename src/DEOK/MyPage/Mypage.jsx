@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import WishList from './MainComponents/WishList';
+import NavBar from "../../CKH/Components/Navbar/Navbar"
 
 const MpClient = () => {
     const [cookies] = useCookies(['accessToken']);
@@ -65,127 +66,126 @@ const MpClient = () => {
     }
 
     return (
-        <div className="DEOK_MP_CL_body">
-            <div className="DEOK_MP_CL_container">
-                <aside className="DEOK_MP_CL_aside">
-                    <div className="DEOK_MP_CL_sidebar">
-                        <div>
-                            <Link to="/">
-                                홈으로
-                            </Link>
-                        </div>
-                        <div className="DEOK_MP_CL_profileBox">
-                            <img className="DEOK_MP_CL_profile" src={"/images/" + userInfo.memberImage} alt='' />
-                        </div>
-                        <p className='DEOK_MP_CL_Nickname'>
-                            {userInfo.nickname}
-                        </p>
-                        <p className={viewWhat === 'paymentList' ? 'active' : ''} onClick={() => clickMenu("paymentList")}>
-                            <h3>결제 내역</h3>
-                        </p>
-                        <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
-                            <h3>회원 정보 수정</h3>
-                        </p>
-                        <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => clickMenu('wishList')}>
-                            <h3>찜목록</h3>
-                        </p>
-                        <p
-                            className={viewWhat === 'deleteMember' ? 'active' : ''}
-                            onClick={() => clickMenu("deleteMember")}
-                            style={{
-                                position: 'absolute',
-                                bottom: '50px',
-                                color: 'var(--color-danger)',
-                            }}>
-                            <h3>회원 탈퇴</h3>
-                        </p>
-                    </div>
-                </aside>
-                {/* <!-- End of Sidebar Section --> */}
+        <div className="Allbody">
+            <NavBar />
+            <div className="DEOK_MP_CL_body">
 
-                {/* <!-- Main Content --> */}
-                <main>
-                    <div className='DEOK_MP_CL_main'>
-                        {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
-                        {viewWhat === "paymentList" && <PaymentList userInfo={userInfo} />}
-                        {viewWhat === "wishList" && <WishList />}
-                        {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}
-                    </div>
-                </main>
-                {/* <!-- End of Main Content --> */}
-
-                {/* <!-- Right Section --> */}
-                <div className="DEOK_MP_CL_right-section">
-                    <div className="nav">
-                        <div className="dark-mode" onClick={toggleDarkMode}>
-                            <span className="material-icons-sharp active">
-                                light_mode
-                            </span>
-                            <span className="material-icons-sharp">
-                                dark_mode
-                            </span>
+                <div className="DEOK_MP_CL_container">
+                    <aside className="DEOK_MP_CL_aside">
+                        <div className="DEOK_MP_CL_sidebar">
+                            <div className="DEOK_MP_CL_profileBox">
+                                <img className="DEOK_MP_CL_profile" src={"/images/" + userInfo.memberImage} alt='' />
+                            </div>
+                            <p className='DEOK_MP_CL_Nickname'>
+                                {userInfo.nickname}
+                            </p>
+                            <p className={viewWhat === 'paymentList' ? 'active' : ''} onClick={() => clickMenu("paymentList")}>
+                                <h3>결제 내역</h3>
+                            </p>
+                            <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
+                                <h3>회원 정보 수정</h3>
+                            </p>
+                            <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => clickMenu('wishList')}>
+                                <h3>찜목록</h3>
+                            </p>
+                            <p
+                                className={viewWhat === 'deleteMember' ? 'active' : ''}
+                                onClick={() => clickMenu("deleteMember")}
+                                style={{
+                                    position: 'absolute',
+                                    bottom: '50px',
+                                    color: 'var(--color-danger)',
+                                }}>
+                                <h3>회원 탈퇴</h3>
+                            </p>
                         </div>
-                    </div>
+                    </aside>
+                    {/* <!-- End of Sidebar Section --> */}
 
-                    <div className="reminders">
-                        <div className="notificationHeader">
-                            <h2>알림</h2>
-                            <span className="material-icons-sharp">
-                                notifications_none
-                            </span>
+                    {/* <!-- Main Content --> */}
+                    <main>
+                        <div className='DEOK_MP_CL_main'>
+                            {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
+                            {viewWhat === "paymentList" && <PaymentList userInfo={userInfo} />}
+                            {viewWhat === "wishList" && <WishList />}
+                            {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}
                         </div>
+                    </main>
+                    {/* <!-- End of Main Content --> */}
 
-                        <div className="notification">
-                            <div className="icon">
+                    {/* <!-- Right Section --> */}
+                    <div className="DEOK_MP_CL_right-section">
+                        <div className="nav">
+                            <div className="dark-mode" onClick={toggleDarkMode}>
+                                <span className="material-icons-sharp active">
+                                    light_mode
+                                </span>
                                 <span className="material-icons-sharp">
-                                    volume_up
+                                    dark_mode
                                 </span>
                             </div>
-                            <div className="content">
-                                <div className="info">
-                                    <h3>Workshop</h3>
-                                    <small className="text_muted">
-                                        08:00 AM - 12:00 PM
-                                    </small>
+                        </div>
+
+                        <div className="reminders">
+                            <div className="notificationHeader">
+                                <h2>알림</h2>
+                                <span className="material-icons-sharp">
+                                    notifications_none
+                                </span>
+                            </div>
+
+                            <div className="notification">
+                                <div className="icon">
+                                    <span className="material-icons-sharp">
+                                        volume_up
+                                    </span>
                                 </div>
-                                <span className="material-icons-sharp">
-                                    more_vert
-                                </span>
-                            </div>
-                        </div>
-
-                        <div className="notification deactive">
-                            <div className="icon">
-                                <span className="material-icons-sharp">
-                                    edit
-                                </span>
-                            </div>
-                            <div className="content">
-                                <div className="info">
-                                    <h3>Workshop</h3>
-                                    <small className="text_muted">
-                                        08:00 AM - 12:00 PM
-                                    </small>
+                                <div className="content">
+                                    <div className="info">
+                                        <h3>Workshop</h3>
+                                        <small className="text_muted">
+                                            08:00 AM - 12:00 PM
+                                        </small>
+                                    </div>
+                                    <span className="material-icons-sharp">
+                                        more_vert
+                                    </span>
                                 </div>
-                                <span className="material-icons-sharp">
-                                    more_vert
-                                </span>
                             </div>
-                        </div>
 
-                        <div className="notification add-reminder">
-                            <div>
-                                <span className="material-icons-sharp">
-                                    add
-                                </span>
-                                <h3>Add Reminder</h3>
+                            <div className="notification deactive">
+                                <div className="icon">
+                                    <span className="material-icons-sharp">
+                                        edit
+                                    </span>
+                                </div>
+                                <div className="content">
+                                    <div className="info">
+                                        <h3>Workshop</h3>
+                                        <small className="text_muted">
+                                            08:00 AM - 12:00 PM
+                                        </small>
+                                    </div>
+                                    <span className="material-icons-sharp">
+                                        more_vert
+                                    </span>
+                                </div>
                             </div>
+
+                            <div className="notification add-reminder">
+                                <div>
+                                    <span className="material-icons-sharp">
+                                        add
+                                    </span>
+                                    <h3>Add Reminder</h3>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
-
             </div>
         </div>
     );
