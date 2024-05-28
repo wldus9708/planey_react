@@ -19,7 +19,7 @@ const UserActionLogger = () => {
             timestamp: timestamp,
             ipAddress: '',
             userAgent: navigator.userAgent,
-            details: `${user.name} 님이 ${timestamp}에 ${action}를 하셨습니다.`,
+            details: `${user.name} 님이 ${timestamp}에 ${action}을(를) 하셨습니다.`,
         };
 
         console.log("로그 데이터:", logData); // 로그 데이터 출력
@@ -27,18 +27,19 @@ const UserActionLogger = () => {
         console.log("UserActionLogger.jsx에서 출력 :", logData);
     };
 
+    // 클릭 이벤트 감지 부분 제거
     useEffect(() => {
-        if (user) {
-            const handleClick = (event) => {
-                const action = event.target.getAttribute('data-action') || 'CLICK';
-                handleUserAction(action);
-            };
-            document.addEventListener('click', handleClick);
+        // if (user) {
+        //     const handleClick = (event) => {
+        //         const action = event.target.getAttribute('data-action') || 'CLICK';
+        //         handleUserAction(action);
+        //     };
+        //     document.addEventListener('click', handleClick);
 
-            return () => {
-                document.removeEventListener('click', handleClick);
-            };
-        }
+        //     return () => {
+        //         document.removeEventListener('click', handleClick);
+        //     };
+        // }
     }, [user]);
 
     return null;

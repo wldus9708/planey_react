@@ -170,34 +170,24 @@ const SignUpForm = () => {
 
     const handleSignUpClick = async (event) => {
         event.preventDefault();
-    if (!isFormValid) {
-        console.log("폼이 유효하지 않습니다. 오류를 수정하고 다시 시도해 주세요.");
-        return;
-    }
+        if (!isFormValid) {
+            console.log("폼이 유효하지 않습니다. 오류를 수정하고 다시 시도해 주세요.");
+            return;
+        }
         try {
             const response = await axios.post(member_url + "insert", formData);
             alert(response.data.message);
-            
-            // 회원가입 성공 후 로그 기록
-            const timestamp = new Date().toISOString();
-            const logData = {
-                memberId: response.data.memberId || user?.id, // 서버에서 반환된 사용자 ID 사용
-                username: response.data.username || user?.name, // 서버에서 반환된 사용자 이름 사용
-                action: 'SIGNUP',
-                timestamp: timestamp,
-                ipAddress: '', // IP 주소는 서버에서 설정
-                userAgent: navigator.userAgent,
-                details: `${response.data.username || user?.name} 님이 ${timestamp}에 'SIGNUP'를 성공하셨습니다.`,
-            };
-
-            await logUserAction(logData, response.data.accessToken);
-
+    
+            // 회원가입 성공 플래그 설정
+            localStorage.setItem('signupSuccess', 'true');
+    
             setShowTestComponent(true); 
         } catch (error) {
             console.log("에러 발생", error);
             alert(error.response.data.message);
         }
     };
+    
     const handleCloseTestComponent = () => {
         setShowTestComponent(false);
         window.location.href = '/login'; // 모달을 닫을 때 로그인 페이지로 이동
@@ -208,30 +198,19 @@ const SignUpForm = () => {
             email: event.target.email.value,
             password: event.target.password.value
         });
-
+    
         try {
             const response = await axios.post(member_url + "login", {
                 email: userLoginInfo.email,
                 password: userLoginInfo.password
             });
-
+    
             setCookie("accessToken", response.data.accessToken);
             console.log(useCookies);
-
-            // 로그인 성공 후 로그 기록
-            const timestamp = new Date().toISOString();
-            const logData = {
-                memberId: response.data.memberId || user?.id, // 서버에서 반환된 사용자 ID 사용
-                username: response.data.username || user?.name, // 서버에서 반환된 사용자 이름 사용
-                action: 'LOGIN',
-                timestamp: timestamp,
-                ipAddress: '', // IP 주소는 서버에서 설정
-                userAgent: navigator.userAgent,
-                details: `${response.data.username || user?.name} 님이 ${timestamp}에 'LOGIN'를 성공하셨습니다.`,
-            };
-
-            await logUserAction(logData, response.data.accessToken);
-
+    
+            // 로그인 성공 플래그 설정
+            localStorage.setItem('loginSuccess', 'true');
+    
             navigator('/');
         } catch (error) {
             console.log("로그인중 axios error 발생");

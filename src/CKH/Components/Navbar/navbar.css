@@ -113,7 +113,7 @@
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn a {
     font-weight: 600;
-    
+    color: var(--whiteColor);
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn a:hover {
     color: var(--whiteColor);
@@ -124,7 +124,6 @@
   }
   .navBarSection .header .navBar .navLists .headerBtns .loginBtn a {
     color: var(--PrimaryColor);
-    
   }
   .navBarSection .header .navBar .navLists .headerBtns .loginBtn:hover {
     background: var(--HoverColor);

@@ -14,25 +14,12 @@ const KaKaoLogin = () => {
     const kakaoLogin = async () => {
         await axios.get(`http://localhost:8988/login/oauth2/callback/kakao?code=${code}`)
             .then(async (response) => {
-                
-                    setCookie("accessToken", response.data.accessToken, { path: '/' });
+                setCookie("accessToken", response.data.accessToken, { path: '/' });
 
-                    // 로그인 성공 후 로그 기록
-                    const timestamp = new Date().toISOString();
-                    const logData = {
-                        memberId: response.data.memberId || user?.id, // 서버에서 반환된 사용자 ID 사용
-                        username: response.data.username || user?.name, // 서버에서 반환된 사용자 이름 사용
-                        action: 'KAKAO_LOGIN',
-                        timestamp: timestamp,
-                        ipAddress: '', // IP 주소는 서버에서 설정
-                        userAgent: navigator.userAgent,
-                        details: `${response.data.username || user?.name} 님이 ${timestamp}에 'KAKAO_LOGIN'를 성공하셨습니다.`,
-                    };
+                // 로그인 성공 플래그 설정
+                localStorage.setItem('kakaoLoginSuccess', 'true');
 
-                    await logUserAction(logData, response.data.accessToken);
-
-                    navigate('/');
-                
+                navigate('/');
             })
             .catch((error) => {
                 console.log(error);
@@ -40,14 +27,8 @@ const KaKaoLogin = () => {
     };
 
     useEffect(() => {
-        if (user) {
-            kakaoLogin();
-        } else {
-            kakaoLogin();
-            console.log("사용자 정보가 없습니다.");
-
-        }
-    }, [user]); // user를 의존성 배열에 추가
+        kakaoLogin();
+    }, []); // 빈 배열을 의존성 배열로 사용하여 컴포넌트가 마운트될 때 한 번만 실행
 
     return (
         <>

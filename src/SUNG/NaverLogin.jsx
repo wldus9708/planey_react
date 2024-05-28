@@ -32,6 +32,10 @@ const NaverLogin = () => {
                     navigate('/');
                 } else if (response.data.code === "LoginSU") {
                     setCookie("accessToken", response.data.accessToken, { path: '/' });
+
+                    // 로그인 성공 플래그 설정
+                    localStorage.setItem('naverLoginSuccess', 'true');
+
                     navigate('/');
                 } else {
                     console.error("예상치 못한 응답 코드:", response.data.code);
