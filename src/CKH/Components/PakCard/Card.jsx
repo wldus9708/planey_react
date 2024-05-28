@@ -51,6 +51,7 @@ export default function App() {
   const product = products.map((item, index) => (
     <Product
       key={index}
+      id={item.id}
       name={item.name}
       img={item.images}
       price={item.price}

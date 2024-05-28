@@ -115,7 +115,7 @@ const Blog = () => {
                 <a
                   data-aos="fade-right"
                   data-aos-duration="2500"
-                  href="#"
+                  href={`/PackageDetail/${tours.id}`}
                   className="flex"
                 >
                   Read More
