@@ -1,9 +1,16 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link } from "react-router-dom";
+import { handleNavItemClick } from "../Navbar/Navbar";
+import useUser from "../../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function Product(props) {
+  const user = useUser();
+  const [cookies] = useCookies(['accessToken']);
+  const navigate = useNavigate();
+
   return (
     // <div className="card">
     //   <img className="product--image" src={props.img} alt="product image" />
@@ -27,10 +34,10 @@ export default function Product(props) {
         <ListGroup.Item>{props.price.toLocaleString()}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
-        <Link
-         to={`/PackageDetail/${props.id}`}>
-          <button>상세정보</button>
-        </Link>
+        <button
+          onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL', `/PackageDetail/${props.id}`, navigate)}>
+          상세정보
+        </button>
       </Card.Body>
     </Card>
   );

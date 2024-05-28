@@ -7,16 +7,23 @@ import { BsDot } from "react-icons/bs";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import useUser from "../../../BBS/Log/useUser";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { handleNavItemClick } from "../Navbar/Navbar";
+import { useCookies } from "react-cookie";
 
 const Popular = () => {
   const pic = "../../../BBS/image/";
   // 상태(state) 정의
   const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
   const user = useUser();
+  const [cookies] = useCookies(['accessToken']);
+  const navigate = useNavigate();
   let count = 1;
 
   const handleArrowRightClick = () => {
+
+    handleNavItemClick(user, cookies, 'MAIN_POPULAR_RELOAD', null, navigate);
+
     axios
       .get("http://localhost:8988/PackageTour/readEightPackageTour")
       .then((response) => {
@@ -64,7 +71,7 @@ const Popular = () => {
           nation: tour.nation, // 상품 랜드마크
 
         }));
-        console.log("가져와짐.");
+        // console.log("가져와짐.");
         setTours(packageTour); // packgeTour 엔티티 정보 저장
       })
       .catch((error) => {
@@ -109,9 +116,9 @@ const Popular = () => {
                 <div className="overlayInfo">
                   <h3>{tour.destTitle}</h3>
                   <p>{tour.comment}</p>
-                  <Link to={`/PackageDetail/${tour.id}`}>
-                    <BsArrowRightShort className="icon" />
-                  </Link>
+                  <BsArrowRightShort
+                    className="icon"
+                    onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL', `/PackageDetail/${tour.id}`, navigate)} />
                 </div>
               </div>
 

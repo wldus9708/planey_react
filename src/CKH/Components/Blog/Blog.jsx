@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./blog.css";
 import axios from "axios";
 import { BsArrowRightShort } from "react-icons/bs";
-
-import { Link } from "react-router-dom";
+import useUser from "../../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 // import images ====================>
 import img01 from "../../Assets/Dining02/광화문식당02.jpg";
@@ -13,6 +14,7 @@ import img04 from "../../Assets/Dining02/티원03.PNG";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { handleNavItemClick } from "../Navbar/Navbar";
 
 // 맵 으로 순환해서 이미지 표시
 const Posts = [
@@ -43,6 +45,9 @@ const Posts = [
 ];
 
 const Blog = () => {
+  const user = useUser();
+  const [cookies] = useCookies(['accessToken']);
+  const navigate = useNavigate();
   const pic = "../../../BBS/image/";
   // 상태(state) 정의
   const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
@@ -68,7 +73,7 @@ const Blog = () => {
           nation:tour.nation,
 
         }));
-        console.log("가져와짐.");
+        // console.log("가져와짐.");
         setTours(packageTour); // packgeTour 엔티티 정보 저장
       })
       .catch((error) => {
@@ -115,9 +120,9 @@ const Blog = () => {
                 <a
                   data-aos="fade-right"
                   data-aos-duration="2500"
-                  href={`/PackageDetail/${tours.id}`}
+                  onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL_LOCAL', `/PackageDetail/${tours.id}`, navigate)}
                   className="flex"
-                >
+                  style={{cursor: 'pointer'}}>
                   Read More
                   <BsArrowRightShort className="icon" />
                 </a>

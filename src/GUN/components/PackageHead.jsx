@@ -26,12 +26,12 @@ const PackageHead = () => {
             .then((response) => {
                 if (response.data) {
                     setPackgeTour(response.data); // 패키지 정보 설정
-                    console.log(response.data);
+                    // console.log(response.data);
                 }
                 setActiveImageIndex(0); // 초기 인덱스 설정
             })
             .catch(error => {
-                console.error('이미지 이름을 가져오는 중 오류 발생:', error);
+                console.log('이미지 이름을 가져오는 중 오류 발생:', error);
             })
 
     }, [id]);
@@ -43,11 +43,11 @@ const PackageHead = () => {
             }
         })
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             alert(response.data.message);
         })
         .catch((err) => {
-            console.log(err);
+            // console.log(err);
         })
     };
 

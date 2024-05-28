@@ -71,9 +71,9 @@ const TestComponent = () => {
 
     const fetchUpdatedData = async () => {
       try {
-        console.log('Fetching updated data...');
+        // console.log('Fetching updated data...');
         const response = await axios.get('http://localhost:8988/admin/adv');
-        console.log('Updated Data:', response.data); // 성공 시 응답 데이터 출력
+        // console.log('Updated Data:', response.data); // 성공 시 응답 데이터 출력
         const updatedData = response.data;
         const activeAds = updatedData.filter(ad => ad.statusDate === 'ACTIVE');
      if (activeAds.length > 0) {
@@ -81,24 +81,24 @@ const TestComponent = () => {
 }
         // 기존 데이터와 새로운 데이터를 병합하여 업데이트
         const mergedData = mergeData(updatedData, dataset);
-        console.log('Merged Data Length:', mergedData.length);
+        // console.log('Merged Data Length:', mergedData.length);
 
         // 데이터가 변경된 경우에만 상태 업데이트
         if (JSON.stringify(mergedData) !== JSON.stringify(dataset)) {
-          console.log('aaaa');
+          // console.log('aaaa');
           setDataSet(mergedData);
           setUpdataSet(mergedData);
           axios.post('http://localhost:8988/admin/advertises/update-all', mergedData)
             .then(response => {
-              console.log('Dataset updated on the server:', response.data);
+              // console.log('Dataset updated on the server:', response.data);
             })
             .catch(error => {
-              console.error('Error updating dataset on the server:', error);
+              console.log('Error updating dataset on the server:', error);
             });
         }
       } catch (error) {
         if (!error.response || error.response.status !== 404) {
-          console.error('Error fetching updated data:', error);
+          console.log('Error fetching updated data:', error);
         }
         setUpdataSet([]); // 오류가 발생하면 빈 배열 설정
       }
