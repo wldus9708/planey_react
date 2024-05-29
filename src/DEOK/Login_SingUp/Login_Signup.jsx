@@ -12,13 +12,13 @@ import { Button, Modal } from 'react-bootstrap';
 import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "./OAUTH";
 import { logUserAction } from "../../BBS/Log/LogService"; // logUserAction 함수 임포트
 import useUser from "../../BBS/Log/useUser"; // useUser 훅 임포트
-import Survey from"../../Hye/dataConjugation";
+import Survey from "../../Hye/dataConjugation";
 
 const SignUpForm = () => {
     const user = useUser(); // 사용자 정보 가져오기
-
     const member_url = "http://localhost:8988/member/";
-
+    const [cookies, setCookie] = useCookies([]);
+    const navigator = useNavigate();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -29,7 +29,6 @@ const SignUpForm = () => {
         role: "USER",
         agreedPersonal: 1
     });
-
     const [password, setPassword] = useState("");
     const [validErrorMsg, setValidErrorMsg] = useState({
         email: "",
@@ -41,28 +40,32 @@ const SignUpForm = () => {
         birth: ""
     });
     const [showErrMsg, setShowErrMsg] = useState(false);
-    const [birth, setBirth]=useState('');
+    const [birth, setBirth] = useState('');
     const [showTestComponent, setShowTestComponent] = useState(false);
     const [isFormValid, setIsFormValid] = useState(true);
-    
+
+    if (cookies.accessToken) {
+        navigator('/');
+    }
+
     function validateBirth(birth) {
         console.log(birth);
         if (!/^\d{6}-[1-4][\d*]{6}$/.test(birth)) {
             return false; // 7자리의 숫자 형식이 아님
-            
+
         }
-      
+
         let year = parseInt(birth.substring(0, 2));
         const month = parseInt(birth.substring(2, 4));
         const day = parseInt(birth.substring(4, 6));
-        const gender= parseInt(birth.substring(7, 8));
+        const gender = parseInt(birth.substring(7, 8));
 
         if (gender === 1 || gender === 2) {
             year += 1900;
         } else if (gender === 3 || gender === 4) {
             year += 2000;
         }
-    
+
         // 올바른 날짜 범위 확인
         if (year < 1900) {
             return false; // 최소 1940년 이상이어야 함
@@ -73,7 +76,7 @@ const SignUpForm = () => {
         if (day < 1 || day > 31) {
             return false; // 올바른 일 범위 확인 (1~31)
         }
-        if(gender<1||gender>4){
+        if (gender < 1 || gender > 4) {
             return false;
         }
 
@@ -113,21 +116,21 @@ const SignUpForm = () => {
                 if (password !== value) {
                     errorMsg = "비밀번호가 다릅니다.";
                     valid = false;
-                } 
+                }
                 break;
 
             case "name":
                 if (value === "" || value === null) {
                     errorMsg = "필수 입력 사항입니다.";
                     valid = false;
-                } 
+                }
                 break;
 
             case "nickname":
                 if (value.length < 2) {
                     errorMsg = "필수 입력 사항입니다.";
                     valid = false;
-                } 
+                }
                 break;
 
             case "phone":
@@ -135,22 +138,22 @@ const SignUpForm = () => {
                 if (!phoneRegex.test(value)) {
                     errorMsg = "올바른 핸드폰 번호를 입력해 주세요.";
                     valid = false;
-                } 
+                }
                 break;
 
             case "birth":
-                
+
                 if (!validateBirth(value)) {
                     errorMsg = "올바른 생일 양식으로 입력해 주세요.";
                     valid = false;
-                } 
+                }
                 break;
         }
         setValidErrorMsg(prevState => ({
             ...prevState,
             [name]: errorMsg
         }));
-    
+
         setShowErrMsg(!valid);
         setIsFormValid(valid);
     }
@@ -177,17 +180,17 @@ const SignUpForm = () => {
         try {
             const response = await axios.post(member_url + "insert", formData);
             alert(response.data.message);
-    
+
             // 회원가입 성공 플래그 설정
             localStorage.setItem('signupSuccess', 'true');
-    
-            setShowTestComponent(true); 
+
+            setShowTestComponent(true);
         } catch (error) {
             console.log("에러 발생", error);
             alert(error.response.data.message);
         }
     };
-    
+
     const handleCloseTestComponent = () => {
         setShowTestComponent(false);
         window.location.href = '/login'; // 모달을 닫을 때 로그인 페이지로 이동
@@ -198,27 +201,26 @@ const SignUpForm = () => {
             email: event.target.email.value,
             password: event.target.password.value
         });
-    
+
         try {
             const response = await axios.post(member_url + "login", {
                 email: userLoginInfo.email,
                 password: userLoginInfo.password
             });
-    
+
             setCookie("accessToken", response.data.accessToken);
-            console.log(useCookies);
-    
+
             // 로그인 성공 플래그 설정
             localStorage.setItem('loginSuccess', 'true');
 
-        
+
             // 유저 및 관리자 페이지 따로
             if (response.data.role === 'ADMIN') {
                 window.location.href = 'http://localhost:4000';
             } else {
                 navigator('/');
             }
-    
+
         } catch (error) {
             console.log("로그인중 axios error 발생");
             console.log(error);
@@ -264,8 +266,7 @@ const SignUpForm = () => {
         setAction("");
     };
 
-    const [cookies, setCookie] = useCookies([]);
-    const navigator = useNavigate();
+
 
     const [showModal, setShowModal] = useState(false);
 
@@ -282,20 +283,20 @@ const SignUpForm = () => {
     return (
         <div className={styles.body}>
             <div className={`${styles.wrapper} ${action && styles.active}`}>
-            <Modal show={showTestComponent} onHide={handleCloseTestComponent} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>회원가입 완료</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} />
-                </Modal.Body>
-                <Modal.Footer>
-                    {/*}
+                <Modal show={showTestComponent} onHide={handleCloseTestComponent} centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>회원가입 완료</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {/*}
                     <Button variant="primary" onClick={handleCloseTestComponent}>
                         닫기
     </Button>*/}
-                </Modal.Footer>
-            </Modal>
+                    </Modal.Footer>
+                </Modal>
                 <div className={`${styles["form-box"]} ${styles.login}`}>
                     <form onSubmit={handleLogInClick}>
                         <h1>
@@ -477,14 +478,14 @@ const SignUpForm = () => {
                             </div>
                         </div>
                         <div className={styles["input-box"]}>
-                        <input
-                            type="text"
-                            placeholder="생년월일 (예시 : 9505161)"
-                            name="birth"
-                            value={formattedBirth}
-                            onBlur={validCheck}
-                            onChange={handleChange}
-                        />
+                            <input
+                                type="text"
+                                placeholder="생년월일 (예시 : 9505161)"
+                                name="birth"
+                                value={formattedBirth}
+                                onBlur={validCheck}
+                                onChange={handleChange}
+                            />
                             <div className={`${styles.errBoxSignUp} ${showErrMsg ? '' : styles.hidden}`} >
                                 <p>{validErrorMsg.birth}</p>
                             </div>
