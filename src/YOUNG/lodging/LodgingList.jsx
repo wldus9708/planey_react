@@ -5,6 +5,10 @@ import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-s
 import axios from 'axios';
 import SearchField from '../searchField/Search_field';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
+import useUser from "../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 const LodgingList = () => {
     const fixedMinPrice = 100000;
     const fixedMaxPrice = 10000000;
@@ -30,6 +34,9 @@ const LodgingList = () => {
     const [count, setCount] = useState(1); // 인원수 상태 추가
     const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
     const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
+    const user = useUser();
+    const [cookies] = useCookies(['accessToken']);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -197,7 +204,14 @@ const LodgingList = () => {
         setStartDate(date.startDate);
         setEndDate(date.endDate);
     };
-
+    const clickSort = (sortOption) => {
+        setSortOption(sortOption);
+        handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'LODGING_SORT_LOWPRICE' : 'LODGING_SORT_HIGHPRICE', null, navigate);
+    };
+    const handleScrollToTopAndNavItemClick = () => {
+        scrollToTop();
+        handleNavItemClick(user, cookies, 'LODGING_SCROLLTOP', null, navigate);
+    };
 
 
 
@@ -218,9 +232,9 @@ const LodgingList = () => {
                         <h1>숙소 리스트</h1>
                         <div className={styles['restList-check']}>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => clickSort("lowPrice")}>낮은가격순</button>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
+                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => clickSort("highPrice")}>높은가격순</button>
                         </div>
 
                         {data.length > 0 ? (
@@ -277,6 +291,7 @@ const LodgingList = () => {
                                         prcieRangeMinValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'LODGING_PRICE_RANGE', null, navigate)}
                                     className={styles['restList-PriceRangeMin']}
                                 />
                                 <input
@@ -289,6 +304,7 @@ const LodgingList = () => {
                                         prcieRangeMaxValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'LODGING_PRICE_RANGE', null, navigate)}
                                     className={styles['restList-PriceRangeMax']}
                                 />
                                 <div className={styles['restList-PriceValue']}>
@@ -310,35 +326,37 @@ const LodgingList = () => {
                                     value={searchQuery}
                                     placeholder="검색어를 입력하세요"
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    onClick={() => handleNavItemClick(user, cookies, 'LODGING_SEARCH', null, navigate)}
                                 />
                             </div>
                             <h6>숙소 유형</h6>
                             < br />
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.lodCategory).length})</span>
+                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>전체</p><span>({data.filter(item => item.lodCategory).length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.HOTEL} onChange={() => toggleCheckbox('HOTEL')} /><p>호텔</p><span>({data.filter(item => item.lodCategory === 'HOTEL').length})</span>
+                                <input type="checkbox" checked={checkboxStates.HOTEL} onChange={() => toggleCheckbox('HOTEL')} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>호텔</p><span>({data.filter(item => item.lodCategory === 'HOTEL').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.MOTEL} onChange={() => toggleCheckbox('MOTEL')} /><p>모텔</p><span>({data.filter(item => item.lodCategory === 'MOTEL').length})</span>
+                                <input type="checkbox" checked={checkboxStates.MOTEL} onChange={() => toggleCheckbox('MOTEL')} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>모텔</p><span>({data.filter(item => item.lodCategory === 'MOTEL').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.CONDO} onChange={() => toggleCheckbox('CONDO')} /><p>콘도</p><span>({data.filter(item => item.lodCategory === 'CONDO').length})</span>
+                                <input type="checkbox" checked={checkboxStates.CONDO} onChange={() => toggleCheckbox('CONDO')} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>콘도</p><span>({data.filter(item => item.lodCategory === 'CONDO').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.PENSION} onChange={() => toggleCheckbox('PENSION')} /><p>펜션</p><span>({data.filter(item => item.lodCategory === 'PENSION').length})</span>
+                                <input type="checkbox" checked={checkboxStates.PENSION} onChange={() => toggleCheckbox('PENSION')} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>펜션</p><span>({data.filter(item => item.lodCategory === 'PENSION').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.RESORT} onChange={() => toggleCheckbox('RESORT')} /><p>리조트</p><span>({data.filter(item => item.lodCategory === 'RESORT').length})</span>
+                                <input type="checkbox" checked={checkboxStates.RESORT} onChange={() => toggleCheckbox('RESORT')} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>리조트</p><span>({data.filter(item => item.lodCategory === 'RESORT').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.lodCategory === 'ETC').length})</span>
+                                <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} onClick={() => handleNavItemClick(user, cookies, 'LODGING_FILTER_CHECK', null, navigate)}/><p>기타</p><span>({data.filter(item => item.lodCategory === 'ETC').length})</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
+                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
+
             </div>
         </>
     );
