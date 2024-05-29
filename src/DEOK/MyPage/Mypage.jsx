@@ -9,7 +9,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import WishList from './MainComponents/WishList';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
-
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import useUser from "../../BBS/Log/useUser";
 const MpClient = () => {
     const [cookies] = useCookies(['accessToken']);
     const navigator = useNavigate();
@@ -17,6 +18,8 @@ const MpClient = () => {
     const [isUlHidden, setIsUlHidden] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const user = useUser();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!cookies.accessToken) {
@@ -56,6 +59,29 @@ const MpClient = () => {
         setIsUlHidden(!isUlHidden);
     };
 
+    const handleMultipleClicks = (menu, user, cookies, navigate) => {
+        switch (menu) {
+            case "paymentList":
+                clickMenu(menu);
+                handleNavItemClick(user, cookies, 'MYPAGE_PAYMENTLIST', null, navigate);
+                break;
+            case "updateInfo":
+                clickMenu(menu);
+                handleNavItemClick(user, cookies, 'MYPAGE_UPDATEINFO', null, navigate);
+                break;
+            case "wishList":
+                clickMenu(menu);
+                handleNavItemClick(user, cookies, 'MYPAGE_WISHLIST', null, navigate);
+                break;
+            case "deleteMember":
+                clickMenu(menu);
+                handleNavItemClick(user, cookies, 'MYPAGE_DELETEMEMBER', null, navigate);
+                break;
+            default:
+                break;
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="loading-container">
@@ -79,18 +105,18 @@ const MpClient = () => {
                             <p className='DEOK_MP_CL_Nickname'>
                                 {userInfo.nickname}
                             </p>
-                            <p className={viewWhat === 'paymentList' ? 'active' : ''} onClick={() => clickMenu("paymentList")}>
+                            <p className={viewWhat === 'paymentList' ? 'active' : ''} onClick={() => handleMultipleClicks("paymentList", user, cookies, navigate)}>
                                 <h3>결제 내역</h3>
                             </p>
-                            <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => clickMenu("updateInfo")}>
+                            <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => handleMultipleClicks("updateInfo", user, cookies, navigate)}>
                                 <h3>회원 정보 수정</h3>
                             </p>
-                            <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => clickMenu('wishList')}>
+                            <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => handleMultipleClicks("wishList", user, cookies, navigate)}>
                                 <h3>찜목록</h3>
                             </p>
                             <p
                                 className={viewWhat === 'deleteMember' ? 'active' : ''}
-                                onClick={() => clickMenu("deleteMember")}
+                                onClick={() => handleMultipleClicks("deleteMember", user, cookies, navigate)}
                                 style={{
                                     position: 'absolute',
                                     bottom: '50px',
@@ -186,8 +212,8 @@ const MpClient = () => {
                     </div>
 
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
