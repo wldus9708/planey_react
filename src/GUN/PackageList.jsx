@@ -29,7 +29,7 @@ const PackageList = () => {
     const [data, setData] = useState([]);
     const [sortOption, setSortOption] = useState("lowPrice");
     const [searchQuery, setSearchQuery] = useState("");
-    const [showAdvertise, setShowAdvertise] = useState(true);
+    const [showAdvertise, setShowAdvertise] = useState(false);
     const [count, setCount] = useState(1);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -193,12 +193,13 @@ const PackageList = () => {
     };
 
     useEffect(() => {
+        if (cookies.accessToken) {
+            setShowAdvertise(true);
         const timer = setTimeout(() => {
             setShowAdvertise(false);
-        }, 10000);
-        return () => clearTimeout(timer);
+        }, 2000);
+        return () => clearTimeout(timer);}
     }, []);
-
     const closeModal = () => {
         setShowAdvertise(false);
     };
