@@ -5,6 +5,10 @@ import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-s
 import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar from "./../CKH/Components/Navbar/Navbar"
+import { handleNavItemClick } from "./../CKH/Components/Navbar/Navbar";
+import useUser from "../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 
 const RentCarList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
@@ -31,6 +35,9 @@ const RentCarList = () => {
     const [count, setCount] = useState(1); // 인원수 상태 추가
     const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
     const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
+    const user = useUser();
+    const [cookies] = useCookies(['accessToken']);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -114,7 +121,7 @@ const RentCarList = () => {
         const allChecked = Object.values(newCheckboxStates).every(value => value);
         setAllChecked(allChecked);
     };
-    
+
     const filterByFuelType = (data) => {
         if (checkboxStates.all || Object.values(checkboxStates).every(value => !value)) {
             return data;
@@ -123,7 +130,7 @@ const RentCarList = () => {
             return checkboxStates[item.carFuelType];
         });
     };
-    
+
 
     const prcieRangeMinValueHandler = e => {
         setRangeMinValue(parseInt(e.target.value));
@@ -161,7 +168,7 @@ const RentCarList = () => {
                 return restaurantName && restaurantName.toLowerCase().includes(searchQuery.toLowerCase());
             });
 
-            
+
         }
 
         if (secondSearchQuery.trim()) {
@@ -171,7 +178,7 @@ const RentCarList = () => {
             });
         }
 
-        
+
 
 
 
@@ -200,6 +207,14 @@ const RentCarList = () => {
         setStartDate(date.startDate);
         setEndDate(date.endDate);
     };
+    const clickSort = (sortOption) => {
+        setSortOption(sortOption);
+        handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'CAR_SORT_LOWPRICE' : 'CAR_SORT_HIGHPRICE', null, navigate);
+    };
+    const handleScrollToTopAndNavItemClick = () => {
+        scrollToTop();
+        handleNavItemClick(user, cookies, 'CAR_SCROLLTOP', null, navigate);
+    };
 
     return (
         <>
@@ -207,16 +222,16 @@ const RentCarList = () => {
                 <NavBar />
             </div>
             <div className={styles.rentcarListBody}>
-            <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
+                <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
                 <div className={styles['rentList-container']}>
                     <div className={styles['rentList-left-col']}>
                         <p>{data.length} + options</p>
                         <h1>렌트카 리스트</h1>
                         <div className={styles['rentList-check']}>
-                            <FontAwesomeIcon icon={faCheck} className={`${styles['rentList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                            <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
+                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => clickSort("lowPrice")}>낮은가격순</button>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['rentList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
+                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => clickSort("highPrice")}>높은가격순</button>
                         </div>
                         {data.length > 0 ? (
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
@@ -268,6 +283,7 @@ const RentCarList = () => {
                                         prcieRangeMinValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'CAR_PRICE_RANGE', null, navigate)}
                                     className={styles['rentList-PriceRangeMin']}
                                 />
                                 <input
@@ -280,6 +296,7 @@ const RentCarList = () => {
                                         prcieRangeMaxValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'CAR_PRICE_RANGE', null, navigate)}
                                     className={styles['rentList-PriceRangeMax']}
                                 />
                                 <div className={styles['rentList-PriceValue']}>
@@ -298,31 +315,32 @@ const RentCarList = () => {
                                     value={searchQuery}
                                     placeholder="검색어를 입력하세요"
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    onClick={() => handleNavItemClick(user, cookies, 'CAR_SEARCH', null, navigate)}
                                 />
                             </div>
                             <h3>연료유형</h3>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.carFuelType).length})</span>
+                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>전체</p><span>({data.filter(item => item.carFuelType).length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.GASOLINE} onChange={() => toggleCheckbox('GASOLINE')} /><p>휘발유</p><span>({data.filter(item => item.carFuelType === 'GASOLINE').length})</span>
+                                <input type="checkbox" checked={checkboxStates.GASOLINE} onChange={() => toggleCheckbox('GASOLINE')} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>휘발유</p><span>({data.filter(item => item.carFuelType === 'GASOLINE').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.DIESEL} onChange={() => toggleCheckbox('DIESEL')} /><p>경유</p><span>({data.filter(item => item.carFuelType === 'DIESEL').length})</span>
+                                <input type="checkbox" checked={checkboxStates.DIESEL} onChange={() => toggleCheckbox('DIESEL')} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>경유</p><span>({data.filter(item => item.carFuelType === 'DIESEL').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.HYBRID} onChange={() => toggleCheckbox('HYBRID')} /><p>하이브리드</p><span>({data.filter(item => item.carFuelType === 'HYBRID').length})</span>
+                                <input type="checkbox" checked={checkboxStates.HYBRID} onChange={() => toggleCheckbox('HYBRID')} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>하이브리드</p><span>({data.filter(item => item.carFuelType === 'HYBRID').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.ELECTRIC} onChange={() => toggleCheckbox('ELECTRIC')} /><p>전기</p><span>({data.filter(item => item.carFuelType === 'ELECTRIC').length})</span>
+                                <input type="checkbox" checked={checkboxStates.ELECTRIC} onChange={() => toggleCheckbox('ELECTRIC')} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>전기</p><span>({data.filter(item => item.carFuelType === 'ELECTRIC').length})</span>
                             </div>
                             <div className={styles['rentList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.HYDROGEN} onChange={() => toggleCheckbox('HYDROGEN')} /><p>수소</p><span>({data.filter(item => item.carFuelType === 'HYDROGEN').length})</span>
+                                <input type="checkbox" checked={checkboxStates.HYDROGEN} onChange={() => toggleCheckbox('HYDROGEN')} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>수소</p><span>({data.filter(item => item.carFuelType === 'HYDROGEN').length})</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
+                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
             </div>
         </>
     );
