@@ -5,6 +5,9 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import NavBar from "../../CKH/Components/Navbar/Navbar"
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import useUser from "../../BBS/Log/useUser";
 
 const PackageHead = () => {
     const [data, setData] = useState([]);
@@ -14,6 +17,8 @@ const PackageHead = () => {
     const [packageTour, setPackgeTour] = useState(null);
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [paymentInfo, setPaymentInfo] = useState(null);
+    const user = useUser();
+    const navigate = useNavigate();
 
     // 이미지 목록을 위한 상태 추가
     const [imageList, setImageList] = useState([
@@ -50,6 +55,14 @@ const PackageHead = () => {
             // console.log(err);
         })
     };
+    const handleAddToCartClick = () => {
+        addToCart();
+        handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
+      };
+      
+      const handleBuyNowClick = () => {
+        handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
+      };
 
     return (
         <div className={styles.LodgingBody}>
@@ -100,11 +113,11 @@ const PackageHead = () => {
                             {packageTour && packageTour.tour_pack_description}
                             </p>
                             <div className={styles.btnGroups}>
-                                <button type="button" onClick={addToCart} className={styles.addCartBtn}>
+                                <button type="button" onClick={handleAddToCartClick} className={styles.addCartBtn}>
                                     <i className='fas fa-shopping-cart'></i>
                                     장바구니 추가
                                 </button>
-                                <button type="button" className={styles.buyNowBtn}>
+                                <button type="button" className={styles.buyNowBtn} onClick={handleBuyNowClick}>
                                     <i className='fas fa-wallet'></i>
                                     예약 하러 가기
                                 </button>
