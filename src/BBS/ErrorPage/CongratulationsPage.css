@@ -1,0 +1,33 @@
+.bbs-congratulations-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Viewport height */
+    background: linear-gradient(45deg, #A83279, #DC4225);
+    color: white; /* 텍스트 색상 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+#bbs-fireworksCanvas {
+    border: 2px solid #fff;
+    margin-top: 20px;
+}
+
+.bbs-home-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #A83279;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bbs-home-button:hover {
+    background-color: #f0f0f0;
+}

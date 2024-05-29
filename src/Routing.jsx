@@ -29,6 +29,8 @@ import AirportList from "./YOUNG/Airport/AirportList";
 import NaverLogin from "./SUNG/NaverLogin";
 import Cart from "./DEOK/Cart/Cart";
 import AirportDetail from "./YOUNG/Airport/AirportDetail";
+import ErrorPage from "./BBS/ErrorPage/ErrorPage";
+import CongratulationsPage from "./BBS/ErrorPage/CongratulationsPage";
 
 function Routing() {
     return (
@@ -65,6 +67,8 @@ function Routing() {
                 <Route path="/login/oauth2/callback/naver" element={<NaverLogin />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/AirportDetail/:id" element={<AirportDetail />} />
+                <Route path="/ErrorPage" element={<ErrorPage />} />
+                <Route path="/CongratulationsPage" element={<CongratulationsPage />} />
             </Routes>
         </BrowserRouter>
     )
