@@ -67,7 +67,7 @@ const SignUpForm = () => {
         }
 
         // 올바른 날짜 범위 확인
-        if (year < 1900) {
+        if (year <  new Date().getFullYear()-100) {
             return false; // 최소 1940년 이상이어야 함
         }
         if (month < 1 || month > 12) {

@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const UserInfoDisplay = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [cookies] = useCookies(['accessToken']);
-
+    const navigate = useNavigate();
     useEffect(() => {
+        const dd =async()=>{
+            try{
+                const response = await axios.get('http://localhost:8988/error/ttest')
+            }catch(error){
+                if (error.response) {
+                    // HTTP 상태 코드에 따라 리디렉션
+                    if (error.response) {
+                        const statusCode = error.response.status;
+                        navigate(`/ErrorPage?status=${statusCode}`);
+                    }
+                  } else {
+                    navigate('/ErrorPage');
+                  }
+            }
+        }
         const fetchUserInfo = async () => {
             try {
                 const response = await axios.get('http://localhost:8988/member/detailPage', {
@@ -24,7 +40,7 @@ const UserInfoDisplay = () => {
                 console.error('Error fetching user info:', error);
             }
         };
-
+        dd();
         fetchUserInfo();
     }, [cookies.accessToken]);
     const getGender = (birth) => {
