@@ -4,8 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
-import NavBar from "./../CKH/Components/Navbar/Navbar";
+import NavBar, { handleNavItemClick } from "./../CKH/Components/Navbar/Navbar";
 import McAdvertise from "./../Hye/machineList";
+import useUser from "../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 
 const PackageList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
@@ -30,6 +33,9 @@ const PackageList = () => {
     const [count, setCount] = useState(1);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const user = useUser();
+    const [cookies] = useCookies(['accessToken']);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -197,6 +203,17 @@ const PackageList = () => {
         setShowAdvertise(false);
     };
 
+    const clickSort = (sortOption) => {
+        setSortOption(sortOption);
+        handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'PACKAGE_SORT_LOWPRICE' : 'PACKAGE_SORT_HIGHPRICE', null, navigate);
+    };
+    const handleScrollToTopAndNavItemClick = () => {
+        scrollToTop();
+        handleNavItemClick(user, cookies, 'PACKAGE_FILTER_CHECK', null, navigate);
+    };
+
+
+
     return (
         <>
             <div className={styles.NavBar} style={{ padding: '1rem' }}>
@@ -218,10 +235,12 @@ const PackageList = () => {
                         <p>{data.length} + options</p>
                         <h1>패키지 리스트</h1>
                         <div className={styles['packList-check']}>
+
                             <FontAwesomeIcon icon={faCheck} className={`${styles['packList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => clickSort("lowPrice")}>낮은가격순</button>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['packList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
+                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => clickSort("highPrice")}>높은가격순</button>
+
                         </div>
                         {data.length > 0 ? (
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue)), sortOption).map((item, index) => {
@@ -270,7 +289,9 @@ const PackageList = () => {
                                     onChange={e => {
                                         prcieRangeMinValueHandler(e);
                                         twoRangeHandler();
+
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_PRICE_RANGE', null, navigate)}
                                     className={styles['packList-PriceRangeMin']}
                                 />
                                 <input
@@ -283,6 +304,7 @@ const PackageList = () => {
                                         prcieRangeMaxValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_PRICE_RANGE', null, navigate)}
                                     className={styles['packList-PriceRangeMax']}
                                 />
                                 <div className={styles['packList-PriceValue']}>
@@ -301,22 +323,25 @@ const PackageList = () => {
                                     value={searchQuery}
                                     placeholder="검색어를 입력하세요"
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_SEARCH', null, navigate)}
+
                                 />
                             </div>
                             <h3>국내/해외</h3>
                             <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.packCategory).length})</span>
+                                <input type="checkbox" checked={allChecked} onChange={toggleAllCheckbox} onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_FILTER_CHECK', null, navigate)} /><p>전체</p><span>({data.filter(item => item.packCategory).length})</span>
                             </div>
                             <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['DOMESTIC']} onChange={() => toggleCheckbox('DOMESTIC')} /><p>국내</p><span>({data.filter(item => item.nation === true).length})</span>
+                                <input type="checkbox" checked={checkboxStates['DOMESTIC']} onChange={() => toggleCheckbox('DOMESTIC')} onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_FILTER_CHECK', null, navigate)} /><p>국내</p><span>({data.filter(item => item.nation === true).length})</span>
                             </div>
                             <div className={styles['packList-filter']}>
-                                <input type="checkbox" checked={checkboxStates['INTERNATIONAL']} onChange={() => toggleCheckbox('INTERNATIONAL')} /><p>해외</p><span>({data.filter(item => item.nation === false).length})</span>
+                                <input type="checkbox" checked={checkboxStates['INTERNATIONAL']} onChange={() => toggleCheckbox('INTERNATIONAL')} onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_FILTER_CHECK', null, navigate)} /><p>해외</p><span>({data.filter(item => item.nation === false).length})</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
+                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
+
             </div>
         </>
     );
