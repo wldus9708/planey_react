@@ -271,24 +271,28 @@ const AirportDetail = () => {
     axios.post(`http://localhost:8988/payment/saveRestaurantReservation/${id}`, reservationData)
       .then(response => {
         if (response.data) {
-          console.log('레스토랑 예약이 성공적으로 처리되었습니다.');
+          console.log('항공권 예약이 성공적으로 처리되었습니다.');
         }
       })
       .catch(error => {
-        console.error('레스토랑 예약 정보를 저장하는데 실패했습니다:', error);
+        console.error('항공권 예약 정보를 저장하는데 실패했습니다:', error);
       });
   };
 
   // 결제 성공 처리 함수
   const handlePaymentSuccess = (amount) => {
+    const totalPrice = calculateTotalPrice();
     const reservationData = {
+
+      flightId: id,
+      airportId: id,
       memberId: user.id,
-      id: id,
       relationship: 10001,
-      restResDate: new Date(), // 현재 시간
-      restResTime: new Date().toISOString(), // 예약 시간 추가
-      fli_price: amount,
-      restResState: "COMPLETED",
+      fli_res_capacity: outboundAdultCount + outboundChildCount,
+      fli_res_price: totalPrice,
+      fli_res_name: "ASIANA_AIRLINES",
+      fli_state: "BEFORE_DEPARTURE",
+      fli_res_state: "COMPLETED",
     };
     saveRestaurantReservation(reservationData);
   };
@@ -319,7 +323,7 @@ const AirportDetail = () => {
         tossPayments.requestPayment('CARD', {
           amount: totalPrice, // 결제할 금액
           orderId: `order_${id}`, // 주문의 고유한 식별자
-          orderName: `${flightDto.id} 예약`, // 주문의 이름 또는 설명
+          orderName: `${flightDto.id}항공 예약`, // 주문의 이름 또는 설명
           successUrl: `http://localhost:3000/PaymentSuccess?member_id=${user.id}&flight=${flightDto.category}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
         })
