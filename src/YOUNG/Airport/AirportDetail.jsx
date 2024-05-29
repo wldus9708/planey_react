@@ -6,6 +6,12 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import AirportSeat from '../Seat/SeatBooking'
 import stylesBtn from '../lodging/LodgingDetail.module.css'
+import { loadTossPayments } from '@tosspayments/payment-sdk';
+import axios from "axios";
+import { useCookies } from "react-cookie";
+
+
+
 
 
 const AirportDetail = () => {
@@ -30,6 +36,8 @@ const AirportDetail = () => {
   const [isOutbound, setIsOutbound] = useState(true); // 현재 좌석 선택이 가는편인지 오는편인지 상태
 
   let { id } = useParams();
+  const [user, setUser] = useState(null);
+  const [cookies] = useCookies(['accessToken']);
 
   useEffect(() => {
 
@@ -40,6 +48,25 @@ const AirportDetail = () => {
 
 
   useEffect(() => {
+    console.log("accessToken :" + cookies.accessToken);
+    if (cookies.accessToken) {
+      // Fetch user information using the access token
+      axios.get('http://localhost:8988/member/detailPage', {
+        headers: {
+          Authorization: `${cookies.accessToken}`,
+        },
+      })
+        .then((response) => {
+          setUser(response.data);
+          console.log(response.data.id);
+        })
+        .catch(error => {
+          console.error('사용자 정보 가져오는 중 오류 발생:', error);
+        });
+    } else if (!cookies.accessToken) {
+      navigator('/login');
+      alert("결제전에 로그인을 해주세요.");
+    }
     const fetchFlightData = async () => {
       try {
         const response = await fetch(`http://localhost:8988/products/FlightsDetail/${id}`);
@@ -143,6 +170,14 @@ const AirportDetail = () => {
 
 
   const handleModalShow = (isOutboundFlight) => {
+
+    const totalOutboundPassengerCount = outboundAdultCount + outboundChildCount;
+    const totalReturnPassengerCount = returnAdultCount + returnChildCount;
+
+    if ((isOutboundFlight && totalOutboundPassengerCount === 0) || (!isOutboundFlight && totalReturnPassengerCount === 0)) {
+      alert('좌석을 선택하기 전에 인원을 선택해 주세요.');
+      return;
+    }
     setIsOutbound(isOutboundFlight);
     setTempSelectedSeats(selectedSeats); // 모달 열 때 임시 선택 좌석을 현재 선택된 좌석으로 설정
     setShowModal(true);
@@ -188,7 +223,9 @@ const AirportDetail = () => {
         alert('오는 항공편의 모든 승객이 좌석을 선택 하였습니다.');
       }
     }
+
   };
+
 
 
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
@@ -227,6 +264,79 @@ const AirportDetail = () => {
       returnAdultPrice +
       returnChildPrice;
     return totalPrice;
+  };
+
+  // 결제 성공 시 예약 데이터 저장 함수
+  const saveRestaurantReservation = (reservationData) => {
+    axios.post(`http://localhost:8988/payment/saveRestaurantReservation/${id}`, reservationData)
+      .then(response => {
+        if (response.data) {
+          console.log('레스토랑 예약이 성공적으로 처리되었습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('레스토랑 예약 정보를 저장하는데 실패했습니다:', error);
+      });
+  };
+
+  // 결제 성공 처리 함수
+  const handlePaymentSuccess = (amount) => {
+    const reservationData = {
+      memberId: user.id,
+      id: id,
+      relationship: 10001,
+      restResDate: new Date(), // 현재 시간
+      restResTime: new Date().toISOString(), // 예약 시간 추가
+      fli_price: amount,
+      restResState: "COMPLETED",
+    };
+    saveRestaurantReservation(reservationData);
+  };
+
+  // 결제 요청 함수
+  const handlePayment = () => {
+    // 선택된 좌석 확인
+    const isOutboundSeatsSelected = selectedSeats.outbound.length > 0;
+    const isReturnSeatsSelected = selectedSeats.return.length > 0;
+
+    // 인원수 확인
+    const isAdultSelected = outboundAdultCount > 0 || returnAdultCount > 0;
+
+    if (!isOutboundSeatsSelected || !isReturnSeatsSelected) {
+      alert("가는 항공편과 오는 항공편의 좌석을 모두 선택해 주세요.");
+      return;
+    }
+
+    if (!isAdultSelected) {
+      alert("성인이 한 명 이상 선택되어야 합니다.");
+      return;
+    }
+
+    const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
+    const totalPrice = calculateTotalPrice();
+    loadTossPayments(clientKey)
+      .then(tossPayments => {
+        tossPayments.requestPayment('CARD', {
+          amount: totalPrice, // 결제할 금액
+          orderId: `order_${id}`, // 주문의 고유한 식별자
+          orderName: `${flightDto.id} 예약`, // 주문의 이름 또는 설명
+          successUrl: `http://localhost:3000/PaymentSuccess?member_id=${user.id}&flight=${flightDto.category}`, // 결제 성공 후 이동할 URL 주소
+          failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
+        })
+          .then((response) => {
+            if (response.success) {
+              handlePaymentSuccess(response.amount);
+            }
+          })
+          .catch((error) => {
+            console.error('결제 중 오류 발생:', error);
+            alert("결제 실패.");
+          });
+      })
+      .catch(error => {
+        console.error('토스페이먼츠 로딩 중 오류 발생:', error);
+        alert("결제 애플리케이션 로딩 실패.");
+      });
   };
 
 
@@ -454,7 +564,7 @@ const AirportDetail = () => {
           <br />
           <br />
           {/* 버튼에 추가 onClick={handleBuyNowClick} */}
-          <button type="button" className={stylesBtn.buyNowBtn}>
+          <button type="button" className={stylesBtn.buyNowBtn} onClick={handlePayment}>
             <i className='fas fa-wallet'></i>
             예약 하러 가기
           </button>

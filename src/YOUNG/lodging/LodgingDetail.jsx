@@ -37,9 +37,9 @@ const LodgingDetail = () => {
       })
         .then((response) => {
           setUser(response.data);
-           console.log(response.data.id);
+          console.log(response.data.id);
         })
-  
+
         .catch(error => {
           console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
@@ -49,17 +49,17 @@ const LodgingDetail = () => {
     }
 
     axios.get(`http://localhost:8988/lodging/detail/${id}`)
-    .then((response) => {
-      if (response.data) {
-        setLodging(response.data); // 숙소 정보 업데이트
-        setTotalPrice(response.data.lodPrice); // 초기 가격 설정
-        console.log(response.data);
-      }
-      setActiveImageIndex(1); // 초기 인덱스 설정
-    })
-    .catch(error => {
-      console.error('이미지 이름을 가져오는 중 오류 발생:', error);
-    });
+      .then((response) => {
+        if (response.data) {
+          setLodging(response.data); // 숙소 정보 업데이트
+          setTotalPrice(response.data.lodPrice); // 초기 가격 설정
+          console.log(response.data);
+        }
+        setActiveImageIndex(1); // 초기 인덱스 설정
+      })
+      .catch(error => {
+        console.error('이미지 이름을 가져오는 중 오류 발생:', error);
+      });
 
   }, [id]);
 
@@ -95,14 +95,14 @@ const LodgingDetail = () => {
           successUrl: `http://localhost:3000/PaymentSuccessLoging?member_id=${user.id}&lodging=${lodging.category}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
         })
-        .then(response => {
-          const { amount } = response;
-          handlePaymentSuccess(amount);
-        })
-        .catch((error) => {
-          console.error('결제 중 오류 발생:', error);
-          alert("결제 실패.");
-        });
+          .then(response => {
+            const { amount } = response;
+            handlePaymentSuccess(amount);
+          })
+          .catch((error) => {
+            console.error('결제 중 오류 발생:', error);
+            alert("결제 실패.");
+          });
       })
       .catch(error => {
         console.error('토스페이먼츠 로딩 중 오류 발생:', error);
@@ -123,11 +123,11 @@ const LodgingDetail = () => {
       });
   };
 
-  const handlePaymentSuccess = ( amount ) => {
+  const handlePaymentSuccess = (amount) => {
     const reservationData = {
       memberId: user.id,
       lodgingId: id,
-      relationship:10001,
+      relationship: 10001,
       lodDepartureDate: startDate, // 시작 날짜
       lodArrivalDate: endDate, // 종료 날짜
       lodResTime: new Date(), // 현재 시간
@@ -169,7 +169,7 @@ const LodgingDetail = () => {
               </div>
             </div>
             <div className={styles.lodgingDivRight}>
-              
+
               <div className={styles.lodgingHeader}>
                 <span className={styles.lodgingName}>{lodging && lodging.lodName}</span>
                 <span className={styles.lodgingType}>{lodging && lodging.lodCategory}</span>
@@ -185,10 +185,10 @@ const LodgingDetail = () => {
                 {lodging && lodging.lodDescription}
               </p>
               <span className={styles.alreadyReservation}>
-                  🔘  표시된 해당 날짜는 이미 예약이 완료되었습니다. 
+                🔘  표시된 해당 날짜는 이미 예약이 완료되었습니다.
               </span>
               <div>
-                <LodgingPayment 
+                <LodgingPayment
                   reservations={reservations}
                   updateTotalPrice={updateTotalPrice} // 가격 업데이트 함수 전달
                   handlePayment={handlePayment} // 결제 요청 함수 전달
