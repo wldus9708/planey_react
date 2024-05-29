@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './RentCarFoot.module.css';
-import { BsMegaphone } from "react-icons/bs";
-import { LuHotel } from 'react-icons/lu';
+import { GrSettingsOption } from "react-icons/gr";
+import { MdLocalHospital } from "react-icons/md";
+import { RiRefund2Fill } from "react-icons/ri";
 import { IoBusOutline, IoRestaurantOutline } from 'react-icons/io5';
-import { TbBeach } from 'react-icons/tb';
 import Payment from './payment';
 import PaymentStyles from './payment.module.css';
 import axios from 'axios';
@@ -40,9 +40,9 @@ function RentCarFoot() {
     const contentRef = useRef(null);
 
     const [icons, setIcons] = useState({
-        megaphone: false,
-        beach: false,
-        hotel: false,
+        settings: false,
+        hospital: false,
+        refund: false,
         restaurant: false,
         vehicle: false
     });
@@ -75,11 +75,9 @@ function RentCarFoot() {
                     const id = element.id;
                     setHighlightedItem(id);
                     setIcons({
-                        megaphone: id === 'megaphone',
-                        beach: id === 'beach',
-                        hotel: id === 'hotel',
-                        restaurant: id === 'restaurant',
-                        vehicle: id === 'vehicle'
+                        settings: id === 'settings',
+                        hospital: id === 'hospital',
+                        refund: id === 'refund',
                     });
                 }
             });
@@ -117,9 +115,9 @@ function RentCarFoot() {
         }
 
         setIcons({
-            megaphone: what === 'megaphone',
-            beach: what === 'beach',
-            hotel: what === 'hotel',
+            settings: what === 'settings',
+            hospital: what === 'hospital',
+            refund: what === 'refund',
         });
     };
 
@@ -130,20 +128,20 @@ function RentCarFoot() {
             <div className={styles.sidebar}>
                 <div className={styles.sideMenu}>
                     <ul className={styles.packageList}>
-                        <li onClick={() => handleIcon('megaphone')}
-                            style={{ cursor: "pointer", backgroundColor: icons.megaphone ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            <BsMegaphone style={{ fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />
-                            <label style={{ color: icons.megaphone ? "white" : "black" }}>옵션</label>
+                        <li onClick={() => handleIcon('settings')}
+                            style={{ cursor: "pointer", backgroundColor: icons.settings ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
+                            <GrSettingsOption style={{ fontSize: "30px", color: icons.settings ? "white" : "black" }} />
+                            <label style={{ color: icons.settings ? "white" : "black" }}>옵션</label>
                         </li>
-                        <li onClick={() => handleIcon('beach')}
-                            style={{ cursor: "pointer", backgroundColor: icons.beach ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            <TbBeach style={{ fontSize: "30px", color: icons.beach ? "white" : "black" }} />
-                            <label style={{ color: icons.beach ? "white" : "black" }}>보험내용</label>
+                        <li onClick={() => handleIcon('hospital')}
+                            style={{ cursor: "pointer", backgroundColor: icons.hospital ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
+                            <MdLocalHospital style={{ fontSize: "30px", color: icons.hospital ? "white" : "black" }} />
+                            <label style={{ color: icons.hospital ? "white" : "black" }}>보험내용</label>
                         </li>
-                        <li onClick={() => handleIcon('hotel')}
-                            style={{ cursor: "pointer", backgroundColor: icons.hotel ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            <LuHotel style={{ fontSize: "30px", color: icons.hotel ? "white" : "black" }} />
-                            <label style={{ color: icons.hotel ? "white" : "black" }}>취소/변경정보</label>
+                        <li onClick={() => handleIcon('refund')}
+                            style={{ cursor: "pointer", backgroundColor: icons.refund ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
+                            <RiRefund2Fill style={{ fontSize: "30px", color: icons.refund ? "white" : "black" }} />
+                            <label style={{ color: icons.refund ? "white" : "black" }}>취소/변경정보</label>
                         </li>
 
                     </ul>
@@ -151,30 +149,36 @@ function RentCarFoot() {
             </div>
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
-                    <li id="settingsOption" className={highlightedItem === "settingsOption" ? styles.active : ""}>
-                        <h2><p>옵션</p></h2>
+                    <li id="settings" className={highlightedItem === "settings" ? styles.active : ""}>
+                        <h2><p>차량 옵션</p></h2>
+                        <br /><br />
                         <p>
                             {car && (
                                 <table className={styles.optionsTable}>
                                     <thead>
                                         <tr>
+                                            <th>번호</th>
                                             <th>옵션</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {car.carOption.split(',').map((option, index) => (
                                             <tr key={index}>
+                                                <td>{index + 1}</td>
                                                 <td>{option.trim()}</td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             )}
+                            <br /><br />
                         </p>
                     </li>
                     <hr />
-                    <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
+                    <li id="hospital" className={highlightedItem === "hospital" ? styles.active : ""}>
+                        <br /><br />
                         <h2><p>보험내용</p></h2>
+                        <br /><br />
                         <p>
                             렌트카 보험안내<br /><br />
                             ◆ 렌터카는 종합보험 (대인:무한/대물:2,000만원/자손:1,500만원)에 기본가입되어 있습니다.<br />
@@ -219,8 +223,10 @@ function RentCarFoot() {
                         </p>
                     </li>
                     <hr />
-                    <li id="hotel" className={highlightedItem === "hotel" ? styles.active : ""}>
+                    <li id="refund" className={highlightedItem === "refund" ? styles.active : ""}>
+                        <br /><br />
                         <h2><p>취소/변경정보</p></h2>
+                        <br /><br />
                         <p>
 
                             예약취소<br /><br />

@@ -198,7 +198,7 @@ img{
     margin-right: 30px;
     padding: 15px;
     width: 1200px;
-    height: 300vh;
+    height: 250vh;
     border: none;
     padding: 50px;
     margin-left: 20px;
@@ -284,6 +284,7 @@ img{
 .optionsTable th {
     background-color: #f2f2f2;
     text-align: left;
+    text-align: center;
 }
 
 .optionsTable tr:nth-child(even) {
