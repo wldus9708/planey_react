@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ErrorPage.css';
-
+import { useLocation } from 'react-router-dom';
 const ErrorPage = () => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60); // 60초 타이머
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const statusCode = new URLSearchParams(location.search).get('status');
   useEffect(() => {
     if (score >= 10) {
       navigate('/CongratulationsPage');
@@ -92,7 +93,7 @@ const ErrorPage = () => {
 
   return (
     <div className="bbs-error-page">
-      <h1>에러가 발생했습니다</h1>
+      <h1>{statusCode}에러가 발생했습니다</h1>
       <h3>공을 10번 누르면..❗❓</h3>
       <p>죄송합니다.😅 페이지를 불러오는 중에 문제가 발생했습니다.</p>
       <canvas ref={canvasRef} width="480" height="320" className="bbs-game-canvas"></canvas>

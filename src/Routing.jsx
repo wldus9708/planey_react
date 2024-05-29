@@ -16,7 +16,7 @@ import RentCarList from './GUN/RentCarList ';
 import PackageDetail from "./GUN/PackageIndex";
 import RentcarDetail from "./Hye/rentcarDitail";
 import SearchField from "./YOUNG/searchField/Search_field";
-import Test from "./Hye/advertisement";
+import Test from "./Hye/ttest";
 import GoogleLogin from "./DEOK/Login_SingUp/GoogleLogin";
 import MyPage from "./DEOK/MyPage/Mypage";
 import RentCarTest from './GUN/RentCarIndex';
@@ -69,6 +69,7 @@ function Routing() {
                 <Route path="/AirportDetail/:id" element={<AirportDetail />} />
                 <Route path="/ErrorPage" element={<ErrorPage />} />
                 <Route path="/CongratulationsPage" element={<CongratulationsPage />} />
+                <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>
     )
