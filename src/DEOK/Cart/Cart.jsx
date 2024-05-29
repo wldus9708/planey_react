@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
-import NavBar from "../../CKH/Components/Navbar/Navbar"
 import useUser from "../../BBS/Log/useUser";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -182,10 +181,11 @@ export const Cart = () => {
       return;
     }
 
-    const orderId = `order_${new Date().getTime()}`;
+    const orderId = `order_${selectedItems.map(index => data[index].productId).join('_')}`;
     const cartItemsData = selectedItems.map(index => ({
       productId: data[index].id,
       category: data[index].category,
+      enum: data[index].enum,
       count: data[index].count,
       price: data[index].price
     }));
