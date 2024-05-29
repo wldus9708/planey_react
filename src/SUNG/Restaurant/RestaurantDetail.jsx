@@ -20,6 +20,7 @@ const RestaurantDetail = () => {
   const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
   const navigate = useNavigate();
 
+
   useEffect(() => {
     console.log("accessToken :" + cookies.accessToken);
     if (cookies.accessToken) {
