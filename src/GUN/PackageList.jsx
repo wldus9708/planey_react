@@ -209,7 +209,7 @@ const PackageList = () => {
     };
     const handleScrollToTopAndNavItemClick = () => {
         scrollToTop();
-        handleNavItemClick(user, cookies, 'PACKAGE_FILTER_CHECK', null, navigate);
+        handleNavItemClick(user, cookies, 'PACKAGE_SCROLLTOP', null, navigate);
     };
 
 

@@ -4,7 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import SearchField from '../../YOUNG/searchField/Search_field';
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 import NavBar from "../../CKH/Components/Navbar/Navbar"
+import useUser from "../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 
 const RestaurantList = () => {
     const fixedMinPrice = 1000;
@@ -31,6 +35,9 @@ const RestaurantList = () => {
     const [count, setCount] = useState(1); // 인원수 상태 추가
     const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
     const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
+    const user = useUser();
+    const [cookies] = useCookies(['accessToken']);
+    const navigate = useNavigate();
 
     const handleSearch = (query) => {
         setSecondSearchQuery(query);
@@ -183,6 +190,14 @@ const RestaurantList = () => {
             return checkboxStates[item.restCategory];
         });
     };
+    const handleScrollToTopAndNavItemClick = () => {
+        scrollToTop();
+        handleNavItemClick(user, cookies, 'RESTAURANT_SCROLLTOP', null, navigate);
+    };
+    const clickSort = (sortOption) => {
+        setSortOption(sortOption);
+        handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'RESTAURANT_SORT_LOWPRICE' : 'RESTAURANT_SORT_HIGHPRICE', null, navigate);
+    };
 
     return (
         <>
@@ -197,9 +212,9 @@ const RestaurantList = () => {
                         <h1>맛집 리스트</h1>
                         <div className={styles['restList-check']}>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => clickSort("lowPrice")}>낮은가격순</button>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
+                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => clickSort("highPrice")}>높은가격순</button>
                         </div>
                         {data.length > 0 ? (
                             sortData(filterByCategory(filterData(data, searchQuery, rangeMinValue, rangeMaxValue, count)), sortOption).map((item, index) => (
@@ -246,6 +261,7 @@ const RestaurantList = () => {
                                         prcieRangeMinValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_PRICE_RANGE', null, navigate)}
                                     className={styles['restList-PriceRangeMin']}
                                 />
                                 <input
@@ -258,6 +274,7 @@ const RestaurantList = () => {
                                         prcieRangeMaxValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_PRICE_RANGE', null, navigate)}
                                     className={styles['restList-PriceRangeMax']}
                                 />
                                 <div className={styles['restList-PriceValue']}>
@@ -275,34 +292,36 @@ const RestaurantList = () => {
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_SEARCH', null, navigate)}
                                 />
                             </div>
                             <h4>식당 유형</h4>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} /><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
+                                <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)}/><p>전체</p><span>({data.filter(item => item.restCategory).length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.KOREAN} onChange={() => toggleCheckbox('KOREAN')} /><p>한식</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
+                                <input type="checkbox" checked={checkboxStates.KOREAN} onChange={() => toggleCheckbox('KOREAN')}onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)} /><p>한식</p><span>({data.filter(item => item.restCategory === 'KOREAN').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.ITALIAN} onChange={() => toggleCheckbox('ITALIAN')} /><p>양식</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
+                                <input type="checkbox" checked={checkboxStates.ITALIAN} onChange={() => toggleCheckbox('ITALIAN')} onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)}/><p>양식</p><span>({data.filter(item => item.restCategory === 'ITALIAN').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.CHINESE} onChange={() => toggleCheckbox('CHINESE')} /><p>중식</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
+                                <input type="checkbox" checked={checkboxStates.CHINESE} onChange={() => toggleCheckbox('CHINESE')} onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)}/><p>중식</p><span>({data.filter(item => item.restCategory === 'CHINESE').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.JAPANESE} onChange={() => toggleCheckbox('JAPANESE')} /><p>일식</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
+                                <input type="checkbox" checked={checkboxStates.JAPANESE} onChange={() => toggleCheckbox('JAPANESE')} onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)}/><p>일식</p><span>({data.filter(item => item.restCategory === 'JAPANESE').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.FRENCH} onChange={() => toggleCheckbox('FRENCH')} /><p>불란서식</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
+                                <input type="checkbox" checked={checkboxStates.FRENCH} onChange={() => toggleCheckbox('FRENCH')} onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)}/><p>불란서식</p><span>({data.filter(item => item.restCategory === 'FRENCH').length})</span>
                             </div>
                             <div className={styles['restList-filter']}>
-                                <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} /><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
+                                <input type="checkbox" checked={checkboxStates.ETC} onChange={() => toggleCheckbox('ETC')} onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_FILTER_CHECK', null, navigate)}/><p>기타</p><span>({data.filter(item => item.restCategory === 'ETC').length})</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
+                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
+
             </div>
         </>
     );
