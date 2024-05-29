@@ -23,6 +23,7 @@ export function SuccessCartPage() {
 
   useEffect(() => {
     if (!user || !paymentKey || !orderId || !amount || cartItems.length === 0) {
+      navigate("/"); // 필요한 정보가 없으면 홈으로 리다이렉트
       console.error('필요한 정보가 부족합니다.');
       if (!user) console.error('사용자 정보가 없습니다.');
       if (!paymentKey) console.error('paymentKey 정보가 없습니다.');
@@ -65,10 +66,15 @@ export function SuccessCartPage() {
       console.log("paymentKey: " + paymentKey);
       console.log("orderId: " + orderId);
       console.log("amount: " + amount);
-      console.log("cartItems: " + JSON.stringify(cartItems));
+      console.log("cartItems:");
+      cartItems.forEach(item => {
+        console.log("Enum: " + item.enum);
+        console.log("count: " + item.count);
+        console.log("price: " + item.price);
+      });
     }
     try {
-      const response = await fetch("http://localhost:8988/payment/detail", {
+      const response = await fetch("http://localhost:8988/payment/detailCart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -76,27 +82,28 @@ export function SuccessCartPage() {
         body: JSON.stringify({
           paymentKey,
           orderId,
-          amount,
-          member_id: user,
+          amount: parseInt(amount),
+          member_id: parseInt(user),
           cartItems: cartItems.map(item => ({
-            product_id: item.productId,
-            product_type: item.category,
-            quantity: item.count,
-            price: item.price
+            product_type: item.enum,
+            count: item.count,
+            price: item.price,
           }))
         })
       });
 
       if (response.ok) {
         setIsConfirmed(true);
-        const reservationData = {
-          memberId: parseInt(user), // 문자열을 숫자로 변환
-          cartItems: cartItems, // 장바구니 아이템
-          totalAmount: parseInt(amount), // 문자열을 숫자로 변환
-          reservationDate: new Date().toISOString(), // 현재 시간
-          reservationState: "COMPLETED",
-        };
-        await saveCartReservation(reservationData);
+
+        // const reservationData = {
+        //   memberId: parseInt(user), // 문자열을 숫자로 변환
+        //   cartItems: cartItems, // 장바구니 아이템
+        //   totalAmount: parseInt(amount), // 문자열을 숫자로 변환
+        //   reservationDate: new Date().toISOString(), // 현재 시간
+        //   reservationState: "COMPLETED",
+        // };
+        // // await saveCartReservation(reservationData);
+
       } else {
         console.error('결제 승인 실패:', response.statusText);
       }
