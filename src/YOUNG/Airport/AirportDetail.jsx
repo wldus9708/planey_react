@@ -232,7 +232,7 @@ const calculateReturnPrices = () => {
               총 {convertMinutesToHoursAndMinutes(flightDto.fli_total_time)}
             </div>
             <div className={styles.FliIcon}>
-             >>
+             
             </div>
             <button
               className={styles.flightSeat}
@@ -298,7 +298,6 @@ const calculateReturnPrices = () => {
               총 {convertMinutesToHoursAndMinutes(returnFlightDto.return_fli_total_time)}
             </div>
             <div className={styles.FliIcon}>
-             >>
             </div>
             <button
               className={styles.flightSeat}
