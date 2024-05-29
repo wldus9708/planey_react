@@ -6,6 +6,11 @@ import 'react-date-range/dist/styles.css';
 import 'react-calendar/dist/Calendar.css';
 import { format, isBefore } from 'date-fns';
 import ko from 'date-fns/locale/ko';
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import NavBar from "../../CKH/Components/Navbar/Navbar"
+import useUser from "../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 
 function SearchField({ onSearch, onCountChange, onDateChange }) {
    const today = new Date();
@@ -18,6 +23,9 @@ function SearchField({ onSearch, onCountChange, onDateChange }) {
    ]);
    const [openDate, setOpenDate] = useState(false);
    const calendarRef = useRef(null);
+   const user = useUser();
+   const [cookies] = useCookies(['accessToken']);
+   const navigate = useNavigate();
 
    const handleCalendarClick = (e) => {
       if (calendarRef.current && calendarRef.current.contains(e.target)) {
@@ -109,7 +117,9 @@ function SearchField({ onSearch, onCountChange, onDateChange }) {
                <Tab
                   eventKey="region"
                   title="지역선택"
-                  className={styles.regionPicker} >
+                  className={styles.regionPicker}
+                  onClick={() => handleNavItemClick(user, cookies, 'SEARCHFIELD_REGION', null, navigate)}
+                  >
                   <div>
                      <input
                         type="text"
@@ -136,7 +146,9 @@ function SearchField({ onSearch, onCountChange, onDateChange }) {
                <Tab
                   eventKey="date"
                   title="날짜 선택"
-                  className={styles.calendarPicker}>
+                  className={styles.calendarPicker}
+                  onClick={() => handleNavItemClick(user, cookies, 'SEARCHFIELD_DATE', null, navigate)}
+                  >
                   <div locale={ko} className={`${styles.calendar} ${openDate ? styles.calendarOpen : ''}`} ref={calendarRef}>
                      <span
                         className={styles.dateCheck}
@@ -170,7 +182,9 @@ function SearchField({ onSearch, onCountChange, onDateChange }) {
                   </div>
                </Tab>
                <Tab
-                  eventKey="count" title="인원 선택">
+                  eventKey="count" title="인원 선택"
+                  onClick={() => handleNavItemClick(user, cookies, 'SEARCHFIELD_COUNT', null, navigate)}
+                  >
                   <div>
                      <label
                         className={styles.countTab}>소아 적용기준은 선택하신 상품 별로 상이할 수 있습니다. </label>

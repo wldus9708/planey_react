@@ -5,6 +5,9 @@ import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import NavBar from "../../CKH/Components/Navbar/Navbar"
+import useUser from "../../BBS/Log/useUser";
 
 export const Cart = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -212,6 +215,7 @@ export const Cart = () => {
       alert("결제 애플리케이션 로딩 실패.");
     });
 };
+
 
   return (
     <>
