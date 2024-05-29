@@ -7,6 +7,8 @@ import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+
 
 const RestaurantDetail = () => {
   const navigator = useNavigate();
@@ -16,6 +18,7 @@ const RestaurantDetail = () => {
   const [restaurant, setRestaurant] = useState(null); // 레스토랑 정보
   const [activeImageIndex, setActiveImageIndex] = useState(0); // 활성 이미지 인덱스
   const [numberOfPeople, setNumberOfPeople] = useState(1); // 인원 수
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("accessToken :" + cookies.accessToken);
@@ -61,6 +64,25 @@ const RestaurantDetail = () => {
     if (numberOfPeople > 1) {
       setNumberOfPeople(prevCount => prevCount - 1);
     }
+  };
+  const handleDecreaseClick = () => {
+    decreaseNumberOfPeople();
+    handleNavItemClick(user, cookies, 'DECREASE_PEOPLE', null, navigate);
+  };
+  
+  const handleIncreaseClick = () => {
+    increaseNumberOfPeople();
+    handleNavItemClick(user, cookies, 'INCREASE_PEOPLE', null, navigate);
+  };
+  
+  const handleAddToCartClick = () => {
+    addToCart();
+    handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
+  };
+  
+  const handleBuyNowClick = () => {
+    handlePayment();
+    handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
   };
 
   // 결제 성공 시 예약 데이터 저장 함수
@@ -133,6 +155,7 @@ const RestaurantDetail = () => {
         console.log(err);
       })
   };
+ 
 
   return (
     <div className={styles.restDetailBody}>
@@ -184,16 +207,16 @@ const RestaurantDetail = () => {
                 {/* 인원 수 조절 버튼 */}
                 <p>예약 인원 </p>
                 <div className={styles.numberOfPeopleContainer}>
-                  <button className={styles.numberOfPeopleBtn} onClick={decreaseNumberOfPeople}>-</button>
+                  <button className={styles.numberOfPeopleBtn} onClick={handleDecreaseClick}>-</button>
                   <span className={styles.numberOfPeople}>{numberOfPeople}</span>
-                  <button className={styles.numberOfPeopleBtn} onClick={increaseNumberOfPeople}>+</button>
+                  <button className={styles.numberOfPeopleBtn} onClick={handleIncreaseClick}>+</button>
                 </div>
-                <button type="button" onClick={addToCart} className={styles.restDetailaddCartBtn}>
+                <button type="button" onClick={handleAddToCartClick}  className={styles.restDetailaddCartBtn}>
                   <i className='fas fa-shopping-cart'></i>
                   장바구니 추가
                 </button>
 
-                <button type="button" className={styles.restDetailbuyNowBtn} onClick={handlePayment}>
+                <button type="button" className={styles.restDetailbuyNowBtn} onClick={handleBuyNowClick}>
                   <i className='fas fa-wallet'></i>
                   결제하기
                 </button>
