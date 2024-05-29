@@ -8,6 +8,8 @@ import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 import NavBar from "../../CKH/Components/Navbar/Navbar"
 import useUser from "../../BBS/Log/useUser";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 export const Cart = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -215,6 +217,20 @@ export const Cart = () => {
       alert("결제 애플리케이션 로딩 실패.");
     });
 };
+const scrollToTop = () => {
+  window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+  });
+};
+const handleMultipleClicks = (cartProductId, index, user, cookies, navigate) => {
+  handleDelete(cartProductId, index);
+  handleNavItemClick(user, cookies, 'CART_DELETE', null, navigate);
+};
+const handleScrollToTopAndNavItemClick = () => {
+  scrollToTop();
+  handleNavItemClick(user, cookies, 'CART_SCROLLTOP', null, navigate);
+};
 
 
   return (
@@ -224,7 +240,7 @@ export const Cart = () => {
       <div className={styles.body}>
         <div className={styles.cart_title_wrap}>
           <div className={styles.tab_title}>
-            <input type="checkbox" checked={selectAll} onChange={handleSelectAll} />
+            <input type="checkbox" checked={selectAll} onChange={handleSelectAll} onClick={() => handleNavItemClick(user, cookies, 'CART_CHECK', null, navigate)} />
             <span>상품정보</span>
             <span>수량</span>
             <span>상품금액</span>
@@ -239,6 +255,7 @@ export const Cart = () => {
                 type="checkbox"
                 checked={selectedItems.includes(index)}
                 onChange={() => handleCheckboxChange(index)}
+                onClick={() => handleNavItemClick(user, cookies, 'CART_CHECK', null, navigate)}
               />
 
               {/* 상품 이미지 */}
@@ -331,7 +348,7 @@ export const Cart = () => {
                 <img
                   src="/images/icon-delete.svg"
                   alt="delete"
-                  onClick={() => handleDelete(product.cartProductId, index)}
+                  onClick={() => handleMultipleClicks(product.cartProductId, index, user, cookies, navigate)}
                 />
               </div>
               {/* 삭제 버튼 */}
@@ -358,6 +375,7 @@ export const Cart = () => {
           </div>
           <button className={styles.btn_submit} onClick={handlePayment}>주문하기</button>
         </div>
+        <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
       </div>
     </>
   );
