@@ -2,200 +2,235 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-  }
+}
 
 :root {
-  --PrimaryColor: hsl(26, 93%, 50%);
-  --HoverColor: hsl(26, 90%, 42%);
-  --whiteColor: hsl(0, 0%, 100%);
-  --blackColor: hsl(0, 0%, 18%);
-  --textColor: hsl(240, 1%, 48%);
-  --whiteColorDeam: hsl(0, 0%, 93%);
-  --greyBg: hsl(0, 0%, 96%);
-  --greyText: rgb(190, 190, 190);
-  --inputColor: hsl(330, 12%, 97%);
-  --mainColor:  #C1908B;
-}
-.restaurantListBody {
-    margin: 0 auto; /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
-    max-width: 1600px; /* 요소의 최대 너비 설정 */
+    --PrimaryColor: hsl(26, 93%, 50%);
+    --HoverColor: hsl(26, 90%, 42%);
+    --whiteColor: hsl(0, 0%, 100%);
+    --blackColor: hsl(0, 0%, 18%);
+    --textColor: hsl(240, 1%, 48%);
+    --whiteColorDeam: hsl(0, 0%, 93%);
+    --greyBg: hsl(0, 0%, 96%);
+    --greyText: rgb(190, 190, 190);
+    --inputColor: hsl(330, 12%, 97%);
+    --mainColor: #C1908B;
 }
 
-.restList-container{
+.restaurantListBody {
+    margin: 0 auto;
+    /* 가운데 정렬을 위한 좌우 여백 자동 설정 */
+    max-width: 1600px;
+    /* 요소의 최대 너비 설정 */
+}
+
+.restList-container {
     margin-top: 50px;
     display: flex;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
-.restList-left-col{
-    flex-basis:80%;
+
+.restList-left-col {
+    flex-basis: 80%;
 }
-.restList-right-col{
-    flex-basis:15%;
+
+.restList-right-col {
+    flex-basis: 15%;
 }
-.restList-left-col h1{
-   color: #333;
-   font-weight: 600;
-   margin-bottom: 30px;
+
+.restList-left-col h1 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 30px;
 }
-.restList-check{
+
+.restList-check {
     display: inline-block;
 }
-.restList-house{
+
+.restList-house {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 20px 0;
     border-top: 1px solid #ccc;
 }
-.restList-house-img{
+
+.restList-house-img {
     flex-basis: 30%;
 }
-.restList-house-info{
+
+.restList-house-info {
     flex-basis: 68%;
-    color:#555;
+    color: #555;
     margin-bottom: -85px;
 }
-.restList-house-img img{
+
+.restList-house-img img {
     width: 300px;
-    height:250px;
+    height: 250px;
     border-radius: 12px;
-}    
-.restList-house-info h3{
+}
+
+.restList-house-info h3 {
     font-weight: 600;
     color: #333;
     font-size: 22px;
     margin: 4px 0;
 }
-.restList-house-info p{
-    margin-top:5px;
-    margin-bottom:10px;
+
+.restList-house-info p {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-right: 150px;
     line-height: 150%;
 }
 
 .restList-house-info2 {
 
     display: inline-block;
-    
+
 }
 
 .restList-star-icon {
     color: #ff5361;
-    font-size:18px;
+    font-size: 18px;
 
 }
+
 .restList-heart-icon {
     color: #ff5361;
-    font-size:18px;
+    font-size: 18px;
 }
-.restList-check-icon{
+
+.restList-check-icon {
     color: #333;
-    font-size:18px;
-    margin:10px 1px;
+    font-size: 18px;
+    margin: 10px 1px;
 }
-.restList-house-price{
-    text-align:right; 
+
+.restList-house-price {
+    text-align: right;
 }
-.restList-house-price h4{
+
+.restList-house-price h4 {
     font-size: 24px;
+    margin-right: 30px;
 }
-.restList-house-price h4 span{
+
+.restList-house-price h4 span {
     font-size: 16px;
     font-weight: 500;
 }
-.restList-sidebar{
+
+.restList-sidebar {
     background-color: #ff9f001a;
-    padding : 20px 30px;
+    padding: 20px 30px;
     margin-top: 30px;
     border-radius: 5px;
 }
-.restList-sidebar h2{
+
+.restList-sidebar h2 {
     font-weight: 500;
     margin-bottom: 20%;
 }
 
-.restList-sidebar h4{
+.restList-sidebar h4 {
     margin-top: 30px;
     font-weight: bold;
-    font-size:22px;
+    font-size: 22px;
 
 }
-.restList-filter{
+
+.restList-filter {
     display: flex;
     align-items: center;
     color: #999;
     margin-bottom: 10px;
 }
-.restList-filter p{
-    flex:1;
-    margin-top: 18px;
-}
-.restList-filter h6{
-    margin-top: 18px;
-    flex:1;
-}
-.restList-PriceSlide{
-    position: relative;
-  height: 5px;
-  width: 185px;
-  border-radius: 10px;
-  background-color: #dddddd;
-} 
-.restList-PriceSlideInner{
-position: absolute;
-  left: 30%;
-  right: 30%;
-  height: 2px;
-  border-radius: 10px;
-  background-color: #b0b0b0;
-  display: flex; 
-}
-.restList-PriceRangeWrap{
-    position: relative;
-} 
 
-.restList-PriceRangeMin,.restList-PriceRangeMax {
+.restList-filter p {
+    flex: 1;
+    margin-top: 18px;
+}
+
+.restList-filter h6 {
+    margin-top: 18px;
+    flex: 1;
+}
+
+.restList-PriceSlide {
+    position: relative;
+    height: 5px;
+    width: 185px;
+    border-radius: 10px;
+    background-color: #dddddd;
+}
+
+.restList-PriceSlideInner {
     position: absolute;
-  top: -7px;
-  height: 7px;
-  width: 100%;
-	-webkit-appearance: none;
-  background: none;
+    left: 30%;
+    right: 30%;
+    height: 2px;
+    border-radius: 10px;
+    background-color: #b0b0b0;
+    display: flex;
+}
 
-	&::-webkit-slider-thumb {
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    border: 2px solid #ffaf47af;
-    background-color: #ffaf47e1;
+.restList-PriceRangeWrap {
+    position: relative;
+}
+
+.restList-PriceRangeMin,
+.restList-PriceRangeMax {
+    position: absolute;
+    top: -7px;
+    height: 7px;
+    width: 100%;
     -webkit-appearance: none;
+    background: none;
+
+    &::-webkit-slider-thumb {
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        border: 2px solid #ffaf47af;
+        background-color: #ffaf47e1;
+        -webkit-appearance: none;
     }
+
     pointer-events: none;
 
-	&::-webkit-slider-thumb {
-		pointer-events: auto;
-  }
+    &::-webkit-slider-thumb {
+        pointer-events: auto;
+    }
 }
-.restList-PriceSlideInner{
+
+.restList-PriceSlideInner {
     position: absolute;
-  height: 4px;
-  border-radius: 10px;
-  background-color: #b0b0b0;
+    height: 4px;
+    border-radius: 10px;
+    background-color: #b0b0b0;
 }
-.restList-PriceValue{
+
+.restList-PriceValue {
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
-.restList-PriceValueMin{
+
+.restList-PriceValueMin {
     margin-top: 7%;
     color: #999;
 }
-.restList-PriceValueMax{
+
+.restList-PriceValueMax {
     margin-top: 7%;
     color: #999;
 }
-.restList-filter input{
+
+.restList-filter input {
     margin-right: 15px;
     cursor: pointer;
 }
@@ -209,7 +244,7 @@ position: absolute;
 .restList-check button {
     background-color: transparent;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 10px;
     color: #333;
     cursor: pointer;
 }
@@ -225,22 +260,25 @@ position: absolute;
 .restList-check button.active .restList-check-icon {
     color: #ff5361;
 }
-.restList-search input{
+
+.restList-search input {
     height: 40px;
     margin-bottom: 15%;
     background-color: #ff9d0000;
     border: 1px solid lightgray;
     border-radius: 3px;
 }
+
 .icon-Circle {
     position: fixed;
-    bottom: 40px; 
-    right: 40px; 
+    bottom: 40px;
+    right: 40px;
     cursor: pointer;
-    width:50px;
-    height:50px;
-  }
-  .restList-filter input[type="checkbox"]:checked {
+    width: 50px;
+    height: 50px;
+}
+
+.restList-filter input[type="checkbox"]:checked {
     accent-color: #ED6D35;
 }
 
@@ -251,53 +289,68 @@ position: absolute;
 }
 
 .restList-house:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* 연한 배경색으로 흐리게 표시 */
+    background-color: rgba(0, 0, 0, 0.1);
+    /* 연한 배경색으로 흐리게 표시 */
     border-radius: 10px;
-    cursor: pointer; /* 마우스 커서 스타일 변경 */
+    cursor: pointer;
+    /* 마우스 커서 스타일 변경 */
 }
 
 .restList-house:hover h3 {
-    color: #333; /* 선택된 링크의 텍스트 색상 변경 */
+    color: #333;
+    /* 선택된 링크의 텍스트 색상 변경 */
 }
 
 .restList-house:hover img {
-    filter: brightness(70%); /* 이미지의 밝기 조절 */
+    filter: brightness(70%);
+    /* 이미지의 밝기 조절 */
 }
 
 .restList-house {
-    transition: transform 0.3s ease; /* 변화가 발생할 때 0.3초 동안 부드럽게 이동 */
+    transition: transform 0.3s ease;
+    /* 변화가 발생할 때 0.3초 동안 부드럽게 이동 */
 }
 
 .restList-house:hover {
-    transform: translateY(-5px); /* 이미지와 텍스트를 위로 10px 이동 */
+    transform: translateY(-5px);
+    /* 이미지와 텍스트를 위로 10px 이동 */
 }
 
 
 
 
 
-@media only screen and (max-width:700px){
-    .restList-list-container{
-        margin-top:150px;
+@media only screen and (max-width:700px) {
+    .restList-list-container {
+        margin-top: 150px;
     }
-    .restList-left-col, .restList-right-col, .restList-house-img, .restList-house-info{
+
+    .restList-left-col,
+    .restList-right-col,
+    .restList-house-img,
+    .restList-house-info {
         flex-basis: 100%;
     }
-    .restList-left-col h1{
-        font-size:22px;
+
+    .restList-left-col h1 {
+        font-size: 22px;
     }
-    .restList-house-info h3{
+
+    .restList-house-info h3 {
         font-size: 18px;
     }
-    .restList-house-info i{
+
+    .restList-house-info i {
         font-size: 16px;
     }
-    .restList-sidebar{
+
+    .restList-sidebar {
         display: none;
     }
 }
-@media only screen and (max-width:1200px){
-    .restList-sidebar{
+
+@media only screen and (max-width:1200px) {
+    .restList-sidebar {
         display: none;
     }
 }
