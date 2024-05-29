@@ -67,7 +67,15 @@ const Navbar = () => {
   };
 
   const handleLogoutClick = async () => {
+        // 로그 전송
+    try {
+      await logUserAction(logData, cookies.accessToken);
+      // console.log("로그아웃 로그 전송 성공");
+  } catch (error) {
+      // console.error("로그아웃 로그 전송 실패:", error);
+  }
     jsCookies.remove("accessToken");
+
     localStorage.setItem('logoutSuccess', 'true'); // 로그아웃 성공 플래그 설정
 
     // 로그아웃 로그 데이터 생성
@@ -82,15 +90,12 @@ const Navbar = () => {
         details: `${user.name} 님이 ${timestamp}에 'LOGOUT'를 성공하셨습니다.`,
     };
 
-    // 로그 전송
-    try {
-        await logUserAction(logData, cookies.accessToken);
-        // console.log("로그아웃 로그 전송 성공");
-    } catch (error) {
-        // console.error("로그아웃 로그 전송 실패:", error);
-    }
 
-    window.location.reload();
+ 
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000);
+    // window.location.reload();
   };
 
   useEffect(() => {
@@ -200,7 +205,7 @@ const Navbar = () => {
                 {user ? (
                   <span onClick={handleLogoutClick} >Logout</span>
                 ) : (
-                  <span onClick={() => handleNavItemClick(user, cookies, 'LOGIN_CLICK', '/login', navigate)}>
+                  <span onClick={() => handleNavItemClick(cookies.accessToken, cookies, 'LOGIN_CLICK', '/login', navigate)}>
                     <GrLogin />
                     <span>Join Us</span>
                   </span>
