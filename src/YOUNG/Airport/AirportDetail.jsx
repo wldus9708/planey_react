@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import AirportSeat from '../Seat/SeatBooking'
+import stylesBtn from '../lodging/LodgingDetail.module.css'
 
 
 const AirportDetail = () => {
@@ -31,7 +32,7 @@ const AirportDetail = () => {
   let { id } = useParams();
 
   useEffect(() => {
-    
+
     console.log(`성인 티켓 개수 , outboundAdultCount: ${outboundAdultCount}`);
     console.log(`성인 티켓 가격 , outboundAdultPrice: ${outboundAdultPrice}`);
   }, [outboundAdultCount, outboundAdultPrice]);
@@ -93,8 +94,8 @@ const AirportDetail = () => {
         return newCount;
       });
     }
-  
-    
+
+
   };
 
   const incrementReturnCount = (type) => {
@@ -133,7 +134,7 @@ const AirportDetail = () => {
     const returnAdultPrice = returnFlightDto.return_fli_price * newAdultCount;
     const returnChildPrice = (returnFlightDto.return_fli_price * 0.5) * newChildCount;
     setReturnAdultPrice(returnAdultPrice);
-    setReturnChildPrice(returnChildPrice); 
+    setReturnChildPrice(returnChildPrice);
   };
 
   const handleModalClose = () => {
@@ -189,9 +190,11 @@ const AirportDetail = () => {
     }
   };
 
-  // 가는 항공편 성인
+
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
 
+
+  // 가는 항공편 성인
   const calculateOutboundAdultPrice = (newCount) => {
     const adultPrice = flightDto.fli_price * newCount;
     setOutboundAdultPrice(adultPrice);
@@ -200,9 +203,37 @@ const AirportDetail = () => {
   // 가는 항공편 소아
   const calculateOutboundChildPrice = (newCount) => {
     const childPrice = (flightDto.fli_price * 0.5) * newCount;
-    setOutboundChildPrice(childPrice); 
+    setOutboundChildPrice(childPrice);
   };
-  
+
+
+  // 오는 항공편 성인
+  const calculateReturnAdultPrice = (newCount) => {
+    const adultPrice = returnFlightDto.return_fli_price * newCount;
+    setReturnAdultPrice(adultPrice);
+  };
+
+  // 오는 항공편 소아
+  const calculateReturnChildPrice = (newCount) => {
+    const childPrice = (returnFlightDto.return_fli_price * 0.5) * newCount;
+    setReturnChildPrice(childPrice);
+  };
+
+  // 총 요금 계산 함수
+  const calculateTotalPrice = () => {
+    const totalPrice =
+      outboundAdultPrice +
+      outboundChildPrice +
+      returnAdultPrice +
+      returnChildPrice;
+    return totalPrice;
+  };
+
+
+
+
+
+
 
   return (
     <>
@@ -225,6 +256,9 @@ const AirportDetail = () => {
         <p className={styles.priceComent}>
           👶 소아 요금은 기본 요금의 50%로 책정됩니다.
         </p>
+        <p className={styles.reservationComent}>
+          🛬 가는편 항공, 오는편 항공 각각 인원수에 알맞게 좌석을 선택 해주세요.
+        </p>
         {/* 가는편 */}
         <div className={styles.flightGoTicket}>
           <div className={styles.flightColor}>
@@ -234,29 +268,28 @@ const AirportDetail = () => {
                 src={`/images/${flightDto.fli_brand_image}`}
                 lt="항공사로고" />
             )}
-            <div className={styles.flightGoRegion}>
-              {flightDto.fli_departure_place}
-            </div>
-            <div className={styles.flightArriRegion}>
-              {flightDto.fli_arrival_place}
-            </div>
-            <div className={styles.flightGoDate}>
-              {flightDto.fli_departure_date}
-            </div>
-            <div className={styles.flightArriDate}>
-              {flightDto.fli_arrival_date}
-            </div>
-            <div className={styles.flightGoTime}>
-              {flightDto.fli_departure_time}
-            </div>
-            <div className={styles.flightArriTime}>
-              {flightDto.fli_arrival_time}
-            </div>
-            <div className={styles.totalTime}>
-              총 {convertMinutesToHoursAndMinutes(flightDto.fli_total_time)}
-            </div>
-            <div className={styles.FliIcon}>
-             
+            <div className={styles.flightTicketDetail}>
+              <div className={styles.flightGoRegion}>
+                {flightDto.fli_departure_place}
+              </div>
+              <div className={styles.flightArriRegion}>
+                {flightDto.fli_arrival_place}
+              </div>
+              <div className={styles.flightGoDate}>
+                {flightDto.fli_departure_date}
+              </div>
+              <div className={styles.flightArriDate}>
+                {flightDto.fli_arrival_date}
+              </div>
+              <div className={styles.flightGoTime}>
+                {flightDto.fli_departure_time}
+              </div>
+              <div className={styles.flightArriTime}>
+                {flightDto.fli_arrival_time}
+              </div>
+              <div className={styles.totalTime}>
+                총 {convertMinutesToHoursAndMinutes(flightDto.fli_total_time)}
+              </div>
             </div>
             <button
               className={styles.flightSeat}
@@ -299,30 +332,30 @@ const AirportDetail = () => {
                 src={`/images/${returnFlightDto.return_fli_brand_image}`}
                 lt="항공사로고" />
             )}
+            <div className={styles.flightTicketDetail}>
+              <div className={styles.flightGoRegion}>
+                {returnFlightDto.return_fli_departure_place}
+              </div>
+              <div className={styles.flightArriRegion}>
+                {returnFlightDto.return_fli_arrival_place}
+              </div>
+              <div className={styles.flightGoDate}>
+                {returnFlightDto.return_fli_departure_date}
+              </div>
+              <div className={styles.flightArriDate}>
+                {returnFlightDto.return_fli_arrival_date}
+              </div>
+              <div className={styles.flightGoTime}>
+                {returnFlightDto.return_fli_departure_time}
+              </div>
+              <div className={styles.flightArriTime}>
+                {returnFlightDto.return_fli_arrival_time}
+              </div>
+              <div className={styles.totalTime}>
+                총 {convertMinutesToHoursAndMinutes(returnFlightDto.return_fli_total_time)}
+              </div>
+            </div>
 
-            <div className={styles.flightGoRegion}>
-              {returnFlightDto.return_fli_departure_place}
-            </div>
-            <div className={styles.flightArriRegion}>
-              {returnFlightDto.return_fli_arrival_place}
-            </div>
-            <div className={styles.flightGoDate}>
-              {returnFlightDto.return_fli_departure_date}
-            </div>
-            <div className={styles.flightArriDate}>
-              {returnFlightDto.return_fli_arrival_date}
-            </div>
-            <div className={styles.flightGoTime}>
-              {returnFlightDto.return_fli_departure_time}
-            </div>
-            <div className={styles.flightArriTime}>
-              {returnFlightDto.return_fli_arrival_time}
-            </div>
-            <div className={styles.totalTime}>
-              총 {convertMinutesToHoursAndMinutes(returnFlightDto.return_fli_total_time)}
-            </div>
-            <div className={styles.FliIcon}>
-            </div>
             <button
               className={styles.flightSeat}
               onClick={() => handleModalShow(false)}>
@@ -385,25 +418,48 @@ const AirportDetail = () => {
             </div>
           </div>
         </div>
-        <div className={styles.GoFlightPrice}>
-          <h5 className={styles.totalPrice}>
+
+        {/* <h5 className={styles.totalPrice}>
             총 요금
-          </h5>
-          <li>가는 항공편</li>
+          </h5> */}
+        <div className={styles.flightGoReservation}>
+          <h5
+            className={styles.h5}
+          >요금</h5>
           <br />
-          <li>성인 x {outboundAdultCount}&nbsp;&nbsp;{outboundAdultPrice}원</li>
-          <br />
-          <li>소아 x {outboundChildCount}&nbsp;&nbsp;{outboundChildPrice}원</li>
+          <div className={styles.GoFlightPrice}>
+            <h6>가는 항공편</h6>
+
+            <li>성인 x {outboundAdultCount}&nbsp;&nbsp;&nbsp;&nbsp;{outboundAdultPrice}원</li>
+            <br />
+            <li>소아 x {outboundChildCount}&nbsp;&nbsp;&nbsp;&nbsp;{outboundChildPrice}원</li>
+          </div>
         </div>
-        <div>
-        <li>오는 항공편</li>
+        <br />
+        <div className={styles.returnFlightPrice}>
+          <h6>오는 항공편</h6>
+          <li>성인 x {returnAdultCount}&nbsp;&nbsp;&nbsp;&nbsp;{returnAdultPrice}원</li>
           <br />
-          <li>성인 x {returnAdultCount}&nbsp;&nbsp;{returnAdultPrice}원</li>
+          <li>소아 x {returnChildCount}&nbsp;&nbsp;&nbsp;&nbsp;{returnChildPrice}원</li>
+        </div>
+        <h5 className={styles.h5}>총 요금:&nbsp;&nbsp;{calculateTotalPrice()}원</h5>
+        <div className={styles.blank}></div>
+        <div className={stylesBtn.btnGroups}>
+
+          {/* 버튼에 추가 onClick={handleAddToCartClick} */}
+          <button type="button" className={stylesBtn.addCartBtn}>
+            <i className='fas fa-shopping-cart'></i>
+            장바구니 추가
+          </button>
           <br />
-          <li>소아 x {returnChildCount}&nbsp;&nbsp;{returnChildPrice}원</li>
+          <br />
+          {/* 버튼에 추가 onClick={handleBuyNowClick} */}
+          <button type="button" className={stylesBtn.buyNowBtn}>
+            <i className='fas fa-wallet'></i>
+            예약 하러 가기
+          </button>
         </div>
       </div>
-
 
 
       <Modal show={showModal} onHide={handleModalClose}>
