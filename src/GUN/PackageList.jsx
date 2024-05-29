@@ -220,7 +220,7 @@ const PackageList = () => {
                 <NavBar />
             </div>
             <SearchField onSearch={handleSearch} onCountChange={handleCountChange} onDateChange={handleDateChange} />
-            {showAdvertise && (
+            {showAdvertise && cookies.accessToken && (
                 <div className={styles.mcmodal}>
                     <div className={styles.mcmodalContent}>
                         {/*<span className={styles.mcclose} onClick={closeModal}>&times;</span>*/}
