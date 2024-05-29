@@ -233,7 +233,6 @@ const RentCarList = () => {
                                             렌트카 지점 : {item.carLocation} <br />
                                             연료 : {item.carFuelType}
                                             <p></p>
-                                            <FontAwesomeIcon icon={faStar} className={styles['rentList-star-icon']} />
                                             <div className={styles['rentList-house-price']}>
                                                 <h4>₩ {item.carRentalPrice.toLocaleString()}</h4>
                                             </div>
