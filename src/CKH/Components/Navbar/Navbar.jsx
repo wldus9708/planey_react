@@ -148,7 +148,7 @@ const Navbar = () => {
           <button onClick={() => handleNavItemClick(user, cookies, 'HOME_CLICK', '/', navigate)} className="logo">
             <h1 className="flex">
               <TbBeach />
-              PRANEY
+              PLANEY
             </h1>
           </button>
         </div>
