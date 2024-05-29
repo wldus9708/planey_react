@@ -5,6 +5,10 @@ import styles from '../../YOUNG/lodging/LodingPayment.module.css';
 import stylesBtn from "../../YOUNG/lodging/LodgingDetail.module.css";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import NavBar from "../../CKH/Components/Navbar/Navbar"
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import useUser from "../../BBS/Log/useUser";
 
 const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
     const [cookies] = useCookies(['accessToken']);
@@ -12,6 +16,8 @@ const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
     const [endDate, setEndDate] = useState(new Date());
     const [adults, setAdults] = useState(1);
     const [totalPrice, setTotalPrice] = useState(0);
+    const navigate = useNavigate();
+    const user = useUser();
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -46,6 +52,15 @@ const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
         setAdults(prev => Math.max(1, prev + increment));
     };
 
+    const handleAddToCartClick = () => {
+        addToCart();
+        handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
+      };
+      
+      const handleBuyNowClick = () => {
+        handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
+      };
+
     const addToCart = async () => {
         await axios.post(`http://localhost:8988/cart/insert?productId=${carId}`, {}, {
             headers: {
@@ -72,6 +87,7 @@ const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
                     minDate={new Date()} // 시작 날짜 이후로만 선택 가능
+                    onClick={() => handleNavItemClick(user, cookies, 'START_DATE', null, navigate)}
                 />
             </div>
             <div className={styles.datePicker}>
@@ -83,17 +99,18 @@ const RentCarPayment = ({ car, onPaymentInfo, carId }) => {
                     placeholderText="날짜를 선택하세요"
                     className={styles.dateInput}
                     minDate={startDate} // 시작 날짜 이후로만 선택 가능
+                    onClick={() => handleNavItemClick(user, cookies, 'END_DATE', null, navigate)}
                 />
             </div>
             <div>
                 <span>총 가격: {totalPrice} 원</span>
             </div>
             <div className={stylesBtn.btnGroups}>
-                <button type="button" onClick={addToCart} className={stylesBtn.addCartBtn}>
+                <button type="button" onClick={handleAddToCartClick} className={stylesBtn.addCartBtn}>
                     <i className='fas fa-shopping-cart'></i>
                     장바구니 추가
                 </button>
-                <button type="button" className={stylesBtn.buyNowBtn}>
+                <button type="button" className={stylesBtn.buyNowBtn} onClick={handleBuyNowClick}>
                     <i className='fas fa-wallet'></i>
                     예약 하러 가기
                 </button>

@@ -7,7 +7,10 @@ import styles from './AirportList.module.css'
 import SearchField from '../searchField/Search_field';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
 import throttle from 'lodash/throttle'; // 스크롤이벤트 대신 
-import { Link } from 'react-router-dom';
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import useUser from "../../BBS/Log/useUser";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -28,6 +31,9 @@ const AirportList = () => {
     const [count, setCount] = useState(1); // 인원수 상태 추가
     const [startDate, setStartDate] = useState(null); // 출발 날짜 상태
     const [endDate, setEndDate] = useState(null); // 종료 날짜 상태
+    const user = useUser();
+    const [cookies] = useCookies(['accessToken']);
+    const navigate = useNavigate();
 
     const fetchData = async (page) => {
         setIsFetching(true);
@@ -175,6 +181,14 @@ const AirportList = () => {
         const remainingMinutes = minutes % 60;
         return `${hours}시간 ${remainingMinutes}분`;
     };
+    const handleScrollToTopAndNavItemClick = () => {
+        scrollToTop();
+        handleNavItemClick(user, cookies, 'AIRPORT_SCROLLTOP', null, navigate);
+    };
+    const clickSort = (sortOption) => {
+        setSortOption(sortOption);
+        handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'AIRPORT_SORT_LOWPRICE' : 'AIRPORT_SORT_HIGHPRICE', null, navigate);
+    };
 
 
 
@@ -193,9 +207,9 @@ const AirportList = () => {
                         <h1>항공 리스트</h1>
                         <div className={styles['restList-check']}>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => setSortOption("lowPrice")}>낮은가격순</button>
+                            <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => clickSort("lowPrice")}>낮은가격순</button>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
-                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => setSortOption("highPrice")}>높은가격순</button>
+                            <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => clickSort("highPrice")}>높은가격순</button>
                         </div>
 
                         {data.length > 0 ? (
@@ -343,6 +357,7 @@ const AirportList = () => {
                                         prcieRangeMinValueHandler(e);
                                         twoRangeHandler();
                                     }}
+                                    onClick={() => handleNavItemClick(user, cookies, 'AIRPORT_PRICE_RANGE', null, navigate)}
                                     className={styles['restList-PriceRangeMin']}
                                 />
                                 <input
@@ -369,7 +384,8 @@ const AirportList = () => {
                         </div>
                     </div>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={scrollToTop} />
+                <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
+
             </div>
         </>
 

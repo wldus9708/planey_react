@@ -5,6 +5,10 @@ import styles from './LodingPayment.module.css';
 import stylesBtn from "./LodgingDetail.module.css"
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import NavBar from "../../CKH/Components/Navbar/Navbar"
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
+import useUser from "../../BBS/Log/useUser";
 
 const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStartDate, setEndDate, setAdults, setChildren, lodgingId }) => {
     const [cookies] = useCookies(['accessToken']);
@@ -13,6 +17,8 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
     const [adults, setLocalAdults] = useState(1);
     const [children, setLocalChildren] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+    const user = useUser();
 
     const handleAdultsChange = (increment) => {
         setLocalAdults(prev => {
@@ -63,7 +69,7 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
             setEndDate(date); // 부모 컴포넌트에 종료 날짜 설정
         }
     };
-    
+
     const addToCart = async () => {
         const totalPeople = Number(adults) + Number(children);
         await axios.post(`http://localhost:8988/cart/insert?productId=${lodgingId}`, { count: totalPeople, children: children }, {
@@ -71,13 +77,22 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
                 Authorization: cookies.accessToken
             }
         })
-        .then((response) => {
-            console.log(response);
-            alert(response.data.message);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+            .then((response) => {
+                console.log(response);
+                alert(response.data.message);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    };
+    const handleAddToCartClick = () => {
+        addToCart();
+        handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
+    };
+
+    const handleBuyNowClick = () => {
+        handlePayment();
+        handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
     };
 
     return (
@@ -112,20 +127,20 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
                 <button onClick={() => handleAdultsChange(-1)}>-</button>
                 <span>{adults}</span>
                 <button onClick={() => handleAdultsChange(1)}>+</button>
-     
+
                 <label>어린이: </label>
                 <button onClick={() => handleChildrenChange(-1)}>-</button>
                 <span>{children}</span>
                 <button onClick={() => handleChildrenChange(1)}>+</button>
             </div>
             <div className={stylesBtn.btnGroups}>
-                <button type="button" onClick={addToCart} className={stylesBtn.addCartBtn}>
-                  <i className='fas fa-shopping-cart'></i>
-                  장바구니 추가
+                <button type="button" onClick={handleAddToCartClick} className={stylesBtn.addCartBtn}>
+                    <i className='fas fa-shopping-cart'></i>
+                    장바구니 추가
                 </button>
-                <button type="button" className={stylesBtn.buyNowBtn} onClick={handlePayment}>
-                  <i className='fas fa-wallet'></i>
-                  예약 하러 가기
+                <button type="button" className={stylesBtn.buyNowBtn} onClick={handleBuyNowClick}>
+                    <i className='fas fa-wallet'></i>
+                    예약 하러 가기
                 </button>
             </div>
         </div>
