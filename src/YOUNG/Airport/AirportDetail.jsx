@@ -31,6 +31,14 @@ const AirportDetail = () => {
   let { id } = useParams();
 
   useEffect(() => {
+    
+    console.log(`성인 티켓 개수 , outboundAdultCount: ${outboundAdultCount}`);
+    console.log(`성인 티켓 가격 , outboundAdultPrice: ${outboundAdultPrice}`);
+  }, [outboundAdultCount, outboundAdultPrice]);
+
+
+
+  useEffect(() => {
     const fetchFlightData = async () => {
       try {
         const response = await fetch(`http://localhost:8988/products/FlightsDetail/${id}`);
@@ -57,21 +65,33 @@ const AirportDetail = () => {
 
   const incrementOutboundCount = (type) => {
     if (type === 'adult') {
-      setOutboundAdultCount(outboundAdultCount + 1);
-      calculateOutboundAdultPrice(); // 성인 수량 증가 시 성인 요금 계산 함수 호출
+      setOutboundAdultCount(prevCount => {
+        const newCount = prevCount + 1;
+        calculateOutboundAdultPrice(newCount); // 성인 수량 증가 시 성인 요금 계산 함수 호출
+        return newCount;
+      });
     } else {
-      setOutboundChildCount(outboundChildCount + 1);
-      calculateOutboundChildPrice(); // 소아 수량 증가 시 소아 요금 계산 함수 호출
+      setOutboundChildCount(prevCount => {
+        const newCount = prevCount + 1;
+        calculateOutboundChildPrice(newCount); // 소아 수량 증가 시 소아 요금 계산 함수 호출
+        return newCount;
+      });
     }
   };
 
   const decrementOutboundCount = (type) => {
-    if (type === 'adult' && outboundAdultCount > 1) {
-      setOutboundAdultCount(outboundAdultCount - 1);
-      calculateOutboundAdultPrice();
+    if (type === 'adult' && outboundAdultCount >= 1) {
+      setOutboundAdultCount(prevCount => {
+        const newCount = prevCount - 1;
+        calculateOutboundAdultPrice(newCount);
+        return newCount;
+      });
     } else if (type === 'child' && outboundChildCount > 0) {
-      setOutboundChildCount(outboundChildCount - 1);
-      calculateOutboundChildPrice();
+      setOutboundChildCount(prevCount => {
+        const newCount = prevCount - 1;
+        calculateOutboundChildPrice(newCount);
+        return newCount;
+      });
     }
   
     
@@ -79,23 +99,42 @@ const AirportDetail = () => {
 
   const incrementReturnCount = (type) => {
     if (type === 'adult') {
-      setReturnAdultCount(returnAdultCount + 1);
+      setReturnAdultCount(prevCount => {
+        const newCount = prevCount + 1;
+        calculateReturnPrices(newCount, returnChildCount); // 성인 수량 증가 시 요금 계산 함수 호출
+        return newCount;
+      });
     } else {
-      setReturnChildCount(returnChildCount + 1);
+      setReturnChildCount(prevCount => {
+        const newCount = prevCount + 1;
+        calculateReturnPrices(returnAdultCount, newCount); // 소아 수량 증가 시 요금 계산 함수 호출
+        return newCount;
+      });
     }
-    calculateReturnPrices();
   };
 
   const decrementReturnCount = (type) => {
-    if (type === 'adult' && returnAdultCount > 1) {
-      setReturnAdultCount(returnAdultCount - 1);
+    if (type === 'adult' && returnAdultCount >= 1) {
+      setReturnAdultCount(prevCount => {
+        const newCount = prevCount - 1;
+        calculateReturnPrices(newCount, returnChildCount);
+        return newCount;
+      });
     } else if (type === 'child' && returnChildCount > 0) {
-      setReturnChildCount(returnChildCount - 1);
+      setReturnChildCount(prevCount => {
+        const newCount = prevCount - 1;
+        calculateReturnPrices(returnAdultCount, newCount);
+        return newCount;
+      });
     }
-    calculateReturnPrices();
-
   };
 
+  const calculateReturnPrices = (newAdultCount, newChildCount) => {
+    const returnAdultPrice = returnFlightDto.return_fli_price * newAdultCount;
+    const returnChildPrice = (returnFlightDto.return_fli_price * 0.5) * newChildCount;
+    setReturnAdultPrice(returnAdultPrice);
+    setReturnChildPrice(returnChildPrice); 
+  };
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -153,32 +192,17 @@ const AirportDetail = () => {
   // 가는 항공편 성인
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
 
-  const calculateOutboundAdultPrice = () => {
-    const adultPrice = flightDto.fli_price * (outboundAdultCount + 1);
+  const calculateOutboundAdultPrice = (newCount) => {
+    const adultPrice = flightDto.fli_price * newCount;
     setOutboundAdultPrice(adultPrice);
   };
 
   // 가는 항공편 소아
-  const calculateOutboundChildPrice = () => {
-    const childCount = outboundChildCount > 0 ? (outboundChildCount + 1 ): 0;
-    const childPrice = (flightDto.fli_price * 0.5) * childCount;
+  const calculateOutboundChildPrice = (newCount) => {
+    const childPrice = (flightDto.fli_price * 0.5) * newCount;
     setOutboundChildPrice(childPrice); 
   };
   
-
-//오는 항공편: 성인과 소아의 수량에 따라 요금을 계산하는 함수
-const calculateReturnPrices = () => {
-  const returnAdultPrice = returnFlightDto.return_fli_price * returnAdultCount;
-  const returnChildPrice = (returnFlightDto.return_fli_price * 0.5) * returnChildCount;
-  setReturnAdultPrice(returnAdultPrice);
-  setReturnChildPrice(returnChildPrice); 
- 
-
-};
-
-
-
-    
 
   return (
     <>
