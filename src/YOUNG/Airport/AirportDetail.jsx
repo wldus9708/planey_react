@@ -12,11 +12,19 @@ const AirportDetail = () => {
   const [returnFlightDto, setReturnFlightDto] = useState(null);
   const [showModal, setShowModal] = useState(false); // 모달 열고 닫기 상태 추가
   const [selectedSeats, setSelectedSeats] = useState({ outbound: [], return: [] }); // 선택한 좌석을 저장하는 상태
+  const [tempSelectedSeats, setTempSelectedSeats] = useState({ outbound: [], return: [] }); // 모달 내 임시 선택 좌석 상태
 
-  const [outboundAdultCount, setOutboundAdultCount] = useState(1); // 가는 항공편 성인 인원 수 상태
-  const [outboundChildCount, setOutboundChildCount] = useState(0); // 가는 항공편 소아 인원 수 상태
-  const [returnAdultCount, setReturnAdultCount] = useState(1); // 오는 항공편 성인 인원 수 상태
-  const [returnChildCount, setReturnChildCount] = useState(0); // 오는 항공편 소아 인원 수 상태
+  // 인원수
+  const [outboundAdultCount, setOutboundAdultCount] = useState(0);
+  const [outboundChildCount, setOutboundChildCount] = useState(0);
+  const [returnAdultCount, setReturnAdultCount] = useState(0);
+  const [returnChildCount, setReturnChildCount] = useState(0);
+
+  // 요금
+  const [outboundAdultPrice, setOutboundAdultPrice] = useState(0);
+  const [outboundChildPrice, setOutboundChildPrice] = useState(0);
+  const [returnAdultPrice, setReturnAdultPrice] = useState(0);
+  const [returnChildPrice, setReturnChildPrice] = useState(0);
 
   const [isOutbound, setIsOutbound] = useState(true); // 현재 좌석 선택이 가는편인지 오는편인지 상태
 
@@ -50,17 +58,23 @@ const AirportDetail = () => {
   const incrementOutboundCount = (type) => {
     if (type === 'adult') {
       setOutboundAdultCount(outboundAdultCount + 1);
+      calculateOutboundAdultPrice(); // 성인 수량 증가 시 성인 요금 계산 함수 호출
     } else {
       setOutboundChildCount(outboundChildCount + 1);
+      calculateOutboundChildPrice(); // 소아 수량 증가 시 소아 요금 계산 함수 호출
     }
   };
 
   const decrementOutboundCount = (type) => {
     if (type === 'adult' && outboundAdultCount > 1) {
       setOutboundAdultCount(outboundAdultCount - 1);
+      calculateOutboundAdultPrice();
     } else if (type === 'child' && outboundChildCount > 0) {
       setOutboundChildCount(outboundChildCount - 1);
+      calculateOutboundChildPrice();
     }
+  
+    
   };
 
   const incrementReturnCount = (type) => {
@@ -69,6 +83,7 @@ const AirportDetail = () => {
     } else {
       setReturnChildCount(returnChildCount + 1);
     }
+    calculateReturnPrices();
   };
 
   const decrementReturnCount = (type) => {
@@ -77,7 +92,11 @@ const AirportDetail = () => {
     } else if (type === 'child' && returnChildCount > 0) {
       setReturnChildCount(returnChildCount - 1);
     }
+    calculateReturnPrices();
+
   };
+
+
   const handleModalClose = () => {
     setShowModal(false);
   };
@@ -85,30 +104,29 @@ const AirportDetail = () => {
 
   const handleModalShow = (isOutboundFlight) => {
     setIsOutbound(isOutboundFlight);
+    setTempSelectedSeats(selectedSeats); // 모달 열 때 임시 선택 좌석을 현재 선택된 좌석으로 설정
     setShowModal(true);
   };
 
   const handleConfirm = () => {
+    setSelectedSeats(tempSelectedSeats); // 확인 버튼 클릭 시 임시 선택 좌석을 최종 선택 좌석으로 설정
     setShowModal(false);
   };
 
-  // 선택된 인원수 만큼만 좌석수 선택할수 있음. 
   const handleSelectSeat = (seat) => {
     let totalOutboundPassengerCount = outboundAdultCount + outboundChildCount;
     let totalReturnPassengerCount = returnAdultCount + returnChildCount;
-    let selectedOutboundSeatCount = selectedSeats.outbound.length;
-    let selectedReturnSeatCount = selectedSeats.return.length;
-  
+    let selectedOutboundSeatCount = tempSelectedSeats.outbound.length;
+    let selectedReturnSeatCount = tempSelectedSeats.return.length;
+
     if (isOutbound) {
-      if (selectedSeats.outbound.includes(seat)) {
-        alert('이미 선택된 좌석입니다.');
-        setSelectedSeats(prev => ({
+      if (tempSelectedSeats.outbound.includes(seat)) {
+        setTempSelectedSeats(prev => ({
           ...prev,
           outbound: prev.outbound.filter(selectedSeat => selectedSeat !== seat)
         }));
       } else if (selectedOutboundSeatCount < totalOutboundPassengerCount) {
-        // 선택된 좌석이 없거나 선택된 좌석의 수가 인원 수보다 적을 때 좌석 선택
-        setSelectedSeats(prev => ({
+        setTempSelectedSeats(prev => ({
           ...prev,
           outbound: [...prev.outbound, seat]
         }));
@@ -116,15 +134,13 @@ const AirportDetail = () => {
         alert('가는 항공편의 모든 승객이 좌석을 선택 하였습니다.');
       }
     } else {
-      if (selectedSeats.return.includes(seat)) {
-        alert('이미 선택된 좌석입니다.');
-        setSelectedSeats(prev => ({
+      if (tempSelectedSeats.return.includes(seat)) {
+        setTempSelectedSeats(prev => ({
           ...prev,
           return: prev.return.filter(selectedSeat => selectedSeat !== seat)
         }));
       } else if (selectedReturnSeatCount < totalReturnPassengerCount) {
-        // 선택된 좌석이 없거나 선택된 좌석의 수가 인원 수보다 적을 때 좌석 선택
-        setSelectedSeats(prev => ({
+        setTempSelectedSeats(prev => ({
           ...prev,
           return: [...prev.return, seat]
         }));
@@ -134,8 +150,36 @@ const AirportDetail = () => {
     }
   };
 
-
+  // 가는 항공편 성인
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
+
+  const calculateOutboundAdultPrice = () => {
+    const adultPrice = flightDto.fli_price * (outboundAdultCount + 1);
+    setOutboundAdultPrice(adultPrice);
+  };
+
+  // 가는 항공편 소아
+  const calculateOutboundChildPrice = () => {
+    const childCount = outboundChildCount > 0 ? (outboundChildCount + 1 ): 0;
+    const childPrice = (flightDto.fli_price * 0.5) * childCount;
+    setOutboundChildPrice(childPrice); 
+  };
+  
+
+//오는 항공편: 성인과 소아의 수량에 따라 요금을 계산하는 함수
+const calculateReturnPrices = () => {
+  const returnAdultPrice = returnFlightDto.return_fli_price * returnAdultCount;
+  const returnChildPrice = (returnFlightDto.return_fli_price * 0.5) * returnChildCount;
+  setReturnAdultPrice(returnAdultPrice);
+  setReturnChildPrice(returnChildPrice); 
+ 
+
+};
+
+
+
+    
+
   return (
     <>
 
@@ -231,7 +275,7 @@ const AirportDetail = () => {
                 src={`/images/${returnFlightDto.return_fli_brand_image}`}
                 lt="항공사로고" />
             )}
-            
+
             <div className={styles.flightGoRegion}>
               {returnFlightDto.return_fli_departure_place}
             </div>
@@ -284,7 +328,7 @@ const AirportDetail = () => {
       <div className={styles.flightReservation}>
         <div className={styles.flightGoReservation}>
           <h5
-          className={styles.h5}
+            className={styles.h5}
           >가는 항공편</h5>
           <br />
           <div>
@@ -296,32 +340,47 @@ const AirportDetail = () => {
           </div>
           <br />
           <div>
-           좌석 {renderSeats(selectedSeats.outbound)}
+            좌석 {renderSeats(selectedSeats.outbound)}
           </div>
         </div>
-        <div> 
-        <h5
-          className={styles.h5}
+        <div>
+          <h5
+            className={styles.h5}
           >오는 항공편</h5>
           <br />
           <div className={styles.flightReturnReservation}>
             <div>
-            성인{returnAdultCount}명
+              성인{returnAdultCount}명
             </div>
             <br />
-          <div>
-            소인{returnChildCount}명
-          </div>
-          <br />
-          <div>
-           좌석 {renderSeats(selectedSeats.return)}
-          </div>
+            <div>
+              소인{returnChildCount}명
+            </div>
+            <br />
+            <div>
+              좌석 {renderSeats(selectedSeats.return)}
+            </div>
           </div>
         </div>
-        <div className={styles.totalPrice}>
-          총 요금
+        <div className={styles.GoFlightPrice}>
+          <h5 className={styles.totalPrice}>
+            총 요금
+          </h5>
+          <li>가는 항공편</li>
+          <br />
+          <li>성인 x {outboundAdultCount}&nbsp;&nbsp;{outboundAdultPrice}원</li>
+          <br />
+          <li>소아 x {outboundChildCount}&nbsp;&nbsp;{outboundChildPrice}원</li>
+        </div>
+        <div>
+        <li>오는 항공편</li>
+          <br />
+          <li>성인 x {returnAdultCount}&nbsp;&nbsp;{returnAdultPrice}원</li>
+          <br />
+          <li>소아 x {returnChildCount}&nbsp;&nbsp;{returnChildPrice}원</li>
         </div>
       </div>
+
 
 
       <Modal show={showModal} onHide={handleModalClose}>
@@ -333,9 +392,9 @@ const AirportDetail = () => {
           <Button variant="primary" onClick={handleConfirm}>확인</Button>
         </Modal.Footer>
         <Modal.Body>
-        <AirportSeat onSelectSeat={handleSelectSeat} selectedSeats={isOutbound ? selectedSeats.outbound : selectedSeats.return}/>
+          <AirportSeat onSelectSeat={handleSelectSeat} selectedSeats={isOutbound ? tempSelectedSeats.outbound : tempSelectedSeats.return} />
         </Modal.Body>
-    
+
       </Modal>
 
 
