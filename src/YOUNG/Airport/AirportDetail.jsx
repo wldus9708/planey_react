@@ -64,7 +64,7 @@ const AirportDetail = () => {
           console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
     } else if (!cookies.accessToken) {
-      navigator('/login');
+      // navigator('/login');
       alert("결제전에 로그인을 해주세요.");
     }
     const fetchFlightData = async () => {
