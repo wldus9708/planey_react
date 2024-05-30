@@ -73,7 +73,7 @@ export const Cart = () => {
     calculateDiscount();
   }, [selectedItems, data]);
 
-  // 수량 변경 들러
+  // 수량 변경 러
   const handleCountChange = async (index, delta, type) => {
     const updatedData = [...data];
     const newCount = updatedData[index][type] + delta;
@@ -210,6 +210,9 @@ export const Cart = () => {
       };
     });
 
+    // orderId를 적절한 형식으로 변환
+    const orderId = `order_${orderIds.join('_')}`.substring(0, 64);
+
     const successUrl = `http://localhost:3000/PaymentSuccessCart?member_id=${user.id}&orderIds=${encodeURIComponent(JSON.stringify(orderIds))}&cartItems=${encodeURIComponent(JSON.stringify(cartItemsData))}`;
 
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
@@ -217,7 +220,7 @@ export const Cart = () => {
       .then(tossPayments => {
         tossPayments.requestPayment('CARD', {
           amount: totalAmount,
-          orderId: orderIds.join('_'), // 결제 요청에는 조인된 orderId 사용
+          orderId: orderId, // 적절한 형식의 orderId 사용
           orderName: '장바구니 결제',
           successUrl: successUrl,
           failUrl: "http://localhost:3000/PaymentFail",
@@ -361,7 +364,7 @@ export const Cart = () => {
               <div className={styles.cart_product_price}>
                 <p className={styles.total_price}>{getPrice(index).toLocaleString()}원</p>
               </div>
-              {/* 가격 */}
+              {/* 가 */}
 
               {/* 삭제 버튼 */}
               <div className={styles.product_remove}>

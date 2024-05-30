@@ -50,7 +50,7 @@ export function SuccessCartPage() {
       if (response.ok) {
         console.log('장바구니 예약이 성공적으로 처리되었습니다.');
       } else {
-        console.error('장바구니 예약 정보�� 저장하는데 실패했습니다:', response.statusText);
+        console.error('장바구니 예약 정보를 저장하는데 실패했습니다:', response.statusText);
       }
     } catch (error) {
       console.error('장바구니 예약 정보를 저장하는데 실패했습니다:', error);
@@ -73,7 +73,6 @@ export function SuccessCartPage() {
         console.log("price: " + ((item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0))));
       });
     }
-
     try {
       // 각 아이템에 대해 개별적으로 요청을 보냄
       for (const item of cartItems) {
@@ -96,6 +95,15 @@ export function SuccessCartPage() {
             }]
           })
         });
+
+        console.log("사용자 아이디: " + user);
+        console.log("paymentKey: " + paymentKey);
+        console.log("orderId: " + orderId);
+        console.log("amount: " + amount);
+        console.log("cartItems:");
+        console.log("Enum: " + item.enum);
+        console.log("count: " + item.count);
+        console.log("price: " + ((item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0))));
 
         if (!response.ok) {
           console.error('결제 승인 실패:', response.statusText);
