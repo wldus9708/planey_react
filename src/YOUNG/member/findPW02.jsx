@@ -27,7 +27,7 @@ const FindPW02 = () => {
   };
 
   const handleFindId = async () => {
-    let newWarnings = { name: '', phone: '' };
+    let newWarnings = { name: '', phone: ''};
 
     if (name.trim() === '') {
       newWarnings.name = '이름을 입력하세요.';
@@ -37,9 +37,6 @@ const FindPW02 = () => {
       newWarnings.phone = '휴대전화를 입력하세요.';
     }
 
-    // if (code.trim() === '') {
-    //   newWarnings.code = '인증 코드를 입력하세요.';
-    // }
 
     // 경고 메시지 상태 업데이트
     setWarnings(newWarnings);
@@ -59,6 +56,33 @@ const FindPW02 = () => {
     }
 
   };
+
+  const handleVerifyCode = async () => {
+    if (code.trim() === '') {
+      setWarnings({ ...warnings, code: '인증 코드를 입력하세요.' });
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8988/test/code', null, {
+        params: {
+          phone: phone,
+          code: code
+        }
+      });
+      if (response.status === 200) {
+        alert('인증번호가 확인되었습니다.');
+      } else {
+        alert('유효하지 않은 인증번호 입니다.');
+        console.log("ㅁㅁㅁ")
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      alert('유효하지 않은 인증번호 입니다.');
+    }
+  };
+
+
 
 
 
@@ -148,13 +172,18 @@ const FindPW02 = () => {
             type="text"
             placeholder="인증 코드를 입력하세요."
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => {
+              setCode(e.target.value);
+              if (warnings.code) {
+                setWarnings({ ...warnings, code: '' });
+              }
+            }}
           />
           {warnings.code && <div className={Styles.warning}>{warnings.code}</div>}
           <Button
             className={Styles.authButton}
             type="button"
-          // onClick={handleFindId}
+          onClick={handleVerifyCode}
           >
             인증코드 확인
           </Button>
