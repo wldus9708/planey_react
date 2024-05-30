@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Styles from './findPW02.module.css';
+import axios from 'axios';
 
 const FindPW02 = () => {
   const [authMethod, setAuthMethod] = useState('phone');
@@ -59,12 +60,14 @@ const FindPW02 = () => {
 
   };
 
+
+
   const sendVerificationCode = async (phone) => {
     try {
-      const response = await fetch(`http://localhost:8988/sendSms/${phone}`);
-      if (response.ok) {
+      const response = await axios.get(`http://localhost:8988/test/sendSms/${phone}`);
+      console.log(response);
+      if (response.status === 200) {
         alert('인증번호가 전송되었습니다.');
-        
       } else {
         console.error('Failed to send verification code:', response.statusText);
       }
@@ -72,26 +75,34 @@ const FindPW02 = () => {
       console.error('Error sending verification code:', error);
     }
   };
+  
 
   const checkPhoneNumberExists = async (name, phone) => {
     try {
       const response = await fetch(`http://localhost:8988/test/checkNameAndPhone?name=${name}&phone=${phone}`);
-      // console.log(response.ok);
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        //리스빤스가  ok면 이 함수 호출 이 함수는 이제 인증번호 발송 해야 하는 차례
-        sendVerificationCode(phone);
-        return true;
+        // JSON 데이터에서 false 값이 있는지 확인
+        const isAllValid = Object.values(data).every((value) => value === true);
+        if (isAllValid) {
+          // 모든 값이 true일 경우에만 인증번호 발송
+          sendVerificationCode(phone);
+          return true;
+        } else {
+          
+          return false;
+        }
       } else {
         console.error('Failed to check phone number:', response.statusText);
-
+        return false;
       }
     } catch (error) {
       console.error('Error checking phone number:', error);
       return false;
     }
   };
+  
 
   return (
     <div className={Styles.findPWPage}>
