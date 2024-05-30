@@ -268,7 +268,7 @@ const AirportDetail = () => {
 
   // 결제 성공 시 예약 데이터 저장 함수
   const saveRestaurantReservation = (reservationData) => {
-    axios.post(`http://localhost:8988/payment/saveRestaurantReservation/${id}`, reservationData)
+    axios.post(`http://localhost:8988/payment/saveFlightReservation/${id}`, reservationData)
       .then(response => {
         if (response.data) {
           console.log('항공권 예약이 성공적으로 처리되었습니다.');
@@ -324,7 +324,7 @@ const AirportDetail = () => {
           amount: totalPrice, // 결제할 금액
           orderId: `order_${id}`, // 주문의 고유한 식별자
           orderName: `${flightDto.id}항공 예약`, // 주문의 이름 또는 설명
-          successUrl: `http://localhost:3000/PaymentSuccess?member_id=${user.id}&flight=${flightDto.category}`, // 결제 성공 후 이동할 URL 주소
+          successUrl: `http://localhost:3000/PaymentSuccessFlight?member_id=${user.id}&flight=${flightDto.category}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
         })
           .then((response) => {
