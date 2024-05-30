@@ -73,7 +73,7 @@ export const Cart = () => {
     calculateDiscount();
   }, [selectedItems, data]);
 
-  // 수량 변경 핸들러
+  // 수량 변경 들러
   const handleCountChange = async (index, delta, type) => {
     const updatedData = [...data];
     const newCount = updatedData[index][type] + delta;
@@ -140,8 +140,9 @@ export const Cart = () => {
   // 개별 상품 가격 계산
   const getPrice = (index) => {
     const product = data[index];
+    const childrenCount = product.children || 0; // 어린이 수를 0으로 초기화
     if (product.category === "lodgingDetail" || product.category === "flightDetail") {
-      return (product.price * product.count) + (product.children * product.price * 0.5); // 어린이 가격은 성인 가격의 50%
+      return (product.price * product.count) + (childrenCount * product.price * 0.5); // 어린이 가격은 성인 가격의 50%
     } else {
       return product.price * product.count;
     }
@@ -181,56 +182,75 @@ export const Cart = () => {
       return;
     }
 
-    const orderId = `order_${selectedItems.map(index => data[index].productId).join('_')}`;
-    const cartItemsData = selectedItems.map(index => ({
-      productId: data[index].id,
-      category: data[index].category,
-      enum: data[index].enum,
-      count: data[index].count,
-      price: data[index].price
-    }));
+    // productId가 있는지 확인하고, 없으면 오류 메시지를 출력
+    const orderIds = selectedItems.map(index => {
+      const item = data[index];
+      if (!item || !item.productId) {
+        console.error("오류: 상품 정보가 올바르지 않습니다.", item);
+        return null; // 또는 적절한 기본값 설정
+      }
+      return item.productId;
+    }).filter(id => id !== null); // null 값을 제거
 
-    const successUrl = `http://localhost:3000/PaymentSuccessCart?member_id=${user.id}&orderId=${orderId}&cartItems=${encodeURIComponent(JSON.stringify(cartItemsData))}`;
+    if (orderIds.length === 0) {
+      alert("유효한 상품이 선택되지 않았습니다.");
+      return;
+    }
+
+    const cartItemsData = selectedItems.map(index => {
+      const item = data[index];
+      return {
+        productId: item.productId,
+        category: item.category,
+        enum: item.enum,
+        count: item.count,
+        price: item.price,
+        children: item.children || 0,
+        childrenPrice: (item.price / 2)
+      };
+    });
+
+    const successUrl = `http://localhost:3000/PaymentSuccessCart?member_id=${user.id}&orderIds=${encodeURIComponent(JSON.stringify(orderIds))}&cartItems=${encodeURIComponent(JSON.stringify(cartItemsData))}`;
 
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
-  loadTossPayments(clientKey)
-    .then(tossPayments => {
-      tossPayments.requestPayment('CARD', {
-        amount: totalAmount,
-        orderId: orderId,
-        orderName: '장바구니 결제',
-        successUrl: successUrl,
-        failUrl: "http://localhost:3000/PaymentFail",
+    loadTossPayments(clientKey)
+      .then(tossPayments => {
+        tossPayments.requestPayment('CARD', {
+          amount: totalAmount,
+          orderId: orderIds.join('_'), // 결제 요청에는 조인된 orderId 사용
+          orderName: '장바구니 결제',
+          successUrl: successUrl,
+          failUrl: "http://localhost:3000/PaymentFail",
+        })
+        .then((response) => {
+          if (response.success) {
+            handlePaymentSuccess(response.amount);
+          }
+        })
+        .catch((error) => {
+          console.error('결제 중 오류 발생:', error);
+          alert("결제 실패.");
+        });
       })
-      .then((response) => {
-        if (response.success) {
-          handlePaymentSuccess(response.amount);
-        }
-      })
-      .catch((error) => {
-        console.error('결제 중 오류 발생:', error);
-        alert("결제 실패.");
+      .catch(error => {
+        console.error('토스페이먼츠 로딩 중 오류 발생:', error);
+        alert("결제 애플리케이션 로딩 실패.");
       });
-    })
-    .catch(error => {
-      console.error('토스페이먼츠 로딩 중 오류 발생:', error);
-      alert("결제 애플리케이션 로딩 실패.");
+  };
+  const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
-};
-const scrollToTop = () => {
-  window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-  });
-};
-const handleMultipleClicks = (cartProductId, index, user, cookies, navigate) => {
-  handleDelete(cartProductId, index);
-  handleNavItemClick(user, cookies, 'CART_DELETE', null, navigate);
-};
-const handleScrollToTopAndNavItemClick = () => {
-  scrollToTop();
-  handleNavItemClick(user, cookies, 'CART_SCROLLTOP', null, navigate);
-};
+  };
+  const handleMultipleClicks = (cartProductId, index, user, cookies, navigate) => {
+    handleDelete(cartProductId, index);
+    handleNavItemClick(user, cookies, 'CART_DELETE', null, navigate);
+  };
+  const handleScrollToTopAndNavItemClick = () => {
+    scrollToTop();
+    handleNavItemClick(user, cookies, 'CART_SCROLLTOP', null, navigate);
+  };
 
 
   return (
