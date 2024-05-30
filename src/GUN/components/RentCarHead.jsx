@@ -125,7 +125,7 @@ const RentCarHead = () => {
                             <span className={styles.lodgingSchdule}>변속기 : {FuelType === 'manual' ? '수동' : '자동'}</span>
                             <br />
                             <span className={styles.lodgingPrice}>렌트비 : {car && car.carRentalPrice}</span>
-                            <RentCarPayment carId={id} car={car} onPaymentInfo={handlePaymentInfo} />
+                            <RentCarPayment carId={id} car={car} onPaymentInfo={handlePaymentInfo} setCar={setCar}/>
                             <p className={styles.lodgingDescription}>
                                 {car && car.carComment}
                             </p>
