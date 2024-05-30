@@ -31,6 +31,7 @@ import Cart from "./DEOK/Cart/Cart";
 import AirportDetail from "./YOUNG/Airport/AirportDetail";
 import ErrorPage from "./BBS/ErrorPage/ErrorPage";
 import CongratulationsPage from "./BBS/ErrorPage/CongratulationsPage";
+import SucccessFlight from "./SUNG/Payment/SuccessFlight";
 
 function Routing() {
     return (
@@ -70,6 +71,7 @@ function Routing() {
                 <Route path="/ErrorPage" element={<ErrorPage />} />
                 <Route path="/CongratulationsPage" element={<CongratulationsPage />} />
                 <Route path="*" element={<ErrorPage />} />
+                <Route path="/PaymentSuccessFlight" element={<SucccessFlight />} />
             </Routes>
         </BrowserRouter>
     )
