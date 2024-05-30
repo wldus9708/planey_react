@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Styles from './findPW01.module.css';
 import { Link } from "react-router-dom";
 import FindPW02 from "./findPW02";
+import { GrAnalytics } from 'react-icons/gr';
 
 const FindPwPage = () => {
   const [showModal, setShowModal] = useState(false); // 모달 상태 관리
@@ -109,7 +110,7 @@ const FindPwPage = () => {
         <br />
         <br />
         <Link to='/findID'>
-          <span className={Styles.spanLink}>아이디 찾으러 가기</span>
+          <span style={{textDecoration: 'none', color: 'gray', borderBottom: '2px solid',  cursor: 'pointer'}}>아이디 찾으러 가기</span>
         </Link>
       </div>
     </div>
