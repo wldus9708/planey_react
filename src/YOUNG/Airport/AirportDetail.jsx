@@ -71,6 +71,7 @@ const AirportDetail = () => {
       try {
         const response = await fetch(`http://localhost:8988/products/FlightsDetail/${id}`);
         const data = await response.json();
+        console.log(flightDto)
         setFlightDto(data.flightDto);
         setReturnFlightDto(data.returnFlightDto);
       } catch (error) {
@@ -231,6 +232,7 @@ const AirportDetail = () => {
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
 
 
+  
   // 가는 항공편 성인
   const calculateOutboundAdultPrice = (newCount) => {
     const adultPrice = flightDto.fli_price * newCount;
@@ -282,15 +284,17 @@ const AirportDetail = () => {
   // 결제 성공 처리 함수
   const handlePaymentSuccess = (amount) => {
     const totalPrice = calculateTotalPrice();
+    const fli_brand = flightDto.fli_brand;
+
     const reservationData = {
 
       flightId: id,
-      airportId: id,
+      airportId: 39001,
       memberId: user.id,
       relationship: 10001,
       fli_res_capacity: outboundAdultCount + outboundChildCount,
       fli_res_price: totalPrice,
-      fli_res_name: "ASIANA_AIRLINES",
+      fli_res_name: fli_brand,
       fli_state: "BEFORE_DEPARTURE",
       fli_res_state: "COMPLETED",
     };
