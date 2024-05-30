@@ -344,7 +344,23 @@ const AirportDetail = () => {
   };
 
 
-
+  const addToCart = async () => {
+    const adults = Number(outboundAdultCount) + Number(returnAdultCount);
+    const children = Number(outboundChildCount) + Number(returnChildCount);
+    const totalPeople = Number(adults) + Number(children);
+    await axios.post(`http://localhost:8988/cart/insert?productId=${id}`, { count: totalPeople, children: children }, {
+      headers: {
+        Authorization: cookies.accessToken
+      }
+    })
+      .then((response) => {
+        console.log(response);
+        alert(response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
 
 
 
@@ -561,7 +577,7 @@ const AirportDetail = () => {
         <div className={stylesBtn.btnGroups}>
 
           {/* 버튼에 추가 onClick={handleAddToCartClick} */}
-          <button type="button" className={stylesBtn.addCartBtn}>
+          <button type="button" className={stylesBtn.addCartBtn} onClick={addToCart}>
             <i className='fas fa-shopping-cart'></i>
             장바구니 추가
           </button>
