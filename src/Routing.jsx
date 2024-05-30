@@ -32,6 +32,7 @@ import AirportDetail from "./YOUNG/Airport/AirportDetail";
 import ErrorPage from "./BBS/ErrorPage/ErrorPage";
 import CongratulationsPage from "./BBS/ErrorPage/CongratulationsPage";
 import SucccessFlight from "./SUNG/Payment/SuccessFlight";
+import SucccessCar from "./SUNG/Payment/SuccessCar";
 
 function Routing() {
     return (
@@ -72,6 +73,7 @@ function Routing() {
                 <Route path="/CongratulationsPage" element={<CongratulationsPage />} />
                 <Route path="*" element={<ErrorPage />} />
                 <Route path="/PaymentSuccessFlight" element={<SucccessFlight />} />
+                <Route path="/PaymentSuccessRentCar" element={<SucccessCar />} />
             </Routes>
         </BrowserRouter>
     )
