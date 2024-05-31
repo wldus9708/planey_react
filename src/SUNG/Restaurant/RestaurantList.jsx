@@ -198,6 +198,9 @@ const RestaurantList = () => {
         setSortOption(sortOption);
         handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'RESTAURANT_SORT_LOWPRICE' : 'RESTAURANT_SORT_HIGHPRICE', null, navigate);
     };
+    const generateRandomNumber = () => {
+        return Math.floor(Math.random() * 100000);
+    };
 
     return (
         <>
@@ -233,7 +236,7 @@ const RestaurantList = () => {
                                             <h4>₩ {item.restPrice.toLocaleString()}</h4>
                                         </div>
                                         <div className={styles['restList-house-info2']}>
-                                            <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                            <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
                                         </div>
                                     </div>
                                 </div>
