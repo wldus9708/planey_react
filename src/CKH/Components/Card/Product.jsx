@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleNavItemClick } from "../Navbar/Navbar";
 import useUser from "../../../BBS/Log/useUser";
 import { useCookies } from "react-cookie";
+import "./Product.css";
 
 export default function Product(props) {
   const user = useUser();
@@ -23,20 +24,30 @@ export default function Product(props) {
     //   </p>
     // </div>
 
-    <Card style={{ width: "18rem" }}>
+    <Card className="body1" style={{ width: "18rem" }}>
       <Card.Img className="product--image" variant="top" src={props.img} />
-      <Card.Body>
-        <Card.Title>{props.name}</Card.Title>
-        <Card.Text>
-          {props.description}
-        </Card.Text>
-      </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item>{props.price.toLocaleString()}</ListGroup.Item>
-      </ListGroup>
-      <Card.Body>
-        <button onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL', `/PackageDetail/${props.id}`, navigate)}>상세정보</button>
-      </Card.Body>
+        <Card.Body>
+          <Card.Title className="title">{props.name}</Card.Title>
+          <Card.Text className="message">{props.description}</Card.Text>
+        </Card.Body>
+        <ListGroup className="list-group-flush">
+          <ListGroup.Item className="body2">{props.price.toLocaleString()}</ListGroup.Item>
+        </ListGroup>
+        <Card.Body>
+          <button
+            onClick={() =>
+              handleNavItemClick(
+                user,
+                cookies,
+                "PACKAGE_DETAIL",
+                `/PackageDetail/${props.id}`,
+                navigate
+              )
+            }
+          >
+            상세정보
+          </button>
+        </Card.Body>
     </Card>
   );
 }

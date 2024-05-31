@@ -92,7 +92,7 @@ const Popular = () => {
             className="textDiv"
           >
             <h2 className="sectitle">PLANEY Tour</h2>
-            <p> {user ? `${user.name}님, ` : ""}지금 예약하세요!</p>
+            <p className="sectitle2"> {user ? `${user.name}님, ` : ""}지금 예약하세요!</p>
           </div>
           <div
             data-aos="fade-left"

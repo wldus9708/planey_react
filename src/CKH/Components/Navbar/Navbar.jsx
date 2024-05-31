@@ -147,8 +147,8 @@ const Navbar = () => {
         <div className="logoDiv">
           <button onClick={() => handleNavItemClick(user, cookies, 'HOME_CLICK', '/', navigate)} className="logo">
             <h1 className="flex">
-              <TbBeach />
-              PLANEY
+              <TbBeach className="logoicon"/>
+              <h1 className="navlogotext">PLANEY</h1>
             </h1>
           </button>
         </div>
@@ -157,46 +157,49 @@ const Navbar = () => {
           <ul className="navLists flex">
             <li className="navItem">
               <button onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_LIST', '/PackageTour/list', navigate)} className="navLink">
-                <FaBoxOpen />
-                Package
+                <FaBoxOpen className="icon1" />
+                <h4 className="icontext">Package</h4>
               </button>
             </li>
 
             <li className="navItem">
               <button onClick={() => handleNavItemClick(user, cookies, 'AIRLINE_LIST', '/AirportList', navigate)} className="navLink">
-                <BsFillAirplaneFill />
-                Airline
+                <BsFillAirplaneFill className="icon1" />
+                <h4 className="icontext">Airline</h4>
               </button>
             </li>
 
             <li className="navItem">
               <button onClick={() => handleNavItemClick(user, cookies, 'HOTEL_LIST', '/LodgingList', navigate)} className="navLink">
-                <FaHotel /> Hotel
+                <FaHotel className="icon1"/> <h4 className="icontext">Hotel</h4>
               </button>
             </li>
 
             <li className="navItem">
               <button onClick={() => handleNavItemClick(user, cookies, 'RENTAL_CAR_LIST', '/car/list', navigate)} className="navLink">
-                <FaCarSide />
-                Rental Car
+                <FaCarSide className="icon1" />
+                <h4 className="icontext">RentalCar</h4>
               </button>
             </li>
 
             <li className="navItem">
               <button onClick={() => handleNavItemClick(user, cookies, 'RESTAURANT_LIST', '/restaurant/list', navigate)} className="navLink">
-                <PiBowlFoodBold />Restaurant
+                <PiBowlFoodBold className="icon1" />
+                <h4 className="icontext">Restaurant</h4>
               </button>
             </li>
 
             <li className="navItem">
               <button onClick={() => handleNavItemClick(user, cookies, 'MY_PAGE_CLICK', '/mypage', navigate)} className="navLink" >
-                <FaHome />MyPage
+                <FaHome className="icon1"/>
+                <h4 className="icontext">MyPage</h4>
               </button>
             </li>
           
             <div className="headerBtns flex">
               <button className="btn loginBtn" onClick={() => handleNavItemClick(user, cookies, 'CART_CLICK', '/cart', navigate)}>
-                <BsCart4 />
+                <BsCart4 className="icon2"/>
+                <h4 className="icontext2">Cart</h4>
               </button>
             </div>
 
@@ -206,8 +209,8 @@ const Navbar = () => {
                   <span onClick={handleLogoutClick} >Logout</span>
                 ) : (
                   <span onClick={() => handleNavItemClick(cookies.accessToken, cookies, 'LOGIN_CLICK', '/login', navigate)}>
-                    <GrLogin />
-                    <span>Join Us</span>
+                    <GrLogin  className="icon2" />
+                    <h4 className="icontext2">Join Us</h4>
                   </span>
                 )}
               </button>

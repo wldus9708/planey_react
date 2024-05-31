@@ -14,13 +14,17 @@
   margin-top: 150px;
   margin-bottom: 40px;
   text-align: center;
-  color: hsl(26, 93%, 50%);
+  font-size: 60px;
+  font-weight: bold;
+  -webkit-text-stroke: 3px rgb(255, 255, 255);
   opacity: 0; /* 처음에는 보이지 않음 */
   animation: fade-in-text 1s ease forwards; /* fade-in-text 애니메이션 적용 */
+  
 }
 
 .CardApp {
   margin: 20px 80px;
+  
 }
 
 .product--image {
@@ -28,6 +32,7 @@
   height: 16em;
   object-fit: cover;
   transition: transform 0.5s ease, filter 0.5s ease;
+  
 }
 
 .card {
@@ -37,7 +42,7 @@
   text-align: center;
   font-family: 'Arial', sans-serif;
   overflow: hidden;
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -54,7 +59,7 @@
 
 .price {
   color: grey;
-  font-size: 22px;
+  font-size: 30px;
 }
 
 .card button {
