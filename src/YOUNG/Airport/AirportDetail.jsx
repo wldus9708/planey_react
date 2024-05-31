@@ -71,7 +71,8 @@ const AirportDetail = () => {
       try {
         const response = await fetch(`http://localhost:8988/products/FlightsDetail/${id}`);
         const data = await response.json();
-        console.log(flightDto)
+        console.log(data.flightDto)
+        console.log(data.returnFlightDto)
         setFlightDto(data.flightDto);
         setReturnFlightDto(data.returnFlightDto);
       } catch (error) {
@@ -285,11 +286,12 @@ const AirportDetail = () => {
   const handlePaymentSuccess = (amount) => {
     const totalPrice = calculateTotalPrice();
     const fli_brand = flightDto.fli_brand;
+    const airportId = returnFlightDto.id;
 
     const reservationData = {
 
       flightId: id,
-      airportId: 39001,
+      airportId: airportId,
       memberId: user.id,
       relationship: 10001,
       fli_res_capacity: outboundAdultCount + outboundChildCount,
@@ -322,13 +324,14 @@ const AirportDetail = () => {
 
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
     const totalPrice = calculateTotalPrice();
+    const totalPeople = outboundAdultCount + outboundChildCount;
     loadTossPayments(clientKey)
       .then(tossPayments => {
         tossPayments.requestPayment('CARD', {
           amount: totalPrice, // 결제할 금액
           orderId: `order_${id}`, // 주문의 고유한 식별자
           orderName: `${flightDto.id}항공 예약`, // 주문의 이름 또는 설명
-          successUrl: `http://localhost:3000/PaymentSuccessFlight?member_id=${user.id}&flight=${flightDto.category}`, // 결제 성공 후 이동할 URL 주소
+          successUrl: `http://localhost:3000/PaymentSuccessFlight?member_id=${user.id}&flight=${flightDto.category}&fli_brand=${flightDto.fli_brand}&airportId=${returnFlightDto.id}&totalPeople=${totalPeople}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
         })
           .then((response) => {

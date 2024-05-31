@@ -12,6 +12,9 @@ export function SuccessPage() {
   const paymentKey = searchParams.get("paymentKey");
   const product_id = searchParams.get("orderId");
   const amount = searchParams.get("amount");
+  const fli_brand = searchParams.get("fli_brand");
+  const airportId = searchParams.get("airportId");
+  const totalPeople = searchParams.get("totalPeople");
   console.log("product_id:" + product_id);
 
   const formattedAmount = Number(amount).toLocaleString(); // 금액에 천 단위 쉼표 추가
@@ -79,12 +82,12 @@ export function SuccessPage() {
         const flightId = parseInt(product_id.replace('order_', ''), 10);
         saveFlightReservation({
           memberId: parseInt(user, 10), // Long 타입으로 변환
-          airportId: 39001,
+          airportId: airportId,
           flightId: isNaN(flightId) ? 0 : flightId,
           relationship: 10001,
-          fli_res_capacity: 1,
+          fli_res_capacity: totalPeople,
           fli_res_price: parseInt(amount, 10),
-          fli_res_name: "ASIANA_AIRLINES",
+          fli_res_name: fli_brand,
           fli_state: "BEFORE_DEPARTURE",
           fli_res_state: "COMPLETED",
         });
