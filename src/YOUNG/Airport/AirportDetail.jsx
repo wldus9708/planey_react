@@ -233,7 +233,7 @@ const AirportDetail = () => {
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
 
 
-  
+
   // 가는 항공편 성인
   const calculateOutboundAdultPrice = (newCount) => {
     const adultPrice = flightDto.fli_price * newCount;
@@ -352,6 +352,22 @@ const AirportDetail = () => {
 
 
   const addToCart = async () => {
+    // 선택된 좌석 확인
+    const isOutboundSeatsSelected = selectedSeats.outbound.length > 0;
+    const isReturnSeatsSelected = selectedSeats.return.length > 0;
+
+    // 총 요금 확인
+    const totalPrice = calculateTotalPrice();
+
+    if (!isOutboundSeatsSelected || !isReturnSeatsSelected) {
+      alert("가는 항공편과 오는 항공편의 좌석을 모두 선택해 주세요.");
+      return;
+    }
+
+    if (totalPrice === 0) {
+      alert("총 요금이 0원인 경우 장바구니에 추가할 수 없습니다.");
+      return;
+    }
     const adults = Number(outboundAdultCount) + Number(returnAdultCount);
     const children = Number(outboundChildCount) + Number(returnChildCount);
     const totalPeople = Number(adults) + Number(children);
