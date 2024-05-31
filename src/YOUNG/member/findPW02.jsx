@@ -71,7 +71,7 @@ const FindPW02 = () => {
         }
       });
       if (response.status === 200) {
-        alert('인증번호가 확인되었습니다.');
+        alert('인증번호가 확인되었습니다. 가입된 이메일로 임시비밀번호가 발급 되었습니다.');
       } else {
         alert('유효하지 않은 인증번호 입니다.');
         console.log("ㅁㅁㅁ")

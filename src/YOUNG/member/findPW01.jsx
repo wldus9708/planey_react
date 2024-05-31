@@ -4,6 +4,7 @@ import Styles from './findPW01.module.css';
 import { Link } from "react-router-dom";
 import FindPW02 from "./findPW02";
 import { GrAnalytics } from 'react-icons/gr';
+import NavBar from '../../CKH/Components/Navbar/Navbar'
 
 const FindPwPage = () => {
   const [showModal, setShowModal] = useState(false); // 모달 상태 관리
@@ -54,66 +55,72 @@ const FindPwPage = () => {
       return false;
     }
   };
-  
-  
 
-  
+
+
+
 
   return (
-    <div className={Styles.findPWPage}>
-      <div className={Styles.findPWContainer}>
-        <h2>비밀번호를 찾고자 하는 이메일을 입력하세요.</h2>
-
-        <input
-          className={Styles.authInput}
-          type='text'
-          placeholder='이메일을 입력하세요.'
-          value={email}
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        {warning && <Alert variant="danger">{warning}</Alert>}
-        <Button
-          className={Styles.authButton}
-          variant="primary"
-          onClick={handleOpenModal}
-       
-        >
-          Next
-        </Button>
-
-        {showModal && (
-          <Modal
-            show={showModal}
-            onHide={handleCloseModal}
-            animation={false}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>회원정보 찾기</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <FindPW02 />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>
-                취소
-              </Button>
-              &nbsp;&nbsp;&nbsp;
-              <Button variant="primary">확인</Button>
-            </Modal.Footer>
-          </Modal>
-        )}
-
-        <br />
-        <br />
-        <Link to='/findID'>
-          <span style={{textDecoration: 'none', color: 'gray', borderBottom: '2px solid',  cursor: 'pointer'}}>아이디 찾으러 가기</span>
-        </Link>
+    <>
+      <div style={{ padding: '1rem' }}>
+        <NavBar />
       </div>
-    </div>
+      <div className={Styles.findPWPage}>
+        <div className={Styles.findPWContainer}>
+          <h2>비밀번호를 찾고자 하는 이메일을 입력하세요.</h2>
+
+          <input
+            className={Styles.authInput}
+            type='text'
+            placeholder='이메일을 입력하세요.'
+            value={email}
+            onChange={handleChange}
+          />
+          <br />
+          <br />
+          {warning && <Alert variant="danger">{warning}</Alert>}
+          <Button
+            className={Styles.authButton}
+            variant="primary"
+            onClick={handleOpenModal}
+          >
+            Next
+          </Button>
+          {showModal && (
+            <Modal
+              show={showModal}
+              onHide={handleCloseModal}
+              animation={false}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>회원정보 찾기</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <FindPW02 />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseModal}>
+                  취소
+                </Button>
+                &nbsp;&nbsp;&nbsp;
+                <Button 
+                variant="primary"
+                onClick={() => window.location.href = `/Login/`}
+                >확인</Button>
+              </Modal.Footer>
+            </Modal>
+          )}
+
+          <br />
+          <br />
+          <Link to='/findID'>
+            <span style={{ textDecoration: 'none', color: 'gray', borderBottom: '2px solid', cursor: 'pointer' }}>아이디 찾으러 가기</span>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 
