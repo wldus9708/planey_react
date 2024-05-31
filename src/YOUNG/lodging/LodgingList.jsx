@@ -47,8 +47,8 @@ const LodgingList = () => {
                 console.log(response.data);
                 setTotalDataCount(allData.length);
 
-                const startIndex = (currentPage - 1) * 10 + 1;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 5 + 1;
+                const endIndex = currentPage * 5;
                 const newData = allData ? allData.slice(startIndex - 1, endIndex) : [];
                 console.log('시작페이지:' + startIndex);
                 console.log('끝페이지:' + endIndex);

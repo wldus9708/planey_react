@@ -42,19 +42,19 @@ const AirportList = () => {
             const { flights, returnFlights } = response.data;
 
 
-            console.log("flights 데이터", flights);
-            console.log("returnFlights 데이터: ", returnFlights);
+            // console.log("flights 데이터", flights);
+            // console.log("returnFlights 데이터: ", returnFlights);
 
             const combinedData = flights.map((flight, index) => ({
                 ...flight,
                 returnFlight: returnFlights[index],
             }));
 
-            console.log("결합된데이터: ", combinedData)
+            // console.log("결합된데이터: ", combinedData)
             setTotalDataCount(combinedData.length);
 
-            const startIndex = (page - 1) * 10;
-            const endIndex = page * 10;
+            const startIndex = (page - 1) * 5;
+            const endIndex = page * 5;
             const newData = combinedData.slice(startIndex, endIndex);
 
 

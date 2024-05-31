@@ -64,6 +64,15 @@
     font-size: 36px;
     text-align: center;
 }
+.to_login {
+    position: absolute;
+    left: 30px;
+    top: 45px;
+    translate: 0 -35%;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}
 
 .to_home {
     position: absolute;
