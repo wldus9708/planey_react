@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Login_Signup.module.css";
 import { FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
-import { IoHomeOutline } from "react-icons/io5";
+import { IoHomeOutline, IoArrowBack } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -67,7 +67,7 @@ const SignUpForm = () => {
         }
 
         // 올바른 날짜 범위 확인
-        if (year <  new Date().getFullYear()-100) {
+        if (year < new Date().getFullYear() - 100) {
             return false; // 최소 1940년 이상이어야 함
         }
         if (month < 1 || month > 12) {
@@ -400,7 +400,9 @@ const SignUpForm = () => {
 
                 <div className={`${styles["form-box"]} ${styles.register}`}>
                     <form onSubmit={handleSignUpClick}>
-                        <h1>
+                        <h1><span onClick={loginLink} className={styles.to_login}>
+                                <IoArrowBack />
+                            </span>
                             회원가입
                             <Link to="/" className={styles.to_home}>
                                 <IoHomeOutline />
@@ -509,9 +511,9 @@ const SignUpForm = () => {
                         </div> */}
                         <button type="submit">가입</button>
 
-                        <div className={styles["register-link"]}>
+                        {/* <div className={styles["register-link"]}>
                             <p onClick={loginLink}>로그인폼 ㄱㄱ</p>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>
