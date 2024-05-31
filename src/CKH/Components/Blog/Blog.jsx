@@ -48,13 +48,10 @@ const Blog = () => {
   const user = useUser();
   const [cookies] = useCookies(["accessToken"]);
   const navigate = useNavigate();
-  const pic = "../../../BBS/image/";
   // 상태(state) 정의
   const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
-  let count = 1;
 
   useEffect(() => {
-    const pic = "../../../BBS/image/";
     // 데이터 가져오기
     axios
       .get("http://localhost:8988/PackageTour/readFourPackageTourTrue")
@@ -62,7 +59,7 @@ const Blog = () => {
         // PackageTour 엔티티 형식으로 변환
         const packageTour = response.data.map((tour) => ({
           id: tour.id,
-          imgSrc: require("../../../BBS/image/" + tour.image01 + ".jpg"), // 대표이미지
+          imgSrc: "/images/" + tour.image01, // 대표이미지 
           destTitle: tour.tour_pack_name, // 투어 이름
           location: tour.tourPackCity, // 투어 지역
           category: tour.category.split("_")[0], // 상품 종류

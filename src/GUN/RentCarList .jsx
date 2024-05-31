@@ -148,13 +148,15 @@ const RentCarList = () => {
     };
 
     const sortData = (data, sortOption) => {
-        if (sortOption === "lowPrice") {
-            return data.slice().sort((a, b) => a.price - b.price);
-        } else if (sortOption === "highPrice") {
-            return data.slice().sort((a, b) => b.price - a.price);
-        } else {
-            return data;
-        }
+        const sortedData = [...data];
+
+    if (sortOption === "lowPrice") {
+        return sortedData.sort((a, b) => a.carRentalPrice - b.carRentalPrice); // 가격에 대해 오름차순 정렬
+    } else if (sortOption === "highPrice") {
+        return sortedData.sort((a, b) => b.carRentalPrice - a.carRentalPrice); // 가격에 대해 내림차순 정렬
+    } else {
+        return sortedData; // 정렬 옵션이 없으면 그대로 반환
+    }
     };
 
     const filterData = (data, searchQuery, minPrice, maxPrice) => {
@@ -215,6 +217,9 @@ const RentCarList = () => {
         scrollToTop();
         handleNavItemClick(user, cookies, 'CAR_SCROLLTOP', null, navigate);
     };
+    const generateRandomNumber = () => {
+        return Math.floor(Math.random() * 100000);
+    };
 
     return (
         <>
@@ -252,7 +257,7 @@ const RentCarList = () => {
                                                 <h4>₩ {item.carRentalPrice.toLocaleString()}</h4>
                                             </div>
                                             <div className={styles['rentList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                                <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
                                             </div>
                                         </div>
                                     </div>

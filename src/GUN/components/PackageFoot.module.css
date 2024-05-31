@@ -203,10 +203,10 @@ img{
     padding: 50px;
     margin-left: 20px;
 
-    grid-area: 1 / 3;
+    /* grid-area: 1 / 3;
     display: grid;
     grid-template-columns: 1fr auto;
-    align-items: center;
+    align-items: center; */
 }
 
 

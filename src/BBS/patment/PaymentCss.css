@@ -1,6 +1,9 @@
 .bbsToss .w-100 {
     width: 100%;
 }
+.bbsToss .w-100 img{
+    width:50%;
+}
 
 .bbsToss .h-100 {
     height: 100%;
@@ -21,6 +24,7 @@
 
 .bbsToss .max-w-540 {
     max-width: 540px;
+    margin: 200px auto;
 }
 
 .bbsToss .btn-wrapper {
@@ -69,14 +73,14 @@
 }
 
 .bbsToss .confirm-loading {
-    margin-top: 72px;
+    margin: 200px auto;
     height: 400px;
     justify-content: space-between;
 }
 
 .bbsToss .confirm-success {
     display: none;
-    margin-top: 72px;
+    margin-top: 150px;
 }
 
 .bbsToss .button-group {

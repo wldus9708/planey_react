@@ -64,13 +64,15 @@ const AirportDetail = () => {
           console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
     } else if (!cookies.accessToken) {
-      navigator('/login');
+      // navigator('/login');
       alert("결제전에 로그인을 해주세요.");
     }
     const fetchFlightData = async () => {
       try {
         const response = await fetch(`http://localhost:8988/products/FlightsDetail/${id}`);
         const data = await response.json();
+        console.log(data.flightDto)
+        console.log(data.returnFlightDto)
         setFlightDto(data.flightDto);
         setReturnFlightDto(data.returnFlightDto);
       } catch (error) {
@@ -231,6 +233,7 @@ const AirportDetail = () => {
   const renderSeats = (seats) => seats.length > 0 ? seats.join(', ') : '선택 안됨';
 
 
+  
   // 가는 항공편 성인
   const calculateOutboundAdultPrice = (newCount) => {
     const adultPrice = flightDto.fli_price * newCount;
@@ -268,7 +271,7 @@ const AirportDetail = () => {
 
   // 결제 성공 시 예약 데이터 저장 함수
   const saveRestaurantReservation = (reservationData) => {
-    axios.post(`http://localhost:8988/payment/saveRestaurantReservation/${id}`, reservationData)
+    axios.post(`http://localhost:8988/payment/saveFlightReservation/${id}`, reservationData)
       .then(response => {
         if (response.data) {
           console.log('항공권 예약이 성공적으로 처리되었습니다.');
@@ -282,15 +285,18 @@ const AirportDetail = () => {
   // 결제 성공 처리 함수
   const handlePaymentSuccess = (amount) => {
     const totalPrice = calculateTotalPrice();
+    const fli_brand = flightDto.fli_brand;
+    const airportId = returnFlightDto.id;
+
     const reservationData = {
 
       flightId: id,
-      airportId: id,
+      airportId: airportId,
       memberId: user.id,
       relationship: 10001,
       fli_res_capacity: outboundAdultCount + outboundChildCount,
       fli_res_price: totalPrice,
-      fli_res_name: "ASIANA_AIRLINES",
+      fli_res_name: fli_brand,
       fli_state: "BEFORE_DEPARTURE",
       fli_res_state: "COMPLETED",
     };
@@ -318,13 +324,14 @@ const AirportDetail = () => {
 
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
     const totalPrice = calculateTotalPrice();
+    const totalPeople = outboundAdultCount + outboundChildCount;
     loadTossPayments(clientKey)
       .then(tossPayments => {
         tossPayments.requestPayment('CARD', {
           amount: totalPrice, // 결제할 금액
           orderId: `order_${id}`, // 주문의 고유한 식별자
           orderName: `${flightDto.id}항공 예약`, // 주문의 이름 또는 설명
-          successUrl: `http://localhost:3000/PaymentSuccess?member_id=${user.id}&flight=${flightDto.category}`, // 결제 성공 후 이동할 URL 주소
+          successUrl: `http://localhost:3000/PaymentSuccessFlight?member_id=${user.id}&flight=${flightDto.category}&fli_brand=${flightDto.fli_brand}&airportId=${returnFlightDto.id}&totalPeople=${totalPeople}`, // 결제 성공 후 이동할 URL 주소
           failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
         })
           .then((response) => {
@@ -344,7 +351,23 @@ const AirportDetail = () => {
   };
 
 
-
+  const addToCart = async () => {
+    const adults = Number(outboundAdultCount) + Number(returnAdultCount);
+    const children = Number(outboundChildCount) + Number(returnChildCount);
+    const totalPeople = Number(adults) + Number(children);
+    await axios.post(`http://localhost:8988/cart/insert?productId=${id}`, { count: totalPeople, children: children }, {
+      headers: {
+        Authorization: cookies.accessToken
+      }
+    })
+      .then((response) => {
+        console.log(response);
+        alert(response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
 
 
 
@@ -561,7 +584,7 @@ const AirportDetail = () => {
         <div className={stylesBtn.btnGroups}>
 
           {/* 버튼에 추가 onClick={handleAddToCartClick} */}
-          <button type="button" className={stylesBtn.addCartBtn}>
+          <button type="button" className={stylesBtn.addCartBtn} onClick={addToCart}>
             <i className='fas fa-shopping-cart'></i>
             장바구니 추가
           </button>

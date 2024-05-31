@@ -8,7 +8,7 @@ export function SuccessCartPage() {
   const navigate = useNavigate(); // 컴포넌트 함수 내에서 호출
   const user = searchParams.get("member_id"); // 쿼리 파라미터에서 user 데이터를 파싱
   const paymentKey = searchParams.get("paymentKey");
-  const orderId = searchParams.get("orderId");
+  const orderIds = JSON.parse(decodeURIComponent(searchParams.get("orderIds"))); // 배열로 파싱
   const amount = searchParams.get("amount");
   let cartItems = searchParams.get("cartItems");
 
@@ -22,12 +22,12 @@ export function SuccessCartPage() {
   const formattedAmount = Number(amount).toLocaleString(); // 금액에 천 단위 쉼표 추가
 
   useEffect(() => {
-    if (!user || !paymentKey || !orderId || !amount || cartItems.length === 0) {
+    if (!user || !paymentKey || !orderIds || !amount || cartItems.length === 0) {
       navigate("/"); // 필요한 정보가 없으면 홈으로 리다이렉트
       console.error('필요한 정보가 부족합니다.');
       if (!user) console.error('사용자 정보가 없습니다.');
       if (!paymentKey) console.error('paymentKey 정보가 없습니다.');
-      if (!orderId) console.error('orderId 정보가 없습니다.');
+      if (!orderIds) console.error('orderIds 정보가 없습니다.');
       if (!amount) console.error('amount 정보가 없습니다.');
       if (cartItems.length === 0) console.error('cartItems 정보가 없습니다.');
       // navigate("/"); // 필요한 정보가 없으면 홈으로 리다이렉트
@@ -35,7 +35,7 @@ export function SuccessCartPage() {
       // 현재 상태를 변경하여 뒤로가기를 방지
       window.history.replaceState(null, document.title, window.location.pathname);
     }
-  }, [user, paymentKey, orderId, amount, cartItems, navigate]);
+  }, [user, paymentKey, orderIds, amount, cartItems, navigate]);
 
   const saveCartReservation = async (reservationData) => {
     try {
@@ -64,53 +64,58 @@ export function SuccessCartPage() {
     } else {
       console.log("사용자 아이디: " + user);
       console.log("paymentKey: " + paymentKey);
-      console.log("orderId: " + orderId);
+      console.log("orderIds: " + orderIds);
       console.log("amount: " + amount);
       console.log("cartItems:");
       cartItems.forEach(item => {
         console.log("Enum: " + item.enum);
         console.log("count: " + item.count);
-        console.log("price: " + item.price);
+        console.log("price: " + ((item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0))));
       });
     }
     try {
-      const response = await fetch("http://localhost:8988/payment/detailCart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          paymentKey,
-          orderId,
-          amount: parseInt(amount),
-          member_id: parseInt(user),
-          cartItems: cartItems.map(item => ({
-            product_type: item.enum,
-            count: item.count,
-            price: item.price,
-          }))
-        })
-      });
+      // 각 아이템에 대해 개별적으로 요청을 보냄
+      for (const item of cartItems) {
+        const orderId = orderIds.find(id => id === item.productId); // 각 아이템에 대해 개별 orderId 생성
+        const response = await fetch("http://localhost:8988/payment/detailCart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            paymentKey,
+            orderId,
+            amount: parseInt(amount),
+            member_id: parseInt(user),
+            cartItems: [{
+              product_type: item.enum,
+              count: item.count,
+              childrenCount: item.children || 0, // 어린이 수를 포함
+              price: (item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0)) // 어린이 가격 포함
+            }]
+          })
+        });
 
-      if (response.ok) {
-        setIsConfirmed(true);
+        console.log("사용자 아이디: " + user);
+        console.log("paymentKey: " + paymentKey);
+        console.log("orderId: " + orderId);
+        console.log("amount: " + amount);
+        console.log("cartItems:");
+        console.log("Enum: " + item.enum);
+        console.log("count: " + item.count);
+        console.log("price: " + ((item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0))));
 
-        // const reservationData = {
-        //   memberId: parseInt(user), // 문자열을 숫자로 변환
-        //   cartItems: cartItems, // 장바구니 아이템
-        //   totalAmount: parseInt(amount), // 문자열을 숫자로 변환
-        //   reservationDate: new Date().toISOString(), // 현재 시간
-        //   reservationState: "COMPLETED",
-        // };
-        // // await saveCartReservation(reservationData);
-
-      } else {
-        console.error('결제 승인 실패:', response.statusText);
+        if (!response.ok) {
+          console.error('결제 승인 실패:', response.statusText);
+          return; // 하나라도 실패하면 중단
+        }
       }
+
+      setIsConfirmed(true);
     } catch (error) {
       console.error('결제 승인 중 오류 발생:', error);
     }
-  }, [paymentKey, orderId, amount, user, cartItems]);
+  }, [paymentKey, orderIds, amount, user, cartItems]);
 
   return (
     <div className="wrapper w-100 bbsToss">
@@ -137,7 +142,7 @@ export function SuccessCartPage() {
             <div className="flex justify-between">
               <span className="response-label">주문번호</span>
               <span id="orderId" className="response-text">
-                {orderId}
+                {orderIds.join(', ')}
               </span>
             </div>
             <div className="flex justify-between">

@@ -212,6 +212,9 @@ const PackageList = () => {
         scrollToTop();
         handleNavItemClick(user, cookies, 'PACKAGE_SCROLLTOP', null, navigate);
     };
+    const generateRandomNumber = () => {
+        return Math.floor(Math.random() * 100000);
+    };
 
 
 
@@ -249,7 +252,7 @@ const PackageList = () => {
                                 return (
                                     <div className={styles['packList-house']} key={index} onClick={() => window.location.href = `/PackageDetail/${item.id}`}>
                                         <div className={styles['packList-house-img']}>
-                                            <img src={require(`../BBS/image/${item.image01}.jpg`)} alt="" width="200px" height="200px" />
+                                            <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
                                         </div>
                                         <div className={styles['packList-house-info']}>
                                             <h3>{item.tour_pack_name}</h3>
@@ -262,7 +265,7 @@ const PackageList = () => {
                                                 <h4>₩ {item.price.toLocaleString()}</h4>
                                             </div>
                                             <div className={styles['packList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                                <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
                                             </div>
                                         </div>
                                     </div>

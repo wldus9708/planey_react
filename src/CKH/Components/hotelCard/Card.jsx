@@ -15,20 +15,20 @@ export default function App() {
       .get("http://localhost:8988/lodging/randomList")
       .then((response) => {
         const fetchedProducts = response.data.map((item) => ({
-            id: item.id,
-            name: item.lodName,
-            address: item.lodAddress,
-            addressDetail: item.lodAddressDetail,
-            price: item.lodPrice,
-            latitude: item.lodLatitude,
-            longitude: item.lodLongitude,
-            description: item.lodDescription,
-            image: require("../../../../public/images/"+item.lodImage01),
-            category: item.lodCategory,
-            allProductState: item.allProductState,
+          id: item.id,
+          name: item.lodName,
+          address: item.lodAddress,
+          addressDetail: item.lodAddressDetail,
+          price: item.lodPrice,
+          latitude: item.lodLatitude,
+          longitude: item.lodLongitude,
+          description: item.lodDescription,
+          image: "/images/" + item.lodImage01,
+          category: item.lodCategory,
+          allProductState: item.allProductState,
         }));
         setProducts(fetchedProducts);
-    })
+      })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
