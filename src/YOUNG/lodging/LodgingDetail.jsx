@@ -150,7 +150,7 @@ const LodgingDetail = () => {
               <div className={styles.imgContainer}>
                 <img
                   src={`/images/${lodging && lodging[`lodImage0${activeImageIndex + 1}`]}`}
-                  alt={`이미지 등록중..`}
+                  alt={`이미지가 없습니다.`}
                 />
               </div>
               <div className={styles.hoverContainer}>
@@ -162,7 +162,7 @@ const LodgingDetail = () => {
                   >
                     <img
                       src={`/images/${lodging && lodging[`lodImage0${index}`]}`}
-                      alt={`이미지 등록중..`}
+                      alt={`이미지가 없습니다.`}
                     />
                   </div>
                 ))}

@@ -170,7 +170,7 @@ function PackageFoot() {
                         <h4>관광지</h4>
                         <img
                             className={styles.PackImage}
-                            src={attraction && attraction[`attImage01`] 
+                            src={attraction && attraction[`attImage01`]
                             ? `/images/${attraction[`attImage01`]}.jpg`
                             : null}
                             alt={`images${id}`}
