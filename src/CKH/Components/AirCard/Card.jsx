@@ -24,7 +24,7 @@ export default function App() {
           arrivalTime: item.fli_arrival_time,
           totalTime: item.fli_total_time,
           brand: item.fli_brand,
-          brandImage: "../../../../public/images/" + item.fli_brand_image,
+          brandImage: "/images/" + item.fli_brand_image,
           price: item.fli_price,
           category: item.category,
           allProductState: item.allProductState,

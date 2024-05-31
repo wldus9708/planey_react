@@ -22,14 +22,13 @@ const Offer = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const pic = "../../../BBS/image/";
     axios
       .get("http://localhost:8988/PackageTour/readSixPackageTour")
       .then((response) => {
         // tour 엔티티 형식으로 변환
         const tourData = response.data.map((tour) => ({
           id: tour.id,
-          imgSrc: "../../../../public/images/" + tour.image01, // 대표이미지 
+          imgSrc: "/images/" + tour.image01, // 대표이미지 
           destTitle: tour.tour_pack_name, // 투어 이름
           location: tour.tourPackCity, // 투어 지역
           category: tour.category.split("_")[0], // 상품 종류
