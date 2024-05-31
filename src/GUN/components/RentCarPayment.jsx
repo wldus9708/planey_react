@@ -11,6 +11,7 @@ import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 import useUser from "../../BBS/Log/useUser";
 import { Link, useParams } from "react-router-dom";
 import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { format } from 'date-fns';
 
 const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
     const [cookies] = useCookies(['accessToken']);
@@ -73,13 +74,15 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
     };
 
     const handlePaymentSuccess = (amount) => {
+        const formattedStartDate = format(new Date(startDate), 'yyyy-MM-dd HH:mm:ss');
+        const formattedEndDate = format(new Date(endDate), 'yyyy-MM-dd HH:mm:ss');
         const reservationData = {
             carId: id,
             memberId: user.id,
             relationship: 10001,
-            rentalStartDate:new Date().toISOString(),
-            rentalEndDate:new Date().toISOString(),
-            rentalPrice: totalPrice,
+            rentalStartDate: startDate,
+            rentalStartDate: formattedStartDate,
+            rentalEndDate: formattedEndDate,
             reservationStatus: "COMPLETED",
             carInsurance: "STANDARD_INSURANCE",
         };
@@ -94,7 +97,8 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
                     amount: totalPrice, // 결제할 금액
                     orderId: `order_${id}`, // 주문의 고유한 식별자
                     orderName: `${car.carModel} 예약`, // 주문의 이름 또는 설명
-                    successUrl: `http://localhost:3000/PaymentSuccessRentCar?member_id=${user.id}&rentCar=${car.category}`, // 결제 성공 후 이동할 URL 주소
+                    successUrl: `http://localhost:3000/PaymentSuccessRentCar?member_id=${user.id}&rentCar=${car.category}&rentalStartDate=${encodeURIComponent(format(startDate, 'yyyy-MM-dd HH:mm:ss'))}&rentalEndDate=${encodeURIComponent(format(endDate, 'yyyy-MM-dd HH:mm:ss'))}`, // 결제 성공 후 이동할 URL 주소
+                    // successUrl: `http://localhost:3000/PaymentSuccessRentCar?member_id=${user.id}&rentCar=${car.category}`, // 결제 성공 후 이동할 URL 주소
                     failUrl: "http://localhost:3000/PaymentFail", // 결제 실패 시 이동할 URL 주소
                 })
                     .then((response) => {
