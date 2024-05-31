@@ -87,7 +87,7 @@ const RestaurantList = () => {
     useEffect(() => {
         const handleScroll = () => {
             if (
-                window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight &&
+                window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight * 0.9 &&
                 data.length < totalDataCount
             ) {
                 setCurrentPage(prevPage => prevPage + 1);
