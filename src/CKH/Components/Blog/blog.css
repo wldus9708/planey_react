@@ -66,3 +66,15 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }/*# sourceMappingURL=blog.css.map */
+.blogh1{
+  color: white;
+  font-size: 60px;
+  font-weight: bold;
+  -webkit-text-stroke: 3px rgb(250, 135, 3);
+}
+.blogp1{
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  -webkit-text-stroke: 1px rgb(250, 135, 3);
+}

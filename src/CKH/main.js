@@ -15,6 +15,7 @@ import PakCard from "./Components/PakCard/Card"
 import Hero from "./Components/Hero/Hero"
 import { useCookies } from "react-cookie";
 import NewBanner from "./Components/NewBanner/NewBanner"
+// import Test from "./Components/Test/Test"
 
 const App = () => {
   const [cookies] = useCookies(['accessToken']);
@@ -24,12 +25,13 @@ const App = () => {
     <>
       <Navbar /> 
       <Hero />
+      {/* <Test/> */}
       <Card/>
       <NewBanner/>
       <Popular />
       {isLoggedIn ? <McAdvertise /> : <Advertise />}
       <Offers />
-      <About />
+      {/* <About /> */}
       <PakCard/>
       <AirCard/>
       <HotelCard/>

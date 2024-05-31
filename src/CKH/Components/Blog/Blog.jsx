@@ -46,7 +46,7 @@ const Posts = [
 
 const Blog = () => {
   const user = useUser();
-  const [cookies] = useCookies(['accessToken']);
+  const [cookies] = useCookies(["accessToken"]);
   const navigate = useNavigate();
   // 상태(state) 정의
   const [tours, setTours] = useState([]); // PakageTour 엔티티 정보를 저장할 변수
@@ -67,8 +67,7 @@ const Blog = () => {
           tourPackRestaurant: tour.tourPackRestaurant, // 상품 식당
           hotel: tour.tourPackLodging, // 상품 호텔
           tourPackLandmark: tour.tourPackLandmark, // 상품 랜드마크
-          nation:tour.nation,
-
+          nation: tour.nation,
         }));
         // console.log("가져와짐.");
         setTours(packageTour); // packgeTour 엔티티 정보 저장
@@ -85,13 +84,16 @@ const Blog = () => {
     <section className="blog container section">
       <div className="secContainer">
         <div className="secIntro">
-          <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
-          🧡PLANEY🧡 국내 패키지❗❗
-          </h2>
+          <h1 data-aos="fade-up" data-aos-duration="2000" className="blogh1">
+            🧡PLANEY🧡 국내 패키지❗❗
+          </h1>
 
           <p data-aos="fade-up" data-aos-duration="2500">
-            핫 한 국내 패키지 라인업, 이제 🧡PLANEY🧡에서❕
+            {" "}
           </p>
+          <h4 className="blogp1">
+            핫 한 국내 패키지 라인업, 이제 🧡PLANEY🧡에서❕
+          </h4>
         </div>
 
         <div className="mainContainer grid">
@@ -117,9 +119,18 @@ const Blog = () => {
                 <a
                   data-aos="fade-right"
                   data-aos-duration="2500"
-                  onClick={() => handleNavItemClick(user, cookies, 'PACKAGE_DETAIL_LOCAL', `/PackageDetail/${tours.id}`, navigate)}
+                  onClick={() =>
+                    handleNavItemClick(
+                      user,
+                      cookies,
+                      "PACKAGE_DETAIL_LOCAL",
+                      `/PackageDetail/${tours.id}`,
+                      navigate
+                    )
+                  }
                   className="flex"
-                  style={{cursor: 'pointer'}}>
+                  style={{ cursor: "pointer" }}
+                >
                   Read More
                   <BsArrowRightShort className="icon" />
                 </a>

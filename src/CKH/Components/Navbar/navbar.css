@@ -9,10 +9,10 @@
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
 }
+
 .BBSuserGreeting {
   font-weight: bold;
   color: var(--whiteColor);
-  /* padding: 0px 0px; Increase vertical padding */
   border-radius: 5px;
 }
 
@@ -20,30 +20,29 @@
   color: var(--PrimaryColor);
   display: inline-block;
   background-color: var(--PrimaryColor);
-  padding: 9px 12px; /* Adjust padding to match other buttons */
-  font-size: 12px; /* Adjust font size if needed */
-  border-radius: 5px; /* Optional: Add border radius to match buttons */
+  padding: 9px 12px;
+  font-size: 12px;
+  border-radius: 5px;
   cursor: none;
 }
-.nbtn{
- /* 호버 시 마우스 커서 변하지 않도록 설정 */
- cursor: none;
- 
+
+.nbtn {
+  cursor: none;
 }
 
 @media screen and (max-width: 768px) {
   .BBSuserGreeting {
-    font-size: 0.8rem; /* Smaller font size for mobile */
-    padding: 5px; /* Adjust padding for mobile */
-    margin-left: -1px; /* Adjust margin for mobile */
+    font-size: 0.8rem;
+    padding: 5px;
+    margin-left: -1px;
   }
 }
 
 @media screen and (min-width: 769px) {
   .BBSuserGreeting {
-    font-size: 1rem; /* Default font size for larger screens */
-    padding: 10px; /* Default padding for larger screens */
-    margin-left: -2px; /* Default margin for larger screens */
+    font-size: 1rem;
+    padding: 10px;
+    margin-left: -2px;
   }
 }
 
@@ -56,8 +55,8 @@
   width: 100%;
   padding: 1rem;
   z-index: 1000;
-  
 }
+
 .navBarSection .header .logoDiv .logo {
   color: var(--PrimaryColor);
   font-weight: 500;
@@ -66,22 +65,23 @@
   justify-content: space-between;
   text-decoration: none;
 }
+
 .navBarSection .header .logoDiv .logo .icon {
   color: var(--PrimaryColor);
   font-size: 25px;
   margin-right: 10px;
 }
+
 @media screen and (max-width: 768px) {
   .navBarSection .header .navBar {
     background: var(--greyBg);
     position: absolute;
-    height: -moz-max-content;
     height: max-content;
     padding: 1rem;
     width: 100%;
     top: 0;
     left: -500%;
-    box-shadow: 0 2px 4px rgba(209, 209, 209, 0.904);
+    box-shadow: 0 2px 4px rgba(255, 255, 209, 0.904);
     transition: 0.5s ease;
     z-index: 1000;
   }
@@ -89,7 +89,6 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    /* margin: auto; */
   }
   .navBarSection .header .navBar .navLists .navItem {
     padding: 1rem 0;
@@ -98,18 +97,15 @@
     color: var(--textColor);
     font-size: 0.9rem;
     font-weight: 600;
-    
   }
   .navBarSection .header .navBar .navLists .navItem .navLink:hover {
     color: var(--PrimaryColor);
   }
   .navBarSection .header .navBar .navLists .headerBtns {
     flex-direction: column;
-    
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn {
     margin-top: 1rem;
-    
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn a {
     font-weight: 600;
@@ -144,16 +140,18 @@
     left: 0;
   }
 }
+
 .navBarSection .header .toggleNavbar .icon {
   font-size: 25px;
   color: var(--whiteColor);
 }
+
 .navBarSection .header .toggleNavbar .icon:hover {
   color: var(--PrimaryColor);
 }
+
 .navBarSection .activeHeader {
-  background: var(--greyText);
-  box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 @media screen and (min-width: 769px) {
@@ -200,13 +198,51 @@
     color: var(--whiteColor);
   }
 }
+
 @media screen and (min-width: 960px) {
   .header .navBar .navLists .navItem {
     padding: 0 0.7rem;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .header {
     padding: 1rem 8.5rem !important;
   }
+}
+
+.navlogotext {
+  font-size: 70px;
+  font-weight: bold;
+  -webkit-text-stroke: 3px rgb(255, 205, 141);
+}
+
+.logoicon {
+  font-size: 80px;
+}
+
+.icontext {
+  font-weight: bold;
+}
+
+.navBarSection .header .navBar .navLists .navItem {
+  display: flex; /* 아이템을 한 줄로 배치 */
+  align-items: center; /* 수직 정렬 */
+}
+
+.navBarSection .header .navBar .navLists .navItem .icon1 {
+  margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 조정 */
+  display: inline-block;
+}
+
+.icon2{
+  color: var(--PrimaryColor);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.icontext2{
+  margin-top: 5px;
+  color: var(--PrimaryColor);
+  font-weight: bold;
 }
