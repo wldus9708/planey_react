@@ -52,7 +52,7 @@ function PackageFoot() {
 
                     const attractionRes = await axios.get(`http://localhost:8988/attraction/${packageTourResponse.attractionId}`);
                     setAttraction(attractionRes.data);
-                    
+
                 } catch (error) {
                     console.error('데이터를 불러오는 중 에러 발생:', error);
                     navigator("/errorpage")
@@ -116,8 +116,6 @@ function PackageFoot() {
         });
     };
 
-    console.log(flight)
-
     return (
         <div ref={wrapperRef} className={styles.wrapper}>
             <div className={styles.sidebar}>
@@ -156,35 +154,49 @@ function PackageFoot() {
                     <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
                         <h4>패키지 설명</h4>
                         <p>
-                            {data ? data.tour_pack_description : '' }
+                            {data ? data.tour_pack_description : ''}
                         </p>
                     </li>
                     <hr />
                     <li id="flight" className={highlightedItem === "flight" ? styles.active : ""}>
                         <h4>항공</h4>
-                        <img
-                            className={styles.PackImage}
-                            src={attraction && attraction[`attImage01`]
-                                ? `/images/${attraction[`attImage01`]}`
-                                : null}
-                            alt={``}
-                        />
-                        <table className={styles.carTable}>
-                            <tbody>
-                                <tr>
-                                    <th>명소 이름</th>
-                                    <td>{attraction && attraction.attName}</td>
-                                </tr>
-                                <tr>
-                                    <th>숙소 주소</th>
-                                    <td>{attraction && attraction.attAddress}</td>
-                                </tr>
-                                <tr>
-                                    <th>숙소 설명</th>
-                                    <td>{attraction && attraction.attDescription}</td> {/*텍스트 줄변경*/}
-                                </tr>
-                            </tbody>
-                        </table>
+                        {flight ? (
+                            <>
+                                <img
+                                    className={styles.PackImage}
+                                    src={flight && flight[`fli_brand_image`]
+                                        ? `/images/${flight[`fli_brand_image`]}`
+                                        : null}
+                                    alt={``}
+                                />
+                                <table className={styles.carTable}>
+                                    <tbody>
+                                        <tr>
+                                            <th>항공사</th>
+                                            <td>{flight && flight.fli_brand}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>출발일시</th>
+                                            <td>{flight && flight.fli_departure_date} {flight && flight.fli_departure_time}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>도착일시</th>
+                                            <td>{flight && flight.fli_arrival_date} {flight && flight.fli_arrival_time}</td> {/*텍스트 줄변경*/}
+                                        </tr>
+                                        <tr>
+                                            <th>도착지</th>
+                                            <td>{flight && flight.fli_arrival_place}</td> {/*텍스트 줄변경*/}
+                                        </tr>
+                                        <tr>
+                                            <th>총 비행시간</th>
+                                            <td>{flight && flight.fli_total_time}분</td> {/*텍스트 줄변경*/}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </>
+                        ) : (
+                            <p>항공이 지원되지 않는 패키지 입니다.</p>
+                        )}
                     </li>
                     <hr />
                     <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
