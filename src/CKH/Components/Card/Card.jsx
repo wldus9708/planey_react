@@ -28,7 +28,7 @@ export default function App() {
           tourPackCity: item.tourPackCity,
           category: item.category,
           allProductState: item.allProductState,
-          images: "../../../../public/images/" + item.image01,
+          images: "/images/" + item.image01,
           name: item.tour_pack_name,
           description: item.tour_pack_description,
           price: item.price,

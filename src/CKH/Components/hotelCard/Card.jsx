@@ -23,7 +23,7 @@ export default function App() {
           latitude: item.lodLatitude,
           longitude: item.lodLongitude,
           description: item.lodDescription,
-          image: "../../../../public/images/" + item.lodImage01,
+          image: "/images/" + item.lodImage01,
           category: item.lodCategory,
           allProductState: item.allProductState,
         }));

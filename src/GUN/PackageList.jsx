@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from './PackageList.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar, { handleNavItemClick } from "./../CKH/Components/Navbar/Navbar";
 import McAdvertise from "./../Hye/machineList";
 import useUser from "../BBS/Log/useUser";
 import { useCookies } from "react-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PackageList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
@@ -249,7 +249,7 @@ const PackageList = () => {
                                 return (
                                     <div className={styles['packList-house']} key={index} onClick={() => window.location.href = `/PackageDetail/${item.id}`}>
                                         <div className={styles['packList-house-img']}>
-                                            <img src={require(`../BBS/image/${item.image01}.jpg`)} alt="" width="200px" height="200px" />
+                                            <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
                                         </div>
                                         <div className={styles['packList-house-info']}>
                                             <h3>{item.tour_pack_name}</h3>
