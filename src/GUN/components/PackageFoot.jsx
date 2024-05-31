@@ -3,25 +3,17 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './PackageFoot.module.css';
 import { BsMegaphone } from "react-icons/bs";
 import { LuHotel } from 'react-icons/lu';
-import { IoBusOutline, IoRestaurantOutline } from 'react-icons/io5';
+import { IoRestaurantOutline } from 'react-icons/io5';
 import { TbBeach } from 'react-icons/tb';
-import Payment from './payment';
 import PaymentStyles from './payment.module.css';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { useParams } from "react-router-dom";
-
-
-
+import { useNavigate, useParams } from "react-router-dom";
 
 function PackageFoot() {
     const { id } = useParams();
-    const [car, setCar] = useState(null); 
-    const [restaurant, setRestaurant] = useState(null);  
-    const [lodging, setLodging] = useState(null); 
-    const [attraction, setAttraction] = useState(null); 
-
+    const [restaurant, setRestaurant] = useState(null);
+    const [lodging, setLodging] = useState(null);
+    const [attraction, setAttraction] = useState(null);
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [highlightedItem, setHighlightedItem] = useState(null);
@@ -33,37 +25,31 @@ function PackageFoot() {
         megaphone: false,
         beach: false,
         hotel: false,
-        restaurant: false,
-        vehicle: false
+        restaurant: false
+        // vehicle: false
     });
 
+    const navigator = useNavigate();
 
     useEffect(() => {
         if (id) {
             const fetchData = async () => {
                 try {
-                    const packageTourResponse = await axios.get(`http://localhost:8988/PackageTour/detail/${id}`);
-                    const packageTourId = parseInt(id);
+                    const packageTourRes = await axios.get(`http://localhost:8988/PackageTour/detail/${id}`);
+                    const packageTourResponse = packageTourRes.data;
 
-                    // 차량 데이터 가져오기
-                    const carResponse = await axios.get(`http://localhost:8988/car/detail/${19999 + packageTourId}`);
-                    setCar(carResponse.data);
+                    const restaurantRes = await axios.get(`http://localhost:8988/restaurant/detail/${packageTourResponse.tour_pack_restaurant}`);
+                    setRestaurant(restaurantRes.data);
 
-                    // 레스토랑 데이터 가져오기
-                    const restaurantResponse = await axios.get(`http://localhost:8988/restaurant/detail/${24999 + packageTourId}`);
-                    setRestaurant(restaurantResponse.data);
+                    const lodgingRes = await axios.get(`http://localhost:8988/lodging/detail/${packageTourResponse.tour_pack_lodging}`);
+                    setLodging(lodgingRes.data);
 
-                    // 숙소 데이터 가져오기
-                    const lodgingResponse = await axios.get(`http://localhost:8988/lodging/detail/${4999 + packageTourId}`);
-                    setLodging(lodgingResponse.data);
+                    const attractionRes = await axios.get(`http://localhost:8988/attraction/${packageTourResponse.attractionId}`);
+                    setAttraction(attractionRes.data);
                     
-                    // 명소 데이터 가져오기
-                    const attractionResponse = await axios.get(`http://localhost:8988/attraction/${999 + packageTourId}`);
-                    setAttraction(attractionResponse.data);
-
-                    console.log(packageTourResponse.data);
                 } catch (error) {
                     console.error('데이터를 불러오는 중 에러 발생:', error);
+                    navigator("/errorpage")
                 }
             };
 
@@ -89,7 +75,7 @@ function PackageFoot() {
                         beach: id === 'beach',
                         hotel: id === 'hotel',
                         restaurant: id === 'restaurant',
-                        vehicle: id === 'vehicle'
+                        // vehicle: id === 'vehicle'
                     });
                 }
             });
@@ -120,7 +106,7 @@ function PackageFoot() {
             beach: what === 'beach',
             hotel: what === 'hotel',
             restaurant: what === 'restaurant',
-            vehicle: what === 'vehicle'
+            // vehicle: what === 'vehicle'
         });
     };
 
@@ -149,11 +135,11 @@ function PackageFoot() {
                             <IoRestaurantOutline style={{ fontSize: "30px", color: icons.restaurant ? "white" : "black" }} />
                             <label style={{ color: icons.restaurant ? "white" : "black" }}>식사</label>
                         </li>
-                        <li onClick={() => handleIcon('vehicle')}
+                        {/* <li onClick={() => handleIcon('vehicle')}
                             style={{ cursor: "pointer", backgroundColor: icons.vehicle ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
                             <IoBusOutline style={{ fontSize: "30px", color: icons.vehicle ? "white" : "black" }} />
                             <label style={{ color: icons.vehicle ? "white" : "black" }}>이동수단</label>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>
@@ -171,9 +157,9 @@ function PackageFoot() {
                         <img
                             className={styles.PackImage}
                             src={attraction && attraction[`attImage01`]
-                            ? `/images/${attraction[`attImage01`]}.jpg`
-                            : null}
-                            alt={`images${id}`}
+                                ? `/images/${attraction[`attImage01`]}`
+                                : null}
+                            alt={``}
                         />
                         <table className={styles.carTable}>
                             <tbody>
@@ -198,9 +184,9 @@ function PackageFoot() {
                         <img
                             className={styles.PackImage}
                             src={`/images/${lodging && lodging[`lodImage01`]}`}
-                            alt={`images${id}`}
+                            alt={``}
                         />
-                         <table className={styles.carTable}>
+                        <table className={styles.carTable}>
                             <tbody>
                                 <tr>
                                     <th>숙소 이름</th>
@@ -227,7 +213,7 @@ function PackageFoot() {
                         <img
                             className={styles.PackImage}
                             src={`/images/${restaurant && restaurant[`restImage01`]}`}
-                            alt={`images${id}`}
+                            alt={``}
                         />
                         <table className={styles.carTable}>
                             <tbody>
@@ -245,53 +231,13 @@ function PackageFoot() {
                                 </tr>
                                 <tr>
                                     <th>식당 설명</th>
-                                    <td>{restaurant && restaurant.restDescription.split('.').map((line, index) =>  (
+                                    <td>{restaurant && restaurant.restDescription.split('.').map((line, index) => (
                                         <div key={index}>{line}</div>
                                     ))}</td> {/*텍스트 줄변경*/}
                                 </tr>
                             </tbody>
                         </table>
                     </li>
-                    <hr />
-                    <li id="vehicle" className={highlightedItem === "vehicle" ? styles.active : ""}>
-                        <h4>이동수단</h4>
-                        <img
-                            className={styles.PackImage}
-                            src={`/images/${car && car[`carImage01`]}`}
-                            alt={`images${id}`}
-                        />
-                        <table className={styles.carTable}>
-                            <tbody>
-                                <tr>
-                                    <th>차량 모델</th>
-                                    <td>{car && car.carModel}</td>
-                                </tr>
-                                <tr>
-                                    <th>연료 타입</th>
-                                    <td>{car && car.carFuelType}</td>
-                                </tr>
-                                <tr>
-                                    <th>색상</th>
-                                    <td>{car && car.carColor}</td>
-                                </tr>
-                                <tr>
-                                    <th>수용인원</th>
-                                    <td>{car && car.carCapacity}</td>
-                                </tr>
-                                <tr>
-                                    <th>변속기</th>
-                                    <td>{car && car.carTransmission}</td>
-                                </tr>
-                                <tr>
-                                    <th>차량 설명</th>
-                                    <td>{car && car.carComment.split('.').map((line, index) =>  (
-                                        <div key={index}>{line}</div>
-                                    ))}</td> {/*텍스트 줄변경*/}
-                                </tr>
-                            </tbody>
-                        </table>
-                    </li>
-
                     <hr />
                 </ul>
             </div>
