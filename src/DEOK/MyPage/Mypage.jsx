@@ -5,17 +5,16 @@ import UpdateInfo from './MainComponents/UpdateInfo';
 import DeleteMember from './MainComponents/DeleteMember';
 import PaymentList from '../../SUNG/Payment/PaymentList';
 import { useCookies } from 'react-cookie';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import WishList from './MainComponents/WishList';
 import NavBar from "../../CKH/Components/Navbar/Navbar"
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 import useUser from "../../BBS/Log/useUser";
+
 const MpClient = () => {
     const [cookies] = useCookies(['accessToken']);
     const navigator = useNavigate();
     const [viewWhat, setViewWhat] = useState('paymentList');
-    const [isUlHidden, setIsUlHidden] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const user = useUser();
@@ -55,10 +54,6 @@ const MpClient = () => {
         setViewWhat(what);
     };
 
-    const showUlBox = () => {
-        setIsUlHidden(!isUlHidden);
-    };
-
     const handleMultipleClicks = (menu, user, cookies, navigate) => {
         switch (menu) {
             case "paymentList":
@@ -68,10 +63,6 @@ const MpClient = () => {
             case "updateInfo":
                 clickMenu(menu);
                 handleNavItemClick(user, cookies, 'MYPAGE_UPDATEINFO', null, navigate);
-                break;
-            case "wishList":
-                clickMenu(menu);
-                handleNavItemClick(user, cookies, 'MYPAGE_WISHLIST', null, navigate);
                 break;
             case "deleteMember":
                 clickMenu(menu);
@@ -111,8 +102,11 @@ const MpClient = () => {
                             <p className={viewWhat === 'updateInfo' ? 'active' : ''} onClick={() => handleMultipleClicks("updateInfo", user, cookies, navigate)}>
                                 <h3>회원 정보 수정</h3>
                             </p>
-                            <p className={viewWhat === 'wishList' ? 'active' : ''} onClick={() => handleMultipleClicks("wishList", user, cookies, navigate)}>
-                                <h3>찜목록</h3>
+                            <p onClick={() => {navigate('/cart')}}>
+                                <h3>장바구니</h3>
+                            </p>
+                            <p onClick={() => {navigate('/')}}>
+                                <h3>홈으로</h3>
                             </p>
                             <p
                                 className={viewWhat === 'deleteMember' ? 'active' : ''}
@@ -133,7 +127,6 @@ const MpClient = () => {
                         <div className='DEOK_MP_CL_main'>
                             {viewWhat === "updateInfo" && <UpdateInfo userInfo={userInfo} />}
                             {viewWhat === "paymentList" && <PaymentList userInfo={userInfo} />}
-                            {viewWhat === "wishList" && <WishList />}
                             {viewWhat === "deleteMember" && <DeleteMember userInfo={userInfo} />}
                         </div>
                     </main>
@@ -152,7 +145,7 @@ const MpClient = () => {
                             </div>
                         </div>
 
-                        <div className="reminders">
+                        {/* <div className="reminders">
                             <div className="notificationHeader">
                                 <h2>알림</h2>
                                 <span className="material-icons-sharp">
@@ -207,7 +200,7 @@ const MpClient = () => {
                                 </div>
                             </div>
 
-                        </div>
+                        </div> */}
 
                     </div>
 
