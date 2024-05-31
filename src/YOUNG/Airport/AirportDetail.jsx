@@ -359,6 +359,8 @@ const AirportDetail = () => {
     // 총 요금 확인
     const totalPrice = calculateTotalPrice();
 
+    const isAdultSelected = outboundAdultCount > 0 || returnAdultCount > 0;
+
     if (!isOutboundSeatsSelected || !isReturnSeatsSelected) {
       alert("가는 항공편과 오는 항공편의 좌석을 모두 선택해 주세요.");
       return;
@@ -368,6 +370,12 @@ const AirportDetail = () => {
       alert("총 요금이 0원인 경우 장바구니에 추가할 수 없습니다.");
       return;
     }
+
+    if (!isAdultSelected) {
+      alert("성인이 한 명 이상 선택되어야 합니다.");
+      return;
+    }
+    
     const adults = Number(outboundAdultCount) + Number(returnAdultCount);
     const children = Number(outboundChildCount) + Number(returnChildCount);
     const totalPeople = Number(adults) + Number(children);
