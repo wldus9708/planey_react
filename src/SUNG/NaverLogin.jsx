@@ -50,7 +50,7 @@ const NaverLogin = () => {
 
     return (
         <div>
-            로그인 중...
+            {/* 로그인 중... */}
         </div>
     );
 };
