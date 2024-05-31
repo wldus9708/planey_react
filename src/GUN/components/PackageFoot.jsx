@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './PackageFoot.module.css';
 import { BsMegaphone } from "react-icons/bs";
+import { MdFlightTakeoff } from "react-icons/md";
 import { LuHotel } from 'react-icons/lu';
 import { IoRestaurantOutline } from 'react-icons/io5';
 import { TbBeach } from 'react-icons/tb';
@@ -11,10 +12,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function PackageFoot() {
     const { id } = useParams();
+    const [flight, setFlight] = useState(null);
     const [restaurant, setRestaurant] = useState(null);
     const [lodging, setLodging] = useState(null);
     const [attraction, setAttraction] = useState(null);
-
+    const [data, setData] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [highlightedItem, setHighlightedItem] = useState(null);
 
@@ -23,10 +25,10 @@ function PackageFoot() {
 
     const [icons, setIcons] = useState({
         megaphone: false,
+        flight: false,
         beach: false,
         hotel: false,
         restaurant: false
-        // vehicle: false
     });
 
     const navigator = useNavigate();
@@ -37,6 +39,10 @@ function PackageFoot() {
                 try {
                     const packageTourRes = await axios.get(`http://localhost:8988/PackageTour/detail/${id}`);
                     const packageTourResponse = packageTourRes.data;
+                    setData(packageTourResponse);
+
+                    const flightRes = await axios.get(`http://localhost:8988/products/flight/detail/${packageTourResponse.tour_pack_flight}`);
+                    setFlight(flightRes.data);
 
                     const restaurantRes = await axios.get(`http://localhost:8988/restaurant/detail/${packageTourResponse.tour_pack_restaurant}`);
                     setRestaurant(restaurantRes.data);
@@ -72,10 +78,10 @@ function PackageFoot() {
                     setHighlightedItem(id);
                     setIcons({
                         megaphone: id === 'megaphone',
+                        flight: id === 'flight',
                         beach: id === 'beach',
                         hotel: id === 'hotel',
-                        restaurant: id === 'restaurant',
-                        // vehicle: id === 'vehicle'
+                        restaurant: id === 'restaurant'
                     });
                 }
             });
@@ -103,12 +109,14 @@ function PackageFoot() {
 
         setIcons({
             megaphone: what === 'megaphone',
+            flight: what === 'flight',
             beach: what === 'beach',
             hotel: what === 'hotel',
-            restaurant: what === 'restaurant',
-            // vehicle: what === 'vehicle'
+            restaurant: what === 'restaurant'
         });
     };
+
+    console.log(flight)
 
     return (
         <div ref={wrapperRef} className={styles.wrapper}>
@@ -118,7 +126,12 @@ function PackageFoot() {
                         <li onClick={() => handleIcon('megaphone')}
                             style={{ cursor: "pointer", backgroundColor: icons.megaphone ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
                             <BsMegaphone style={{ fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />
-                            <label style={{ color: icons.megaphone ? "white" : "black" }}>핵심 포인트</label>
+                            <label style={{ color: icons.megaphone ? "white" : "black" }}>패키지 설명</label>
+                        </li>
+                        <li onClick={() => handleIcon('flight')}
+                            style={{ cursor: "pointer", backgroundColor: icons.flight ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
+                            <MdFlightTakeoff style={{ fontSize: "30px", color: icons.flight ? "white" : "black" }} />
+                            <label style={{ color: icons.flight ? "white" : "black" }}>항공</label>
                         </li>
                         <li onClick={() => handleIcon('beach')}
                             style={{ cursor: "pointer", backgroundColor: icons.beach ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
@@ -135,21 +148,43 @@ function PackageFoot() {
                             <IoRestaurantOutline style={{ fontSize: "30px", color: icons.restaurant ? "white" : "black" }} />
                             <label style={{ color: icons.restaurant ? "white" : "black" }}>식사</label>
                         </li>
-                        {/* <li onClick={() => handleIcon('vehicle')}
-                            style={{ cursor: "pointer", backgroundColor: icons.vehicle ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
-                            <IoBusOutline style={{ fontSize: "30px", color: icons.vehicle ? "white" : "black" }} />
-                            <label style={{ color: icons.vehicle ? "white" : "black" }}>이동수단</label>
-                        </li> */}
                     </ul>
                 </div>
             </div>
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
                     <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
-                        <h4>핵심 내용</h4>
+                        <h4>패키지 설명</h4>
                         <p>
-                            InnerDescription
+                            {data ? data.tour_pack_description : '' }
                         </p>
+                    </li>
+                    <hr />
+                    <li id="flight" className={highlightedItem === "flight" ? styles.active : ""}>
+                        <h4>항공</h4>
+                        <img
+                            className={styles.PackImage}
+                            src={attraction && attraction[`attImage01`]
+                                ? `/images/${attraction[`attImage01`]}`
+                                : null}
+                            alt={``}
+                        />
+                        <table className={styles.carTable}>
+                            <tbody>
+                                <tr>
+                                    <th>명소 이름</th>
+                                    <td>{attraction && attraction.attName}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 주소</th>
+                                    <td>{attraction && attraction.attAddress}</td>
+                                </tr>
+                                <tr>
+                                    <th>숙소 설명</th>
+                                    <td>{attraction && attraction.attDescription}</td> {/*텍스트 줄변경*/}
+                                </tr>
+                            </tbody>
+                        </table>
                     </li>
                     <hr />
                     <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
