@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -12,11 +11,7 @@ import useUser from "../../BBS/Log/useUser";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 
-
-
-
 const AirportList = () => {
-
     const fixedMinPrice = 100000;
     const fixedMaxPrice = 5000000;
     const priceGap = 100000;
@@ -41,23 +36,16 @@ const AirportList = () => {
             const response = await axios.get(`http://localhost:8988/products/allFlightData`);
             const { flights, returnFlights } = response.data;
 
-
-            // console.log("flights 데이터", flights);
-            // console.log("returnFlights 데이터: ", returnFlights);
-
             const combinedData = flights.map((flight, index) => ({
                 ...flight,
                 returnFlight: returnFlights[index],
             }));
 
-            // console.log("결합된데이터: ", combinedData)
             setTotalDataCount(combinedData.length);
 
             const startIndex = (page - 1) * 5;
             const endIndex = page * 5;
             const newData = combinedData.slice(startIndex, endIndex);
-
-
 
             if (page === 1) {
                 setData(newData);
@@ -65,7 +53,6 @@ const AirportList = () => {
                 setData(prevData => [...prevData, ...newData]);
             }
             setIsFetching(false);
-
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -136,7 +123,6 @@ const AirportList = () => {
         }
     };
 
-
     const filterData = (data, minPrice, maxPrice) => {
         let filteredData = data.filter(item => item.fli_price >= minPrice && item.fli_price <= maxPrice);
 
@@ -158,18 +144,29 @@ const AirportList = () => {
             });
         }
 
+        if (startDate && endDate) {
+            filteredData = filteredData.filter(item => {
+                const flightDepartureDate = new Date(item.fli_departure_date);
+                const flightArrivalDate = new Date(item.fli_arrival_date);
+                const returnFlightDepartureDate = new Date(item.returnFlight.return_fli_departure_date);
+                const returnFlightArrivalDate = new Date(item.returnFlight.return_fli_arrival_date);
+
+                return (flightDepartureDate >= startDate && flightArrivalDate <= endDate) &&
+                    (returnFlightDepartureDate >= startDate && returnFlightArrivalDate <= endDate);
+            });
+        }
+
         return filteredData;
     };
 
     const handleSearch = (query) => {
         setSecondSearchQuery(query);
-
-
     };
 
     const handleCountChange = (count) => {
         setCount(count); // 인원수 상태 업데이트
     };
+
     const handleDateChange = (date) => {
         setStartDate(date.startDate);
         setEndDate(date.endDate);
@@ -181,18 +178,16 @@ const AirportList = () => {
         const remainingMinutes = minutes % 60;
         return `${hours}시간 ${remainingMinutes}분`;
     };
+
     const handleScrollToTopAndNavItemClick = () => {
         scrollToTop();
         handleNavItemClick(user, cookies, 'AIRPORT_SCROLLTOP', null, navigate);
     };
+
     const clickSort = (sortOption) => {
         setSortOption(sortOption);
         handleNavItemClick(user, cookies, sortOption === "lowPrice" ? 'AIRPORT_SORT_LOWPRICE' : 'AIRPORT_SORT_HIGHPRICE', null, navigate);
     };
-
-
-
-
 
     return (
         <>
@@ -214,7 +209,6 @@ const AirportList = () => {
 
                         {data.length > 0 ? (
                             sortData(filterData(data, rangeMinValue, rangeMaxValue), sortOption).map((item, index) => {
-
                                 return (
                                     <div
                                         onClick={() => window.location.href = `/AirportDetail/${item.id}`}
@@ -250,13 +244,12 @@ const AirportList = () => {
                                                                 </div>
                                                             </div>
                                                             <div className={styles.FliIcon}>
-                                                            >>
+                                                                >>
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <div className={styles.FliArrRegion}>
                                                                     {/* 도착지 */}
                                                                     {item.fli_arrival_place}
-
                                                                 </div>
                                                                 <div className={styles.FliArrTime}>
                                                                     {/* 도착시간 */}
@@ -297,14 +290,13 @@ const AirportList = () => {
                                                             </div>
                                                             <div className={styles.FliIcon}>
                                                                 <p>
-                                                                >>
+                                                                    >>
                                                                 </p>
                                                             </div>
                                                             <div className={styles.FliArrRegionandTime}>
                                                                 <div className={styles.FliArrRegion}>
                                                                     {/* 도착지 */}
                                                                     {item.returnFlight.return_fli_arrival_place}
-
                                                                 </div>
                                                                 <div className={styles.FliArrTime}>
                                                                     {/* 도착시간 */}
@@ -320,12 +312,9 @@ const AirportList = () => {
                                                 </ul>
                                             </div>
                                             <div className={styles.FliArrPriceBox}>
-
                                                 {/* 요금 */}
-
                                                 <p className={styles.airPrice1}>{(item.fli_price).toLocaleString()}원</p>
                                                 <p className={styles.airPrice2}>{(item.returnFlight.return_fli_price).toLocaleString()}원</p>
-
                                             </div>
                                         </div>
                                     </div>
@@ -334,13 +323,11 @@ const AirportList = () => {
                         ) : (
                             <p>검색 결과가 없습니다.</p>
                         )}
-
-
                     </div>
                     <div className={styles['restList-right-col']}>
                         <div className={styles['restList-sidebar']}>
                             <h6>금액 설정</h6>
-                            < br />
+                            <br />
                             <div className={styles['restList-PriceSlide']} >
                                 <div className={styles['restList-PriceSlideInner']} >
                                     {/* 가격 슬라이드 바 */}
@@ -385,10 +372,8 @@ const AirportList = () => {
                     </div>
                 </div>
                 <FontAwesomeIcon icon={faCircleChevronUp} className={styles['icon-Circle']} onClick={handleScrollToTopAndNavItemClick} />
-
             </div>
         </>
-
     );
 };
 

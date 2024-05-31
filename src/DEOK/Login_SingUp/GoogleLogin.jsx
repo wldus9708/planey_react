@@ -47,7 +47,7 @@ const GoogleLoginRedirect = () => {
 
     return (
         <>
-            로그인 진행중...
+            {/* 로그인 진행중... */}
         </>
     );
 };
