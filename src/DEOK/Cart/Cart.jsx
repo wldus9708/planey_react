@@ -206,7 +206,10 @@ export const Cart = () => {
         count: item.count,
         price: item.price,
         children: item.children || 0,
-        childrenPrice: (item.price / 2)
+        childrenPrice: (item.price / 2),
+        name: item.name,
+        departurePlace: item.departurePlace,
+        airportId:item.airportId,
       };
     });
 
