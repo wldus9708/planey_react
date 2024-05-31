@@ -217,6 +217,9 @@ const RentCarList = () => {
         scrollToTop();
         handleNavItemClick(user, cookies, 'CAR_SCROLLTOP', null, navigate);
     };
+    const generateRandomNumber = () => {
+        return Math.floor(Math.random() * 100000);
+    };
 
     return (
         <>
@@ -254,7 +257,7 @@ const RentCarList = () => {
                                                 <h4>₩ {item.carRentalPrice.toLocaleString()}</h4>
                                             </div>
                                             <div className={styles['rentList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                                <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
                                             </div>
                                         </div>
                                     </div>

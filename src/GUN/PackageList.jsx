@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from './PackageList.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import SearchField from '../YOUNG/searchField/Search_field';
 import NavBar, { handleNavItemClick } from "./../CKH/Components/Navbar/Navbar";
 import McAdvertise from "./../Hye/machineList";
 import useUser from "../BBS/Log/useUser";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PackageList = () => {
     const [secondSearchQuery, setSecondSearchQuery] = useState("");
@@ -212,6 +212,9 @@ const PackageList = () => {
         scrollToTop();
         handleNavItemClick(user, cookies, 'PACKAGE_SCROLLTOP', null, navigate);
     };
+    const generateRandomNumber = () => {
+        return Math.floor(Math.random() * 100000);
+    };
 
 
 
@@ -249,7 +252,7 @@ const PackageList = () => {
                                 return (
                                     <div className={styles['packList-house']} key={index} onClick={() => window.location.href = `/PackageDetail/${item.id}`}>
                                         <div className={styles['packList-house-img']}>
-                                            <img src={`/images/${item.image01}`} alt="" width="200px" height="200px" />
+                                            <img src={require(`../BBS/image/${item.image01}.jpg`)} alt="" width="200px" height="200px" />
                                         </div>
                                         <div className={styles['packList-house-info']}>
                                             <h3>{item.tour_pack_name}</h3>
@@ -262,7 +265,7 @@ const PackageList = () => {
                                                 <h4>₩ {item.price.toLocaleString()}</h4>
                                             </div>
                                             <div className={styles['packList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;2508</p>
+                                                <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -212,7 +212,9 @@ const LodgingList = () => {
         scrollToTop();
         handleNavItemClick(user, cookies, 'LODGING_SCROLLTOP', null, navigate);
     };
-
+    const generateRandomNumber = () => {
+        return Math.floor(Math.random() * 100000);
+    };
 
 
 
@@ -259,7 +261,7 @@ const LodgingList = () => {
                                                 <h4> {item.lodPrice.toLocaleString()}원</h4>
                                             </div>
                                             <div className={styles['restList-house-info2']}>
-                                                <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;&nbsp;&nbsp;2508</p>
+                                                <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;&nbsp;&nbsp;{generateRandomNumber()}</p>
                                             </div>
                                         </div>
                                     </div>
