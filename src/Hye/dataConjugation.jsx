@@ -4,7 +4,7 @@ import axios from 'axios';
 import './conjugation.scss';
 Modal.setAppElement('#root');
 
-const SurveyModal = ({ isOpen, onRequestClose }) => {
+const SurveyModal = ({ isOpen, onRequestClose, userBirth}) => {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
   const [mCategory, setMCategory] = useState('');
@@ -49,7 +49,7 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
     // Form 데이터와 현재 시간을 포함한 객체 생성
     const formData = {
       gender,
-      age,
+      age: calculateAge(userBirth),
       majorCategory: majorCategory,
       middleCategory: middleCategory,
       minorCategory: minorCategory,
@@ -69,10 +69,22 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
       console.error('Error submitting form:', error);
     }
   };
-
+  const calculateAge = (birth) => {
+    const currentYear = new Date().getFullYear();
+    const gender = parseInt(birth.substring(6,7));
+    let birthYear = parseInt(birth.substring(0, 2));
+    if (gender>2) {
+        birthYear += 2000;
+    } else {
+        birthYear += 1900;
+    }
+    
+    return currentYear - birthYear;
+};
   return (
     <div className='dmodal'>
-      <h2>설문지</h2>
+      <h2>가고 싶은 여행지 설문조사</h2>
+      <h4>설문조사를 참여안하셔도 됩니다.</h4>
       <form onSubmit={handleSubmit} className='surveyForm'>
         <div className='modal-content'>
           <div className="form-group">
@@ -104,12 +116,10 @@ const SurveyModal = ({ isOpen, onRequestClose }) => {
             나이:
             <input
               className="form-control"
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
+              type="text"
+              value={calculateAge(userBirth)}
               required
-              min="0"
-              max="100"
+              readOnly
             />
           </label>
         </div>

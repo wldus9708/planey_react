@@ -37,10 +37,7 @@ const RestaurantDetail = () => {
         .catch(error => {
           console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
-    } else if (!cookies.accessToken) {
-      navigator('/login');
-      alert("결제전에 로그인을 해주세요.");
-    }
+    } 
 
     axios.get(`http://localhost:8988/restaurant/detail/${id}`)
       .then((response) => {
@@ -116,6 +113,12 @@ const RestaurantDetail = () => {
 
   // 결제 요청 함수
   const handlePayment = () => {
+    if (!cookies.accessToken) {
+      navigator('/login');
+      alert("결제전에 로그인을 해주세요.");
+    }
+
+    if (cookies.accessToken){
     const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
     loadTossPayments(clientKey)
       .then(tossPayments => {
@@ -140,9 +143,14 @@ const RestaurantDetail = () => {
         console.error('토스페이먼츠 로딩 중 오류 발생:', error);
         alert("결제 애플리케이션 로딩 실패.");
       });
-  };
+  }};
 
   const addToCart = async () => {
+    if (!cookies.accessToken) {
+      navigator('/login');
+      alert("장바구니에 추가하기 전에 로그인을 해주세요.");
+    }
+    if (cookies.accessToken){
     await axios.post(`http://localhost:8988/cart/insert?productId=${id}`, { count: numberOfPeople }, {
       headers: {
         Authorization: cookies.accessToken
@@ -155,7 +163,7 @@ const RestaurantDetail = () => {
       .catch((err) => {
         console.log(err);
       })
-  };
+  }};
  
 
   return (

@@ -356,7 +356,7 @@ const SignUpForm = () => {
                                         <Modal.Title>회원정보 찾기</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                        <FindId />
+                                    <FindId handleCloseModal={handleCloseModal} />
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleCloseModal}> {/* 모달 닫기 */}
