@@ -12,18 +12,20 @@ export function SuccessPage() {
   const paymentKey = searchParams.get("paymentKey");
   const product_id = searchParams.get("orderId");
   const amount = searchParams.get("amount");
+  const rentalStartDate = searchParams.get("rentalStartDate"); // 쿼리 파라미터에서 렌트 시작 날짜 가져오기
+  const rentalEndDate = searchParams.get("rentalEndDate"); // 쿼리 파라미터에서 렌트 종료 날짜 가져오기
   console.log("product_id:" + product_id);
 
   const formattedAmount = Number(amount).toLocaleString(); // 금액에 천 단위 쉼표 추가
 
   useEffect(() => {
-    if (!user || !rentCar || !paymentKey || !product_id || !amount) {
+    if (!user || !rentCar || !paymentKey || !product_id || !amount|| !rentalStartDate || !rentalEndDate) {
       // navigate("/"); // 필요한 정보가 없으면 홈으로 리다이렉트
     } else {
       // 현재 상태를 변경하여 뒤로가기를 방지
       window.history.replaceState(null, document.title, window.location.pathname);
     }
-  }, [user, rentCar, paymentKey, product_id, amount, navigate]);
+  }, [user, rentCar, paymentKey, product_id, amount, rentalStartDate, rentalEndDate, navigate]);
 
   const saveRentCarReservation = async (reservationData) => {
     console.log("예약 데이터 전송 중:", reservationData); // 로그 추가
@@ -81,8 +83,8 @@ export function SuccessPage() {
           memberId: parseInt(user, 10), // Long 타입으로 변환
           rentCarId: isNaN(rentCarId) ? 0 : rentCarId,
           relationship: 10001,
-          rentalStartDate: new Date().toISOString(),
-          rentalEndDate:new Date().toISOString(),
+          rentalStartDate,
+          rentalEndDate,
           rentalPrice:parseInt(amount, 10),
           reservationStatus: "COMPLETED",
           carInsurance: "STANDARD_INSURANCE",
