@@ -12,7 +12,7 @@ const SurveyModal = ({ isOpen, onRequestClose, userBirth}) => {
   const [majorCategory, setMajorCategory] = useState('');
   const [middleCategory, setMiddleCategory] = useState('');
   const [minorCategory, setMinorCategory] = useState('');
-
+console.log(userBirth);
   const domesticOptions = [
     { value: '000', label: '강릉' },
     { value: '001', label: '경주' },
