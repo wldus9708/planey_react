@@ -108,8 +108,8 @@ const PackageHead = () => {
                                 <span className={styles.lodgingName}>
                                     {packageTour && packageTour.tour_pack_name}
                                 </span>
-                                <img src="/images/star.png" alt="star" className={styles.starImage} />
-                                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
+                                {/* <img src="/images/star.png" alt="star" className={styles.starImage} />
+                                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span> */}
                             </div>
 
                             <hr />
