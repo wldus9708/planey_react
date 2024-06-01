@@ -59,6 +59,12 @@ const SignUpForm = () => {
         const month = parseInt(birth.substring(2, 4));
         const day = parseInt(birth.substring(4, 6));
         const gender = parseInt(birth.substring(7, 8));
+        const currentYear = new Date().getFullYear();
+        if (currentYear.toString().slice(-2)<year){
+            if(gender>2){
+                return false;
+            }
+        }
 
         if (gender === 1 || gender === 2) {
             year += 1900;
@@ -67,7 +73,7 @@ const SignUpForm = () => {
         }
 
         // 올바른 날짜 범위 확인
-        if (year < new Date().getFullYear() - 100) {
+        if (year <currentYear - 100) {
             return false; // 최소 1940년 이상이어야 함
         }
         if (month < 1 || month > 12) {
@@ -288,7 +294,7 @@ const SignUpForm = () => {
                         <Modal.Title>회원가입 완료</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} />
+                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} userBirth={birth} />
                     </Modal.Body>
                     <Modal.Footer>
                         {/*}
