@@ -233,7 +233,7 @@ const RentCarList = () => {
                         <p>{data.length} + options</p>
                         <h1>렌트카 리스트</h1>
                         <div className={styles['rentList-check']}>
-                            <FontAwesomeIcon icon={faCheck} className={`${styles['restList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
+                            <FontAwesomeIcon icon={faCheck} className={`${styles['rentList-check-icon']} ${sortOption === "lowPrice" ? styles.active : ""}`} />
                             <button className={sortOption === "lowPrice" ? styles.active : ""} onClick={() => clickSort("lowPrice")}>낮은가격순</button>
                             <FontAwesomeIcon icon={faCheck} className={`${styles['rentList-check-icon']} ${sortOption === "highPrice" ? styles.active : ""}`} />
                             <button className={sortOption === "highPrice" ? styles.active : ""} onClick={() => clickSort("highPrice")}>높은가격순</button>
