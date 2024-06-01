@@ -5,11 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Styles from './findPW02.module.css';
 import axios from 'axios';
 
-const FindPW02 = () => {
+const FindPW02 = (props) => {
+  const { email } = props;
   const [authMethod, setAuthMethod] = useState('phone');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
+
 
   const [warnings, setWarnings] = useState({
     name: '',
@@ -27,7 +29,7 @@ const FindPW02 = () => {
   };
 
   const handleFindId = async () => {
-    let newWarnings = { name: '', phone: ''};
+    let newWarnings = { name: '', phone: '' };
 
     if (name.trim() === '') {
       newWarnings.name = '이름을 입력하세요.';
@@ -48,7 +50,7 @@ const FindPW02 = () => {
       // 회원 정보가 일치하는 경우에만 인증코드 발송
       if (isValid) {
         // 인증번호 발송 로직
-        //유녕씨 여기서 메세지 보내세요.
+
       } else {
         alert('가입된 정보와 일치하지 않습니다.');
         return;
@@ -56,32 +58,6 @@ const FindPW02 = () => {
     }
 
   };
-
-  const handleVerifyCode = async () => {
-    if (code.trim() === '') {
-      setWarnings({ ...warnings, code: '인증 코드를 입력하세요.' });
-      return;
-    }
-
-    try {
-      const response = await axios.post('http://localhost:8988/test/code', null, {
-        params: {
-          phone: phone,
-          code: code
-        }
-      });
-      if (response.status === 200) {
-        alert('인증번호가 확인되었습니다. 가입된 이메일로 임시비밀번호가 발급 되었습니다.');
-      } else {
-        alert('유효하지 않은 인증번호 입니다.');
-        console.log("ㅁㅁㅁ")
-      }
-    } catch (error) {
-      console.error('Error verifying code:', error);
-      alert('유효하지 않은 인증번호 입니다.');
-    }
-  };
-
 
 
 
@@ -99,7 +75,7 @@ const FindPW02 = () => {
       console.error('Error sending verification code:', error);
     }
   };
-  
+
 
   const checkPhoneNumberExists = async (name, phone) => {
     try {
@@ -114,7 +90,7 @@ const FindPW02 = () => {
           sendVerificationCode(phone);
           return true;
         } else {
-          
+
           return false;
         }
       } else {
@@ -126,9 +102,65 @@ const FindPW02 = () => {
       return false;
     }
   };
-  
+
+
+  const handleVerifyCode = async () => {
+    if (code.trim() === '') {
+      setWarnings({ ...warnings, code: '인증 코드를 입력하세요.' });
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8988/test/code', null, {
+        params: {
+          phone: phone,
+          code: code
+        }
+      });
+      if (response.status === 200) {
+
+        sendTemporaryPassword(email); // 이메일로 임시 비밀번호 발급 함수 호출
+      } else {
+        alert('유효하지 않은 인증번호 입니다.');
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      alert('유효하지 않은 인증번호 입니다.');
+    }
+  };
+
+  const sendTemporaryPassword = async (email) => {
+    try {
+      const passwordResponse = await axios.post('http://localhost:8988/check/changePassword', null, {
+        params: {
+          email: email
+        }
+      });
+
+      const temporaryPassword = passwordResponse.data;
+      console.log("Generated temporary password: ", temporaryPassword);
+
+      await axios.post('http://localhost:8988/check/sendEmail', null, {
+        params: {
+          email: email,
+          password: temporaryPassword
+        }
+      });
+      alert('인증번호가 확인되었습니다. 가입된 이메일로 임시비밀번호가 발급 되었습니다. 로그인 후 마이페이지에서 비밀번호를 변경후 사용해주세요.');
+
+      // 임시 비밀번호 발급 후 로그인 페이지로 이동
+      window.location.href = '/login/';
+
+
+    } catch (error) {
+      console.error('Error generating or sending temporary password:', error);
+      alert('임시 비밀번호를 전송하는 도중 오류가 발생했습니다.');
+    }
+  };
+
 
   return (
+
     <div className={Styles.findPWPage}>
       <div className={Styles.findPWContainer}>
         <h5>비밀번호 찾기</h5>
@@ -183,10 +215,12 @@ const FindPW02 = () => {
           <Button
             className={Styles.authButton}
             type="button"
-          onClick={handleVerifyCode}
+            onClick={handleVerifyCode}
+
           >
             인증코드 확인
           </Button>
+
           <br />
         </div>
       </div>

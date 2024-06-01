@@ -98,17 +98,13 @@ const FindPwPage = () => {
                 <Modal.Title>회원정보 찾기</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <FindPW02 />
-              </Modal.Body>
+                <FindPW02 email={email}/>
+              </Modal.Body >
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseModal}>
                   취소
                 </Button>
                 &nbsp;&nbsp;&nbsp;
-                <Button 
-                variant="primary"
-                onClick={() => window.location.href = `/Login/`}
-                >확인</Button>
               </Modal.Footer>
             </Modal>
           )}
