@@ -56,11 +56,22 @@ const PackageHead = () => {
         })
     };
     const handleAddToCartClick = () => {
+        if (!cookies.accessToken) {
+          alert("장바구니 추가 전에 로그인을 해주세요.");
+          navigate('/login'); // 로그인 페이지로 이동
+          return;
+        }
         addToCart();
         handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
       };
       
       const handleBuyNowClick = () => {
+        if (!cookies.accessToken) {
+          alert("결제전에 로그인을 해주세요.");
+          navigate('/login'); // 로그인 페이지로 이동
+          return;
+        }
+        //handlePayment();
         handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
       };
 
