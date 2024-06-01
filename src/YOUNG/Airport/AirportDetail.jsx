@@ -9,7 +9,8 @@ import stylesBtn from '../lodging/LodgingDetail.module.css'
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
+import { useNavigate } from 'react-router-dom';
+import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 
 
 
@@ -20,7 +21,7 @@ const AirportDetail = () => {
   const [showModal, setShowModal] = useState(false); // 모달 열고 닫기 상태 추가
   const [selectedSeats, setSelectedSeats] = useState({ outbound: [], return: [] }); // 선택한 좌석을 저장하는 상태
   const [tempSelectedSeats, setTempSelectedSeats] = useState({ outbound: [], return: [] }); // 모달 내 임시 선택 좌석 상태
-
+  const navigate = useNavigate();
   // 인원수
   const [outboundAdultCount, setOutboundAdultCount] = useState(0);
   const [outboundChildCount, setOutboundChildCount] = useState(0);
@@ -63,10 +64,7 @@ const AirportDetail = () => {
         .catch(error => {
           console.error('사용자 정보 가져오는 중 오류 발생:', error);
         });
-    } else if (!cookies.accessToken) {
-      // navigator('/login');
-      alert("결제전에 로그인을 해주세요.");
-    }
+    } 
     const fetchFlightData = async () => {
       try {
         const response = await fetch(`http://localhost:8988/products/FlightsDetail/${id}`);
@@ -257,6 +255,25 @@ const AirportDetail = () => {
   const calculateReturnChildPrice = (newCount) => {
     const childPrice = (returnFlightDto.return_fli_price * 0.5) * newCount;
     setReturnChildPrice(childPrice);
+  };
+  const handleAddToCartClick = () => {
+    if (!cookies.accessToken) {
+      alert("장바구니 추가 전에 로그인을 해주세요.");
+      navigate('/login'); // 로그인 페이지로 이동
+      return;
+    }
+    addToCart();
+    handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
+  };
+  
+  const handleBuyNowClick = () => {
+    if (!cookies.accessToken) {
+      alert("결제전에 로그인을 해주세요.");
+      navigate('/login'); // 로그인 페이지로 이동
+      return;
+    }
+    handlePayment();
+    handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
   };
 
   // 총 요금 계산 함수
@@ -608,14 +625,14 @@ const AirportDetail = () => {
         <div className={stylesBtn.btnGroups}>
 
           {/* 버튼에 추가 onClick={handleAddToCartClick} */}
-          <button type="button" className={stylesBtn.addCartBtn} onClick={addToCart}>
+          <button type="button" className={stylesBtn.addCartBtn} onClick={handleAddToCartClick}>
             <i className='fas fa-shopping-cart'></i>
             장바구니 추가
           </button>
           <br />
           <br />
           {/* 버튼에 추가 onClick={handleBuyNowClick} */}
-          <button type="button" className={stylesBtn.buyNowBtn} onClick={handlePayment}>
+          <button type="button" className={stylesBtn.buyNowBtn} onClick={handleBuyNowClick}>
             <i className='fas fa-wallet'></i>
             예약 하러 가기
           </button>

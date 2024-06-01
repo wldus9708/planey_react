@@ -25,7 +25,7 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
 
     useEffect(() => {
         console.log("accessToken :" + cookies.accessToken);
-        if (cookies.accessToken) {
+        
             // Fetch user information using the access token
             axios.get('http://localhost:8988/member/detailPage', {
                 headers: {
@@ -39,10 +39,7 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
                 .catch(error => {
                     console.error('사용자 정보 가져오는 중 오류 발생:', error);
                 });
-        } else if (!cookies.accessToken) {
-            navigator('/login');
-            alert("결제전에 로그인을 해주세요.");
-        }
+        
         const fetchCarData = async () => {
             try {
                 const response = await fetch(`http://localhost:8988/car/detail/${id}`);
@@ -60,7 +57,6 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
     useEffect(() => {
         calculateTotalPrice(startDate, endDate);
     }, [startDate, endDate, car]);
-
     const saveRestaurantReservation = (reservationData) => {
         axios.post(`http://localhost:8988/payment/saveRentCarReservation/${id}`, reservationData)
             .then(response => {
@@ -70,7 +66,7 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
             })
             .catch(error => {
                 console.error('렌트카 예약 정보를 저장하는데 실패했습니다:', error);
-            });
+            }); 
     };
 
     const handlePaymentSuccess = (amount) => {
@@ -90,6 +86,8 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
     };
 
     const handlePayment = () => {
+        
+        if (cookies.accessToken) {
         const clientKey = 'test_ck_EP59LybZ8BvQWvXPnDEW86GYo7pR';
         loadTossPayments(clientKey)
             .then(tossPayments => {
@@ -114,7 +112,7 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
             .catch(error => {
                 console.error('토스페이먼츠 로딩 중 오류 발생:', error);
                 alert("결제 애플리케이션 로딩 실패.");
-            });
+            });} 
     };
 
     const handleStartDateChange = (date) => {
@@ -124,7 +122,25 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
     const handleEndDateChange = (date) => {
         setEndDate(date);
     };
-
+    const handleAddToCartClick = () => {
+        if (!cookies.accessToken) {
+          alert("장바구니 추가 전에 로그인을 해주세요.");
+          navigate('/login'); // 로그인 페이지로 이동
+          return;
+        }
+        addToCart();
+        handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
+      };
+      
+      const handleBuyNowClick = () => {
+        if (!cookies.accessToken) {
+          alert("결제전에 로그인을 해주세요.");
+          navigate('/login'); // 로그인 페이지로 이동
+          return;
+        }
+        handlePayment();
+        handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
+      };
     const calculateTotalPrice = (start, end) => {
         if (car) {
             const dateDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
@@ -145,17 +161,10 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
         setAdults(prev => Math.max(1, prev + increment));
     };
 
-    const handleAddToCartClick = () => {
-        addToCart();
-        handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
-    };
-
-    const handleBuyNowClick = () => {
-        handlePayment();
-        handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
-    };
+   
 
     const addToCart = async () => {
+        
         await axios.post(`http://localhost:8988/cart/insert?productId=${carId}`, {}, {
             headers: {
                 Authorization: cookies.accessToken
