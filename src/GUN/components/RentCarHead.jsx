@@ -104,8 +104,8 @@ const RentCarHead = () => {
                                 <span className={styles.lodgingName}>
                                     {car && car.carModel}
                                 </span>
-                                <img src="/images/star.png" alt="star" className={styles.starImage} />
-                                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
+                                {/* <img src="/images/star.png" alt="star" className={styles.starImage} />
+                                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span> */}
                             </div>
                             <hr />
                             <br />
