@@ -142,8 +142,8 @@ export function SuccessCartPage() {
             break;
           case 'CARS_ENUM':
             const carRentalReservation = {
-              memberId: parseInt(user, 10), // Long 타입으로 변환
-              rentCarId: orderId,
+              memberId: parseInt(user, 10), // Long 타입으로 변환 // o
+              car: orderId, // o
               relationship: 10001,
               rentalStartDate: item.rentalStartDate,
               rentalEndDate: item.rentalEndDate,

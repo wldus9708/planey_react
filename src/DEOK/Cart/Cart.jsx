@@ -286,7 +286,7 @@ export const Cart = () => {
               />
 
               {/* 상품 이미지 */}
-              <Link to={`/airportDetail/${product.productId}`}>
+              <Link to={`/${product.category}/${product.productId}`}>
                 <div className={styles.cart_product_image}>
                   <img src={`/images/${product.productImage}`} alt="product-img" />
                 </div>
