@@ -1,16 +1,78 @@
-.Text {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: left;
+.BannerCarousel {
+  width: 100%;
+  max-width: 1800px;
+  margin-top: 400px;
 }
 
-.BannerCarousel{
-    margin-top: 300px;
+.CarouselItem {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
-.CarouselImg{
-    height: 40vh;
-    width: 70%;
-    margin: auto;
-    display: block;
-    border-radius: 30px;
+.CarouselItem.active {
+  opacity: 1;
+}
+
+.CarouselContent {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.CarouselImg {
+  width: 45%;
+  height: auto;
+  border-radius: 40px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.CarouselItem.active .CarouselImg {
+  opacity: 1;
+}
+
+.Text {
+  padding: 100px;
+  width: 44%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.CarouselItem.active .Text {
+  opacity: 1;
+}
+
+.Text h1 {
+  font-size: 60px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: bold;
+  -webkit-text-stroke: 1px rgb(253, 122, 0);
+}
+
+.Text p {
+  font-size: 2.5em;
+  color: white;
+  font-weight: bold;
+  -webkit-text-stroke: 1px rgb(253, 122, 0);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.carousel-control-prev {
+  left: -5%;
+}
+
+.carousel-control-next {
+  right: -5%;
 }
