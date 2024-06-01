@@ -1,19 +1,23 @@
-.body1{
-    background-color: rgba(255, 255, 255, 0.3); /* 흰색, 투명도 50% */
-}
-.body2{
-    background-color: rgba(255, 255, 255, 0.1); /* 흰색, 투명도 50% */
-}
-
 .title1{
     color: white;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
-    -webkit-text-stroke: 1px black;
+    /* -webkit-text-stroke: 1px rgb(255, 123, 0); */
 }
 .message1{
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
+    color: white;
     /* -webkit-text-stroke: 1px rgb(245, 187, 149); */
+    font-weight: bold;
+}
+.price2{
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    
+}
+
+.info1{
     font-weight: bold;
 }

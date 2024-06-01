@@ -1,3 +1,7 @@
+:root {
+  --bs-body-bg: transparent; /* 투명한 배경색 */
+}
+
 /* 텍스트 페이드인 애니메이션 */
 @keyframes fade-in-text {
   0% {
@@ -43,8 +47,9 @@
   text-align: center;
   font-family: 'Arial', sans-serif;
   overflow: hidden;
-  /* background-color: #fff; */
+  --bs-body-bg: transparent; /* 투명한 배경색 */
   border-radius: 10px;
+  --bs-card-bg: 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -97,4 +102,11 @@
 
 .card {
   animation: fade-in-card 0.5s ease;
+}
+.card-body{
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.list-group-flush .list-group-item{
+  background-color: rgba(255, 255, 255, 0.4);
+  margin-bottom: auto;
 }

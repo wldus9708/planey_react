@@ -62,7 +62,8 @@ export default function App() {
   return (
     <div className="CardApp">
       <h1 className="card1">
-        🧡PLANEY🧡 에서 {user ? `${user.name}님의 ` : ""}패키지 추천❗
+        PLANEY 에서 {user ? `${user.name}님의 ` : ""}패키지 추천❕ 
+        {/*  🧡*/}
       </h1>
       <Carousel responsive={responsive}>
         {productComponents}
