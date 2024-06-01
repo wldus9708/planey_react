@@ -18,6 +18,7 @@ export const Cart = () => {
   const [discount, setDiscount] = useState(0);
   const [user, setUser] = useState(null); // 사용자 정보를 저장할 상태 추가
   const navigate = useNavigate();
+  console.log(data);
 
   // 사용자 정보 가져오기
   useEffect(() => {

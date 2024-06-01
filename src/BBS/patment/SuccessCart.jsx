@@ -119,7 +119,7 @@ export function SuccessCartPage() {
               fli_res_name: item.name, //x
               fli_res_price: item.price,
               fli_state: "BEFORE_DEPARTURE", // item.fli_state 대신 item.flightState 사용
-              fli_res_state: 'CONFIRMED',
+              fli_res_state: 'COMPLETED',
               fli_res_capacity: item.count+item.children,
             };
             console.log('Flight Reservation Data:', flightReservation);
