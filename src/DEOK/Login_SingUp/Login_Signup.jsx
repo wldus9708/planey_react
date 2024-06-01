@@ -289,18 +289,18 @@ const SignUpForm = () => {
     return (
         <div className={styles.body}>
             <div className={`${styles.wrapper} ${action && styles.active}`}>
-                <Modal show={showTestComponent} onHide={handleCloseTestComponent} centered>
+                <Modal show={showTestComponent} onHide={handleCloseTestComponent}  backdrop="static" keyboard={false}  centered>
                     <Modal.Header closeButton>
                         <Modal.Title>회원가입 완료</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} userBirth={birth} />
+                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent}userBirth={birth}/>
                     </Modal.Body>
                     <Modal.Footer>
-                        {/*}
+                       
                     <Button variant="primary" onClick={handleCloseTestComponent}>
                         닫기
-    </Button>*/}
+                    </Button>
                     </Modal.Footer>
                 </Modal>
                 <div className={`${styles["form-box"]} ${styles.login}`}>
