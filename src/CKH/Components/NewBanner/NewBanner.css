@@ -33,7 +33,7 @@
 
 .Text {
   padding: 100px;
-  width: 45%;
+  width: 44%;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
