@@ -311,8 +311,7 @@ export function SuccessCartPage() {
               </a>
               <a
                 className="btn w-100"
-                href="http://localhost:3000/"
-                target="_blank"
+                href="/"
                 rel="noopner noreferer"
               >
                 홈으로 가기
