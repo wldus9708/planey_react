@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
-import './NewBanner.css'
+import './NewBanner.css';
 
 const ControlledCarousel = () => {
   const [index, setIndex] = useState(0);
@@ -26,17 +26,19 @@ const ControlledCarousel = () => {
 
   return (
     <Carousel className="BannerCarousel" activeIndex={index} onSelect={handleSelect}>
-      {banners.map((banner) => (
-        <Carousel.Item key={banner.id}>
-          <img
-            className='CarouselImg'
-            src={`http://localhost:8988/api/banner/image/${banner.image}`}
-            alt={banner.title}
-          />
-          <Carousel.Caption className='Text'>
-            <h1>{banner.title}</h1>
-            <p>{banner.message}</p>
-          </Carousel.Caption>
+      {banners.map((banner, idx) => (
+        <Carousel.Item key={banner.id} className={`CarouselItem ${index === idx ? 'active' : ''}`}>
+          <div className="CarouselContent">
+            <img
+              className='CarouselImg'
+              src={`http://localhost:8988/api/banner/image/${banner.image}`}
+              alt={banner.title}
+            />
+            <div className='Text'>
+              <h1>{banner.title}</h1>
+              <p>{banner.message}</p>
+            </div>
+          </div>
         </Carousel.Item>
       ))}
     </Carousel>
