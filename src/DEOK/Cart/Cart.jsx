@@ -210,7 +210,9 @@ export const Cart = () => {
         childrenPrice: (item.price / 2),
         name: item.name,
         departurePlace: item.departurePlace,
-        airportId:item.airportId,
+        airportId: item.airportId,
+        startDate: item.startDate,
+        endDate: item.endDate,
       };
     });
 
