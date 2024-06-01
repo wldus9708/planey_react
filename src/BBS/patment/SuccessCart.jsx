@@ -85,7 +85,9 @@ export function SuccessCartPage() {
             product_type: item.enum,
             count: item.count,
             childrenCount: item.children || 0, // 어린이 수를 포함
-            price: (item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0)) // 어린이 가격 포함
+            price: (item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0)), // 어린이 가격 포함
+            rentalStartDate: item.startDate, // o
+            rentalEndDate: item.endDate, // o
           }]
         }, {
           headers: {
@@ -145,11 +147,11 @@ export function SuccessCartPage() {
               memberId: parseInt(user, 10), // Long 타입으로 변환 // o
               car: orderId, // o
               relationship: 10001,
-              rentalStartDate: item.rentalStartDate,
-              rentalEndDate: item.rentalEndDate,
-              rentalPrice: parseInt(amount, 10),
-              reservationStatus: "COMPLETED",
-              carInsurance: "STANDARD_INSURANCE",
+              rentalStartDate: item.startDate, // o
+              rentalEndDate: item.endDate, // o
+              rentalPrice: parseInt(amount, 10), // o
+              reservationStatus: "COMPLETED", // o
+              carInsurance: "STANDARD_INSURANCE", // o
             };
             console.log('Car Rental Reservation Data:', carRentalReservation);
             await saveCarRental(carRentalReservation);
