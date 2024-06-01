@@ -128,7 +128,6 @@ const TestComponent = () => {
           <div className="advertisement-content">
             <h1 className='advertisement-content1'>{randomAd.title}</h1>
             <h3 className='advertisement-content2'>{randomAd.content}</h3>
-            <h3 className='advertisement-content2'>{randomAd.image}</h3>
           </div>
           <div className="advertisement-image">
             <img className="advertisement-img" src={require(`./component/${randomAd.image}`)} alt={randomAd.title} />
