@@ -27,11 +27,11 @@ export default function Product(props) {
     <Card  style={{ width: "18rem" }}>
       <Card.Img className="product--image" variant="top" src={props.img} />
         <Card.Body>
-          <Card.Title className="title1">{props.name}</Card.Title>
-          <Card.Text className="message1">{props.description}</Card.Text>
+          <Card.Title><h2 className="title1">{props.name}</h2></Card.Title>
+          <Card.Text ><h2 className="message1">{props.description}</h2></Card.Text>
         </Card.Body>
         <ListGroup className="list-group-flush">
-          <ListGroup.Item className="body2">{props.price.toLocaleString()}</ListGroup.Item>
+          <ListGroup.Item><h2 className="price2">{props.price.toLocaleString()}</h2></ListGroup.Item>
         </ListGroup>
         <Card.Body>
           <button
@@ -45,7 +45,7 @@ export default function Product(props) {
               )
             }
           >
-            상세정보
+            <h3 className="info1">상세정보</h3>
           </button>
         </Card.Body>
     </Card>
