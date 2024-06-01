@@ -4,7 +4,7 @@
     height: 20%;
     display: flex;
     justify-content: space-between;
-    background-color: rgb(127, 251, 255);
+    background-color: rgba(255, 255, 255, 0.2);
     margin: 0 auto;
     border-radius: 50px;
 
@@ -29,10 +29,20 @@
     /* 이미지가 텍스트 위에 오도록 설정 */
 }
 .mcadvertisement-img {
-    width: 20vw;
+    width: 23vw;
     height: 30vh;
     margin: auto;
+    border-radius: 40px;
 }
 .mcadverisermnet-text{
     font-size: 30px;
+    color: white;
+    font-weight: bold;
+    -webkit-text-stroke: 0.5px rgb(253, 122, 0);
+}
+.mcadverisermnet-text1{
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+    -webkit-text-stroke: 1px rgb(253, 122, 0);
 }

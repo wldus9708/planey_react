@@ -21,8 +21,8 @@
   height: 200px;
   width: 100%;
   border-radius: 1rem;
-  border: 5px solid darkgray;
-  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.9); /* MainCard 그림자 */
+  border: 5px solid rgb(250, 135, 3);
+  box-shadow: 0 2px 8px 4px rgba(250, 135, 3, 0.5); /* MainCard 그림자 */
   overflow: hidden;
 }
 .blog .mainContainer .singlePost .imgDiv:hover img {
@@ -70,11 +70,29 @@
   color: white;
   font-size: 60px;
   font-weight: bold;
-  -webkit-text-stroke: 3px rgb(250, 135, 3);
+  -webkit-text-stroke: 1px rgb(250, 135, 3);
 }
 .blogp1{
   color: white;
+  font-size: 35px;
+  font-weight: bold;
+  -webkit-text-stroke: 0.5px rgb(250, 135, 3);
+}
+.blogh3{
+  color: white;
   font-size: 30px;
   font-weight: bold;
-  -webkit-text-stroke: 1px rgb(250, 135, 3);
+  -webkit-text-stroke: 0.5px rgb(250, 135, 3);
+}
+
+.blogh4{
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  -webkit-text-stroke: 0.5px rgb(250, 135, 3);
+}
+.readmore{
+  color: white;
+  font-weight: bold;
+  -webkit-text-stroke: 0.5px rgb(250, 135, 3);
 }

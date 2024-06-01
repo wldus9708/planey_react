@@ -5,15 +5,15 @@
     background-color: rgba(255, 255, 255, 0.1); /* 흰색, 투명도 50% */
 }
 
-.title{
+.title1{
     color: white;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
     -webkit-text-stroke: 1px black;
 }
-.message{
-    color: white;
+.message1{
     font-size: 15px;
-    -webkit-text-stroke: 1px rgb(245, 187, 149);
+    font-weight: bold;
+    /* -webkit-text-stroke: 1px rgb(245, 187, 149); */
     font-weight: bold;
 }

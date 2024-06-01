@@ -10,13 +10,14 @@
   }
 }
 
-.Cardh1 {
+.card1 {
   margin-top: 150px;
-  margin-bottom: 40px;
+  margin-bottom: 80px;
   text-align: center;
   font-size: 60px;
   font-weight: bold;
-  -webkit-text-stroke: 3px rgb(255, 255, 255);
+  color: white;
+  -webkit-text-stroke: 1px rgb(250, 100, 0);
   opacity: 0; /* 처음에는 보이지 않음 */
   animation: fade-in-text 1s ease forwards; /* fade-in-text 애니메이션 적용 */
   

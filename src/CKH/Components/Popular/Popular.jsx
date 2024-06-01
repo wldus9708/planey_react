@@ -89,8 +89,8 @@ const Popular = () => {
             data-aos-duration="2500"
             className="textDiv"
           >
-            <h2 className="sectitle">PLANEY Tour</h2>
-            <p className="sectitle2"> {user ? `${user.name}님, ` : ""}지금 예약하세요!</p>
+            <h2 className="sectitle1">PLANEY Tour</h2>
+            <h2 className="sectitle2"> {user ? `${user.name}님, ` : ""}지금 예약하세요!</h2>
           </div>
           <div
             data-aos="fade-left"

@@ -109,12 +109,12 @@ const Blog = () => {
                 </div>
 
                 <div className="postDetails">
-                  <h3 data-aos="fade-right" data-aos-duration="2000">
+                  <h3 className="blogh3" data-aos="fade-right" data-aos-duration="2000">
                     {tours.destTitle}
                   </h3>
-                  <p data-aos="fade-right" data-aos-duration="2500">
+                  <h4 className="blogh4" data-aos="fade-right" data-aos-duration="2500">
                     {tours.comment}
-                  </p>
+                  </h4>
                 </div>
                 <a
                   data-aos="fade-right"
@@ -131,7 +131,7 @@ const Blog = () => {
                   className="flex"
                   style={{ cursor: "pointer" }}
                 >
-                  Read More
+                  <h4 className="readmore">Read More</h4>
                   <BsArrowRightShort className="icon" />
                 </a>
               </div>
