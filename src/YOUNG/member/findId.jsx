@@ -59,17 +59,15 @@ const FindId = ({ handleCloseModal }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8988/test/codeID', null, {
+      const response = await axios.post('http://localhost:8988/test/code', null, {
         params: {
           phone: phone,
           code: code
         }
       });
       if (response.status === 200) {
-        alert(`인증번호가 확인되었습니다. 이메일: ${response.data}`);
+        alert(`인증번호가 확인되었습니다. 이메일: ${email}`);
         handleCloseModal()
-      } else {
-        alert('유효하지 않은 인증번호 입니다.');
       }
     } catch (error) {
       console.error('Error verifying code:', error);
@@ -97,7 +95,7 @@ const FindId = ({ handleCloseModal }) => {
         const data = await response.json();
         const isAllValid = Object.values(data).every((value) => value === true);
         if (isAllValid) {
-          sendVerificationCode(phone);
+          // sendVerificationCode(phone);  중복
           return true;
         } else {
           return false;
