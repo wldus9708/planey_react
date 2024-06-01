@@ -1,12 +1,19 @@
 .BannerCarousel {
   width: 100%;
   max-width: 1800px;
-  margin-top: 400px;
+  margin: 0 auto; /* 상하 좌우 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 화면의 전체 높이 사용 */
 }
 
 .CarouselItem {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%; /* 아이템이 캐러셀의 전체 너비를 차지하도록 설정 */
+  height: 100%; /* 아이템이 캐러셀의 전체 높이를 차지하도록 설정 */
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
@@ -16,8 +23,11 @@
 
 .CarouselContent {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
+  text-align: center;
+  width: 100%;
+  justify-content: center; /* 콘텐츠를 중앙에 정렬 */
 }
 
 .CarouselImg {
@@ -32,7 +42,6 @@
 }
 
 .Text {
-  padding: 100px;
   width: 44%;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -42,7 +51,7 @@
 }
 
 .Text h1 {
-  font-size: 60px;
+  font-size: 70px;
   margin-bottom: 10px;
   color: white;
   font-weight: bold;
@@ -50,7 +59,7 @@
 }
 
 .Text p {
-  font-size: 2.5em;
+  font-size: 3.5em;
   color: white;
   font-weight: bold;
   -webkit-text-stroke: 1px rgb(253, 122, 0);
@@ -65,7 +74,7 @@
 .carousel-control-next-icon {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  width: 30px;
+  width: auto;
   height: 30px;
 }
 
