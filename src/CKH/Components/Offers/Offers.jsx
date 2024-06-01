@@ -61,12 +61,12 @@ const Offer = () => {
       <div className="secContainer">
         {/* secIntro는 App.css 에서 스타일링 함... */}
         <div className="secIntro">
-          <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle">
+          <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle3">
             지금❗ 🧡PLANEY🧡에서 {user ? `${user.name}님 만을 위한❕❗ ` : ""}할인받고 여행🛫 가자 ❗❗
           </h2>
-          <p data-aos="fade-up" data-aos-duration="2000">
+          <h2 data-aos="fade-up" data-aos-duration="2000" className="secTitle4">
             세일 정보를 확인해보세요❕
-          </p>
+          </h2>
         </div>
 
         <div className="mainContent grid">

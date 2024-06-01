@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./footer.css";
-import { PiBowlFoodBold } from "react-icons/pi";
+import { TbBeach } from "react-icons/tb";
 import { ImFacebook } from "react-icons/im";
 import { AiFillInstagram } from "react-icons/ai";
 import { BsTwitter } from "react-icons/bs";
@@ -23,8 +23,8 @@ const Footer = () => {
                 data-aos-easing="ease-in-sine"
                 className="flex"
               >
-                <PiBowlFoodBold className="icon" />
-                PRANEY
+                <TbBeach className="icon" />
+                PLANEY
               </h1>
             </a>
           </div>

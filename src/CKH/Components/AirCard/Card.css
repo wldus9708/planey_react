@@ -90,3 +90,12 @@
 .card {
   animation: fade-in-card 0.5s ease;
 }
+.Cardhair{
+  color: white;
+  font-size: 60px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-align: center;
+  -webkit-text-stroke: 1px rgb(253, 122, 0);
+}
