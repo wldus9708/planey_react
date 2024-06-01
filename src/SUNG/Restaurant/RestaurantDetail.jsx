@@ -11,7 +11,6 @@ import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 
 
 const RestaurantDetail = () => {
-  const navigator = useNavigate();
   const [cookies] = useCookies(['accessToken']);
   const [user, setUser] = useState(null);
   let { id } = useParams(); // URL에서 레스토랑 ID 가져오기
@@ -74,11 +73,21 @@ const RestaurantDetail = () => {
   };
   
   const handleAddToCartClick = () => {
+    if (!cookies.accessToken) {
+      alert("장바구니 추가 전에 로그인을 해주세요.");
+      navigate('/login'); // 로그인 페이지로 이동
+      return;
+    }
     addToCart();
     handleNavItemClick(user, cookies, 'CART_ADD', null, navigate);
   };
   
   const handleBuyNowClick = () => {
+    if (!cookies.accessToken) {
+      alert("결제전에 로그인을 해주세요.");
+      navigate('/login'); // 로그인 페이지로 이동
+      return;
+    }
     handlePayment();
     handleNavItemClick(user, cookies, 'PAYMENT', null, navigate);
   };
@@ -114,8 +123,9 @@ const RestaurantDetail = () => {
   // 결제 요청 함수
   const handlePayment = () => {
     if (!cookies.accessToken) {
-      navigator('/login');
+      navigate('/login');
       alert("결제전에 로그인을 해주세요.");
+      return; 
     }
 
     if (cookies.accessToken){
@@ -147,7 +157,7 @@ const RestaurantDetail = () => {
 
   const addToCart = async () => {
     if (!cookies.accessToken) {
-      navigator('/login');
+      navigate('/login');
       alert("장바구니에 추가하기 전에 로그인을 해주세요.");
     }
     if (cookies.accessToken){
