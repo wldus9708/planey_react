@@ -67,35 +67,38 @@ const Navbar = () => {
   };
 
   const handleLogoutClick = async () => {
-        // 로그 전송
-    try {
-      await logUserAction(logData, cookies.accessToken);
-      // console.log("로그아웃 로그 전송 성공");
-  } catch (error) {
-      // console.error("로그아웃 로그 전송 실패:", error);
-  }
-    jsCookies.remove("accessToken");
-
-    localStorage.setItem('logoutSuccess', 'true'); // 로그아웃 성공 플래그 설정
+    if (!user) {
+      console.error("사용자 정보가 로드되지 않았습니다.");
+      return;
+    }
 
     // 로그아웃 로그 데이터 생성
     const timestamp = new Date().toISOString();
     const logData = {
-        memberId: user.id,
-        username: user.name,
-        action: 'LOGOUT',
-        timestamp: timestamp,
-        ipAddress: '', // 필요한 경우 IP 주소 추가
-        userAgent: navigator.userAgent,
-        details: `${user.name} 님이 ${timestamp}에 'LOGOUT'를 성공하셨습니다.`,
+      memberId: user.id,
+      username: user.name,
+      action: 'LOGOUT',
+      timestamp: timestamp,
+      ipAddress: '', // 필요한 경우 IP 주소 추가
+      userAgent: navigator.userAgent,
+      details: `${user.name} 님이 ${timestamp}에 'LOGOUT'를 성공하셨습니다.`,
     };
 
+    // 로그 전송
+    try {
+      await logUserAction(logData, cookies.accessToken);
+      // console.log("로그아웃 로그 전송 성공");
+    } catch (error) {
+      // console.error("로그아웃 로그 전송 실패:", error);
+    }
 
- 
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
-    // window.location.reload();
+    // js-cookie를 사용하여 쿠키 제거
+    jsCookies.remove("accessToken", { path: '/' });
+    localStorage.setItem('logoutSuccess', 'true'); // 로그아웃 성공 플래그 설정
+
+    // 즉시 페이지 이동
+    window.location.reload();
+    
   };
 
   useEffect(() => {
@@ -129,7 +132,7 @@ const Navbar = () => {
       }
     };
 
-    // 카카오, 구글, 네이버, 일반 로그인 및 회원가입 성공 플래그 처리
+    // 카카오, 구글, 네이버, 일반 로그인 및 원가입 성공 플래그 처리
     sendLoginLog('KAKAO_LOGIN', 'kakaoLoginSuccess');
     sendLoginLog('GOOGLE_LOGIN', 'googleLoginSuccess');
     sendLoginLog('NAVER_LOGIN', 'naverLoginSuccess');
