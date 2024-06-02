@@ -40,8 +40,8 @@ const PackagePaymentTable = ({ endpoint }) => {
                 const allData = response.data;
                 setTotalDataCount(allData.length);
 
-                const startIndex = (currentPage - 1) * 10;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 13;
+                const endIndex = currentPage * 13;
                 const newData = allData ? allData.slice(startIndex, endIndex) : [];
                 console.log(startIndex);
                 console.log(endIndex);

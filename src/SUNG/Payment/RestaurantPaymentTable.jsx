@@ -36,8 +36,8 @@ const RestaurantPaymentTable = ({ endpoint }) => {
                 const allData = response.data;
                 setTotalDataCount(allData.length);
 
-                const startIndex = (currentPage - 1) * 10;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 13;
+                const endIndex = currentPage * 13;
                 const newData = allData ? allData.slice(startIndex, endIndex) : [];
 
                 if (currentPage === 1) {
