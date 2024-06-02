@@ -102,6 +102,7 @@ const Navbar = () => {
 
     // js-cookie를 사용하여 쿠키 제거
     jsCookies.remove("accessToken", { path: "/" });
+    jsCookies.remove("user_fingerprint", { path: "/" });
     localStorage.setItem("logoutSuccess", "true"); // 로그아웃 성공 플래그 설정
 
     // 즉시 페이지 이동
