@@ -28,7 +28,7 @@ export function SuccessCartPage() {
       console.error('필요한 정보가 부족합니다.');
       if (!user) console.error('사용자 정보가 없습니다.');
       if (!paymentKey) console.error('paymentKey 정보가 없습니다.');
-      if (!orderIds) console.error('orderIds 정보가 없습니다.');
+      if (!orderIds) console.error('orderIds 정보가 없습니.');
       if (!amount) console.error('amount 정보가 없습니다.');
       if (cartItems.length === 0) console.error('cartItems 정보가 없습니다.');
     } else {
@@ -41,23 +41,11 @@ export function SuccessCartPage() {
     if (!user) {
       console.error('사용자 정보가 없습니다.');
       return;
-    } else {
-      console.log("사용자 아이디: " + user);
-      console.log("paymentKey: " + paymentKey);
-      console.log("orderIds: " + orderIds);
-      console.log("amount: " + amount);
-      console.log("cartItems:");
-      cartItems.forEach(item => {
-        console.log(item.name);
-        console.log("Enum: " + item.enum);
-        console.log("count: " + item.count);
-        console.log("price: " + ((item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0))));
-      });
     }
-    try {
-      // 각 아이템에 대해 개별적으로 요청을 보냄
-      for (const item of cartItems) {
-        const orderId = orderIds.find(id => id === item.productId); // 각 아이템에 대해 개별 orderId 생성
+
+    const requests = cartItems.map(async (item) => {
+      const orderId = orderIds.find(id => id === item.productId);
+      try {
         const response = await axios.post("http://localhost:8988/payment/detailCart", {
           paymentKey,
           orderId,
@@ -66,10 +54,10 @@ export function SuccessCartPage() {
           cartItems: [{
             product_type: item.enum,
             count: item.count,
-            childrenCount: item.children || 0, // 어린이 수를 포함
-            price: (item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0)), // 어린이 가격 포함
-            rentalStartDate: item.startDate, // o
-            rentalEndDate: item.endDate, // o
+            childrenCount: item.children || 0,
+            price: (item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0)),
+            rentalStartDate: item.startDate,
+            rentalEndDate: item.endDate,
           }]
         }, {
           headers: {
@@ -77,187 +65,163 @@ export function SuccessCartPage() {
           }
         });
 
-        console.log("사용자 아이디: " + user);
-        console.log("paymentKey: " + paymentKey);
-        console.log("orderId: " + orderId);
-        console.log("amount: " + amount);
-        console.log("cartItems:");
-        console.log("Enum: " + item.enum);
-        console.log("count: " + item.count);
-        console.log("count: " + item);
-        console.log("price: " + ((item.price * item.count) + ((item.children || 0) * (item.childrenPrice || 0))));
-
         if (response.status !== 200) {
-          console.error('결제 승인 실패:', response.statusText);
-          return; // 하나라도 실패하면 중단
+          throw new Error(`결제 승인 실패: ${response.statusText}`);
         }
 
-        // 각 엔티티에 대한 예약 데이터 생성 및 전송
-        switch (item.enum) {
-          case 'FLIGHT_ENUM':
-            const flightReservation = {
-              flightId: orderId, 
-              airportId: item.airportId, // x
-              memberId: parseInt(user, 10), // Long 타입으로 변환
-              relationship: 10001,
-              fli_res_name: item.name, //x
-              fli_res_price: item.price,
-              fli_state: "BEFORE_DEPARTURE", // item.fli_state 대신 item.flightState 사용
-              fli_res_state: 'COMPLETED',
-              fli_res_capacity: item.count+item.children,
-            };
-            console.log('Flight Reservation Data:', flightReservation);
-            await saveFlightReservation(flightReservation);
-            break;
-          case 'LODGING_ENUM':
-            const lodgingReservation = {
-              memberId: parseInt(user, 10), // Long 타입으로 변환
-              lodgingId: orderId,
-              relationship: 10001,
-              lodDepartureDate: new Date().toISOString(), // ISO 8601 형식의 문자열
-              lodArrivalDate: new Date().toISOString(), // ISO 8601 형식의 문자열
-              lodResTime: new Date().toISOString(), // ISO 8601 형식의 문자열
-              lodResCapacity: 1, // 총 인원 (예시로 1명 설정)
-              lodResPrice: parseInt(amount, 10), // Integer 타입으로 변환
-              lodResState: "COMPLETED",
-            };
-            console.log('Lodging Reservation Data:', lodgingReservation);
-            await saveLodgingReservation(lodgingReservation);
-            break;
-          case 'CARS_ENUM':
-            const carRentalReservation = {
-              memberId: parseInt(user, 10), // Long 타입으로 변환 // o
-              car: orderId, // o
-              relationship: 10001,
-              rentalStartDate: item.startDate, // o
-              rentalEndDate: item.endDate, // o
-              rentalPrice: parseInt(amount, 10), // o
-              reservationStatus: "COMPLETED", // o
-              carInsurance: "STANDARD_INSURANCE", // o
-            };
-            console.log('Car Rental Reservation Data:', carRentalReservation);
-            await saveCarRental(carRentalReservation);
-            break;
-          case 'RESTAURANT_ENUM':
-            const restaurantReservation = {
-              restaurantId: parseInt(orderId, 10), // 문자열을 숫자로 변환
-              memberId: parseInt(user, 10), // 문자열을 숫자로 변환
-              relationshipId: 10001,
-              restResDate: new Date().toISOString(), // 현재 시간
-              restResTime: new Date().toISOString(), // 예약 시간 추가
-              restResCapacity: 1, // 총 인원 (필요에 따라 수정)
-              restResPrice: parseInt(amount, 10), // 문자열을 숫자로 변환
-              reservationStatus: "COMPLETED",
-            };
-            console.log('Restaurant Reservation Data:', restaurantReservation);
-            await saveRestaurantReservation(restaurantReservation);
-            break;
-          case 'PACKAGE_TOUR_ENUM':
-            // 패키지 안에 있는 각 개별 상품들의 예약을 처리하는 로직 추가
-            const packageTourItems = item.packageTourItems;
-            for (const packageItem of packageTourItems) {
-              const packageOrderId = packageItem.productId;
-              const packageItemResponse = await axios.post("http://localhost:8988/payment/detailCart", {
-                paymentKey,
-                orderId: packageOrderId,
-                amount: parseInt(packageItem.price),
-                member_id: parseInt(user),
-                cartItems: [{
-                  product_type: packageItem.enum,
-                  count: packageItem.count,
-                  childrenCount: packageItem.children || 0,
-                  price: (packageItem.price * packageItem.count) + ((packageItem.children || 0) * (packageItem.childrenPrice || 0)),
-                  rentalStartDate: packageItem.startDate,
-                  rentalEndDate: packageItem.endDate,
-                }]
-              }, {
-                headers: {
-                  "Content-Type": "application/json"
-                }
-              });
-
-              if (packageItemResponse.status !== 200) {
-                console.error('패키지 아이템 결제 승인 실패:', packageItemResponse.statusText);
-                return; // 하나라도 실패하면 중단
-              }
-
-              // 각 패키지 아이템에 대한 예약 데이터 생성 및 전송
-              switch (packageItem.enum) {
-                case 'FLIGHT_ENUM':
-                  const packageFlightReservation = {
-                    flightId: packageOrderId,
-                    airportId: packageItem.airportId,
-                    memberId: parseInt(user, 10),
-                    relationship: 10001,
-                    fli_res_name: packageItem.name,
-                    fli_res_price: packageItem.price,
-                    fli_state: "BEFORE_DEPARTURE",
-                    fli_res_state: 'COMPLETED',
-                    fli_res_capacity: packageItem.count + packageItem.children,
-                  };
-                  console.log('Package Flight Reservation Data:', packageFlightReservation);
-                  await saveFlightReservation(packageFlightReservation);
-                  break;
-                case 'LODGING_ENUM':
-                  const packageLodgingReservation = {
-                    memberId: parseInt(user, 10),
-                    lodgingId: packageOrderId,
-                    relationship: 10001,
-                    lodDepartureDate: new Date().toISOString(),
-                    lodArrivalDate: new Date().toISOString(),
-                    lodResTime: new Date().toISOString(),
-                    lodResCapacity: 1,
-                    lodResPrice: parseInt(packageItem.price, 10),
-                    lodResState: "COMPLETED",
-                  };
-                  console.log('Package Lodging Reservation Data:', packageLodgingReservation);
-                  await saveLodgingReservation(packageLodgingReservation);
-                  break;
-                case 'CARS_ENUM':
-                  const packageCarRentalReservation = {
-                    memberId: parseInt(user, 10),
-                    car: packageOrderId,
-                    relationship: 10001,
-                    rentalStartDate: packageItem.startDate,
-                    rentalEndDate: packageItem.endDate,
-                    rentalPrice: parseInt(packageItem.price, 10),
-                    reservationStatus: "COMPLETED",
-                    carInsurance: "STANDARD_INSURANCE",
-                  };
-                  console.log('Package Car Rental Reservation Data:', packageCarRentalReservation);
-                  await saveCarRental(packageCarRentalReservation);
-                  break;
-                case 'RESTAURANT_ENUM':
-                  const packageRestaurantReservation = {
-                    restaurantId: parseInt(packageOrderId, 10),
-                    memberId: parseInt(user, 10),
-                    relationshipId: 10001,
-                    restResDate: new Date().toISOString(),
-                    restResTime: new Date().toISOString(),
-                    restResCapacity: 1,
-                    restResPrice: parseInt(packageItem.price, 10),
-                    reservationStatus: "COMPLETED",
-                  };
-                  console.log('Package Restaurant Reservation Data:', packageRestaurantReservation);
-                  await saveRestaurantReservation(packageRestaurantReservation);
-                  break;
-                default:
-                  console.error('알 수 없는 패키지 아이템 유형:', packageItem.enum);
-              }
-            }
-            break;
-          default:
-            console.error('알 수 없는 상품 유형:', item.enum);
-        }
+        return createAndSaveReservation(item, orderId, user);
+      } catch (error) {
+        console.error(`요청 처리 중 오류 발생: ${error.message}`);
+        return null; // 실패한 요청은 null로 반환
       }
+    });
 
+    const results = await Promise.all(requests);
+    const failedRequests = results.filter(result => result === null);
+    if (failedRequests.length > 0) {
+      console.error(`${failedRequests.length}개의 요청 처리 실패`);
+    } else {
       setIsConfirmed(true);
-    } catch (error) {
-      console.error('결제 승인 중 오류 발생:', error);
     }
   }, [paymentKey, orderIds, amount, user, cartItems]);
 
-  // 각 엔티티에 대한 예약 저장 함수
+  async function createAndSaveReservation(item, orderId, user) {
+    // 예약 데이터 생성 및 저장 로직
+    // 각 엔티티 유형에 따라 다른 처리를 수행
+    switch (item.enum) {
+      case 'FLIGHT_ENUM':
+        const flightReservation = {
+          flightId: orderId,
+          airportId: item.airportId,
+          memberId: parseInt(user, 10),
+          relationship: 10001,
+          fli_res_name: item.name,
+          fli_res_price: item.price,
+          fli_state: "BEFORE_DEPARTURE",
+          fli_res_state: 'COMPLETED',
+          fli_res_capacity: item.count + item.children,
+        };
+        console.log('Flight Reservation Data:', flightReservation);
+        await saveFlightReservation(flightReservation);
+        break;
+      case 'LODGING_ENUM':
+        const lodgingReservation = {
+          memberId: parseInt(user, 10),
+          lodgingId: orderId,
+          relationship: 10001,
+          lodDepartureDate: new Date().toISOString(),
+          lodArrivalDate: new Date().toISOString(),
+          lodResTime: new Date().toISOString(),
+          lodResCapacity: 1,
+          lodResPrice: parseInt(amount, 10),
+          lodResState: "COMPLETED",
+        };
+        console.log('Lodging Reservation Data:', lodgingReservation);
+        await saveLodgingReservation(lodgingReservation);
+        break;
+      case 'CARS_ENUM':
+        const carRentalReservation = {
+          memberId: parseInt(user, 10),
+          car: orderId,
+          relationship: 10001,
+          rentalStartDate: item.startDate,
+          rentalEndDate: item.endDate,
+          rentalPrice: parseInt(amount, 10),
+          reservationStatus: "COMPLETED",
+          carInsurance: "STANDARD_INSURANCE",
+        };
+        console.log('Car Rental Reservation Data:', carRentalReservation);
+        await saveCarRental(carRentalReservation);
+        break;
+      case 'RESTAURANT_ENUM':
+        const restaurantReservation = {
+          restaurantId: parseInt(orderId, 10),
+          memberId: parseInt(user, 10),
+          relationshipId: 10001,
+          restResDate: new Date().toISOString(),
+          restResTime: new Date().toISOString(),
+          restResCapacity: 1,
+          restResPrice: parseInt(amount, 10),
+          reservationStatus: "COMPLETED",
+        };
+        console.log('Restaurant Reservation Data:', restaurantReservation);
+        await saveRestaurantReservation(restaurantReservation);
+        break;
+      case 'PACKAGE_TOUR_ENUM':
+        // packageTourItems가 정의되어 있지 않은 경우 빈 배열을 사용
+        const packageTourItems = item.packageTourItems || [];
+
+        const reservationPromises = packageTourItems.map(async (packageItem) => {
+          switch (packageItem.enum) {
+            case 'FLIGHT_ENUM':
+              const flightReservation = {
+                flightId: packageItem.productId,
+                airportId: packageItem.airportId,
+                memberId: parseInt(user, 10),
+                relationship: 10001,
+                fli_res_name: packageItem.name,
+                fli_res_price: packageItem.price,
+                fli_state: "BEFORE_DEPARTURE",
+                fli_res_state: 'COMPLETED',
+                fli_res_capacity: packageItem.count + packageItem.children,
+              };
+              console.log('Flight Reservation Data:', flightReservation);
+              return saveFlightReservation(flightReservation);
+            case 'LODGING_ENUM':
+              const lodgingReservation = {
+                memberId: parseInt(user, 10),
+                lodgingId: packageItem.productId,
+                relationship: 10001,
+                lodDepartureDate: packageItem.startDate,
+                lodArrivalDate: packageItem.endDate,
+                lodResTime: new Date().toISOString(),
+                lodResCapacity: packageItem.count + packageItem.children,
+                lodResPrice: packageItem.price,
+                lodResState: "COMPLETED",
+              };
+              console.log('Lodging Reservation Data:', lodgingReservation);
+              return saveLodgingReservation(lodgingReservation);
+            case 'CARS_ENUM':
+              const carRentalReservation = {
+                memberId: parseInt(user, 10),
+                car: packageItem.productId,
+                relationship: 10001,
+                rentalStartDate: packageItem.startDate,
+                rentalEndDate: packageItem.endDate,
+                rentalPrice: packageItem.price,
+                reservationStatus: "COMPLETED",
+                carInsurance: "STANDARD_INSURANCE",
+              };
+              console.log('Car Rental Reservation Data:', carRentalReservation);
+              return saveCarRental(carRentalReservation);
+            case 'RESTAURANT_ENUM':
+              const restaurantReservation = {
+                restaurantId: parseInt(packageItem.productId, 10),
+                memberId: parseInt(user, 10),
+                relationshipId: 10001,
+                restResDate: packageItem.startDate,
+                restResTime: packageItem.endDate,
+                restResCapacity: packageItem.count + packageItem.children,
+                restResPrice: packageItem.price,
+                reservationStatus: "COMPLETED",
+              };
+              console.log('Restaurant Reservation Data:', restaurantReservation);
+              return saveRestaurantReservation(restaurantReservation);
+          }
+        });
+
+        try {
+          await Promise.all(reservationPromises);
+          console.log('모든 예약 처리 완료');
+        } catch (error) {
+          console.error('예약 처리 중 오류 발생:', error);
+        }
+        break;
+      default:
+        console.error('알 수 없는 상품 유형:', item.enum);
+    }
+  }
+
   const saveFlightReservation = async (reservationData) => {
     try {
       const response = await axios.post(`http://localhost:8988/payment/saveFlightReservation`, reservationData, {
@@ -290,7 +254,7 @@ export function SuccessCartPage() {
         console.error('숙박 예약 정보를 저장하는데 실패했습니다:', response.statusText);
       }
     } catch (error) {
-      console.error('숙박 예약 정보를 저장하는데 실패했습니다:', error);
+      console.error('숙박 예약 정보를 저하는데 실패했습니다:', error);
     }
   };
 
@@ -326,7 +290,7 @@ export function SuccessCartPage() {
         console.error('식당 예약 정보를 저장하는데 실패했습니다:', response.statusText);
       }
     } catch (error) {
-      console.error('식당 예약 정보를 저장하는데 실패했습니다:', error);
+      console.error('���당 예약 정보를 저장하는데 실패했습니다:', error);
     }
   };
 
@@ -407,4 +371,3 @@ export function SuccessCartPage() {
 }
 
 export default SuccessCartPage;
-
