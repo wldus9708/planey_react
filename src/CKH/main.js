@@ -27,7 +27,7 @@ const App = () => {
       <Hero />
       {/* <Test/> */}
       <Card/>
-      {/* <NewBanner/> */}
+      <NewBanner/>
       <Popular />
       {isLoggedIn ? <McAdvertise /> : <Advertise />}
       <Offers />
