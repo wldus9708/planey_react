@@ -100,7 +100,7 @@
     font-weight: 600;
   }
   .navBarSection .header .navBar .navLists .navItem .navLink:hover {
-    color: var(--PrimaryColor);
+    color: white;
   }
   .navBarSection .header .navBar .navLists .headerBtns {
     flex-direction: column;
@@ -193,7 +193,7 @@
     border: 1px solid var(--PrimaryColor);
   }
   .navBarSection .header .navBar .navLists .loginBtn:hover {
-    background: var(--PrimaryColor);
+    background: rgba(255, 255, 255, 0.9)
   }
   .navBarSection .header .navBar .navLists .loginBtn:hover a {
     color: var(--whiteColor);
