@@ -2,6 +2,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import jsCookies from "js-cookie";
 
 const NaverLogin = () => {
     const navigate = useNavigate();
@@ -27,19 +28,33 @@ const NaverLogin = () => {
 
                 console.log("서버에서의 응답:", response.data);
 
-                if (response.data.code === "SignUpSU") {
-                    alert(response.data.message);
-                    navigate('/');
-                } else if (response.data.code === "LoginSU") {
-                    setCookie("accessToken", response.data.accessToken, { path: '/' });
+                // 로그인 분기처리
+                if (response.data.code === "LoginSU") {
 
-                    // 로그인 성공 플래그 설정
-                    localStorage.setItem('naverLoginSuccess', 'true');
+                    if (response.data.black_list === 'SUSPENDED') {
+                        alert('정지된 회원입니다.');
 
-                    navigate('/');
-                } else {
-                    console.error("예상치 못한 응답 코드:", response.data.code);
+                        if (cookies.accessToken) {
+                            jsCookies.remove('accessToken');
+                        }
+
+                        navigate('/login');
+
+                    } else if (response.data.role === 'ADMIN') {
+                        // 로그인 성공 플래그 설정
+                        localStorage.setItem('googleLoginSuccess', 'true');
+                        setCookie("accessToken", response.data.accessToken, { path: '/' });
+                        window.location.href = 'http://localhost:4000';
+
+                    } else {
+                        // 로그인 성공 플래그 설정
+                        localStorage.setItem('googleLoginSuccess', 'true');
+                        setCookie("accessToken", response.data.accessToken, { path: '/' });
+                        navigate('/');
+
+                    }
                 }
+
             } catch (error) {
                 console.error("API 호출 중 오류 발생:", error);
             }
