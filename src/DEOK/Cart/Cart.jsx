@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
-import useUser from "../../BBS/Log/useUser";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -299,6 +298,7 @@ export const Cart = () => {
               <div className={styles.cart_product_info}>
                 <p className={styles.product_name}>{product.name}</p>
                 <p className={styles.price}>{product.price.toLocaleString()}원</p>
+                <p className={styles.startDate}>{product.startDate ? product.startDate.split('T')[0] : ''} {product.endDate ? `~ ${product.endDate.split('T')[0]}` : ''}</p>
               </div>
               {/* 상품 설명 */}
 

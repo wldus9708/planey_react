@@ -72,7 +72,14 @@ const LodingPayment = ({ reservations, updateTotalPrice, handlePayment, setStart
 
     const addToCart = async () => {
         const totalPeople = Number(adults) + Number(children);
-        await axios.post(`http://localhost:8988/cart/insert?productId=${lodgingId}`, { count: totalPeople, children: children }, {
+        const cartData = {
+            count: totalPeople,
+            children: children,
+            startDate: localStartDate,
+            endDate: localEndDate
+        }
+        
+        await axios.post(`http://localhost:8988/cart/insert?productId=${lodgingId}`, cartData, {
             headers: {
                 Authorization: cookies.accessToken
             }
