@@ -26,6 +26,7 @@ img {
     grid-gap: 0;
     display: flex;
     flex-direction: row;
+    margin-left: 10%;
 
 }
 
