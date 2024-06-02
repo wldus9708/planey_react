@@ -38,8 +38,8 @@ const LodgingPaymentTable = ({ endpoint }) => {
                 setData(responseData);
                 setTotalDataCount(responseData.length);
 
-                const startIndex = (currentPage - 1) * 10;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 13;
+                const endIndex = currentPage * 13;
                 const newData = responseData ? responseData.slice(startIndex, endIndex) : [];
 
                 if (currentPage === 1) {
