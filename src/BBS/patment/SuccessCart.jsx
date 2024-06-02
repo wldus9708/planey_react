@@ -37,24 +37,6 @@ export function SuccessCartPage() {
     }
   }, [user, paymentKey, orderIds, amount, cartItems, navigate]);
 
-  const saveCartReservation = async (reservationData) => {
-    try {
-      const response = await axios.post('http://localhost:8988/payment/saveCartReservation', reservationData, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (response.status === 200) {
-        console.log('장바구니 예약이 성공적으로 처리되었습니다.');
-      } else {
-        console.error('장바구니 예약 정보를 저장하는데 실패했습니다:', response.statusText);
-      }
-    } catch (error) {
-      console.error('장바구니 예약 정보를 저장하는데 실패했습니다:', error);
-    }
-  };
-
   const confirmPayment = useCallback(async () => {
     if (!user) {
       console.error('사용자 정보가 없습니다.');
@@ -170,23 +152,104 @@ export function SuccessCartPage() {
             console.log('Restaurant Reservation Data:', restaurantReservation);
             await saveRestaurantReservation(restaurantReservation);
             break;
+          case 'PACKAGE_TOUR_ENUM':
+            // 패키지 안에 있는 각 개별 상품들의 예약을 처리하는 로직 추가
+            const packageTourItems = item.packageTourItems;
+            for (const packageItem of packageTourItems) {
+              const packageOrderId = packageItem.productId;
+              const packageItemResponse = await axios.post("http://localhost:8988/payment/detailCart", {
+                paymentKey,
+                orderId: packageOrderId,
+                amount: parseInt(packageItem.price),
+                member_id: parseInt(user),
+                cartItems: [{
+                  product_type: packageItem.enum,
+                  count: packageItem.count,
+                  childrenCount: packageItem.children || 0,
+                  price: (packageItem.price * packageItem.count) + ((packageItem.children || 0) * (packageItem.childrenPrice || 0)),
+                  rentalStartDate: packageItem.startDate,
+                  rentalEndDate: packageItem.endDate,
+                }]
+              }, {
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              });
+
+              if (packageItemResponse.status !== 200) {
+                console.error('패키지 아이템 결제 승인 실패:', packageItemResponse.statusText);
+                return; // 하나라도 실패하면 중단
+              }
+
+              // 각 패키지 아이템에 대한 예약 데이터 생성 및 전송
+              switch (packageItem.enum) {
+                case 'FLIGHT_ENUM':
+                  const packageFlightReservation = {
+                    flightId: packageOrderId,
+                    airportId: packageItem.airportId,
+                    memberId: parseInt(user, 10),
+                    relationship: 10001,
+                    fli_res_name: packageItem.name,
+                    fli_res_price: packageItem.price,
+                    fli_state: "BEFORE_DEPARTURE",
+                    fli_res_state: 'COMPLETED',
+                    fli_res_capacity: packageItem.count + packageItem.children,
+                  };
+                  console.log('Package Flight Reservation Data:', packageFlightReservation);
+                  await saveFlightReservation(packageFlightReservation);
+                  break;
+                case 'LODGING_ENUM':
+                  const packageLodgingReservation = {
+                    memberId: parseInt(user, 10),
+                    lodgingId: packageOrderId,
+                    relationship: 10001,
+                    lodDepartureDate: new Date().toISOString(),
+                    lodArrivalDate: new Date().toISOString(),
+                    lodResTime: new Date().toISOString(),
+                    lodResCapacity: 1,
+                    lodResPrice: parseInt(packageItem.price, 10),
+                    lodResState: "COMPLETED",
+                  };
+                  console.log('Package Lodging Reservation Data:', packageLodgingReservation);
+                  await saveLodgingReservation(packageLodgingReservation);
+                  break;
+                case 'CARS_ENUM':
+                  const packageCarRentalReservation = {
+                    memberId: parseInt(user, 10),
+                    car: packageOrderId,
+                    relationship: 10001,
+                    rentalStartDate: packageItem.startDate,
+                    rentalEndDate: packageItem.endDate,
+                    rentalPrice: parseInt(packageItem.price, 10),
+                    reservationStatus: "COMPLETED",
+                    carInsurance: "STANDARD_INSURANCE",
+                  };
+                  console.log('Package Car Rental Reservation Data:', packageCarRentalReservation);
+                  await saveCarRental(packageCarRentalReservation);
+                  break;
+                case 'RESTAURANT_ENUM':
+                  const packageRestaurantReservation = {
+                    restaurantId: parseInt(packageOrderId, 10),
+                    memberId: parseInt(user, 10),
+                    relationshipId: 10001,
+                    restResDate: new Date().toISOString(),
+                    restResTime: new Date().toISOString(),
+                    restResCapacity: 1,
+                    restResPrice: parseInt(packageItem.price, 10),
+                    reservationStatus: "COMPLETED",
+                  };
+                  console.log('Package Restaurant Reservation Data:', packageRestaurantReservation);
+                  await saveRestaurantReservation(packageRestaurantReservation);
+                  break;
+                default:
+                  console.error('알 수 없는 패키지 아이템 유형:', packageItem.enum);
+              }
+            }
+            break;
           default:
             console.error('알 수 없는 상품 유형:', item.enum);
         }
       }
-
-      // 결제가 성공되면 예약을 저장
-      // await는 비동기 함수가 완료될 때까지 기다리는 역할을 합니다.
-      // 여기서는 saveCartReservation 함수가 완료될 때까지 기다립니다.
-      const cartReservation = {
-        paymentKey,
-        orderIds,
-        amount: parseInt(amount, 10),
-        member_id: parseInt(user, 10),
-        cartItems
-      };
-      console.log('Cart Reservation Data:', cartReservation);
-      await saveCartReservation(cartReservation);
 
       setIsConfirmed(true);
     } catch (error) {
@@ -344,3 +407,4 @@ export function SuccessCartPage() {
 }
 
 export default SuccessCartPage;
+

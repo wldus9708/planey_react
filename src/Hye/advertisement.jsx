@@ -127,6 +127,7 @@ const TestComponent = () => {
         <div className="advertisement-item" onClick={handleAdClick}>
           <div className="advertisement-content">
             <h1 className='advertisement-content1'>{randomAd.title}</h1>
+            <br />
             <h3 className='advertisement-content2'>{randomAd.content}</h3>
           </div>
           <div className="advertisement-image">

@@ -24,27 +24,28 @@
 }
 
 .advertisement-image {
-    position: relative;
+    margin-right: 20px 20px 20px;
     right: 20%;
     /* 이미지가 텍스트 위에 오도록 설정 */
 }
 .advertisement-img {
     width: 23vw;
     height: 30vh;
-    margin: auto;
-    border-radius: 40px;
+    border-radius: 20px;
 }
 
 .advertisement-content2{
-    font-size: 30px;
-    color: white;
+    margin-left: 18px;
+    text-align: center;
+    font-size: 18px;
+    color: rgb(255, 255, 255);
     font-weight: bold;
-    -webkit-text-stroke: 0.5px rgb(253, 122, 0);
+    
 }
 .advertisement-content1{
-    font-size: 45px;
+    font-size: 35px;
     color: white;
     font-weight: bold;
-    -webkit-text-stroke: 1px rgb(253, 122, 0);
+     -webkit-text-stroke: 1px rgba(187, 102, 22, 0.747);
 }
 
