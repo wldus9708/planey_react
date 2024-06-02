@@ -59,7 +59,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video1} type="video/mp4" />
             </video>
@@ -67,7 +67,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video2} type="video/mp4" />
             </video>
@@ -75,7 +75,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video3} type="video/mp4" />
             </video>
@@ -83,7 +83,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video4} type="video/mp4" />
             </video>
@@ -91,7 +91,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video5} type="video/mp4" />
             </video>

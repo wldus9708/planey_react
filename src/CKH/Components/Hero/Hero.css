@@ -40,18 +40,11 @@
 }
 
 .fade-in-text {
-  opacity: 0;
-  animation: fadeIn 2s ease-in-out forwards;
+  opacity: 1;
+  animation: fadeIn 5s ease-in-out forwards;
   animation-iteration-count: infinite;
 }
 
-.line-1 {
-  animation-delay: 0s;
-}
-
-.line-2 {
-  animation-delay: 3s;
-}
 
 .text-white-bold {
   color: white;
