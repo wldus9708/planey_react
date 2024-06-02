@@ -12,7 +12,7 @@ const DeleteMember = (props) => {
     const [value, setValue] = useState({ email: userInfo.email, password: '' });
     const fromDbPw = userInfo.password;
     const navigator = useNavigate();
-    
+
     async function comparePasswords(userInputPassword, storedPassword) {
         try {
             const isMatch = await bcrypt.compare(userInputPassword, storedPassword);
@@ -34,9 +34,9 @@ const DeleteMember = (props) => {
         const isPwCorrect = await comparePasswords(value.password, fromDbPw);
 
         if (isPwCorrect) {
-            
+
             axios.delete('http://localhost:8988/member/delete', {
-                data : value,
+                data: value,
                 headers: {
                     Authorization: cookies.accessToken
                 }
@@ -44,7 +44,9 @@ const DeleteMember = (props) => {
                 .then((response) => {
                     alert(response.data.message);
                     jsCookies.remove('accessToken');
-                    navigator('/login');
+                    setTimeout(() => {
+                        navigator('/login');
+                    }, 1000);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -52,7 +54,7 @@ const DeleteMember = (props) => {
                 })
         }
     }
-    
+
     return (
         <>
             <h1>회원 탈퇴</h1>
