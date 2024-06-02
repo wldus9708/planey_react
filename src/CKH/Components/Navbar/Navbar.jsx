@@ -298,9 +298,10 @@ const Navbar = () => {
 
             <div className="headerBtns flex">
               <button className="btn loginBtn">
-                <IoLogOut className="icon2" />
+                {/* <IoLogOut className="icon2" /> */}
                 {user ? (
                   <h4 className="icontext2" onClick={handleLogoutClick}>
+                    <IoLogOut className="icon2" />
                     Logout
                   </h4>
                 ) : (
