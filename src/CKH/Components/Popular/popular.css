@@ -187,7 +187,7 @@
 
 @media screen and (min-width: 480px) {
   .popular {
-    padding-top: 10rem;
+    padding-top: 1rem;
   }
 }
 @media screen and (min-width: 556px) {
@@ -207,12 +207,12 @@
 }
 @media screen and (min-width: 720px) {
   .popular {
-    padding-top: 7rem;
+    padding-top: 2rem;
   }
 }
 @media screen and (min-width: 1024px) {
   .popular {
-    padding-top: 10rem;
+    padding-top: 3rem;
   }
   .popular .secContainer .secHeader .textDiv .secTitle {
     font-size: 2.2rem;

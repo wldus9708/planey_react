@@ -2,7 +2,7 @@
 .Back {
   position: relative;
   width: 100%;
-  height: 100vh; /* 화면 전체 높이 */
+  height: 75vh; /* 화면 전체 높이 */
   overflow: hidden;
   background: none; /* 배경 이미지를 제거 */
 }
