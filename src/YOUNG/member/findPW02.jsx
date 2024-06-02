@@ -140,13 +140,14 @@ const FindPW02 = (props) => {
       const temporaryPassword = passwordResponse.data;
       console.log("Generated temporary password: ", temporaryPassword);
 
-      await axios.post('http://localhost:8988/check/sendEmail', null, {
+      const returnMent = await axios.post('http://localhost:8988/check/sendEmail', null, {
         params: {
           email: email,
           password: temporaryPassword
         }
       });
-      alert('인증번호가 확인되었습니다. 가입된 이메일로 임시비밀번호가 발급 되었습니다. 로그인 후 마이페이지에서 비밀번호를 변경후 사용해주세요.');
+
+      alert(`${returnMent.data}`);
 
       // 임시 비밀번호 발급 후 로그인 페이지로 이동
       window.location.href = '/login/';

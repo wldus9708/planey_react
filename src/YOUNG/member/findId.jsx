@@ -97,7 +97,7 @@ const FindId = ({ handleCloseModal }) => {
         const data = await response.json();
         const isAllValid = Object.values(data).every((value) => value === true);
         if (isAllValid) {
-          sendVerificationCode(phone);
+          // sendVerificationCode(phone);
           return true;
         } else {
           return false;
