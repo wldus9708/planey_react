@@ -20,8 +20,9 @@
   color: var(--PrimaryColor);
   display: inline-block;
   background-color: var(--PrimaryColor);
+  font-weight: bold;
   padding: 9px 12px;
-  font-size: 12px;
+  font-size: 15px;
   border-radius: 5px;
   cursor: none;
 }
@@ -239,10 +240,18 @@
   color: var(--PrimaryColor);
   font-size: 20px;
   font-weight: bold;
+  margin: auto;
 }
 
 .icontext2{
   margin-top: 5px;
   color: var(--PrimaryColor);
   font-weight: bold;
+}
+.icontext3{
+  margin-top: 5px;
+  color: var(--PrimaryColor);
+  font-weight: bold;
+  font-size: 20px;
+
 }
