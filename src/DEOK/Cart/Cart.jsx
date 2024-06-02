@@ -141,7 +141,7 @@ export const Cart = () => {
   const getPrice = (index) => {
     const product = data[index];
     const childrenCount = product.children || 0; // 어린이 수를 0으로 초기화
-    if (product.category === "lodgingDetail" || product.category === "flightDetail") {
+    if (product.category === "lodgingDetail" || product.category === "airportDetail") {
       return (product.price * product.count) + (childrenCount * product.price * 0.5); // 어린이 가격은 성인 가격의 50%
     } else {
       return product.price * product.count;
@@ -303,7 +303,7 @@ export const Cart = () => {
               {/* 상품 설명 */}
 
               {/* 수량 */}
-              {product.category === "lodgingDetail" || product.category === "flightDetail" ? (
+              {product.category === "lodgingDetail" || product.category === "airportDetail" ? (
                 <>
                   <div className={styles.cart_product_count}>
                     <p>성인</p>
