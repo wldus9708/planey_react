@@ -40,7 +40,7 @@
   overflow: hidden;
 }
 .offer .secContainer .mainContent .singleOffer .destImage img {
-  height: 100%;
+  height: 35vh;
 }
 .offer .secContainer .mainContent .singleOffer .destImage .discount {
   position: absolute;
@@ -55,7 +55,7 @@
 }
 .offer .secContainer .mainContent .singleOffer .offerBody {
   padding: 1rem;
-  height: auto;
+  height: 50%;
 }
 .offer .secContainer .mainContent .singleOffer .offerBody .price {
   justify-content: space-between;
