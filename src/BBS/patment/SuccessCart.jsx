@@ -28,7 +28,7 @@ export function SuccessCartPage() {
       console.error('필요한 정보가 부족합니다.');
       if (!user) console.error('사용자 정보가 없습니다.');
       if (!paymentKey) console.error('paymentKey 정보가 없습니다.');
-      if (!orderIds) console.error('orderIds 정보가 없습니.');
+      if (!orderIds) console.error('orderIds 정보가 없습니다.');
       if (!amount) console.error('amount 정보가 없습니다.');
       if (cartItems.length === 0) console.error('cartItems 정보가 없습니다.');
     } else {
@@ -69,7 +69,8 @@ export function SuccessCartPage() {
           throw new Error(`결제 승인 실패: ${response.statusText}`);
         }
 
-        return createAndSaveReservation(item, orderId, user);
+        await createAndSaveReservation(item, orderId, user);
+        await deleteCartItem(item.cartProductId); // 결제 성공 시 장바구니 아이템 삭제
       } catch (error) {
         console.error(`요청 처리 중 오류 발생: ${error.message}`);
         return null; // 실패한 요청은 null로 반환
@@ -83,6 +84,20 @@ export function SuccessCartPage() {
     } else {
       setIsConfirmed(true);
     }
+
+    // cartItems에서 cartProductId를 추출하여 삭제 요청
+    cartItems.forEach(async (item) => {
+      try {
+        const response = await axios.delete(`http://localhost:8988/cart/delete?cartProductId=${item.cartProductId}`);
+        if (response.status === 200) {
+          console.log(`장바구니 아이템 ${item.cartProductId} 삭제 성공`);
+        } else {
+          console.error(`장바구니 아이템 삭제 실패: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error(`장바구니 아이템 삭제 실패: ${error}`);
+      }
+    });
   }, [paymentKey, orderIds, amount, user, cartItems]);
 
   async function createAndSaveReservation(item, orderId, user) {
@@ -113,7 +128,7 @@ export function SuccessCartPage() {
           lodArrivalDate: new Date().toISOString(),
           lodResTime: new Date().toISOString(),
           lodResCapacity: 1,
-          lodResPrice: parseInt(amount, 10),
+          lodResPrice: parseInt(item.price, 10),
           lodResState: "COMPLETED",
         };
         console.log('Lodging Reservation Data:', lodgingReservation);
@@ -126,7 +141,7 @@ export function SuccessCartPage() {
           relationship: 10001,
           rentalStartDate: item.startDate,
           rentalEndDate: item.endDate,
-          rentalPrice: parseInt(amount, 10),
+          rentalPrice: parseInt(item.price, 10),
           reservationStatus: "COMPLETED",
           carInsurance: "STANDARD_INSURANCE",
         };
@@ -141,7 +156,7 @@ export function SuccessCartPage() {
           restResDate: new Date().toISOString(),
           restResTime: new Date().toISOString(),
           restResCapacity: 1,
-          restResPrice: parseInt(amount, 10),
+          restResPrice: parseInt(item.price, 10),
           reservationStatus: "COMPLETED",
         };
         console.log('Restaurant Reservation Data:', restaurantReservation);
@@ -267,7 +282,7 @@ export function SuccessCartPage() {
       });
 
       if (response.status === 200) {
-        console.log('차량 대여 예약이 성공적으로 처리되었습니다.');
+        console.log('차량 대여 예약이 성공적으 처리되었습니다.');
       } else {
         console.error('차량 대여 예약 정보를 저장하는데 실패했습니다:', response.statusText);
       }
@@ -290,9 +305,24 @@ export function SuccessCartPage() {
         console.error('식당 예약 정보를 저장하는데 실패했습니다:', response.statusText);
       }
     } catch (error) {
-      console.error('���당 예약 정보를 저장하는데 실패했습니다:', error);
+      console.error('식당 예약 정보를 저장하는데 실패했습니다:', error);
     }
   };
+
+  const deleteCartItem = async (cartProductId ,index) => {
+    try {
+      const response = await axios.delete(`http://localhost:8988/cart/delete?cartProductId=${cartProductId}`);
+      if (response.status === 200) {
+        console.log(`장바구니 아이템 ${cartProductId} 삭제 성공`);
+      } else {
+        console.error(`장바구니 아이템 삭제 실패: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error(`장바구니 아이템 삭제 실패: ${error}`);
+    }
+  };
+
+  
 
   return (
     <div className="wrapper w-100 bbsToss">
@@ -371,3 +401,4 @@ export function SuccessCartPage() {
 }
 
 export default SuccessCartPage;
+
