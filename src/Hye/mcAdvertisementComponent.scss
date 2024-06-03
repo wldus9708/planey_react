@@ -25,7 +25,8 @@
 
 .mcadvertisement-image {
     position: relative;
-    right: 20%;
+    right: 5%;
+    margin: 0 5%;
     /* 이미지가 텍스트 위에 오도록 설정 */
 }
 .mcadvertisement-img {
@@ -35,13 +36,13 @@
     border-radius: 40px;
 }
 .mcadverisermnet-text{
-    font-size: 30px;
+    font-size: 1.5vw;
     color: white;
     font-weight: bold;
     -webkit-text-stroke: 0.5px rgb(253, 122, 0);
 }
 .mcadverisermnet-text1{
-    font-size: 45px;
+    font-size: 2vw;
     color: white;
     font-weight: bold;
     -webkit-text-stroke: 1px rgb(253, 122, 0);
