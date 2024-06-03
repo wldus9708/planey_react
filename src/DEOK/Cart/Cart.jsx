@@ -73,7 +73,7 @@ export const Cart = () => {
     calculateDiscount();
   }, [selectedItems, data]);
 
-  // 수량 변경 러
+  // 수량 변경 
   const handleCountChange = async (index, delta, type) => {
     const updatedData = [...data];
     const newCount = updatedData[index][type] + delta;
@@ -201,6 +201,7 @@ export const Cart = () => {
       const item = data[index];
       return {
         productId: item.productId,
+        cartProductId: item.cartProductId, // cartProductId 추가
         category: item.category,
         enum: item.enum,
         count: item.count,
