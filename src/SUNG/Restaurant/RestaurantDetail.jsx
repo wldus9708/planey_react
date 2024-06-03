@@ -216,7 +216,7 @@ const RestaurantDetail = () => {
               <br />
               <span className={styles.restDetailAddress}>{restaurant && restaurant.restAddress}</span>
               <br />
-              <span className={styles.restDetailPrice}>{restaurant && (restaurant.restPrice * numberOfPeople).toLocaleString()}</span>
+              <span className={styles.restDetailPrice}>{restaurant && (restaurant.restPrice * numberOfPeople).toLocaleString()}원</span>
 
               <p className={styles.restDetailDescription}>
                 {restaurant && restaurant.restDescription}
