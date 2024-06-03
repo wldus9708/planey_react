@@ -73,7 +73,7 @@ export const Cart = () => {
     calculateDiscount();
   }, [selectedItems, data]);
 
-  // 수량 변경 러
+  // 수량 변경 
   const handleCountChange = async (index, delta, type) => {
     const updatedData = [...data];
     const newCount = updatedData[index][type] + delta;
@@ -201,6 +201,7 @@ export const Cart = () => {
       const item = data[index];
       return {
         productId: item.productId,
+        cartProductId: item.cartProductId, // cartProductId 추가
         category: item.category,
         enum: item.enum,
         count: item.count,
@@ -388,14 +389,14 @@ export const Cart = () => {
 
         <div className={styles.total}>
           <div className={styles.total_price}>
-            <p className={styles.cart_product_total_price}>총 상품금액</p>
+            <p className={styles.cart_product_total_price}>총 상품 금액</p>
             <p className={styles.cart_product_price}>{getTotalPrice().toLocaleString()}원</p>
           </div>
           <div className={styles.pay_minus}>
             <img src="/images/icon-minus-line.svg" alt="minus" />
           </div>
           <div className={styles.sale}>
-            <p className={styles.cart_product_sale}>상품 할인</p>
+            <p className={styles.cart_product_sale}>패키지 할인</p>
             <p className={styles.cart_product_sale_price}>{discount.toLocaleString()}원</p>
           </div>
           <div className={styles.payment}>

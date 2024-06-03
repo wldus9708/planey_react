@@ -49,7 +49,7 @@ function PaymentList(props) {
 
     return (
         <div className={styles.paymentListBody}>
-            <h4>{userInfo.nickname}님의 여행 예약 정보</h4>
+            <h4>{userInfo.nickname}님의 결제 내역</h4>
             <Nav justify variant="tabs" activeKey={activeTab} onSelect={handleTabChange}>
                 <Nav.Item>
                     <Nav.Link eventKey="package">패키지</Nav.Link>

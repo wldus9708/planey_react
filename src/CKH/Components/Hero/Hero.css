@@ -1,8 +1,8 @@
 /* Hero.css */
 .Back {
-  position: relative;
+  position: static;
   width: 100%;
-  height: 75vh; /* 화면 전체 높이 */
+  height: 95vh; /* 화면 전체 높이 */
   overflow: hidden;
   background: none; /* 배경 이미지를 제거 */
 }
