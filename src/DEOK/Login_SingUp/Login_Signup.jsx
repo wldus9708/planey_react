@@ -318,7 +318,7 @@ const SignUpForm = () => {
                 <div className={`${styles["form-box"]} ${styles.login}`}>
                     <form onSubmit={handleLogInClick}>
                         <h1>
-                            Login
+                            로그인
                             <Link to="/" className={styles.to_home}>
                                 <IoHomeOutline />
                             </Link>
