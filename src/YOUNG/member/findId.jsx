@@ -67,7 +67,7 @@ const FindId = ({ handleCloseModal }) => {
       });
       if (response.status === 200) {
         alert(`인증번호가 확인되었습니다. 이메일: ${response.data}`);
-        handleCloseModal()
+        handleCloseModal();
       } else {
         alert('유효하지 않은 인증번호 입니다.');
       }
@@ -97,7 +97,6 @@ const FindId = ({ handleCloseModal }) => {
         const data = await response.json();
         const isAllValid = Object.values(data).every((value) => value === true);
         if (isAllValid) {
-          // sendVerificationCode(phone);
           return true;
         } else {
           return false;
@@ -132,6 +131,7 @@ const FindId = ({ handleCloseModal }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+            {warnings.name && <p className={styles.warning}>{warnings.name}</p>}
             <br />
             <label className={styles.authLabel}>휴대전화</label>
             <input
@@ -141,6 +141,7 @@ const FindId = ({ handleCloseModal }) => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
+            {warnings.phone && <p className={styles.warning}>{warnings.phone}</p>}
             <Button className={styles.authButton} onClick={handleFindId}>
               인증코드 발송
             </Button>
@@ -158,13 +159,12 @@ const FindId = ({ handleCloseModal }) => {
                 }
               }}
             />
+            {warnings.code && <p className={styles.warning}>{warnings.code}</p>}
             <Button className={styles.authButton} type="button" onClick={handleVerifyCode}>
               인증코드 확인
             </Button>
           </div>
         )}
-
-       
       </div>
     </div>
   );
