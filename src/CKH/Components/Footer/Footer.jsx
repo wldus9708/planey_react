@@ -19,9 +19,10 @@ const Footer = () => {
           <div className="footerLogo">
             <a href="#" className="logo flex">
               <h1
-                data-aos="zoom-in"
+                data-aos="zoom-in-right"
                 data-aos-easing="ease-in-sine"
-                className="flex"
+                className="flex BBStitleicon"
+                
               >
                 <TbBeach className="icon" />
                 PLANEY
@@ -82,7 +83,7 @@ const Footer = () => {
           className="footerLinks"
         >
           <span className="linkTitle">Contact Us</span>
-          <span className="phone">+111 222 333</span>
+          <span className="phone">+82 02-739-7235</span>
           <span className="email">bbs4861@naver.com</span>
         </div>
       </div>
