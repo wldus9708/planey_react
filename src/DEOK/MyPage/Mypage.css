@@ -251,6 +251,11 @@
     color: white;
     border-radius: var(--border-radius-1);
 }
+.DEOK_MP_CL_right-section .dark-mode a.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius-1);
+}
 
 .DEOK_MP_CL_right-section .reminders {
     margin-top: 2rem;
@@ -327,6 +332,60 @@
     align-items: center;
     gap: 0.6rem;
 }
+body.dark-mode-variables a {
+    color: var(--link-color);
+}
+
+body.dark-mode-variables a.active {
+    color: var(--active-link-color);
+}body.dark-mode-variables table.active {
+    color: var(--active-link-color);
+}
+
+.dark-mode span.active {
+    color: var(--active-link-color);
+}
+.dark-mode table.active {
+    color: var(--active-link-color);
+}
+.dark-mode thead.active {
+    color: var(--active-link-color);
+}
+.dark-mode tr.active {
+    color: var(--active-link-color);
+}
+
+.dark-mode a.active {
+    color: var(--active-link-color);
+}
+
+body.dark-mode-variables section {
+    background-color: var(--color-background);
+    color: var(---color-dark);
+}
+
+/* body.dark-mode-variables table,tr,thead,th,td {
+    background-color: var(--color-background);
+    color: var(---color-dark);
+} */
+
+body.dark-mode-variables section{
+    border-color: var(--color-background);
+}
+
+body.dark-mode-variables section table th{
+    border-color: var(--color-background) !important;
+}
+
+body.dark-mode-variables section a {
+    color: var(--link-color);
+}
+
+body.dark-mode-variables section a:hover {
+    color: var(--active-link-color);
+}
+
+
 
 /* @media screen and (max-width: 1200px) {
     .container{
