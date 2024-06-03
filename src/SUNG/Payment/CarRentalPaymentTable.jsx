@@ -138,8 +138,8 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                     <td className={styles[`column-0`]}>
                                         <Link to={`/RentCarTest/${dataItem.carId}`}>{dataItem.carModel}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.rentalStartDate}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.rentalEndDate}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.rentalStartDate ? dataItem.rentalStartDate.substring(0, 10) : ''}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.rentalEndDate ? dataItem.rentalEndDate.substring(0, 10) : ''}</span></td>
                                     <td className={styles[`column-3`]}><span>{dataItem.rentalPrice.toLocaleString()}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>

@@ -44,12 +44,12 @@ const CarRentalpaymentDetail = (props) => {
 
                     <div className={styles.row}>
                         <span className={styles.label}>대여 시작일</span>
-                        <span className={styles.value}>{data.rentalStartDate}</span>
+                        <span className={styles.value}>{data.rentalStartDate ? data.rentalStartDate.substring(0, 10) : ''}</span>
                     </div>
 
                     <div className={styles.row}>
                         <span className={styles.label}>대여 종료일</span>
-                        <span className={styles.value}>{data.rentalEndDate}</span>
+                        <span className={styles.value}>{data.rentalEndDate ? data.rentalEndDate.substring(0, 10) : ''}</span>
                     </div>
 
                     <div className={styles.row}>

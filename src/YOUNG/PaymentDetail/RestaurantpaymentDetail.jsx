@@ -53,7 +53,7 @@ const RestaurantPaymentDetail = (props) => {
 
                     <div className={styles.row}>
                         <span className={styles.label}>예약 날짜</span>
-                        <span className={styles.value}>{reservation.restResDate}</span>
+                        <span className={styles.value}>{reservation.restResDate ? reservation.restResDate.substring(0, 10) : ''}</span>
                     </div>
 
                     <div className={styles.row}>
