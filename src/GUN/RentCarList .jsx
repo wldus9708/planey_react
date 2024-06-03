@@ -271,7 +271,8 @@ const RentCarList = () => {
                     </div>
                     <div className={styles['rentList-right-col']}>
                         <div className={styles['rentList-sidebar']}>
-                            <h2>필터 선택</h2>
+                            <h6 style={{fontWeight:'bold'}}>필터 선택</h6>
+                            <br />
                             <div className={styles['rentList-PriceSlide']} >
                                 <div className={styles['rentList-PriceSlideInner']} >
                                     {/* 가격 슬라이드 바 */}
@@ -313,9 +314,11 @@ const RentCarList = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3>모델로 검색</h3>
+                            <br /> <br /> <br />
+                            <h6 style={{fontWeight:'bold'}}>모델로 검색</h6>
                             <div className={styles['rentList-search']}>
                                 <input
+                                    style={{fontWeight:'bold'}}
                                     type="text"
                                     value={searchQuery}
                                     placeholder="검색어를 입력하세요"
@@ -323,7 +326,7 @@ const RentCarList = () => {
                                     onClick={() => handleNavItemClick(user, cookies, 'CAR_SEARCH', null, navigate)}
                                 />
                             </div>
-                            <h3>연료유형</h3>
+                            <h6 style={{fontWeight:'bold'}}>연료유형</h6>
                             <div className={styles['rentList-filter']}>
                                 <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>전체</p><span>({data.filter(item => item.carFuelType).length})</span>
                             </div>
