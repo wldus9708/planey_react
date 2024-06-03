@@ -210,9 +210,6 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
                     onClick={() => handleNavItemClick(user, cookies, 'END_DATE', null, navigate)}
                 />
             </div>
-            <div>
-                <span>총 가격: {totalPrice} 원</span>
-            </div>
             <div className={stylesBtn.btnGroups}>
                 <button type="button" onClick={handleAddToCartClick} className={stylesBtn.addCartBtn}>
                     <i className='fas fa-shopping-cart'></i>

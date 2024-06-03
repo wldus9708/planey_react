@@ -20,6 +20,16 @@ img{
     justify-content: center;
    
 }
+.text{
+    line-height: 2.0; 
+    font-size: 20px;
+}
+.rentCarCommentbtn{
+    background-color: #f3af43a8;
+    padding: 3px;
+    border-radius: 3px;
+    font-weight: 700;
+}
 .container{
     max-width: 1400px;
     margin: 0 auto;

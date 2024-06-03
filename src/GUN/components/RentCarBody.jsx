@@ -24,14 +24,12 @@ function RentCarBody() {
 
     return (
         <div className={styles.bodyContainer}>
-            <div className={styles.bannerTitle}>지점 정보</div>
             <div className={styles.bodyBanner}>
-                <ul>
-                    <li className={styles.innerBanner}>지점 : {car && car.location.locationName}</li>
-                    <li className={styles.innerBanner}>주소 : {car && car.location.locationAddress}</li>
-                    <li className={styles.innerBanner}>전화번호 : {car && car.location.locationPhoneNumber}</li>
-                    <li className={styles.innerBanner}>이메일 : {car && car.location.locationEmail}</li>
-                </ul>
+              
+                    <div className={styles.innerBanner}>지점<br/>{car && car.location.locationName}</div><br/>
+                    <div className={styles.innerBanner}>주소<br/>{car && car.location.locationAddress}</div><br/>
+                    <div className={styles.innerBanner}>전화번호<br/>{car && car.location.locationPhoneNumber}</div><br/>
+                    <div className={styles.innerBanner}>이메일<br/>{car && car.location.locationEmail}</div>
             </div>
         </div>
     );
