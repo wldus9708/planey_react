@@ -206,7 +206,7 @@ const PackageList = () => {
             setShowAdvertise(true);
         const timer = setTimeout(() => {
             setShowAdvertise(false);
-        }, 2000);
+        }, 3000);
         return () => clearTimeout(timer);}
     }, []);
     const closeModal = () => {
