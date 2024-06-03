@@ -233,7 +233,7 @@ const RestaurantList = () => {
                                         {item.restGrade}
                                         <p>{item.restDescription}</p>
                                         <div className={styles['restList-house-price']}>
-                                            <h4>₩ {item.restPrice.toLocaleString()}</h4>
+                                            <h4>{item.restPrice.toLocaleString()}원</h4>
                                         </div>
                                         <div className={styles['restList-house-info2']}>
                                             <p><FontAwesomeIcon icon={faHeart} className={styles['restList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>

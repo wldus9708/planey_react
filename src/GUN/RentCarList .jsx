@@ -249,12 +249,12 @@ const RentCarList = () => {
                                         </div>
                                         <div className={styles['rentList-house-info']}>
                                             차종 : <h3>{item.carModel}</h3>
-                                            <h4>렌트비 : {item.carRentalPrice}</h4>
+                                            <h4>렌트비 : {item.carRentalPrice ? item.carRentalPrice.toLocaleString() : ''}원</h4>
                                             렌트카 지점 : {item.carLocation} <br />
                                             연료 : {item.carFuelType}
                                             <p></p>
                                             <div className={styles['rentList-house-price']}>
-                                                <h4>₩ {item.carRentalPrice.toLocaleString()}</h4>
+                                                <h4>{item.carRentalPrice.toLocaleString()}원</h4>
                                             </div>
                                             <div className={styles['rentList-house-info2']}>
                                                 <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>

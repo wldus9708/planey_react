@@ -269,7 +269,7 @@ return (
                                         <p></p>
                                         <p>{item.tour_pack_description}</p>
                                         <div className={styles['packList-house-price']}>
-                                            <h4>₩ {item.price.toLocaleString()}</h4>
+                                            <h4>{item.price.toLocaleString()}원</h4>
                                         </div>
                                         <div className={styles['packList-house-info2']}>
                                             <p><FontAwesomeIcon icon={faHeart} className={styles['packList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
