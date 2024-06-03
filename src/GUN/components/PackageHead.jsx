@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import NavBar from "../../CKH/Components/Navbar/Navbar"
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 import useUser from "../../BBS/Log/useUser";
+import PackageBody from "./PackageBody";
 
 const PackageHead = () => {
     const [data, setData] = useState([]);
@@ -123,6 +124,9 @@ const PackageHead = () => {
                             <p className={styles.lodgingDescription}>
                             {packageTour && packageTour.tour_pack_description}
                             </p>
+                            <div>
+                            <PackageBody></PackageBody>
+                            </div>
                             <div className={styles.btnGroups}>
                                 <button type="button" onClick={handleAddToCartClick} className={styles.addCartBtn}>
                                     <i className='fas fa-shopping-cart'></i>

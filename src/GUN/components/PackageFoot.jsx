@@ -152,8 +152,8 @@ function PackageFoot() {
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
                     <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
-                        <h4>패키지 설명</h4>
-                        <p>
+                        <h5 style={{fontWeight:'bold'}}>패키지 세부 설명</h5>
+                        <p className={styles.packageDescription}>
                             {data ? data.tour_pack_description : ''}
                         </p>
                     </li>
