@@ -137,7 +137,7 @@ const RestaurantPaymentTable = ({ endpoint }) => {
                                     <td className={styles[`column-0`]}>
                                         <Link to={`/restaurantDetail/${dataItem.restId}`}>{dataItem.restName}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.restResDate}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.restResDate ? dataItem.restResDate.substring(0, 10) : ''}</span></td>
                                     <td className={styles[`column-2`]}><span>{dataItem.restResPrice.toLocaleString()}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-3`]}><span>

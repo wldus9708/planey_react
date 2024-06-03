@@ -61,12 +61,12 @@ const LodgingPaymentDetail = (props) => {
 
                     <div className={styles.row}>
                         <span className={styles.label}>체크인</span>
-                        <span className={styles.value}>{reservation.lodDepartureDate}</span>
+                        <span className={styles.value}>{reservation.lodDepartureDate ? reservation.lodDepartureDate.substring(0, 10) : ''}</span>
                     </div>
 
                     <div className={styles.row}>
                         <span className={styles.label}>체크아웃</span>
-                        <span className={styles.value}>{reservation.lodArrivalDate}</span>
+                        <span className={styles.value}>{reservation.lodArrivalDate ? reservation.lodArrivalDate.substring(0, 10) : ''}</span>
                     </div>
 
                     <div className={styles.row}>
