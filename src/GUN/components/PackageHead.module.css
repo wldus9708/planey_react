@@ -122,9 +122,9 @@ img{
     opacity: 0.9;
     margin-top: 22px;
 }
-/* .btnGroups{
+.btnGroups{
     margin-top: 247px;
-} */
+}
 .btnGroups button{
     display: inline-block;
     font-size: 16px;

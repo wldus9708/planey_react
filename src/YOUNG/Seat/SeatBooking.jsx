@@ -14,7 +14,7 @@ const SEAT_ROWS = [
   ['10A', '10B', '10C', '10D', '10E', '10F'],
 ];
 
-const reservedSeats = ['10D', '8E']; // 예약된 좌석 정보
+const reservedSeats = []; // 예약된 좌석 정보
 
 const SeatBooking = ({ onSelectSeat }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
