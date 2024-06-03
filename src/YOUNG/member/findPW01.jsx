@@ -111,9 +111,9 @@ const FindPwPage = () => {
 
           <br />
           <br />
-          <Link to='/findID'>
+          {/* <Link to='/findID'>
             <span style={{ textDecoration: 'none', color: 'gray', borderBottom: '2px solid', cursor: 'pointer' }}>아이디 찾으러 가기</span>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>
