@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import NavBar from "../../CKH/Components/Navbar/Navbar"
+import TextTruncate from './TextTruncate';
 
 
 const RentCarHead = () => {
@@ -109,27 +110,18 @@ const RentCarHead = () => {
                             </div>
                             <hr />
                             <br />
+                            <h4>총 {paymentInfo && paymentInfo.totalPrice && paymentInfo.totalPrice.toLocaleString()} 원</h4>
                             <br />
-                            <span className={styles.lodgingSchdule}>연식 : {car && car.carYear}년 형</span>
+                            <hr />
                             <br />
-                            <span className={styles.lodgingSchdule}>색상 : {car && car.carColor}</span>
-                            <br />
-                            <span className={styles.lodgingSchdule}>번호 : {car && car.carLicensePlate}</span>
-                            <br />
-                            <span className={styles.lodgingSchdule}>수용 인원 : {capacityLabel}</span>
-                            <br />
-                            <span className={styles.lodgingSchdule}>연료 유형 : {fuelLabel}</span>
-                            <br />
-                            <span className={styles.lodgingSchdule}>지점 위치 : {car && car.carLocation}점</span>
-                            <br />
-                            <span className={styles.lodgingSchdule}>변속기 : {FuelType === 'manual' ? '수동' : '자동'}</span>
-                            <br />
-                            <span className={styles.lodgingPrice}>렌트비 : {car && car.carRentalPrice}</span>
+                            <div>
+                                {car && car.carComment && (
+                                    <TextTruncate text={car.carComment} limit={100}/>
+                                )}
+                            </div>
                             <RentCarPayment carId={id} car={car} onPaymentInfo={handlePaymentInfo} setCar={setCar}/>
-                            <p className={styles.lodgingDescription}>
-                                {car && car.carComment}
-                            </p>
-                            <h3>총 가격 : {paymentInfo && paymentInfo.totalPrice} 원</h3>
+                        
+                            
                         </div>
                     </div>
                 </div>

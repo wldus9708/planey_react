@@ -8,7 +8,6 @@ function App(){
     return(
         <div>
             <RentCarHead></RentCarHead>
-            <RentCarBody></RentCarBody>
             <RentCarFoot></RentCarFoot>
         </div>
     );    

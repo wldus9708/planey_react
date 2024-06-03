@@ -10,6 +10,7 @@ import PaymentStyles from './payment.module.css';
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 
+
 function PackageFoot() {
     const { id } = useParams();
     const [flight, setFlight] = useState(null);
