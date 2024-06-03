@@ -2,13 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ErrorPage.css';
 import { useLocation } from 'react-router-dom';
+
 const ErrorPage = () => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60); // 60초 타이머
+  const [ballColor, setBallColor] = useState("#0095DD"); // 공의 색상
+  const [ballRadius, setBallRadius] = useState(20); // 공의 크기
+  const [dx, setDx] = useState(2); // 공의 x축 속도
+  const [dy, setDy] = useState(-2); // 공의 y축 속도
   const navigate = useNavigate();
   const location = useLocation();
   const statusCode = new URLSearchParams(location.search).get('status');
+
   useEffect(() => {
     if (score >= 10) {
       navigate('/CongratulationsPage');
@@ -18,18 +24,15 @@ const ErrorPage = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const ballRadius = 20; // 공의 크기를 20으로 설정
 
     // 공의 시작 위치를 랜덤으로 설정
     let x = Math.random() * (canvas.width - 2 * ballRadius) + ballRadius;
     let y = Math.random() * (canvas.height - 2 * ballRadius) + ballRadius;
-    let dx = 2;
-    let dy = -2;
 
     const drawBall = () => {
       ctx.beginPath();
       ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "#0095DD";
+      ctx.fillStyle = ballColor; // 공의 색상 설정
       ctx.fill();
       ctx.closePath();
     };
@@ -38,10 +41,10 @@ const ErrorPage = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawBall();
       if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-        dx = -dx;
+        setDx(-dx);
       }
       if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
-        dy = -dy;
+        setDy(-dy);
       }
       x += dx;
       y += dy;
@@ -64,6 +67,11 @@ const ErrorPage = () => {
           }, 500); // 애니메이션 지속 시간과 일치시킴
           return newScore;
         });
+        // 공의 색상, 크기, 속도를 랜덤으로 변경
+        setBallColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+        setBallRadius(Math.random() * 20 + 10); // 10에서 30 사이의 크기
+        setDx((Math.random() - 0.5) * 4); // -2에서 2 사이의 속도
+        setDy((Math.random() - 0.5) * 4); // -2에서 2 사이의 속도
       }
     };
 
@@ -73,15 +81,13 @@ const ErrorPage = () => {
       clearInterval(interval);
       canvas.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [ballColor, ballRadius, dx, dy]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timer);
-          alert('홈으로 이동합니다');
-          navigate('/');
           return 0;
         }
         return prevTime - 1;
@@ -89,7 +95,7 @@ const ErrorPage = () => {
     }, 1000); // 1초마다 타이머 감소
 
     return () => clearInterval(timer); // 컴포넌트 언마운트 시 타이머 클리어
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="bbs-error-page">

@@ -28,16 +28,16 @@
 .mcListment-image {
     position: relative;
     right: 5%;
-    top: 18%;
-    margin: 5%;
+    margin:0 5%;
     /* 이미지가 텍스트 위에 오도록 설정 */
 }
 .mcListment-img {
-    width:15vw;
-    height: 20vh;
-    margin:15% auto;
+    height: 100%;
     border-radius: 1rem;
 }
 .mcListmnet-text{
-    font-size: 30px;
+    font-size: 1.2vw;
+}
+.mcListmnet-title{
+    font-size: 1.5vw;
 }

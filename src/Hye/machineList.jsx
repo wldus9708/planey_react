@@ -145,7 +145,7 @@ const TestComponent = () => {
             {userInfo && (
                 <div className="mcListment-item">
                     <div className="mcListment-content">
-                        <h1>인공지능 추천 서비스 입니다.</h1>
+                        <p className='mcListmnet-title'>인공지능 추천 서비스 입니다.</p>
                         <p className='mcListmnet-text'>{calculateAge(userInfo.birth)}세 {getGender(userInfo.birth)}가</p>
                         <p className='mcListmnet-text'>{getCurrentMonth()}월에 가장 많이 가는 곳은</p>
                         <p className='mcListmnet-text'>{getPlaceName(combinedData)}입니다.</p>
