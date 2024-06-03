@@ -8,7 +8,7 @@ import video2 from "./Asset/여행영상.mp4";
 import video3 from "./Asset/항공.mp4";
 import video4 from "./Asset/카리브해.mp4";
 import video5 from "./Asset/배경영상2.mp4";
-import backgroundVideo from "./Asset/바오밥.mp4"; // 배경 동영상 추가
+import backgroundVideo from "./Asset/구름바다파도.mp4"; // 배경 동영상 추가
 import "./Hero.css";
 
 const HeroSection = () => {
@@ -25,19 +25,20 @@ const HeroSection = () => {
       <div className="back-overlay"></div>
       <div className="max-w-7xl mx-auto pt-20 px-6">
         <div className="flex flex-col items-center mt-6 lg:mt-20">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
+          <h3 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
             <br />
-            <span className="text-white-bold fade-in-text line-1">
+            <span className="text-white-bold line-1">
               여행의 모든 것
             </span>
-          </h1>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
-            <span className="text-white-bold fade-in-text line-2">
+          </h3>
+          <br/>
+          <h3 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
+            <span className="text-white-bold line-2">
               최고의 여행 동반자
               <br />
               모든 예약을 한 곳에서 간편하게!
             </span>
-          </h1>
+          </h3>
           <div className="flex justify-center my-10">
             <button
               onClick={() =>
