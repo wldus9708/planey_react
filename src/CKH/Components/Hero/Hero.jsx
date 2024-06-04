@@ -8,7 +8,14 @@ import video2 from "./Asset/여행영상.mp4";
 import video3 from "./Asset/항공.mp4";
 import video4 from "./Asset/카리브해.mp4";
 import video5 from "./Asset/배경영상2.mp4";
-import backgroundVideo from "./Asset/구름바다파도.mp4"; // 배경 동영상 추가
+// import backgroundVideo from "./Asset/구름바다파도.mp4"; // 배경 동영상 추가
+import backgroundVideo01 from "./Asset/배들이바다위에꿍실꿍실.mp4"; // 배경 동영상 추가 90점
+// import backgroundVideo01 from "./Asset/깔끔바다.mp4"; // 배경 동영상 추가20점
+// import backgroundVideo01 from "./Asset/별헤는밤.mp4"; // 배경 동영상 추가 90점
+// import backgroundVideo01 from "./Asset/언더더씨.mp4"; // 배경 동영상 추가 30 점
+// import backgroundVideo01 from "./Asset/을왕리.mp4"; // 배경 동영상 추가 90점
+// import backgroundVideo01 from "./Asset/잔잔파도그리고드론.mp4"; // 배경 동영상 추가 별로
+// import backgroundVideo01 from "./Asset/포레스트.mp4"; // 배경 동영상 추가
 import "./Hero.css";
 
 const HeroSection = () => {
@@ -19,7 +26,7 @@ const HeroSection = () => {
   return (
     <div className="Back">
       <video autoPlay muted loop id="background-video">
-        <source src={backgroundVideo} type="video/mp4" />
+        <source src={backgroundVideo01} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="back-overlay"></div>
