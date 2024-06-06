@@ -22,3 +22,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# 메인 동영상
+src/CKH/Components/Hero/Asset/배들이바다위에꿍실꿍실.mp4
+
