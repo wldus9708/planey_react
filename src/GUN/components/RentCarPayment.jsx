@@ -164,19 +164,24 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
    
 
     const addToCart = async () => {
-        
-        await axios.post(`http://localhost:8988/cart/insert?productId=${carId}`, {}, {
+        const cartData = {
+            count: 1, // 예시로 추가한 count 값
+            startDate: startDate,
+            endDate: endDate
+        };
+    
+        await axios.post(`http://localhost:8988/cart/insertCar?productId=${carId}`, cartData, {
             headers: {
                 Authorization: cookies.accessToken
             }
         })
-            .then((response) => {
-                console.log(response);
-                alert(response.data.message);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        .then((response) => {
+            console.log(response);
+            alert(response.data.message);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     };
 
     return (
@@ -204,9 +209,6 @@ const RentCarPayment = ({ car, onPaymentInfo, carId, setCar }) => {
                     minDate={startDate} // 시작 날짜 이후로만 선택 가능
                     onClick={() => handleNavItemClick(user, cookies, 'END_DATE', null, navigate)}
                 />
-            </div>
-            <div>
-                <span>총 가격: {totalPrice} 원</span>
             </div>
             <div className={stylesBtn.btnGroups}>
                 <button type="button" onClick={handleAddToCartClick} className={stylesBtn.addCartBtn}>

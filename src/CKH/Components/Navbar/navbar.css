@@ -20,8 +20,9 @@
   color: var(--PrimaryColor);
   display: inline-block;
   background-color: var(--PrimaryColor);
+  font-weight: bold;
   padding: 9px 12px;
-  font-size: 12px;
+  font-size: 15px;
   border-radius: 5px;
   cursor: none;
 }
@@ -99,7 +100,7 @@
     font-weight: 600;
   }
   .navBarSection .header .navBar .navLists .navItem .navLink:hover {
-    color: var(--PrimaryColor);
+    color: white;
   }
   .navBarSection .header .navBar .navLists .headerBtns {
     flex-direction: column;
@@ -192,7 +193,7 @@
     border: 1px solid var(--PrimaryColor);
   }
   .navBarSection .header .navBar .navLists .loginBtn:hover {
-    background: var(--PrimaryColor);
+    background: rgba(255, 255, 255, 0.9)
   }
   .navBarSection .header .navBar .navLists .loginBtn:hover a {
     color: var(--whiteColor);
@@ -239,10 +240,18 @@
   color: var(--PrimaryColor);
   font-size: 20px;
   font-weight: bold;
+  margin: auto;
 }
 
 .icontext2{
   margin-top: 5px;
   color: var(--PrimaryColor);
   font-weight: bold;
+}
+.icontext3{
+  margin-top: 5px;
+  color: var(--PrimaryColor);
+  font-weight: bold;
+  font-size: 20px;
+
 }

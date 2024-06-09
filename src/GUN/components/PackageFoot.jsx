@@ -9,6 +9,8 @@ import { TbBeach } from 'react-icons/tb';
 import PaymentStyles from './payment.module.css';
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
+import PackageBody from "./PackageBody";
+
 
 function PackageFoot() {
     const { id } = useParams();
@@ -152,14 +154,15 @@ function PackageFoot() {
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
                     <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
-                        <h4>패키지 설명</h4>
-                        <p>
+                        <h5 style={{ fontWeight: 'bold' }}>패키지 세부 설명</h5>
+                        <p className={styles.packageDescription}>
                             {data ? data.tour_pack_description : ''}
                         </p>
                     </li>
                     <hr />
                     <li id="flight" className={highlightedItem === "flight" ? styles.active : ""}>
-                        <h4>항공</h4>
+                        <br />
+                        <h6>항공</h6>
                         {flight ? (
                             <>
                                 <img
@@ -193,6 +196,11 @@ function PackageFoot() {
                                         </tr>
                                     </tbody>
                                 </table>
+                                <br />
+                                <h6>항공 추가 옵션</h6>
+                                <div>
+                                    <PackageBody></PackageBody>
+                                </div>
                             </>
                         ) : (
                             <p>항공이 지원되지 않는 패키지 입니다.</p>
@@ -200,7 +208,8 @@ function PackageFoot() {
                     </li>
                     <hr />
                     <li id="beach" className={highlightedItem === "beach" ? styles.active : ""}>
-                        <h4>관광지</h4>
+                        <br />
+                        <h6>관광지</h6>
                         <img
                             className={styles.PackImage}
                             src={attraction && attraction[`attImage01`]
@@ -227,7 +236,8 @@ function PackageFoot() {
                     </li>
                     <hr />
                     <li id="hotel" className={highlightedItem === "hotel" ? styles.active : ""}>
-                        <h4>숙소</h4>
+                        <br />
+                        <h6>숙소</h6>
                         <img
                             className={styles.PackImage}
                             src={`/images/${lodging && lodging[`lodImage01`]}`}
@@ -256,7 +266,8 @@ function PackageFoot() {
                     </li>
                     <hr />
                     <li id="restaurant" className={highlightedItem === "restaurant" ? styles.active : ""}>
-                        <h4>식당</h4>
+                        <br />
+                        <h6>식당</h6>
                         <img
                             className={styles.PackImage}
                             src={`/images/${restaurant && restaurant[`restImage01`]}`}

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { logUserAction } from "../../BBS/Log/LogService"; // logUserAction 함수 임포트
 import useUser from "../../BBS/Log/useUser"; // useUser 훅 임포트
+import jsCookies from "js-cookie";
 
 const GoogleLoginRedirect = () => {
     const [cookies, setCookie] = useCookies([]);
@@ -20,17 +21,32 @@ const GoogleLoginRedirect = () => {
                 }
             });
 
-            if (response.data.code === "SignUpSU") {
-                alert(response.data.message);
-                navigate('/login');
-            } else if (response.data.code === "LoginSU") {
-                setCookie("accessToken", response.data.accessToken, { path: '/' });
+            // 로그인 분기처리
+            if (response.data.code === "LoginSU") {
 
-                // 로그인 성공 플래그 설정
-                localStorage.setItem('googleLoginSuccess', 'true');
+                if (response.data.black_list === 'SUSPENDED') {
+                    alert('정지된 회원입니다.');
 
-                navigate('/');
+                    if (cookies.accessToken) {
+                        jsCookies.remove('accessToken');
+                    }
+
+                    navigate('/login');
+
+                } else if (response.data.role === 'ADMIN') {
+                    // 로그인 성공 플래그 설정
+                    localStorage.setItem('googleLoginSuccess', 'true');
+                    setCookie("accessToken", response.data.accessToken, { path: '/' });
+                    window.location.href = 'http://localhost:4000';
+
+                } else {
+                    // 로그인 성공 플래그 설정
+                    localStorage.setItem('googleLoginSuccess', 'true');
+                    setCookie("accessToken", response.data.accessToken, { path: '/' });
+                    navigate('/');
+                }
             }
+
         } catch (error) {
             console.log(error);
         }

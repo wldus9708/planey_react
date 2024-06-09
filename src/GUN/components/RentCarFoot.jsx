@@ -4,6 +4,7 @@ import styles from './RentCarFoot.module.css';
 import { GrSettingsOption } from "react-icons/gr";
 import { MdLocalHospital } from "react-icons/md";
 import { RiRefund2Fill } from "react-icons/ri";
+import { BsMegaphone } from "react-icons/bs";
 import { IoBusOutline, IoRestaurantOutline } from 'react-icons/io5';
 import Payment from './payment';
 import PaymentStyles from './payment.module.css';
@@ -13,6 +14,8 @@ import { faStar, faHeart, faCheck, faCircleChevronUp } from '@fortawesome/free-s
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import RentCarStore from "./RentCarBody";
+
 
 const DataFetchingComponent = () => {
     const [data, setData] = useState([]);
@@ -44,7 +47,8 @@ function RentCarFoot() {
         hospital: false,
         refund: false,
         restaurant: false,
-        vehicle: false
+        vehicle: false,
+        megaphone: false
     });
 
 
@@ -115,6 +119,7 @@ function RentCarFoot() {
         }
 
         setIcons({
+            megaphone: what === 'megaphone',
             settings: what === 'settings',
             hospital: what === 'hospital',
             refund: what === 'refund',
@@ -128,20 +133,26 @@ function RentCarFoot() {
             <div className={styles.sidebar}>
                 <div className={styles.sideMenu}>
                     <ul className={styles.packageList}>
+
+                    <li onClick={() => handleIcon('megaphone')}
+                            style={{ cursor: "pointer", backgroundColor: icons.megaphone ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
+                            <BsMegaphone style={{ fontSize: "30px", color: icons.megaphone ? "white" : "black" }} />
+                            <label style={{ color: icons.megaphone ? "white" : "black" }}><br/>지점 설명</label>
+                        </li>
                         <li onClick={() => handleIcon('settings')}
                             style={{ cursor: "pointer", backgroundColor: icons.settings ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
                             <GrSettingsOption style={{ fontSize: "30px", color: icons.settings ? "white" : "black" }} />
-                            <label style={{ color: icons.settings ? "white" : "black" }}>옵션</label>
+                            <label style={{ color: icons.settings ? "white" : "black" }}><br/>옵션</label>
                         </li>
                         <li onClick={() => handleIcon('hospital')}
                             style={{ cursor: "pointer", backgroundColor: icons.hospital ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
                             <MdLocalHospital style={{ fontSize: "30px", color: icons.hospital ? "white" : "black" }} />
-                            <label style={{ color: icons.hospital ? "white" : "black" }}>보험내용</label>
+                            <label style={{ color: icons.hospital ? "white" : "black" }}><br/>보험내용</label>
                         </li>
                         <li onClick={() => handleIcon('refund')}
                             style={{ cursor: "pointer", backgroundColor: icons.refund ? "orange" : "transparent", borderRadius: "5px" }} className='liicon'>
                             <RiRefund2Fill style={{ fontSize: "30px", color: icons.refund ? "white" : "black" }} />
-                            <label style={{ color: icons.refund ? "white" : "black" }}>취소/변경정보</label>
+                            <label style={{ color: icons.refund ? "white" : "black" }}><br/>취소/변경정보</label>
                         </li>
 
                     </ul>
@@ -149,27 +160,32 @@ function RentCarFoot() {
             </div>
             <div className={styles.content} ref={contentRef}>
                 <ul className={styles.packageList}>
+                <li id="megaphone" className={highlightedItem === "megaphone" ? styles.active : ""}>
+                        <h5><p style={{ fontWeight: 'bold' }}>지점 설명</p></h5>
+                        <br /><br />
+                        <p>
+                                <ul className={styles.optionsList}> 
+                                        <li> 
+                                           <RentCarStore/>
+                                        </li>
+                                    
+                                </ul>
+                            <br /><br />
+                        </p>
+                        <hr />
+                    </li>
                     <li id="settings" className={highlightedItem === "settings" ? styles.active : ""}>
-                        <h2><p>차량 옵션</p></h2>
+                        <h5><p style={{ fontWeight: 'bold' }}>옵션</p></h5>
                         <br /><br />
                         <p>
                             {car && (
-                                <table className={styles.optionsTable}>
-                                    <thead>
-                                        <tr>
-                                            <th>번호</th>
-                                            <th>옵션</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {car.carOption.split(',').map((option, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{option.trim()}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                <ul className={styles.optionsList}> 
+                                    {car.carOption.split(',').map((option, index) => (
+                                        <li key={index}> 
+                                            ✔&nbsp; &nbsp;{option.trim()} 
+                                        </li>
+                                    ))}
+                                </ul>
                             )}
                             <br /><br />
                         </p>
@@ -177,15 +193,17 @@ function RentCarFoot() {
                     <hr />
                     <li id="hospital" className={highlightedItem === "hospital" ? styles.active : ""}>
                         <br /><br />
-                        <h2><p>보험내용</p></h2>
+                        <h5><p style={{ fontWeight: 'bold' }}>보험내용</p></h5>
                         <br /><br />
-                        <p>
-                            렌트카 보험안내<br /><br />
-                            ◆ 렌터카는 종합보험 (대인:무한/대물:2,000만원/자손:1,500만원)에 기본가입되어 있습니다.<br />
+                        <div>
+                            <div className={styles.rentCarInsurance}>
+                            <h6  style={{fontWeight:'bold'}}>◼ 렌트카 보험안내</h6>
+                            <br />
+                            렌터카는 종합보험 (대인:무한/대물:2,000만원/자손:1,500만원)에 기본가입되어 있습니다.<br />
                             -단독사고 및 자차과실 100% 사고 일 경우 대인,대물,자손 접수 시  면책금이 발생합니다.<br />
-                            -대인 : 1인 기준 30만원 / 대물 : 1건 기준 30~50만원 / 자손 : 1인 기준 30만원 씩 발생.<br />
+                            -대인 : 1인 기준 30만원 / 대물 : 1건 기준 30~50만원 / 자손 : 1인 기준 30만원 씩 발생.<br /><br />
 
-                            ◆ 보험 보상과 관련하여 임대차 계약서 뒷면 약관에 기재된 내용을 숙지바랍니다.<br /><br />
+                             보험 보상과 관련하여 임대차 계약서 뒷면 약관에 기재된 내용을 숙지바랍니다.<br /><br />
                             ※ 교통법규<br /><br />
                             -차량 운전자는 교통법규를 준수하셔야 하며, 제반사항은 임차인의 책임입니다.<br />
                             -사고의 경우 도로교통법 위반 시에는 보험보상의 일부 혜택을 받지 못할 수도 있습니다.<br /><br />
@@ -193,7 +211,8 @@ function RentCarFoot() {
                             -계약기간을 연장하여 사용코자 할 경우에는 사전에 동의를 받아야 합니다.<br />
                             -사전 동의 없이 연장사용 중에 발생한 보험 및 차량 손해에 대해서는 보상이나 면책을 받지 못할 수 있습니다.<br /><br />
 
-                            차량손해면책 제도<br /><br />
+                            <h6 style={{fontWeight:'bold'}}>◼ 차량손해면책 제도</h6>
+                            <br />
                             운전자 과실에 의한 차량 손해(손, 망실)는 임차인의 책임입니다.<br />
                             차량대여 계약시 사용자와 렌트카 회사간의 약정에 따라 사용자의 책임을 감면해주는 제도로서, 사고 발생시에는 고객님께서 차종에 따른 면책금을 따로 지불하셔야 하며, 보상한도는 보험회사에서 보상해주는 차량보험가액까지이며, 만일 이 금액을 초과하는 사고 발생에 대한 부분은 고객님께서 보상하셔야 합니다.<br />
                             차량사고 발생시 자사 지정정비업소에서 최초견적을 내며 견적비용에 의의가 있을시에는 고객이 영업소 관할구역내에 1급자동차정비업소에 견적의뢰하며 견적이 차이가 많이 나는경우 지정정비업소에서 재견적을 받아 조정하거나 고객과 협의하여 정비업소등을 결정한다.<br />
@@ -205,10 +224,13 @@ function RentCarFoot() {
                             3. 수퍼자차 : 자차 보상한도 무제한<br />
                             4. 자차특약 : 휠.타이어.출동서비스.견인(10Km이내)<br />
                             5. 자차제외항목 : 차량키.휠.타이어.출동서비스.견인(사고포함).구난.체인.네비게이션.실내부품<br /><br />
-                            ***보험적용불가 : 모든 자차 및 특약은 1회성(1사고 1건)이며, 13대 중과실, 우도內사고/미보고(사고발생 직후 사고현장) 사고는 자차 및 특약 적용되지 않습니다.<br /><br />
-
+                            <div style={{fontWeight:'bold', lineHeight: '1.8'}}>
+                            ❗ 보험적용불가 : 모든 자차 및 특약은 1회성(1사고 1건)이며, 13대 중과실, 우도內사고/미보고(사고발생 직후 사고현장) 사고는 자차 및 특약 적용되지 않습니다.<br /><br />
+                            </div>
+                            </div>
                             <ul>
-                                <li><h3>다음의 경우는 보험처리 및 차량손해(자차) 면책처리가 불가능합니다.</h3></li>
+
+                                <li><h5>다음의 경우는 보험처리 및 차량손해(자차) 면책처리가 불가능합니다.</h5></li>
                                 <li>- 임차인의 고의로 인한 사고</li>
                                 <li>- 무면허 운전사고</li>
                                 <li>- 음주운전, 약물중독운전 사고 - 렌트카를 경기용이나 연습용, 테스트용으로 사용하던 중 발생한 사고</li>
@@ -220,16 +242,16 @@ function RentCarFoot() {
                                 <li>- 우도내에서 발생하는 모든 사고.</li>
                                 <li>- 타이어펑크 및 타이어파손 비용, 사고견인, 현장출동(배터리방전,키분실 등)비용은 자차에 적용되지 않습니다. (고객부담)</li>
                             </ul>
-                        </p>
+                        </div>
                     </li>
                     <hr />
                     <li id="refund" className={highlightedItem === "refund" ? styles.active : ""}>
                         <br /><br />
-                        <h2><p>취소/변경정보</p></h2>
+                        <h6><p style={{fontWeight:'bold'}}>취소/변경정보</p></h6>
                         <br /><br />
                         <p>
 
-                            예약취소<br /><br />
+                            ◼ 예약취소<br /><br />
 
                             <li>인수시간 72시간 이전 취소시 수수료 : 0%</li>
                             <li>인수시간 72시간 이내 취소시 수수료 : 30%</li>
@@ -237,9 +259,9 @@ function RentCarFoot() {
                             <li>No Show/대여조건 미달 수수료 : 100%</li>
                             <li>※ No Show란 고객이 예약취소를 하지 않은 채 예약시간에 나타나지 않는 것을 의미합니다.</li>
 
-                            예약 변경<br /><br />
+                            ◼ 예약 변경<br /><br />
 
-                            일정/업체/차종 변경불가 취소 후 재예약은 가능 조기반납가능(차액환불불가)
+                            일정/업체/차종 변경불가 취소 후 재예약은 가능 조기반납가능(차액환불불가)<br /><br />
                             <ul>
                                 <li>- 당일 결제 후 인수하는 차량의 취소는 즉시 수수료가 발생합니다.</li>
                                 <li>- 차량예약일 기준으로 최대 72시간 이내 인수차량의 취소는 결제일과 상관없이 수수료가 발생합니다.</li>

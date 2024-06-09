@@ -13,6 +13,7 @@ import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "./OAUTH";
 import { logUserAction } from "../../BBS/Log/LogService"; // logUserAction 함수 임포트
 import useUser from "../../BBS/Log/useUser"; // useUser 훅 임포트
 import Survey from "../../Hye/dataConjugation";
+import jsCookies from "js-cookie";
 
 const SignUpForm = () => {
     const user = useUser(); // 사용자 정보 가져오기
@@ -60,8 +61,8 @@ const SignUpForm = () => {
         const day = parseInt(birth.substring(4, 6));
         const gender = parseInt(birth.substring(7, 8));
         const currentYear = new Date().getFullYear();
-        if (currentYear.toString().slice(-2)<year){
-            if(gender>2){
+        if (currentYear.toString().slice(-2) < year) {
+            if (gender > 2) {
                 return false;
             }
         }
@@ -73,7 +74,7 @@ const SignUpForm = () => {
         }
 
         // 올바른 날짜 범위 확인
-        if (year <currentYear - 100) {
+        if (year < currentYear - 100) {
             return false; // 최소 1940년 이상이어야 함
         }
         if (month < 1 || month > 12) {
@@ -214,16 +215,27 @@ const SignUpForm = () => {
                 password: userLoginInfo.password
             });
 
-            setCookie("accessToken", response.data.accessToken);
 
-            // 로그인 성공 플래그 설정
-            localStorage.setItem('loginSuccess', 'true');
+            // 로그인 분기처리
+            if (response.data.black_list === 'SUSPENDED') {
+                alert('정지된 회원입니다.');
 
-
-            // 유저 및 관리자 페이지 따로
-            if (response.data.role === 'ADMIN') {
+                if (cookies.accessToken) {
+                    jsCookies.remove('accessToken');
+                }
+                
+                return;
+                
+            } else if (response.data.role === 'ADMIN') {
+                // 로그인 성공 플래그 설정
+                localStorage.setItem('loginSuccess', 'true');
+                setCookie("accessToken", response.data.accessToken);
                 window.location.href = 'http://localhost:4000';
+
             } else {
+                // 로그인 성공 플래그 설정
+                localStorage.setItem('loginSuccess', 'true');
+                setCookie("accessToken", response.data.accessToken);
                 navigator('/');
             }
 
@@ -289,24 +301,24 @@ const SignUpForm = () => {
     return (
         <div className={styles.body}>
             <div className={`${styles.wrapper} ${action && styles.active}`}>
-                <Modal show={showTestComponent} onHide={handleCloseTestComponent}  backdrop="static" keyboard={false}  centered>
+                <Modal show={showTestComponent} onHide={handleCloseTestComponent} backdrop="static" keyboard={false} centered>
                     <Modal.Header closeButton>
                         <Modal.Title>회원가입 완료</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent}userBirth={birth}/>
+                        <Survey isOpen={showTestComponent} onRequestClose={handleCloseTestComponent} userBirth={birth} />
                     </Modal.Body>
                     <Modal.Footer>
-                       
-                    <Button variant="primary" onClick={handleCloseTestComponent}>
-                        닫기
-                    </Button>
+
+                        <Button variant="primary" onClick={handleCloseTestComponent}>
+                            닫기
+                        </Button>
                     </Modal.Footer>
                 </Modal>
                 <div className={`${styles["form-box"]} ${styles.login}`}>
                     <form onSubmit={handleLogInClick}>
                         <h1>
-                            Login
+                            로그인
                             <Link to="/" className={styles.to_home}>
                                 <IoHomeOutline />
                             </Link>
@@ -362,7 +374,7 @@ const SignUpForm = () => {
                                         <Modal.Title>회원정보 찾기</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                    <FindId handleCloseModal={handleCloseModal} />
+                                        <FindId handleCloseModal={handleCloseModal} />
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={handleCloseModal}> {/* 모달 닫기 */}
@@ -407,8 +419,8 @@ const SignUpForm = () => {
                 <div className={`${styles["form-box"]} ${styles.register}`}>
                     <form onSubmit={handleSignUpClick}>
                         <h1><span onClick={loginLink} className={styles.to_login}>
-                                <IoArrowBack />
-                            </span>
+                            <IoArrowBack />
+                        </span>
                             회원가입
                             <Link to="/" className={styles.to_home}>
                                 <IoHomeOutline />

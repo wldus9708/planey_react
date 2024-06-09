@@ -84,11 +84,11 @@ console.log(userBirth);
   return (
     <div className='dmodal'>
       <h2>가고 싶은 여행지 설문조사</h2>
-      <h4>설문조사를 참여안하셔도 됩니다.</h4>
+      <h4>설문조사를 참여하지 않으셔도 됩니다.</h4>
       <form onSubmit={handleSubmit} className='surveyForm'>
         <div className='modal-content'>
           <div className="form-group">
-            성별:
+            성별 :&nbsp;&nbsp;&nbsp;
             <label>
               <input
                 type="radio"
@@ -113,7 +113,7 @@ console.log(userBirth);
         </div>
         <div className='modal-content'>
           <label>
-            나이:
+            나이 :
             <input
               className="form-control"
               type="text"
@@ -125,7 +125,7 @@ console.log(userBirth);
         </div>
         <div className='modal-content'>
           <label>
-            국내/국외:
+            가시고 싶은 지역을 선택해주세요 :
             <select
               className="form-control"
               value={mCategory}
@@ -146,8 +146,7 @@ console.log(userBirth);
         {mCategory && (
           <div className='modal-content'>
             <label>
-              {mCategory === 'domestic' ? '국내 지역:' : '해외 지역:'}
-              {mCategory}
+              상세 지역을 선택해주세요 :
               <select
                 className="form-control"
                 value={mdCategory}

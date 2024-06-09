@@ -8,7 +8,14 @@ import video2 from "./Asset/여행영상.mp4";
 import video3 from "./Asset/항공.mp4";
 import video4 from "./Asset/카리브해.mp4";
 import video5 from "./Asset/배경영상2.mp4";
-import backgroundVideo from "./Asset/바오밥.mp4"; // 배경 동영상 추가
+// import backgroundVideo from "./Asset/구름바다파도.mp4"; // 배경 동영상 추가
+import backgroundVideo01 from "./Asset/배들이바다위에꿍실꿍실.mp4"; // 배경 동영상 추가 90점
+// import backgroundVideo01 from "./Asset/깔끔바다.mp4"; // 배경 동영상 추가20점
+// import backgroundVideo01 from "./Asset/별헤는밤.mp4"; // 배경 동영상 추가 90점
+// import backgroundVideo01 from "./Asset/언더더씨.mp4"; // 배경 동영상 추가 30 점
+// import backgroundVideo01 from "./Asset/을왕리.mp4"; // 배경 동영상 추가 90점
+// import backgroundVideo01 from "./Asset/잔잔파도그리고드론.mp4"; // 배경 동영상 추가 별로
+// import backgroundVideo01 from "./Asset/포레스트.mp4"; // 배경 동영상 추가
 import "./Hero.css";
 
 const HeroSection = () => {
@@ -19,25 +26,26 @@ const HeroSection = () => {
   return (
     <div className="Back">
       <video autoPlay muted loop id="background-video">
-        <source src={backgroundVideo} type="video/mp4" />
+        <source src={backgroundVideo01} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="back-overlay"></div>
       <div className="max-w-7xl mx-auto pt-20 px-6">
         <div className="flex flex-col items-center mt-6 lg:mt-20">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
+          <h3 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
             <br />
-            <span className="text-white-bold fade-in-text line-1">
+            <span className="text-white-bold line-1">
               여행의 모든 것
             </span>
-          </h1>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
-            <span className="text-white-bold fade-in-text line-2">
+          </h3>
+          <br/>
+          <h3 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
+            <span className="text-white-bold line-2">
               최고의 여행 동반자
               <br />
               모든 예약을 한 곳에서 간편하게!
             </span>
-          </h1>
+          </h3>
           <div className="flex justify-center my-10">
             <button
               onClick={() =>
@@ -59,7 +67,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video1} type="video/mp4" />
             </video>
@@ -67,7 +75,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video2} type="video/mp4" />
             </video>
@@ -75,7 +83,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video3} type="video/mp4" />
             </video>
@@ -83,7 +91,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video4} type="video/mp4" />
             </video>
@@ -91,7 +99,7 @@ const HeroSection = () => {
               autoPlay
               loop
               muted
-              className="rounded-lg w-1/5 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
+              className="rounded-lg w-1/4 border border-orange-700 shadow-sm shadow-orange-400 mx-4 my-10"
             >
               <source src={video5} type="video/mp4" />
             </video>

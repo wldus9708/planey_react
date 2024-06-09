@@ -33,6 +33,7 @@ const TestComponent = () => {
     fetchInitialData(); // 처음 데이터 가져오기
   }, []); // 빈 배열을 두 번째 인자로 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정합니다.
 
+ /*
   useEffect(() => {
     const mergeData = (newData, existingData) => {
       // newData가 배열인지 확인하고 배열이 아니면 배열로 변환
@@ -73,12 +74,14 @@ const TestComponent = () => {
       try {
         // console.log('Fetching updated data...');
         const response = await axios.get('http://localhost:8988/admin/adv');
+        
         // console.log('Updated Data:', response.data); // 성공 시 응답 데이터 출력
         const updatedData = response.data;
         const activeAds = updatedData.filter(ad => ad.statusDate === 'ACTIVE');
+        console.log('act'+activeAds);
      if (activeAds.length > 0) {
         setRandomAd(activeAds);
-}
+        }
         // 기존 데이터와 새로운 데이터를 병합하여 업데이트
         const mergedData = mergeData(updatedData, dataset);
         // console.log('Merged Data Length:', mergedData.length);
@@ -116,7 +119,39 @@ const TestComponent = () => {
     // 컴포넌트가 언마운트될 때 interval을 정리하여 메모리 누수를 방지합니다.
     return () => clearInterval(intervalRef.current);
   }, [dataset]); // 'dataset'을 두 번째 인자로 전달하여 dataset이 변경될 때마다 실행되도록 설정합니다.
+*/
 
+useEffect(() => {
+  const fetchUpdatedData = async () => {
+    try {
+      // console.log('Fetching updated data...');
+      const response = await axios.get('http://localhost:8988/admin/adv');
+       console.log('Updated Data:', response.data); // 성공 시 응답 데이터 출력      
+       const activeAds = response.data.filter(ad => ad.statusDate === 'ACTIVE');
+      console.log('act'+activeAds);
+   if (activeAds.length > 0) {
+      setRandomAd(activeAds);
+      }}
+      catch (error) {
+        if (!error.response || error.response.status !== 404) {
+          console.log('Error fetching updated data:', error);
+        }
+        setUpdataSet([]); // 오류가 발생하면 빈 배열 설정
+      }
+    };
+
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      fetchUpdatedData(); // 처음 마운트 이후에는 fetchUpdatedData를 호출하여 업데이트된 데이터를 가져옵니다.
+    }
+
+    const interval = setInterval(fetchUpdatedData, 30000); // 60초마다 fetchUpdatedData 함수를 호출합니다.
+    intervalRef.current = interval; // interval 참조 저장
+
+    // 컴포넌트가 언마운트될 때 interval을 정리하여 메모리 누수를 방지합니다.
+    return () => clearInterval(intervalRef.current);
+},[]);
   const handleAdClick = () => {
     setIsModalOpen(true); // 광고 항목 클릭 시 모달 열기
   };
@@ -127,6 +162,7 @@ const TestComponent = () => {
         <div className="advertisement-item" onClick={handleAdClick}>
           <div className="advertisement-content">
             <h1 className='advertisement-content1'>{randomAd.title}</h1>
+            <br />
             <h3 className='advertisement-content2'>{randomAd.content}</h3>
           </div>
           <div className="advertisement-image">

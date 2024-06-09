@@ -249,12 +249,12 @@ const RentCarList = () => {
                                         </div>
                                         <div className={styles['rentList-house-info']}>
                                             차종 : <h3>{item.carModel}</h3>
-                                            <h4>렌트비 : {item.carRentalPrice}</h4>
+                                            <h4>렌트비 : {item.carRentalPrice ? item.carRentalPrice.toLocaleString() : ''}원</h4>
                                             렌트카 지점 : {item.carLocation} <br />
                                             연료 : {item.carFuelType}
                                             <p></p>
                                             <div className={styles['rentList-house-price']}>
-                                                <h4>₩ {item.carRentalPrice.toLocaleString()}</h4>
+                                                <h4>{item.carRentalPrice.toLocaleString()}원</h4>
                                             </div>
                                             <div className={styles['rentList-house-info2']}>
                                                 <p><FontAwesomeIcon icon={faHeart} className={styles['rentList-heart-icon']} />&nbsp;&nbsp;{generateRandomNumber()}</p>
@@ -271,7 +271,8 @@ const RentCarList = () => {
                     </div>
                     <div className={styles['rentList-right-col']}>
                         <div className={styles['rentList-sidebar']}>
-                            <h2>필터 선택</h2>
+                            <h6 style={{fontWeight:'bold'}}>필터 선택</h6>
+                            <br />
                             <div className={styles['rentList-PriceSlide']} >
                                 <div className={styles['rentList-PriceSlideInner']} >
                                     {/* 가격 슬라이드 바 */}
@@ -313,9 +314,11 @@ const RentCarList = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3>모델로 검색</h3>
+                            <br /> <br /> <br />
+                            <h6 style={{fontWeight:'bold'}}>모델로 검색</h6>
                             <div className={styles['rentList-search']}>
                                 <input
+                                    style={{fontWeight:'bold'}}
                                     type="text"
                                     value={searchQuery}
                                     placeholder="검색어를 입력하세요"
@@ -323,7 +326,7 @@ const RentCarList = () => {
                                     onClick={() => handleNavItemClick(user, cookies, 'CAR_SEARCH', null, navigate)}
                                 />
                             </div>
-                            <h3>연료유형</h3>
+                            <h6 style={{fontWeight:'bold'}}>연료유형</h6>
                             <div className={styles['rentList-filter']}>
                                 <input type="checkbox" checked={checkboxStates.all} onChange={toggleAllCheckbox} onClick={() => handleNavItemClick(user, cookies, 'CAR_FILTER_CHECK', null, navigate)} /><p>전체</p><span>({data.filter(item => item.carFuelType).length})</span>
                             </div>

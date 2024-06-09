@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
-import useUser from "../../BBS/Log/useUser";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -74,7 +73,7 @@ export const Cart = () => {
     calculateDiscount();
   }, [selectedItems, data]);
 
-  // 수량 변경 러
+  // 수량 변경 
   const handleCountChange = async (index, delta, type) => {
     const updatedData = [...data];
     const newCount = updatedData[index][type] + delta;
@@ -142,7 +141,7 @@ export const Cart = () => {
   const getPrice = (index) => {
     const product = data[index];
     const childrenCount = product.children || 0; // 어린이 수를 0으로 초기화
-    if (product.category === "lodgingDetail" || product.category === "flightDetail") {
+    if (product.category === "lodgingDetail" || product.category === "airportDetail") {
       return (product.price * product.count) + (childrenCount * product.price * 0.5); // 어린이 가격은 성인 가격의 50%
     } else {
       return product.price * product.count;
@@ -202,6 +201,7 @@ export const Cart = () => {
       const item = data[index];
       return {
         productId: item.productId,
+        cartProductId: item.cartProductId, // cartProductId 추가
         category: item.category,
         enum: item.enum,
         count: item.count,
@@ -210,7 +210,9 @@ export const Cart = () => {
         childrenPrice: (item.price / 2),
         name: item.name,
         departurePlace: item.departurePlace,
-        airportId:item.airportId,
+        airportId: item.airportId,
+        startDate: item.startDate,
+        endDate: item.endDate,
       };
     });
 
@@ -297,11 +299,12 @@ export const Cart = () => {
               <div className={styles.cart_product_info}>
                 <p className={styles.product_name}>{product.name}</p>
                 <p className={styles.price}>{product.price.toLocaleString()}원</p>
+                <p className={styles.startDate}>{product.startDate ? product.startDate.split('T')[0] : ''} {product.endDate ? `~ ${product.endDate.split('T')[0]}` : ''}</p>
               </div>
               {/* 상품 설명 */}
 
               {/* 수량 */}
-              {product.category === "lodgingDetail" || product.category === "flightDetail" ? (
+              {product.category === "lodgingDetail" || product.category === "airportDetail" ? (
                 <>
                   <div className={styles.cart_product_count}>
                     <p>성인</p>
@@ -386,14 +389,14 @@ export const Cart = () => {
 
         <div className={styles.total}>
           <div className={styles.total_price}>
-            <p className={styles.cart_product_total_price}>총 상품금액</p>
+            <p className={styles.cart_product_total_price}>총 상품 금액</p>
             <p className={styles.cart_product_price}>{getTotalPrice().toLocaleString()}원</p>
           </div>
           <div className={styles.pay_minus}>
             <img src="/images/icon-minus-line.svg" alt="minus" />
           </div>
           <div className={styles.sale}>
-            <p className={styles.cart_product_sale}>상품 할인</p>
+            <p className={styles.cart_product_sale}>패키지 할인</p>
             <p className={styles.cart_product_sale_price}>{discount.toLocaleString()}원</p>
           </div>
           <div className={styles.payment}>

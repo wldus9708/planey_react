@@ -22,7 +22,7 @@ const PackageBody = () => {
 
     return (
         <div className={styles.bodyContainer}>
-    <div className={styles.bannerTitle}>공항 제공 서비스</div>
+    {/* <div className={styles.bannerTitle}>공항 제공 서비스</div> */}
         <table className={styles.serviceTable}>
             <tbody>
                 <tr className={styles.innerBanner}>

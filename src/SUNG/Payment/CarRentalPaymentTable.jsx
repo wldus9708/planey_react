@@ -37,8 +37,8 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                 const allData = response.data;
                 setTotalDataCount(allData.length);
 
-                const startIndex = (currentPage - 1) * 10;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 13;
+                const endIndex = currentPage * 13;
                 const newData = allData ? allData.slice(startIndex, endIndex) : [];
 
                 if (currentPage === 1) {
@@ -138,8 +138,8 @@ const CarRentalPaymentTable = ({ endpoint }) => {
                                     <td className={styles[`column-0`]}>
                                         <Link to={`/RentCarTest/${dataItem.carId}`}>{dataItem.carModel}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.rentalStartDate}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.rentalEndDate}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.rentalStartDate ? dataItem.rentalStartDate.substring(0, 10) : ''}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.rentalEndDate ? dataItem.rentalEndDate.substring(0, 10) : ''}</span></td>
                                     <td className={styles[`column-3`]}><span>{dataItem.rentalPrice.toLocaleString()}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}><span>

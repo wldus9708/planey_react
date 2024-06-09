@@ -98,26 +98,22 @@ const FindPwPage = () => {
                 <Modal.Title>회원정보 찾기</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <FindPW02 />
-              </Modal.Body>
+                <FindPW02 email={email}/>
+              </Modal.Body >
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseModal}>
                   취소
                 </Button>
                 &nbsp;&nbsp;&nbsp;
-                <Button 
-                variant="primary"
-                onClick={() => window.location.href = `/Login/`}
-                >확인</Button>
               </Modal.Footer>
             </Modal>
           )}
 
           <br />
           <br />
-          <Link to='/findID'>
+          {/* <Link to='/findID'>
             <span style={{ textDecoration: 'none', color: 'gray', borderBottom: '2px solid', cursor: 'pointer' }}>아이디 찾으러 가기</span>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>

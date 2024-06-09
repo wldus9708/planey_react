@@ -9,6 +9,7 @@ import NavBar from "../../CKH/Components/Navbar/Navbar"
 import { handleNavItemClick } from "./../../CKH/Components/Navbar/Navbar";
 import useUser from "../../BBS/Log/useUser";
 
+
 const PackageHead = () => {
     const [data, setData] = useState([]);
     const navigator = useNavigate();
@@ -108,8 +109,8 @@ const PackageHead = () => {
                                 <span className={styles.lodgingName}>
                                     {packageTour && packageTour.tour_pack_name}
                                 </span>
-                                <img src="/images/star.png" alt="star" className={styles.starImage} />
-                                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span>
+                                {/* <img src="/images/star.png" alt="star" className={styles.starImage} />
+                                <span className={styles.lodgingRating}>&nbsp;&nbsp;5.0</span> */}
                             </div>
 
                             <hr />
@@ -123,6 +124,7 @@ const PackageHead = () => {
                             <p className={styles.lodgingDescription}>
                             {packageTour && packageTour.tour_pack_description}
                             </p>
+
                             <div className={styles.btnGroups}>
                                 <button type="button" onClick={handleAddToCartClick} className={styles.addCartBtn}>
                                     <i className='fas fa-shopping-cart'></i>

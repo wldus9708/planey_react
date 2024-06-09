@@ -1,6 +1,6 @@
 .BannerCarousel {
   width: 100%;
-  max-width: 1800px;
+  max-width: 2000px;
   margin: 0 auto; /* 상하 좌우 중앙 정렬 */
   display: flex;
   justify-content: center;
@@ -15,10 +15,26 @@
   width: 100%; /* 아이템이 캐러셀의 전체 너비를 차지하도록 설정 */
   height: 100%; /* 아이템이 캐러셀의 전체 높이를 차지하도록 설정 */
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 2s ease-in-out; /* 천천히 나타나는 효과 */
 }
+
 .CarouselItem.active {
   opacity: 1;
+  animation: fadeIn 2s forwards; /* 애니메이션 시간 조정 */
+}
+
+.BannerCarousel .carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: none;
+  justify-content: center;
+  padding: 0;
+  margin-right: 15%;
+  margin-bottom: 1rem;
+  margin-left: 15%;
 }
 
 .CarouselContent {
@@ -28,40 +44,50 @@
   text-align: center;
   width: 100%;
   justify-content: center; /* 콘텐츠를 중앙에 정렬 */
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
 }
 
 .CarouselImg {
-  width: 45%;
-  height: auto;
+  width: 32%;
+  height: 50vh;
   border-radius: 40px;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 2s ease-in-out; /* 천천히 나타나는 효과 */
+  /* box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); */
 }
+
 .CarouselItem.active .CarouselImg {
   opacity: 1;
+  animation: fadeIn 3s forwards; /* 애니메이션 시간 조정 */
 }
 
 .Text {
   width: 44%;
+  margin-left: 50px;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 2s ease-in-out; /* 천천히 나타나는 효과 */
 }
+
 .CarouselItem.active .Text {
   opacity: 1;
+  animation: fadeIn 2s forwards; /* 애니메이션 시간 조정 */
 }
 
 .Text h1 {
-  font-size: 70px;
-  margin-bottom: 10px;
+  font-size: 60px;
+  margin-bottom: 40px;
   color: white;
   font-weight: bold;
+  text-align: justify;
   -webkit-text-stroke: 1px rgb(253, 122, 0);
 }
 
 .Text p {
-  font-size: 3.5em;
+  font-size: 45px;
   color: white;
   font-weight: bold;
+  text-align: justify;
   -webkit-text-stroke: 1px rgb(253, 122, 0);
 }
 
@@ -72,7 +98,7 @@
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(253, 122, 0, 0.5);
   border-radius: 50%;
   width: auto;
   height: 30px;
@@ -84,4 +110,14 @@
 
 .carousel-control-next {
   right: -5%;
+}
+
+/* 애니메이션 효과 정의 */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

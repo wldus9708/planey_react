@@ -38,8 +38,8 @@ const LodgingPaymentTable = ({ endpoint }) => {
                 setData(responseData);
                 setTotalDataCount(responseData.length);
 
-                const startIndex = (currentPage - 1) * 10;
-                const endIndex = currentPage * 10;
+                const startIndex = (currentPage - 1) * 13;
+                const endIndex = currentPage * 13;
                 const newData = responseData ? responseData.slice(startIndex, endIndex) : [];
 
                 if (currentPage === 1) {
@@ -141,8 +141,8 @@ const LodgingPaymentTable = ({ endpoint }) => {
 
                                         <Link to={`/lodgingDetail/${dataItem.lodId}`}>{dataItem.lodName}</Link>
                                     </td>
-                                    <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate}</span></td>
-                                    <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate}</span></td>
+                                    <td className={styles[`column-1`]}><span>{dataItem.lodDepartureDate ? dataItem.lodDepartureDate.substring(0, 10) : ''}</span></td>
+                                    <td className={styles[`column-2`]}><span>{dataItem.lodArrivalDate ? dataItem.lodArrivalDate.substring(0, 10) : ''}</span></td>
                                     <td className={styles[`column-3`]}><span>{dataItem.lodResPrice.toLocaleString()}원</span></td>
                                     {/* 결제내역 상세보기 -모달 */}
                                     <td className={styles[`column-4`]}>

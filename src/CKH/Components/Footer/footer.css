@@ -11,8 +11,8 @@
 }
 
 .footer {
-  background: var(--greyBg);
   padding: 2rem 0;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .footer .secContainer {
   gap: 1.5rem;
@@ -27,9 +27,10 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  text-decoration: none; /* 밑줄 제거 */
 }
 .footer .secContainer .footerLogo .logo .icon {
-  font-size: 25px;
+  font-size: 60px;
   color: var(--PrimaryColor);
   margin-right: 0.5rem;
 }
@@ -51,10 +52,11 @@
 .footer .secContainer .footerLinks {
   display: grid;
   row-gap: 0.2rem;
+  
 }
 .footer .secContainer .footerLinks .linkTitle {
   padding-bottom: 0.5rem;
-  color: var(--blackColor);
+  color: var(--inputColor);
   font-weight: 700;
 }
 .footer .secContainer .footerLinks li:hover {
@@ -66,9 +68,15 @@
 .footer .secContainer .footerLinks a,
 .footer .secContainer .footerLinks .phone,
 .footer .secContainer .footerLinks .email {
-  color: var(--textColor);
+  color: var(--whiteColor);
   font-size: 13px;
   font-weight: 500;
+  margin: 3px;
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+.BBStitleicon {
+  color: var(--PrimaryColor); /* 원하는 색상으로 변경 */
 }
 
 @media screen and (min-width: 448px) {
